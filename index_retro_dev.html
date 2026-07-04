@@ -11,13 +11,8 @@
 <body>
 
 <!-- Loader Screen -->
-<div id="loader-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1e1e1c; z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:Helvetica, 'Helvetica Neue', Arial, sans-serif; color:#c8c4ba; text-transform:uppercase; letter-spacing:0.1em; pointer-events:all;">
-  <div style="font-size: 24px; font-weight: 900; margin-bottom: 15px; letter-spacing:0.02em;">MATESU</div>
-  <div style="font-size: 11px; font-family:'Times New Roman', Times, serif; font-style:italic; margin-bottom: 10px; text-transform:lowercase; letter-spacing:0;" id="loader-status">carregando assets...</div>
-  <div style="width: 200px; height: 10px; border: 1px solid #c8c4ba; padding: 2px; box-sizing: border-box; margin-bottom: 10px;">
-    <div id="loader-bar" style="width: 0%; height: 100%; background: #c8c4ba; transition: width 0.05s linear;"></div>
-  </div>
-  <div style="font-size: 14px; font-weight: bold;" id="loader-pct">0%</div>
+<div id="loader-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#847e72; z-index:99999; display:flex; justify-content:center; align-items:center; font-family:Helvetica, 'Helvetica Neue', Arial, sans-serif; color:#1e1e1c; pointer-events:all;">
+  <div style="font-size: 72px; font-weight: 900; letter-spacing:-0.05em;" id="loader-pct">0%</div>
 </div>
 
 <!-- Back to top -->
@@ -845,37 +840,35 @@ setInterval(function() {
   var simulatedPct = 0;
   
   function updateLoaderUI(pct) {
-    var bar = document.getElementById('loader-bar');
     var pctEl = document.getElementById('loader-pct');
-    if (bar) bar.style.width = pct + '%';
     if (pctEl) pctEl.textContent = pct + '%';
     if (pct >= 100) {
       setTimeout(function() {
         var loader = document.getElementById('loader-screen');
         if (loader) {
-          loader.style.transition = 'opacity 0.3s ease';
+          loader.style.transition = 'opacity 0.2s ease';
           loader.style.opacity = '0';
           setTimeout(function() {
             loader.style.display = 'none';
-          }, 300);
+          }, 200);
         }
-      }, 200);
+      }, 100);
     }
   }
   
   var simInterval = setInterval(function() {
     var loadedProgress = totalAssets > 0 ? Math.round((loadedCount / totalAssets) * 100) : 100;
     if (simulatedPct < loadedProgress) {
-      simulatedPct += 4;
+      simulatedPct += 12;
     } else if (simulatedPct < 99) {
-      simulatedPct += 1;
+      simulatedPct += 6;
     }
     if (simulatedPct > 100) simulatedPct = 100;
     updateLoaderUI(simulatedPct);
     if (simulatedPct >= 100) {
       clearInterval(simInterval);
     }
-  }, 20);
+  }, 10);
   
   assetsToLoad.forEach(function(src) {
     var img = new Image();
