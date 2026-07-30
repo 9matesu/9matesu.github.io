@@ -1544,6 +1544,8 @@ a:visited {
   display: none;
 }
 
+.disco-filters {
+  display: flex;
   margin-bottom: 14px;
   flex-wrap: wrap;
   align-items: center;
@@ -1584,7 +1586,7 @@ a:visited {
     min-width: 100% !important;
   }
   
-  .masthead, .hero, .section, #footer {
+  .masthead, .hero, .section, #footer, .footer-contatos-section, .bse-restock-section {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
@@ -1605,11 +1607,38 @@ a:visited {
     max-width: 260px;
     margin: 0 auto 16px auto !important;
   }
+
+  .hero-navigators {
+    flex-wrap: wrap !important;
+    gap: 4px 8px !important;
+  }
   
   .hero-bio {
     margin-left: 0 !important;
     max-width: 100% !important;
     padding-top: 10px !important;
+  }
+
+  .bse-content {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  .bse-images {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .bse-img-link {
+    width: 48% !important;
+    max-width: 140px !important;
+  }
+
+  .footer-contatos-list {
+    flex-direction: column !important;
+    gap: 8px !important;
   }
   
   .about-cols,
