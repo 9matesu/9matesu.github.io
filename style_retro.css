@@ -221,129 +221,219 @@ body {
   text-decoration: underline;
 }
 
-/* ---- BSE Tee Restock Banner ---- */
+/* ---- BSE Tee Restock Boxed Section ---- */
 .bse-restock-section {
   padding: 24px 36px;
-  background: rgba(0, 0, 0, 0.04);
-  border-bottom: 1px solid #6a6660;
+  background: transparent;
 }
 
-.bse-restock-header {
-  margin-bottom: 14px;
+.bse-box-wrapper {
+  background: #6a665b;
+  border: 2px solid #1e1e1c;
+  padding: 20px;
+  box-shadow: 4px 4px 0px rgba(30, 30, 28, 0.25);
+  max-width: 100%;
 }
 
-.bse-tag {
-  display: inline-block;
+.bse-box-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e1e1c;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  background: #1e1e1c;
-  color: #847e72;
-  padding: 2px 6px;
-  margin-bottom: 6px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-.bse-title {
-  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  color: #1a1a18;
-  margin: 0;
-  line-height: 1.1;
-}
-
-.bse-subtitle {
-  font-size: 14px;
-  font-weight: 400;
-  font-style: italic;
-  font-family: "Times New Roman", Times, serif;
-  color: #4a4a42;
-  margin-left: 4px;
-}
-
-.bse-restock-content {
-  display: flex;
+.bse-box-tag {
+  background: #1e1e1c;
+  color: #d9d4c7;
+  padding: 3px 8px;
+  display: inline-flex;
   align-items: center;
-  gap: 28px;
+  gap: 6px;
+}
+
+.bse-badge-dot {
+  color: #00ff66;
+  font-size: 10px;
+}
+
+.bse-box-ref {
+  color: #2a2a26;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+}
+
+.bse-box-grid {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
   flex-wrap: wrap;
 }
 
-.bse-restock-images {
+.bse-box-gallery {
   display: flex;
-  gap: 14px;
+  gap: 12px;
+  flex: 0 0 auto;
 }
 
-.bse-img-card {
+.bse-image-frame {
   display: block;
-  width: 150px;
-  text-decoration: none;
-  background: #6e6a60;
+  width: 160px;
+  background: #58544a;
+  border: 1px solid #1e1e1c;
   padding: 6px;
-  border: 1px solid #58544a;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.bse-img-card:hover {
+.bse-image-frame:hover {
   transform: translateY(-2px);
-  border-color: #1a1a18;
+  box-shadow: 2px 3px 0px #1e1e1c;
 }
 
-.bse-img-card img {
+.bse-image-frame img {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
+  border: 1px solid #3a3830;
 }
 
-.bse-img-caption {
+.bse-image-tag {
   display: block;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #2a2a26;
+  font-weight: 900;
+  color: #d9d4c7;
+  background: #1e1e1c;
   text-align: center;
-  margin-top: 4px;
+  padding: 2px 0;
+  margin-top: 6px;
+  letter-spacing: 0.08em;
 }
 
-.bse-restock-action {
+.bse-box-details {
   flex: 1;
-  min-width: 220px;
+  min-width: 240px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-.bse-text {
+.bse-box-heading {
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-  font-size: 12px;
-  color: #1e1e1c;
-  margin-bottom: 14px;
-  line-height: 1.4;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #1a1a18;
+  line-height: 1.1;
+  margin: 0 0 8px 0;
 }
 
-.bse-cta-button {
-  display: inline-block;
-  align-self: flex-start;
+.bse-box-subheading {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: italic;
+  font-family: "Times New Roman", Times, serif;
+  color: #3a3830;
+  margin-top: 2px;
+}
+
+.bse-box-description {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #1e1e1c;
+  margin-bottom: 12px;
+}
+
+.bse-box-specs {
+  border-top: 1px dashed #4a463d;
+  border-bottom: 1px dashed #4a463d;
+  padding: 8px 0;
+  margin-bottom: 16px;
+}
+
+.bse-spec-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  padding: 2px 0;
+}
+
+.bse-spec-label {
+  font-weight: 700;
+  color: #3a3830;
+  letter-spacing: 0.04em;
+}
+
+.bse-spec-val {
+  color: #1a1a18;
+  font-weight: 700;
+}
+
+.bse-in-stock {
+  color: #1a4a1a;
+  background: #a4cfa4;
+  padding: 1px 4px;
+}
+
+.bse-box-action {
+  margin-top: auto;
+}
+
+.bse-btn-plaza {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   font-size: 11px;
   font-weight: 900;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   background: #1e1e1c;
-  color: #847e72;
-  padding: 8px 16px;
+  color: #d9d4c7;
+  padding: 10px 18px;
   text-decoration: none;
   border: 1px solid #1e1e1c;
-  transition: background 0.2s ease, color 0.2s ease;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
 }
 
-.bse-cta-button:hover {
-  background: #847e72;
+.bse-btn-plaza:hover {
+  background: #d9d4c7;
   color: #1e1e1c;
+  box-shadow: 3px 3px 0px #1e1e1c;
+}
+
+.bse-btn-arrow {
+  font-size: 13px;
+  transition: transform 0.15s ease;
+}
+
+.bse-btn-plaza:hover .bse-btn-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 650px) {
+  .bse-box-grid {
+    flex-direction: column;
+  }
+  .bse-box-gallery {
+    justify-content: center;
+    width: 100%;
+  }
+  .bse-image-frame {
+    width: 130px;
+  }
 }
 
 
