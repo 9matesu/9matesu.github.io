@@ -149,15 +149,203 @@ body {
 }
 
 .hero-bio {
-  clear: both;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   font-size: 11px;
   line-height: 1.65;
   color: #2a2a26;
-  max-width: 500px;
+  max-width: 520px;
   margin-left: 260px;
   padding-top: 4px;
 }
+
+.hero-navigators {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #6a6660;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.hero-navigators a {
+  display: block;
+  color: #1e1e1c;
+  text-decoration: none;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.hero-navigators a:hover {
+  text-decoration: underline;
+  color: #000;
+}
+
+.hero-links-container {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px dashed #6a6660;
+}
+
+.hero-links-label {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #4a4a42;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.hero-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.hero-links li {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  color: #3a3a34;
+}
+
+.hero-links li a {
+  color: #1e1e1c;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hero-links li a:hover {
+  text-decoration: underline;
+}
+
+/* ---- BSE Tee Restock Banner ---- */
+.bse-restock-section {
+  padding: 24px 36px;
+  background: rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid #6a6660;
+}
+
+.bse-restock-header {
+  margin-bottom: 14px;
+}
+
+.bse-tag {
+  display: inline-block;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  background: #1e1e1c;
+  color: #847e72;
+  padding: 2px 6px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.bse-title {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #1a1a18;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.bse-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  font-style: italic;
+  font-family: "Times New Roman", Times, serif;
+  color: #4a4a42;
+  margin-left: 4px;
+}
+
+.bse-restock-content {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.bse-restock-images {
+  display: flex;
+  gap: 14px;
+}
+
+.bse-img-card {
+  display: block;
+  width: 150px;
+  text-decoration: none;
+  background: #6e6a60;
+  padding: 6px;
+  border: 1px solid #58544a;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.bse-img-card:hover {
+  transform: translateY(-2px);
+  border-color: #1a1a18;
+}
+
+.bse-img-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.bse-img-caption {
+  display: block;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #2a2a26;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.bse-restock-action {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bse-text {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  color: #1e1e1c;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.bse-cta-button {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  background: #1e1e1c;
+  color: #847e72;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #1e1e1c;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bse-cta-button:hover {
+  background: #847e72;
+  color: #1e1e1c;
+}
+
 
 /* ---- sections ---- */
 
