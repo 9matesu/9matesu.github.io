@@ -159,19 +159,24 @@ body {
 }
 
 .hero-navigators {
-  margin-top: 14px;
-  padding-top: 10px;
+  margin-top: 10px;
+  padding-top: 8px;
   border-top: 1px solid #6a6660;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
   font-size: 10px;
   font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  width: 100%;
 }
 
 .hero-navigators a {
-  display: block;
+  display: inline-block;
   color: #1e1e1c;
   text-decoration: none;
-  margin-bottom: 6px;
   letter-spacing: -0.01em;
 }
 
@@ -180,44 +185,60 @@ body {
   color: #000;
 }
 
-.hero-links-container {
-  margin-top: 20px;
-  padding-top: 12px;
-  border-top: 1px dashed #6a6660;
-}
-
-.hero-links-label {
-  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
+.hero-navigators .nav-divider {
   color: #4a4a42;
-  margin-bottom: 8px;
-  letter-spacing: 0.05em;
+  font-weight: 400;
 }
 
-.hero-links {
+/* ---- Footer Contatos Section ---- */
+.footer-contatos-section {
+  padding: 24px 36px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.footer-contatos-header {
+  margin-bottom: 12px;
+}
+
+.footer-contatos-title {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a18;
+  border-bottom: 1px solid #1a1a18;
+  padding-bottom: 3px;
+  display: inline-block;
+}
+
+.footer-contatos-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
+  gap: 10px 22px;
 }
 
-.hero-links li {
+.footer-contatos-list li {
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-  font-size: 10px;
-  color: #3a3a34;
+  font-size: 11px;
+  color: #2a2a26;
 }
 
-.hero-links li a {
+.contato-label {
+  color: #4a4a42;
+  font-weight: 400;
+}
+
+.footer-contatos-list li a {
   color: #1e1e1c;
   font-weight: 700;
   text-decoration: none;
 }
 
-.hero-links li a:hover {
+.footer-contatos-list li a:hover {
   text-decoration: underline;
 }
 
