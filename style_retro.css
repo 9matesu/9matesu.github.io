@@ -1020,6 +1020,416 @@ a:visited {
   100% { opacity: 1; transform: translateY(0); }
 }
 
+/* ============================================
+   DISCOGRAPHY PAGE
+   ============================================ */
+
+.disco-grid {
+  display: flex;
+  flex-flow: wrap;
+  gap: 15px;
+  margin-top: 12px;
+}
+
+.disco-card {
+  width: calc(33.333% - 10px);
+  background: #7a7568;
+  padding: 10px;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.disco-card:hover {
+  background: #6e6a5e;
+}
+
+.disco-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.disco-cat {
+  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #5e5a50;
+  text-transform: uppercase;
+  margin-top: 8px;
+  letter-spacing: 0.5px;
+}
+
+.disco-title {
+  font: 700 11px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1e1e1c;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.disco-artist {
+  font: 11px "Times New Roman", Times, serif;
+  color: #1e1e1c;
+  opacity: 0.7;
+  margin-top: 1px;
+}
+
+.disco-year {
+  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #4a4a42;
+  margin-top: 2px;
+}
+
+.disco-price {
+  font: 700 12px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1a1a18;
+  margin-top: 6px;
+}
+
+.disco-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.disco-buy {
+  display: inline-block;
+  border: 1px solid #1e1e1c;
+  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1e1e1c;
+  padding: 4px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  transition: color 0.15s, border-color 0.15s;
+  text-transform: lowercase;
+}
+
+.disco-buy:hover {
+  color: #b03030;
+  border-color: #b03030;
+}
+
+.disco-link {
+  display: inline-block;
+  border: 1px solid #6a6660;
+  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #4a4a42;
+  padding: 4px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  transition: color 0.15s, border-color 0.15s;
+  text-transform: lowercase;
+}
+
+.disco-link:hover {
+  color: #1e1e1c;
+  border-color: #1e1e1c;
+}
+
+/* ---- tracklist ---- */
+
+.disco-tracklist-toggle {
+  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #4a4a42;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 8px;
+  display: inline-block;
+  user-select: none;
+}
+
+.disco-tracklist-toggle:hover {
+  color: #1e1e1c;
+}
+
+.disco-tracklist {
+  display: none;
+  margin-top: 8px;
+  border-top: 1px solid #6a6660;
+  padding-top: 6px;
+}
+
+.disco-tracklist.open {
+  display: block;
+  animation: discoTrackFade 0.25s ease-out;
+}
+
+@keyframes discoTrackFade {
+  0%   { opacity: 0; transform: translateY(-4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.disco-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  font: 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #2a2a26;
+  border-bottom: 1px dotted #6a6660;
+}
+
+.disco-track:last-child {
+  border-bottom: none;
+}
+
+.disco-track-num {
+  font-weight: 700;
+  color: #4a4a42;
+  width: 14px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.disco-track-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.disco-track-dur {
+  color: #5e5a50;
+  flex-shrink: 0;
+}
+
+.disco-track-play {
+  background: none;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+  color: #4a4a42;
+  padding: 0 2px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.disco-track-play:hover {
+  color: #b03030;
+}
+
+/* ---- player bar (bottom of page) ---- */
+
+.disco-player {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font: 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1e1e1c;
+  background: #6e6a5e;
+  padding: 8px 12px;
+  border-top: 1px solid #5e5a50;
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
+
+.disco-player.active {
+  display: flex;
+}
+
+.disco-playbtn {
+  background: none;
+  border: 1px solid #1e1e1c;
+  font-size: 10px;
+  cursor: pointer;
+  color: #1e1e1c;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.disco-playbtn:hover {
+  background: #1e1e1c;
+  color: #847e72;
+}
+
+.disco-seek {
+  flex: 1;
+  height: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1e1e1c;
+  outline: none;
+  cursor: pointer;
+}
+
+.disco-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 8px;
+  height: 8px;
+  background: #1e1e1c;
+  border: none;
+  cursor: pointer;
+}
+
+.disco-seek::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  background: #1e1e1c;
+  border: none;
+  cursor: pointer;
+}
+
+.disco-now-title {
+  font-weight: 700;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.disco-time {
+  flex-shrink: 0;
+  color: #3a3a34;
+}
+
+/* ---- email modal ---- */
+
+.disco-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 28, 0.85);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: discoModalIn 0.2s ease-out;
+}
+
+@keyframes discoModalIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.disco-modal {
+  background: #847e72;
+  border: 1px solid #6a6660;
+  padding: 24px 28px;
+  max-width: 360px;
+  width: 90%;
+}
+
+.disco-modal h3 {
+  font: 900 18px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1a1a18;
+  margin-bottom: 4px;
+}
+
+.disco-modal-sub {
+  font: 10px "Times New Roman", Times, serif;
+  color: #4a4a42;
+  font-style: italic;
+  margin-bottom: 14px;
+}
+
+.disco-modal input[type="email"] {
+  font: 11px "Times New Roman", Times, serif;
+  color: #1e1e1c;
+  background: #9a958a;
+  border: 1px solid #6a6660;
+  padding: 6px 8px;
+  width: 100%;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+.disco-modal input[type="email"]:focus {
+  border-color: #4a4a42;
+  background: #a09a90;
+}
+
+.disco-modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.disco-modal-btn {
+  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  padding: 6px 16px;
+  cursor: pointer;
+  border: 1px solid #1e1e1c;
+  background: #1e1e1c;
+  color: #847e72;
+  text-transform: lowercase;
+  transition: background 0.2s;
+}
+
+.disco-modal-btn:hover {
+  background: #3a3a34;
+  color: #c8c4ba;
+}
+
+.disco-modal-cancel {
+  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  padding: 6px 16px;
+  cursor: pointer;
+  border: 1px solid #6a6660;
+  background: none;
+  color: #4a4a42;
+  text-transform: lowercase;
+  transition: color 0.15s;
+}
+
+.disco-modal-cancel:hover {
+  color: #1e1e1c;
+  border-color: #1e1e1c;
+}
+
+.disco-modal-error {
+  font: 9px "Times New Roman", Times, serif;
+  color: #b03030;
+  margin-top: 6px;
+  display: none;
+}
+
+/* ---- filter/sort bar ---- */
+
+.disco-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.disco-filter-btn {
+  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #4a4a42;
+  border: 1px solid #6a6660;
+  background: none;
+  padding: 3px 10px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.15s;
+}
+
+.disco-filter-btn:hover,
+.disco-filter-btn.active {
+  color: #1e1e1c;
+  border-color: #1e1e1c;
+  background: #9a958a;
+}
+
+/* ---- purchase success state ---- */
+
+.disco-purchased {
+  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #2a6e2a;
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 /* responsive grid and layout optimization */
 @media (max-width: 767px) {
   .page-inner {
@@ -1082,6 +1492,22 @@ a:visited {
   
   .page-arrow {
     display: none !important;
+  }
+
+  .disco-card {
+    width: 100% !important;
+  }
+
+  .disco-player {
+    flex-wrap: wrap;
+  }
+
+  .disco-now-title {
+    max-width: 120px;
+  }
+
+  .disco-filters {
+    gap: 6px;
   }
 }
 

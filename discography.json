@@ -1,0 +1,340 @@
+[
+  {
+    "id": "sp-150",
+    "title": "SP-150",
+    "artist": "Matesu",
+    "year": 2026,
+    "type": "album",
+    "cover": "https://f4.bcbits.com/img/a0810066149_10.jpg",
+    "priceCents": 1990,
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/sp-150"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "4:12", "fileKey": "albums/sp-150/01.mp3" },
+      { "title": "Faixa 2", "duration": "3:48", "fileKey": "albums/sp-150/02.mp3" },
+      { "title": "Faixa 3", "duration": "5:01", "fileKey": "albums/sp-150/03.mp3" },
+      { "title": "Faixa 4", "duration": "3:33", "fileKey": "albums/sp-150/04.mp3" },
+      { "title": "Faixa 5", "duration": "4:27", "fileKey": "albums/sp-150/05.mp3" }
+    ]
+  },
+  {
+    "id": "simpatia",
+    "title": "Simpatia",
+    "artist": "Matesu",
+    "year": 2025,
+    "type": "album",
+    "cover": "/img/simpatia/CAPA 3000X3000_1.png",
+    "priceCents": 1490,
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "3:45", "fileKey": "albums/simpatia/01.mp3" },
+      { "title": "Faixa 2", "duration": "4:10", "fileKey": "albums/simpatia/02.mp3" },
+      { "title": "Faixa 3", "duration": "3:22", "fileKey": "albums/simpatia/03.mp3" },
+      { "title": "Faixa 4", "duration": "5:18", "fileKey": "albums/simpatia/04.mp3" },
+      { "title": "Faixa 5", "duration": "4:05", "fileKey": "albums/simpatia/05.mp3" }
+    ]
+  },
+  {
+    "id": "on",
+    "title": "ON",
+    "artist": "Cassiel",
+    "year": 2026,
+    "type": "ep",
+    "cover": "https://i.scdn.co/image/ab67616d0000b273a5eac25f150d780244a64390",
+    "priceCents": 990,
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/intl-pt/album/5FB5mskX1Lw8Df9WtBrmx9"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "3:15", "fileKey": "eps/on/01.mp3" },
+      { "title": "Faixa 2", "duration": "4:02", "fileKey": "eps/on/02.mp3" },
+      { "title": "Faixa 3", "duration": "3:38", "fileKey": "eps/on/03.mp3" }
+    ]
+  },
+  {
+    "id": "veludo",
+    "title": "VELUDO",
+    "artist": "Meio Feel",
+    "year": 2025,
+    "type": "ep",
+    "cover": "https://i.scdn.co/image/ab67616d0000b273025189b581cf8215b2181a83",
+    "priceCents": 990,
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/intl-pt/album/3wsJA1PCrPZBRKCJNFdhOJ"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "3:30", "fileKey": "eps/veludo/01.mp3" },
+      { "title": "Faixa 2", "duration": "4:15", "fileKey": "eps/veludo/02.mp3" },
+      { "title": "Faixa 3", "duration": "3:50", "fileKey": "eps/veludo/03.mp3" }
+    ]
+  },
+  {
+    "id": "emotion-engine",
+    "title": "Emotion Engine",
+    "artist": "Kenyon Sound",
+    "year": 2025,
+    "type": "ep",
+    "cover": "https://f4.bcbits.com/img/a2661437354_10.jpg",
+    "priceCents": 990,
+    "externalLinks": {
+      "bandcamp": "https://kenyonsound.bandcamp.com/album/emotion-engine-ep"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "4:20", "fileKey": "eps/emotion-engine/01.mp3" },
+      { "title": "Faixa 2", "duration": "3:55", "fileKey": "eps/emotion-engine/02.mp3" },
+      { "title": "Faixa 3", "duration": "4:40", "fileKey": "eps/emotion-engine/03.mp3" }
+    ]
+  },
+  {
+    "id": "monocromia",
+    "title": "monocromia",
+    "artist": "Chibanca",
+    "year": 2025,
+    "type": "ep",
+    "cover": "https://i.scdn.co/image/ab67616d00001e026d35f6f1c381cc45f48714bf",
+    "priceCents": 790,
+    "externalLinks": {
+      "spotify": "https://www.youtube.com/watch?v=Dzny9n9tY-4"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "3:12", "fileKey": "eps/monocromia/01.mp3" },
+      { "title": "Faixa 2", "duration": "4:05", "fileKey": "eps/monocromia/02.mp3" }
+    ]
+  },
+  {
+    "id": "santa-sucata",
+    "title": "Santa Sucata",
+    "artist": "Sucateiro",
+    "year": 2024,
+    "type": "ep",
+    "cover": "https://i1.sndcdn.com/artworks-VHgP4ikm9Njpbhvr-nNMVHg-t500x500.jpg",
+    "priceCents": 790,
+    "externalLinks": {
+      "bandcamp": "https://www.youtube.com/watch?v=WfPJ0qqlD1U"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "3:40", "fileKey": "eps/santa-sucata/01.mp3" },
+      { "title": "Faixa 2", "duration": "4:18", "fileKey": "eps/santa-sucata/02.mp3" },
+      { "title": "Faixa 3", "duration": "3:25", "fileKey": "eps/santa-sucata/03.mp3" }
+    ]
+  },
+  {
+    "id": "lagerhaus-i",
+    "title": "Lagerhaus I",
+    "artist": "bloodworm trax",
+    "year": 2024,
+    "type": "ep",
+    "cover": "https://f4.bcbits.com/img/a2572503252_10.jpg",
+    "priceCents": 990,
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/intl-pt/album/001lOKSKlegQH94zWVrRlP",
+      "bandcamp": "https://bloodwormtrax.bandcamp.com"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "4:00", "fileKey": "eps/lagerhaus-i/01.mp3" },
+      { "title": "Faixa 2", "duration": "3:45", "fileKey": "eps/lagerhaus-i/02.mp3" },
+      { "title": "Faixa 3", "duration": "5:10", "fileKey": "eps/lagerhaus-i/03.mp3" }
+    ]
+  },
+  {
+    "id": "blackmesa-i",
+    "title": "BLACKMESA I",
+    "artist": "BLACKMESA",
+    "year": 2024,
+    "type": "ep",
+    "cover": "https://f4.bcbits.com/img/a2622922340_10.jpg",
+    "priceCents": 790,
+    "externalLinks": {
+      "bandcamp": "https://blackmesaent.bandcamp.com/album/blackmesa-i-bootlegs"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "3:50", "fileKey": "eps/blackmesa-i/01.mp3" },
+      { "title": "Faixa 2", "duration": "4:22", "fileKey": "eps/blackmesa-i/02.mp3" }
+    ]
+  },
+  {
+    "id": "intraterreno",
+    "title": "Intraterreno",
+    "artist": "ANTCONSTANTINO",
+    "year": 2020,
+    "type": "ep",
+    "cover": "https://cdn-images.dzcdn.net/images/cover/26cc552d150133e6d5a680992cbfc612/0x1900-000000-80-0-0.jpg",
+    "priceCents": 790,
+    "externalLinks": {
+      "bandcamp": "https://www.youtube.com/watch?v=fKQgYRVkFzs"
+    },
+    "tracks": [
+      { "title": "Faixa 1", "duration": "5:30", "fileKey": "eps/intraterreno/01.mp3" },
+      { "title": "Faixa 2", "duration": "4:15", "fileKey": "eps/intraterreno/02.mp3" },
+      { "title": "Faixa 3", "duration": "6:02", "fileKey": "eps/intraterreno/03.mp3" }
+    ]
+  },
+  {
+    "id": "na-pista-eh-100close",
+    "title": "NA PISTA EH 100CLOSE",
+    "artist": "100CLOSE",
+    "year": 2025,
+    "type": "single",
+    "cover": "https://i1.sndcdn.com/artworks-g3j3E9IMXgupsfc3-CAzwLg-t500x500.jpg",
+    "priceCents": 490,
+    "externalLinks": {
+      "soundcloud": "https://soundcloud.com/100close/sets/napistaeh100close"
+    },
+    "tracks": [
+      { "title": "NA PISTA EH 100CLOSE", "duration": "3:28", "fileKey": "singles/na-pista-eh-100close/01.mp3" }
+    ]
+  },
+  {
+    "id": "volt-ampere",
+    "title": "VOLT-AMPERE",
+    "artist": "Trackswing",
+    "year": 2025,
+    "type": "single",
+    "cover": "https://i1.sndcdn.com/artworks-lZBWDzlws8Us0N7y-pa6VDg-t500x500.png",
+    "priceCents": 490,
+    "externalLinks": {
+      "soundcloud": "https://soundcloud.com/trackswing/matesu-de-cima-p-baixo-8"
+    },
+    "tracks": [
+      { "title": "VOLT-AMPERE", "duration": "4:10", "fileKey": "singles/volt-ampere/01.mp3" }
+    ]
+  },
+  {
+    "id": "toda-noite-busco-o-sol",
+    "title": "Toda Noite Busco o Sol",
+    "artist": "Godar",
+    "year": 2025,
+    "type": "single",
+    "cover": "https://i.scdn.co/image/ab67616d00001e02b815955260ca23bb489c9450",
+    "priceCents": 490,
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/intl-pt/album/11oF0SQtRXc5T9CKQ25u2w"
+    },
+    "tracks": [
+      { "title": "Toda Noite Busco o Sol", "duration": "3:55", "fileKey": "singles/toda-noite/01.mp3" }
+    ]
+  },
+  {
+    "id": "contratempo",
+    "title": "Contratempo",
+    "artist": "Sousx",
+    "year": 2025,
+    "type": "single",
+    "cover": "https://i.scdn.co/image/ab67616d0000b273fe9a07daab501e61183568b5",
+    "priceCents": 490,
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/intl-pt/album/0EXtPdqyeDT5WL4oOfoUqs"
+    },
+    "tracks": [
+      { "title": "Contratempo", "duration": "3:42", "fileKey": "singles/contratempo/01.mp3" }
+    ]
+  },
+  {
+    "id": "insonia-kurt",
+    "title": "Insonia Kurt",
+    "artist": "Bruno Kroz",
+    "year": 2024,
+    "type": "single",
+    "cover": "https://i.scdn.co/image/ab67616d00001e023186b15d7d5668daa9a5922c",
+    "priceCents": 490,
+    "externalLinks": {
+      "spotify": "https://www.youtube.com/watch?v=DSLdrArsBx8"
+    },
+    "tracks": [
+      { "title": "Insonia Kurt", "duration": "3:18", "fileKey": "singles/insonia-kurt/01.mp3" }
+    ]
+  },
+  {
+    "id": "volt-mix-o-retorno",
+    "title": "VOLT MIX: O Retorno",
+    "artist": "SPEEDTEST",
+    "year": 2024,
+    "type": "single",
+    "cover": "https://f4.bcbits.com/img/a3870683813_10.jpg",
+    "priceCents": 490,
+    "externalLinks": {
+      "bandcamp": "https://www.youtube.com/watch?v=6w2wfMiLKt0"
+    },
+    "tracks": [
+      { "title": "VOLT MIX: O Retorno", "duration": "5:40", "fileKey": "singles/volt-mix/01.mp3" }
+    ]
+  },
+  {
+    "id": "rtmz-001",
+    "title": "Rtmz #001",
+    "artist": "JPEGO, F.A",
+    "year": 2023,
+    "type": "single",
+    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9c/36/4a/9c364a3b-f1c5-bbbc-f7ef-911d8eabb7a6/0.jpg/1200x630bb.jpg",
+    "priceCents": 490,
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/intl-pt/album/2n3HPrjyYq9ot3g5PnX168"
+    },
+    "tracks": [
+      { "title": "Rtmz #001", "duration": "4:05", "fileKey": "singles/rtmz-001/01.mp3" }
+    ]
+  },
+  {
+    "id": "renc-renc",
+    "title": "RENC RENC",
+    "artist": "Beat do Avila, Kiddo, Igao Senhagah",
+    "year": 2023,
+    "type": "single",
+    "cover": "https://source.boomplaymusic.com/group10/M00/09/15/3ff6f7f1f4184f9ba58fda3ee7e27a9a_320_320.jpg",
+    "priceCents": 490,
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/intl-pt/track/1E6nJWNp5zZkDjql2RPGV3"
+    },
+    "tracks": [
+      { "title": "RENC RENC", "duration": "3:10", "fileKey": "singles/renc-renc/01.mp3" }
+    ]
+  },
+  {
+    "id": "skate-deck-2",
+    "title": "skate deck 2.0",
+    "artist": "Sanches",
+    "year": 2022,
+    "type": "single",
+    "cover": "https://cdn.prod.website-files.com/65b0367ee6efd0c53e2e8279/65f492f5a509d475cc7bea39_SKATEDECK-p-500.png",
+    "priceCents": 490,
+    "externalLinks": {
+      "instagram": "https://www.instagram.com/reel/CcRaWSvDr89/"
+    },
+    "tracks": [
+      { "title": "skate deck 2.0", "duration": "2:58", "fileKey": "singles/skate-deck/01.mp3" }
+    ]
+  },
+  {
+    "id": "ameaca-detectada",
+    "title": "Ameaca Detectada",
+    "artist": "Bruno Kroz",
+    "year": 2021,
+    "type": "single",
+    "cover": "https://i.scdn.co/image/ab67616d00001e02c6b48ac716ac3e0a6a62040a",
+    "priceCents": 490,
+    "externalLinks": {
+      "spotify": "https://www.youtube.com/watch?v=wSRC0XdE0DA"
+    },
+    "tracks": [
+      { "title": "Ameaca Detectada", "duration": "3:35", "fileKey": "singles/ameaca-detectada/01.mp3" }
+    ]
+  },
+  {
+    "id": "canato-zona0800-13",
+    "title": "Canato [ZONA0800-13]",
+    "artist": "zonaEXP.",
+    "year": 2021,
+    "type": "single",
+    "cover": "https://f4.bcbits.com/img/a1925775572_16.jpg",
+    "priceCents": 490,
+    "externalLinks": {
+      "bandcamp": "https://zonaexp.bandcamp.com/track/matesu-canato-zona0800-13"
+    },
+    "tracks": [
+      { "title": "Canato", "duration": "4:22", "fileKey": "singles/canato/01.mp3" }
+    ]
+  }
+]

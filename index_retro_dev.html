@@ -110,6 +110,8 @@
         <a href="#" onclick="switchPage('blog'); return false;">&larr; matesuposting</a>
         <span class="nav-divider">|</span>
         <a href="#" onclick="switchPage('services'); return false;">serviços &rarr;</a>
+        <span class="nav-divider">|</span>
+        <a href="#" onclick="switchPage('discography'); return false;">discografia &rarr;</a>
       </div>
     </div>
     <div class="hero-bio">
@@ -505,14 +507,56 @@
 </div>
 </div>
 
+<!-- ==================== PAGE 3: DISCOGRAFIA ==================== -->
+<section id="page-discography" class="page-panel">
+<div class="page-inner">
+
+  <div class="masthead">
+    <h1>discografia</h1>
+    <div class="masthead-right">
+      <p class="masthead-line">catalogo completo</p>
+      <br>
+      <p class="masthead-small">matesu</p>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="section">
+    <h2>library</h2>
+    <p class="section-note">todas as faixas e releases</p>
+    <div id="discography-root"></div>
+  </div>
+
+  <!-- sticky player bar -->
+  <div class="disco-player" id="disco-player">
+    <button class="disco-playbtn" id="disco-playbtn" onclick="discoTogglePlay()">&#9654;</button>
+    <span class="disco-now-title" id="disco-now-title">—</span>
+    <input type="range" class="disco-seek" id="disco-seek" value="0" min="0" max="1" step="0.001" oninput="discoSeek(this.value)">
+    <span class="disco-time" id="disco-time">00:00 / 00:00</span>
+  </div>
+
+  <div class="rule"></div>
+  <div id="footer">matesu discografia &mdash; São Paulo</div>
+
+</div>
+</section>
+
 </div><!-- /slider -->
 
 <!-- transition overlay -->
 <div id="transition-overlay"></div>
 
 <script type="text/javascript">
-// Pages: 0=blog, 1=portfolio, 2=services
-var pages = ['blog', 'portfolio', 'services'];
+// Pages: 0=blog, 1=portfolio, 2=services, 3=discography
+var pages = ['blog', 'portfolio', 'services', 'discography'];
+var pageLabels = {
+  blog: 'matesuposting',
+  portfolio: 'portfolio',
+  services: 'serviços',
+  discography: 'discografia'
+};
 var currentIdx = 1; // start on portfolio
 var isTransitioning = false;
 
@@ -524,17 +568,16 @@ function updateArrows() {
 
   if (currentIdx === 0) {
     arrowL.style.display = 'none';
-    arrowR.style.display = 'flex';
-    labelR.textContent = 'portfolio';
-  } else if (currentIdx === 1) {
-    arrowL.style.display = 'flex';
-    arrowR.style.display = 'flex';
-    labelL.textContent = 'matesuposting';
-    labelR.textContent = 'serviços';
   } else {
     arrowL.style.display = 'flex';
+    labelL.textContent = pageLabels[pages[currentIdx - 1]];
+  }
+
+  if (currentIdx === pages.length - 1) {
     arrowR.style.display = 'none';
-    labelL.textContent = 'portfolio';
+  } else {
+    arrowR.style.display = 'flex';
+    labelR.textContent = pageLabels[pages[currentIdx + 1]];
   }
 }
 
@@ -891,6 +934,327 @@ setInterval(function() {
     img.src = src;
   });
 })();
+
+// ============================================
+// DISCOGRAPHY MODULE
+// ============================================
+var BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'http://localhost:3000'
+  : 'https://matesu-api.fly.dev';
+var discoData = [];
+var discoAudio = new Audio();
+var discoPlaying = false;
+var discoCurrentTrack = null;
+var discoFilter = 'all';
+
+// ---- Fetch and render ----
+function loadDiscography() {
+  fetch('discography.json')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      discoData = data;
+      renderDiscography();
+      checkPurchaseReturn();
+    })
+    .catch(function(err) {
+      var root = document.getElementById('discography-root');
+      if (root) root.innerHTML = '<p style="font:11px Times; color:#4a4a42; font-style:italic;">erro ao carregar catálogo.</p>';
+    });
+}
+
+function renderDiscography() {
+  var root = document.getElementById('discography-root');
+  if (!root) return;
+
+  var filtered = discoFilter === 'all' ? discoData : discoData.filter(function(r) { return r.type === discoFilter; });
+
+  // Sort by year descending
+  filtered.sort(function(a, b) { return b.year - a.year; });
+
+  var html = '';
+
+  // Filter buttons
+  html += '<div class="disco-filters">';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'all' ? ' active' : '') + '" onclick="setDiscoFilter(\'all\')">todos</button>';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'album' ? ' active' : '') + '" onclick="setDiscoFilter(\'album\')">álbuns</button>';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'ep' ? ' active' : '') + '" onclick="setDiscoFilter(\'ep\')">eps</button>';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'single' ? ' active' : '') + '" onclick="setDiscoFilter(\'single\')">singles</button>';
+  html += '</div>';
+
+  // Cards grid
+  html += '<div class="disco-grid">';
+  for (var i = 0; i < filtered.length; i++) {
+    var r = filtered[i];
+    html += renderDiscoCard(r, i);
+  }
+  html += '</div>';
+
+  root.innerHTML = html;
+}
+
+function renderDiscoCard(r, idx) {
+  var typeLabel = r.type === 'album' ? 'álbum' : r.type;
+  var priceStr = 'R$ ' + (r.priceCents / 100).toFixed(2).replace('.', ',');
+
+  var html = '<div class="disco-card" id="disco-card-' + r.id + '">';
+  html += '<img src="' + r.cover + '" alt="' + r.title + '" loading="lazy">';
+  html += '<div class="disco-cat">' + typeLabel + '</div>';
+  html += '<div class="disco-title">' + r.title + '</div>';
+  html += '<div class="disco-artist">' + r.artist + '</div>';
+  html += '<div class="disco-year">' + r.year + '</div>';
+  html += '<div class="disco-price">' + priceStr + '</div>';
+
+  // Actions
+  html += '<div class="disco-actions">';
+  html += '<button class="disco-buy" onclick="discoBuy(\'' + r.id + '\')">adquirir</button>';
+
+  // External links
+  var links = r.externalLinks || {};
+  for (var platform in links) {
+    if (links.hasOwnProperty(platform)) {
+      html += '<a class="disco-link" href="' + links[platform] + '" target="_blank">' + platform + '</a>';
+    }
+  }
+  html += '</div>';
+
+  // Tracklist toggle
+  if (r.tracks && r.tracks.length > 0) {
+    html += '<span class="disco-tracklist-toggle" onclick="toggleDiscoTracklist(\'' + r.id + '\')">tracklist (' + r.tracks.length + ')</span>';
+    html += '<div class="disco-tracklist" id="disco-tl-' + r.id + '">';
+    for (var t = 0; t < r.tracks.length; t++) {
+      var track = r.tracks[t];
+      html += '<div class="disco-track">';
+      html += '<span class="disco-track-num">' + (t + 1) + '</span>';
+      html += '<span class="disco-track-title">' + track.title + '</span>';
+      html += '<span class="disco-track-dur">' + track.duration + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+// ---- Filters ----
+function setDiscoFilter(type) {
+  discoFilter = type;
+  renderDiscography();
+}
+
+// ---- Tracklist expand ----
+function toggleDiscoTracklist(id) {
+  var tl = document.getElementById('disco-tl-' + id);
+  if (!tl) return;
+  if (tl.classList.contains('open')) {
+    tl.classList.remove('open');
+    tl.style.display = 'none';
+  } else {
+    tl.classList.add('open');
+    tl.style.display = 'block';
+  }
+}
+
+// ---- Audio player ----
+function discoPlayTrack(releaseId, trackIdx) {
+  var release = null;
+  for (var i = 0; i < discoData.length; i++) {
+    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
+  }
+  if (!release || !release.tracks[trackIdx]) return;
+
+  var track = release.tracks[trackIdx];
+  discoCurrentTrack = { release: release, trackIdx: trackIdx, track: track };
+
+  // For now, since we don't have actual audio files, show the player UI
+  var player = document.getElementById('disco-player');
+  player.classList.add('active');
+  document.getElementById('disco-now-title').textContent = track.title + ' — ' + release.artist;
+  document.getElementById('disco-time').textContent = '00:00 / ' + track.duration;
+  document.getElementById('disco-playbtn').innerHTML = '&#9646;&#9646;';
+  discoPlaying = true;
+
+  // If we had actual files, we'd do:
+  // discoAudio.src = BACKEND_URL + '/api/stream/' + token + '/' + encodeURIComponent(track.fileKey);
+  // discoAudio.play();
+}
+
+function discoTogglePlay() {
+  if (!discoCurrentTrack) return;
+  if (discoPlaying) {
+    discoAudio.pause();
+    document.getElementById('disco-playbtn').innerHTML = '&#9654;';
+    discoPlaying = false;
+  } else {
+    discoAudio.play();
+    document.getElementById('disco-playbtn').innerHTML = '&#9646;&#9646;';
+    discoPlaying = true;
+  }
+}
+
+function discoSeek(val) {
+  if (discoAudio.duration) {
+    discoAudio.currentTime = val * discoAudio.duration;
+  }
+}
+
+// Audio time update
+discoAudio.addEventListener('timeupdate', function() {
+  if (!discoAudio.duration) return;
+  var seek = document.getElementById('disco-seek');
+  seek.value = discoAudio.currentTime / discoAudio.duration;
+
+  var cur = formatDiscoTime(discoAudio.currentTime);
+  var dur = formatDiscoTime(discoAudio.duration);
+  document.getElementById('disco-time').textContent = cur + ' / ' + dur;
+});
+
+discoAudio.addEventListener('ended', function() {
+  document.getElementById('disco-playbtn').innerHTML = '&#9654;';
+  discoPlaying = false;
+});
+
+function formatDiscoTime(s) {
+  var m = Math.floor(s / 60);
+  var sec = Math.floor(s % 60);
+  return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+// ---- Checkout flow ----
+function discoBuy(releaseId) {
+  var release = null;
+  for (var i = 0; i < discoData.length; i++) {
+    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
+  }
+  if (!release) return;
+
+  // Show email modal
+  var overlay = document.createElement('div');
+  overlay.className = 'disco-modal-overlay';
+  overlay.id = 'disco-modal-overlay';
+
+  var priceStr = 'R$ ' + (release.priceCents / 100).toFixed(2).replace('.', ',');
+
+  overlay.innerHTML = '<div class="disco-modal">' +
+    '<h3>' + release.title + '</h3>' +
+    '<div class="disco-modal-sub">' + release.artist + ' — ' + priceStr + '</div>' +
+    '<input type="email" id="disco-email" placeholder="seu e-mail para receber o download">' +
+    '<div class="disco-modal-actions">' +
+    '<button class="disco-modal-btn" onclick="discoCheckout(\'' + releaseId + '\')">pagar com mercado pago</button>' +
+    '<button class="disco-modal-cancel" onclick="discoCloseModal()">cancelar</button>' +
+    '</div>' +
+    '<div class="disco-modal-error" id="disco-modal-error"></div>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+
+  // Close on overlay click
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) discoCloseModal();
+  });
+
+  // Focus email input
+  setTimeout(function() {
+    var inp = document.getElementById('disco-email');
+    if (inp) inp.focus();
+  }, 100);
+}
+
+function discoCloseModal() {
+  var overlay = document.getElementById('disco-modal-overlay');
+  if (overlay) overlay.remove();
+}
+
+function discoCheckout(releaseId) {
+  var release = null;
+  for (var i = 0; i < discoData.length; i++) {
+    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
+  }
+  if (!release) return;
+
+  var emailInput = document.getElementById('disco-email');
+  var email = emailInput ? emailInput.value.trim() : '';
+  var errorEl = document.getElementById('disco-modal-error');
+
+  if (!email || email.indexOf('@') === -1) {
+    if (errorEl) {
+      errorEl.textContent = 'insira um e-mail válido';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
+
+  // Disable button
+  var btn = document.querySelector('.disco-modal-btn');
+  if (btn) {
+    btn.textContent = 'processando...';
+    btn.disabled = true;
+  }
+
+  fetch(BACKEND_URL + '/api/create-preference', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      releaseId: release.id,
+      title: release.title + ' — ' + release.artist,
+      priceCents: release.priceCents,
+      email: email
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.checkoutUrl) {
+      window.location.href = data.checkoutUrl;
+    } else {
+      throw new Error('no checkout url');
+    }
+  })
+  .catch(function(err) {
+    if (errorEl) {
+      errorEl.textContent = 'erro ao conectar ao servidor. tente novamente ou entre em contato: matesubeats@gmail.com';
+      errorEl.style.display = 'block';
+    }
+    if (btn) {
+      btn.textContent = 'pagar com mercado pago';
+      btn.disabled = false;
+    }
+  });
+}
+
+// ---- Handle purchase return ----
+function checkPurchaseReturn() {
+  var params = new URLSearchParams(window.location.search);
+  var purchase = params.get('purchase');
+  var releaseId = params.get('release');
+
+  if (purchase === 'success' && releaseId) {
+    // Switch to discography page
+    switchPage('discography');
+
+    // Highlight the purchased card
+    setTimeout(function() {
+      var card = document.getElementById('disco-card-' + releaseId);
+      if (card) {
+        // Add purchased badge
+        var badge = document.createElement('div');
+        badge.className = 'disco-purchased';
+        badge.textContent = '✓ compra confirmada';
+        card.appendChild(badge);
+
+        // Scroll to it
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 600);
+
+    // Clean URL
+    if (window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
+}
+
+// Load discography on page ready
+loadDiscography();
 
 calcPrice();
 </script>
