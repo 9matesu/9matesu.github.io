@@ -1021,463 +1021,315 @@ a:visited {
 }
 
 /* ============================================
-   DISCOGRAPHY PAGE (Swiss-Brutalist Magazine Layout)
+   DISCOGRAPHY PAGE (Condensed Horizontal List & Cart)
    ============================================ */
 
-.disco-grid {
+.disco-filters {
   display: flex;
-  flex-flow: wrap;
-  gap: 16px;
-  margin-top: 16px;
-  align-items: flex-start;
-}
-
-/* Base card */
-.disco-card {
-  background: #7a7568;
-  border: 1px solid #6a6660;
-  padding: 12px;
-  position: relative;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
-  box-sizing: border-box;
-}
-
-.disco-card:hover {
-  background: #726d60;
-  border-color: #4a4a42;
-}
-
-/* Asymmetric Card Sizes */
-/* 1. Hero / Album Card (Wide 2-column horizontal composition) */
-.disco-card-hero {
-  width: calc(64% - 8px);
-  display: flex;
-  gap: 16px;
-}
-
-.disco-card-hero .disco-cover-wrap {
-  width: 180px;
-  flex-shrink: 0;
-}
-
-.disco-card-hero .disco-body-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.disco-card-hero .disco-title {
-  font: 900 16px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  letter-spacing: -0.02em;
-}
-
-/* 2. Medium / EP Card (Medium 2-column width) */
-.disco-card-medium {
-  width: calc(36% - 8px);
-}
-
-.disco-card-medium .disco-cover-wrap {
-  width: 100%;
-}
-
-.disco-card-medium .disco-title {
-  font: 900 13px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  letter-spacing: -0.01em;
-}
-
-/* 3. Compact / Single Card (3-column grid width) */
-.disco-card-compact {
-  width: calc(32% - 8px);
-}
-
-.disco-card-compact .disco-cover-wrap {
-  width: 100%;
-}
-
-.disco-card-compact .disco-title {
-  font: 700 11px Helvetica, "Helvetica Neue", Arial, sans-serif;
-}
-
-/* Common Cover */
-.disco-card img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  display: block;
-  border: 1px solid #6a6660;
-  transition: filter 0.2s ease;
-}
-
-.disco-card:hover img {
-  filter: contrast(1.05);
-}
-
-/* Typography & Labels */
-.disco-cat {
-  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #3a3a34;
-  text-transform: uppercase;
-  margin-top: 8px;
-  letter-spacing: 1px;
-}
-
-.disco-artist {
-  font: 11px "Times New Roman", Times, serif;
-  color: #1e1e1c;
-  font-style: italic;
-  margin-top: 2px;
-}
-
-.disco-year {
-  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #4a4a42;
-  margin-top: 2px;
-}
-
-.disco-price {
-  font: 900 13px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #1a1a18;
-  margin-top: 8px;
-}
-
-.disco-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
   align-items: center;
 }
 
-.disco-buy {
-  display: inline-block;
-  border: 1px solid #1e1e1c;
-  background: #1e1e1c;
+.disco-filter-btn {
   font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #847e72;
-  padding: 4px 12px;
+  color: #1e1e1c;
+  border: 1px solid #6a6660;
+  background: none;
+  padding: 4px 10px;
   cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
   text-transform: lowercase;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.disco-buy:hover {
+.disco-filter-btn:hover,
+.disco-filter-btn.active {
+  color: #847e72;
+  border-color: #1e1e1c;
+  background: #1e1e1c;
+}
+
+/* Condensed Horizontal List Layout */
+.disco-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.disco-row {
+  background: #7a7568;
+  border: 1px solid #6a6660;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.disco-row:hover {
+  background: #726d60;
+  border-color: #1e1e1c;
+}
+
+.disco-row-thumb {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border: 1px solid #6a6660;
+  flex-shrink: 0;
+}
+
+.disco-row-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.disco-row-cat {
+  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #3a3a34;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.disco-row-title {
+  font: 700 12px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1e1e1c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.disco-row-artist {
+  font: 11px "Times New Roman", Times, serif;
+  color: #2e2e2a;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.disco-row-price {
+  font: 900 12px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1e1e1c;
+  width: 60px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.disco-row-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.disco-btn-add {
+  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid #6a6660;
+  background: none;
+  color: #1e1e1c;
+  padding: 4px 8px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.15s;
+}
+
+.disco-btn-add:hover {
+  background: #1e1e1c;
+  color: #847e72;
+  border-color: #1e1e1c;
+}
+
+.disco-btn-buy {
+  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid #1e1e1c;
+  background: #1e1e1c;
+  color: #847e72;
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.15s;
+}
+
+.disco-btn-buy:hover {
   background: #b03030;
   border-color: #b03030;
   color: #ffffff;
 }
 
-.disco-link {
-  display: inline-block;
-  border: 1px solid #6a6660;
-  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #4a4a42;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-decoration: none;
-  background: none;
-  transition: color 0.15s, border-color 0.15s;
-  text-transform: lowercase;
-}
-
-.disco-link:hover {
-  color: #1e1e1c;
-  border-color: #1e1e1c;
-}
-
-/* ---- tracklist ---- */
-
-.disco-tracklist-toggle {
+.disco-row-toggle {
   font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: #4a4a42;
   cursor: pointer;
-  text-decoration: underline;
-  margin-top: 8px;
-  display: inline-block;
+  text-transform: lowercase;
+  margin-left: 4px;
   user-select: none;
 }
 
-.disco-tracklist-toggle:hover {
+.disco-row-toggle:hover {
   color: #1e1e1c;
+  text-decoration: underline;
 }
 
-.disco-tracklist {
+/* Tracklist expansion container */
+.disco-row-tracklist {
   display: none;
-  margin-top: 8px;
-  border-top: 1px solid #6a6660;
-  padding-top: 6px;
-}
-
-.disco-tracklist.open {
-  display: block;
-  animation: discoTrackFade 0.25s ease-out;
-}
-
-@keyframes discoTrackFade {
-  0%   { opacity: 0; transform: translateY(-4px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.disco-track {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 0;
-  font: 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #2a2a26;
-  border-bottom: 1px dotted #6a6660;
-}
-
-.disco-track:last-child {
-  border-bottom: none;
-}
-
-.disco-track-num {
-  font-weight: 700;
-  color: #4a4a42;
-  width: 14px;
-  flex-shrink: 0;
-  text-align: right;
-}
-
-.disco-track-title {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.disco-track-dur {
-  color: #5e5a50;
-  flex-shrink: 0;
-}
-
-.disco-track-play {
-  background: none;
-  border: none;
-  font-size: 10px;
-  cursor: pointer;
-  color: #4a4a42;
-  padding: 0 2px;
-  flex-shrink: 0;
-  transition: color 0.15s;
-}
-
-.disco-track-play:hover {
-  color: #b03030;
-}
-
-/* ---- player bar (bottom of page) ---- */
-
-.disco-player {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  font: 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #1e1e1c;
-  background: #6e6a5e;
+  background: #6e695d;
+  border: 1px solid #5e5a50;
+  border-top: none;
   padding: 8px 12px;
-  border-top: 1px solid #5e5a50;
+  margin-top: -1px;
+}
+
+.disco-row-tracklist.open {
+  display: block;
+}
+
+/* Sticky Cart Bar */
+.disco-cart-bar {
   position: sticky;
-  bottom: 0;
-  z-index: 100;
-}
-
-.disco-player.active {
-  display: flex;
-}
-
-.disco-playbtn {
-  background: none;
-  border: 1px solid #1e1e1c;
-  font-size: 10px;
-  cursor: pointer;
-  color: #1e1e1c;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.15s;
-}
-
-.disco-playbtn:hover {
+  top: 0;
+  z-index: 9000;
   background: #1e1e1c;
   color: #847e72;
+  border-bottom: 1px solid #000000;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 700 10px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0.5px;
 }
 
-.disco-seek {
-  flex: 1;
-  height: 2px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: #1e1e1c;
-  outline: none;
+.disco-cart-bar-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.disco-cart-count {
+  background: #847e72;
+  color: #1e1e1c;
+  padding: 2px 6px;
+  font-weight: 900;
+}
+
+.disco-cart-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.disco-cart-btn {
+  font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid #847e72;
+  background: #847e72;
+  color: #1e1e1c;
+  padding: 4px 12px;
   cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.15s;
 }
 
-.disco-seek::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 8px;
-  height: 8px;
-  background: #1e1e1c;
-  border: none;
-  cursor: pointer;
+.disco-cart-btn:hover {
+  background: #ffffff;
+  color: #1e1e1c;
+  border-color: #ffffff;
 }
 
-.disco-seek::-moz-range-thumb {
-  width: 8px;
-  height: 8px;
-  background: #1e1e1c;
-  border: none;
-  cursor: pointer;
-}
-
-.disco-now-title {
-  font-weight: 700;
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.disco-time {
-  flex-shrink: 0;
-  color: #3a3a34;
-}
-
-/* ---- email modal ---- */
-
+/* Clean Modal */
 .disco-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(30, 30, 28, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(30, 30, 28, 0.85);
   z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: discoModalIn 0.2s ease-out;
-}
-
-@keyframes discoModalIn {
-  0%   { opacity: 0; transform: scale(0.98); }
-  100% { opacity: 1; transform: scale(1); }
 }
 
 .disco-modal {
   background: #7a7568;
-  border: 1px solid #4a4a42;
-  padding: 24px 28px;
-  max-width: 420px;
-  width: 90%;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+  border: 1px solid #1e1e1c;
+  padding: 20px 24px;
+  max-width: 440px;
+  width: 92%;
   box-sizing: border-box;
 }
 
-.disco-modal-header {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  border-bottom: 1px solid #6a6660;
-  padding-bottom: 14px;
-}
-
-.disco-modal-cover {
-  width: 64px;
-  height: 64px;
-  object-fit: cover;
-  border: 1px solid #6a6660;
-  flex-shrink: 0;
-}
-
-.disco-modal-meta {
-  flex: 1;
-}
-
 .disco-modal h3 {
-  font: 900 16px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #1a1a18;
-  margin: 0 0 2px 0;
-  letter-spacing: -0.01em;
+  font: 900 15px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: #1e1e1c;
+  margin: 0 0 4px 0;
+  text-transform: lowercase;
 }
 
 .disco-modal-sub {
   font: 11px "Times New Roman", Times, serif;
-  color: #1e1e1c;
+  color: #2e2e2a;
   font-style: italic;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
 }
 
-.disco-modal-price {
-  font: 900 14px Helvetica, "Helvetica Neue", Arial, sans-serif;
+.disco-modal-items {
+  border: 1px solid #6a6660;
+  background: #6e695d;
+  max-height: 160px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.disco-modal-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid #5e5a50;
+  font: 11px Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: #1e1e1c;
 }
 
-.disco-modal-badge {
-  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  color: #2a5e2a;
-  background: rgba(42, 94, 42, 0.12);
-  border: 1px solid #2a5e2a;
-  padding: 3px 8px;
-  display: inline-block;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-  letter-spacing: 0.5px;
+.disco-modal-item:last-child {
+  border-bottom: none;
 }
 
 .disco-modal-label {
   font: 700 9px Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: #1e1e1c;
-  text-transform: uppercase;
+  text-transform: lowercase;
   display: block;
   margin-bottom: 4px;
-  letter-spacing: 0.5px;
 }
 
 .disco-modal input[type="email"],
 .disco-modal input[type="text"] {
-  font: 12px Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font: 11px Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: #1e1e1c;
   background: #908a7e;
   border: 1px solid #5e5a50;
-  padding: 8px 10px;
+  padding: 6px 8px;
   width: 100%;
   outline: none;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   box-sizing: border-box;
-  transition: background 0.15s, border-color 0.15s;
 }
 
-.disco-modal input[type="email"]:focus,
-.disco-modal input[type="text"]:focus {
+.disco-modal input:focus {
   border-color: #1e1e1c;
   background: #a0998c;
 }
 
-.disco-modal-methods {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.disco-method-tag {
-  font: 700 8px Helvetica, "Helvetica Neue", Arial, sans-serif;
+.disco-modal-total {
+  font: 900 14px Helvetica, "Helvetica Neue", Arial, sans-serif;
   color: #1e1e1c;
-  border: 1px solid #6a6660;
-  padding: 4px 8px;
-  background: rgba(0,0,0,0.05);
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  text-align: right;
+  margin-bottom: 12px;
 }
 
 .disco-modal-actions {
@@ -1487,14 +1339,14 @@ a:visited {
 
 .disco-modal-btn {
   font: 700 10px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  padding: 8px 18px;
+  padding: 8px 16px;
   cursor: pointer;
   border: 1px solid #1e1e1c;
   background: #1e1e1c;
   color: #847e72;
   text-transform: lowercase;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
   flex: 1;
+  transition: all 0.15s;
 }
 
 .disco-modal-btn:hover {
@@ -1505,26 +1357,17 @@ a:visited {
 
 .disco-modal-cancel {
   font: 700 10px Helvetica, "Helvetica Neue", Arial, sans-serif;
-  padding: 8px 16px;
+  padding: 8px 14px;
   cursor: pointer;
   border: 1px solid #6a6660;
   background: none;
   color: #1e1e1c;
   text-transform: lowercase;
-  transition: color 0.15s, border-color 0.15s;
 }
 
 .disco-modal-cancel:hover {
   color: #b03030;
   border-color: #b03030;
-}
-
-.disco-modal-security {
-  font: 10px "Times New Roman", Times, serif;
-  color: #3a3a34;
-  margin-top: 12px;
-  text-align: center;
-  font-style: italic;
 }
 
 .disco-modal-error {
@@ -1534,11 +1377,6 @@ a:visited {
   display: none;
 }
 
-/* ---- filter/sort bar ---- */
-
-.disco-filters {
-  display: flex;
-  gap: 12px;
   margin-bottom: 14px;
   flex-wrap: wrap;
   align-items: center;

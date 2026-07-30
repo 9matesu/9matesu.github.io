@@ -53,26 +53,44 @@ const r2 = new S3Client({
 // ============================================
 app.post('/api/create-preference', async (req, res) => {
   try {
-    const { releaseId, title, priceCents, email, name } = req.body;
+    const { items: rawItems, releaseId, title, priceCents, email, name } = req.body;
 
-    if (!releaseId || !title || !priceCents || !email) {
-      return res.status(400).json({ error: 'missing required fields' });
+    if (!email) {
+      return res.status(400).json({ error: 'missing required email field' });
     }
 
-    const body = {
-      items: [{
+    let mpItems = [];
+    let primaryReleaseId = releaseId || 'cart';
+
+    if (Array.isArray(rawItems) && rawItems.length > 0) {
+      mpItems = rawItems.map(item => ({
+        id: item.id,
+        title: item.title,
+        quantity: item.quantity || 1,
+        unit_price: Number((item.priceCents / 100).toFixed(2)),
+        currency_id: 'BRL'
+      }));
+      primaryReleaseId = rawItems.map(i => i.id).join(',');
+    } else if (releaseId && title && priceCents) {
+      mpItems = [{
         id: releaseId,
         title: title,
         quantity: 1,
         unit_price: Number((priceCents / 100).toFixed(2)),
         currency_id: 'BRL'
-      }],
+      }];
+    } else {
+      return res.status(400).json({ error: 'invalid or empty cart items' });
+    }
+
+    const body = {
+      items: mpItems,
       payer: {
         email: email,
         name: name || undefined
       },
       back_urls: {
-        success: `${process.env.FRONTEND_URL || 'https://matesu.me'}/?purchase=success&release=${releaseId}`,
+        success: `${process.env.FRONTEND_URL || 'https://matesu.me'}/?purchase=success&release=${encodeURIComponent(primaryReleaseId)}`,
         failure: `${process.env.FRONTEND_URL || 'https://matesu.me'}/?purchase=failure`,
         pending: `${process.env.FRONTEND_URL || 'https://matesu.me'}/?purchase=pending`,
       },
@@ -86,7 +104,7 @@ app.post('/api/create-preference', async (req, res) => {
     db.prepare(
       `INSERT OR IGNORE INTO purchases (mp_payment_id, release_id, email, status)
        VALUES (?, ?, ?, 'pending')`
-    ).run(result.id, releaseId, email);
+    ).run(result.id, primaryReleaseId, email);
 
     res.json({ checkoutUrl: result.init_point, preferenceId: result.id });
   } catch (err) {

@@ -526,6 +526,20 @@
   <div class="section">
     <h2>library</h2>
     <p class="section-note">todas as faixas e releases</p>
+
+    <!-- sticky cart bar -->
+    <div class="disco-cart-bar" id="disco-cart-bar" style="display:none;">
+      <div class="disco-cart-bar-left">
+        <span>carrinho</span>
+        <span class="disco-cart-count" id="disco-cart-count">0</span>
+        <span id="disco-cart-total">R$ 0,00</span>
+      </div>
+      <div class="disco-cart-actions">
+        <button class="disco-cart-btn" onclick="discoOpenCartModal()">ver carrinho &amp; checkout &rarr;</button>
+        <button class="disco-cart-btn" onclick="discoClearCart()" style="background:none; border-color:#847e72; color:#847e72;">limpar</button>
+      </div>
+    </div>
+
     <div id="discography-root"></div>
   </div>
 
@@ -942,6 +956,7 @@ var BACKEND_URL = (window.location.hostname === 'localhost' || window.location.h
   ? 'http://localhost:3000'
   : 'https://matesu-api.fly.dev';
 var discoData = [];
+var discoCart = []; // shopping cart items
 var discoAudio = new Audio();
 var discoPlaying = false;
 var discoCurrentTrack = null;
@@ -975,74 +990,66 @@ function renderDiscography() {
 
   // Filter buttons
   html += '<div class="disco-filters">';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'all' ? ' active' : '') + '" onclick="setDiscoFilter(\'all\')">todos</button>';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'album' ? ' active' : '') + '" onclick="setDiscoFilter(\'album\')">álbuns</button>';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'ep' ? ' active' : '') + '" onclick="setDiscoFilter(\'ep\')">eps</button>';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'single' ? ' active' : '') + '" onclick="setDiscoFilter(\'single\')">singles</button>';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'all' ? ' active' : '') + '" onclick="setDiscoFilter(\'all\')">todos (' + discoData.length + ')</button>';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'album' ? ' active' : '') + '" onclick="setDiscoFilter(\'album\')">álbuns (r$ 5)</button>';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'ep' ? ' active' : '') + '" onclick="setDiscoFilter(\'ep\')">eps (r$ 5)</button>';
+  html += '<button class="disco-filter-btn' + (discoFilter === 'single' ? ' active' : '') + '" onclick="setDiscoFilter(\'single\')">singles (r$ 3)</button>';
   html += '</div>';
 
-  // Cards grid
-  html += '<div class="disco-grid">';
+  // Condensed horizontal list
+  html += '<div class="disco-list">';
   for (var i = 0; i < filtered.length; i++) {
     var r = filtered[i];
-    html += renderDiscoCard(r, i);
+    html += renderDiscoRow(r, i);
   }
   html += '</div>';
 
   root.innerHTML = html;
+  discoUpdateCartUI();
 }
 
-function renderDiscoCard(r, idx) {
+function renderDiscoRow(r, idx) {
   var typeLabel = r.type === 'album' ? 'álbum' : r.type;
   var priceStr = 'R$ ' + (r.priceCents / 100).toFixed(2).replace('.', ',');
-  var cardClass = r.type === 'album' ? 'disco-card-hero' : (r.type === 'ep' ? 'disco-card-medium' : 'disco-card-compact');
+  var trackCount = r.tracks ? r.tracks.length : 1;
 
-  var html = '<div class="disco-card ' + cardClass + '" id="disco-card-' + r.id + '">';
+  var html = '<div class="disco-row-wrap">';
+  html += '<div class="disco-row" id="disco-row-' + r.id + '">';
   
-  html += '<div class="disco-cover-wrap">';
-  html += '<img src="' + r.cover + '" alt="' + r.title + '" loading="lazy">';
+  html += '<img class="disco-row-thumb" src="' + r.cover + '" alt="' + r.title + '" loading="lazy">';
+
+  html += '<div class="disco-row-info">';
+  html += '<div class="disco-row-cat">' + typeLabel + ' &bull; ' + r.year + ' &bull; ' + trackCount + ' faixas</div>';
+  html += '<div class="disco-row-title">' + r.title + '</div>';
+  html += '<div class="disco-row-artist">' + r.artist + '</div>';
   html += '</div>';
 
-  html += '<div class="disco-body-wrap">';
-  html += '<div>';
-  html += '<div class="disco-cat">' + typeLabel + ' &bull; ' + r.year + '</div>';
-  html += '<div class="disco-title">' + r.title + '</div>';
-  html += '<div class="disco-artist">' + r.artist + '</div>';
-  html += '<div class="disco-price">' + priceStr + '</div>';
-  html += '</div>';
+  html += '<div class="disco-row-price">' + priceStr + '</div>';
 
-  // Actions
-  html += '<div>';
-  html += '<div class="disco-actions">';
-  html += '<button class="disco-buy" onclick="discoBuy(\'' + r.id + '\')">adquirir</button>';
-
-  // External links
-  var links = r.externalLinks || {};
-  for (var platform in links) {
-    if (links.hasOwnProperty(platform)) {
-      html += '<a class="disco-link" href="' + links[platform] + '" target="_blank">' + platform + '</a>';
-    }
+  html += '<div class="disco-row-actions">';
+  html += '<button class="disco-btn-add" onclick="discoAddToCart(\'' + r.id + '\')">+ carrinho</button>';
+  html += '<button class="disco-btn-buy" onclick="discoBuySingle(\'' + r.id + '\')">comprar</button>';
+  if (r.tracks && r.tracks.length > 0) {
+    html += '<span class="disco-row-toggle" onclick="toggleDiscoTracklist(\'' + r.id + '\')">faixas</span>';
   }
   html += '</div>';
 
-  // Tracklist toggle
+  html += '</div>'; // end disco-row
+
+  // Tracklist expansion
   if (r.tracks && r.tracks.length > 0) {
-    html += '<span class="disco-tracklist-toggle" onclick="toggleDiscoTracklist(\'' + r.id + '\')">tracklist (' + r.tracks.length + ')</span>';
-    html += '<div class="disco-tracklist" id="disco-tl-' + r.id + '">';
+    html += '<div class="disco-row-tracklist" id="disco-tl-' + r.id + '">';
     for (var t = 0; t < r.tracks.length; t++) {
       var track = r.tracks[t];
-      html += '<div class="disco-track">';
-      html += '<span class="disco-track-num">' + (t + 1) + '</span>';
-      html += '<span class="disco-track-title">' + track.title + '</span>';
-      html += '<span class="disco-track-dur">' + track.duration + '</span>';
+      html += '<div style="display:flex; justify-space-between; font:10px Helvetica, Arial, sans-serif; color:#1e1e1c; padding:2px 0;">';
+      html += '<span>' + (t + 1) + '. ' + track.title + '</span>';
+      html += '<span style="color:#4a4a42;">' + track.duration + '</span>';
       html += '</div>';
     }
     html += '</div>';
   }
-  html += '</div>'; // end inner div
 
-  html += '</div>'; // end disco-body-wrap
-  html += '</div>'; // end disco-card
+  html += '</div>'; // end disco-row-wrap
   return html;
 }
 
@@ -1052,124 +1059,118 @@ function setDiscoFilter(type) {
   renderDiscography();
 }
 
-// ---- Tracklist expand ----
 function toggleDiscoTracklist(id) {
   var tl = document.getElementById('disco-tl-' + id);
   if (!tl) return;
   if (tl.classList.contains('open')) {
     tl.classList.remove('open');
-    tl.style.display = 'none';
   } else {
     tl.classList.add('open');
-    tl.style.display = 'block';
   }
 }
 
-// ---- Audio player ----
-function discoPlayTrack(releaseId, trackIdx) {
-  var release = null;
-  for (var i = 0; i < discoData.length; i++) {
-    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
-  }
-  if (!release || !release.tracks[trackIdx]) return;
-
-  var track = release.tracks[trackIdx];
-  discoCurrentTrack = { release: release, trackIdx: trackIdx, track: track };
-
-  // For now, since we don't have actual audio files, show the player UI
-  var player = document.getElementById('disco-player');
-  player.classList.add('active');
-  document.getElementById('disco-now-title').textContent = track.title + ' — ' + release.artist;
-  document.getElementById('disco-time').textContent = '00:00 / ' + track.duration;
-  document.getElementById('disco-playbtn').innerHTML = '&#9646;&#9646;';
-  discoPlaying = true;
-
-  // If we had actual files, we'd do:
-  // discoAudio.src = BACKEND_URL + '/api/stream/' + token + '/' + encodeURIComponent(track.fileKey);
-  // discoAudio.play();
-}
-
-function discoTogglePlay() {
-  if (!discoCurrentTrack) return;
-  if (discoPlaying) {
-    discoAudio.pause();
-    document.getElementById('disco-playbtn').innerHTML = '&#9654;';
-    discoPlaying = false;
-  } else {
-    discoAudio.play();
-    document.getElementById('disco-playbtn').innerHTML = '&#9646;&#9646;';
-    discoPlaying = true;
-  }
-}
-
-function discoSeek(val) {
-  if (discoAudio.duration) {
-    discoAudio.currentTime = val * discoAudio.duration;
-  }
-}
-
-// Audio time update
-discoAudio.addEventListener('timeupdate', function() {
-  if (!discoAudio.duration) return;
-  var seek = document.getElementById('disco-seek');
-  seek.value = discoAudio.currentTime / discoAudio.duration;
-
-  var cur = formatDiscoTime(discoAudio.currentTime);
-  var dur = formatDiscoTime(discoAudio.duration);
-  document.getElementById('disco-time').textContent = cur + ' / ' + dur;
-});
-
-discoAudio.addEventListener('ended', function() {
-  document.getElementById('disco-playbtn').innerHTML = '&#9654;';
-  discoPlaying = false;
-});
-
-function formatDiscoTime(s) {
-  var m = Math.floor(s / 60);
-  var sec = Math.floor(s % 60);
-  return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
-}
-
-// ---- Checkout flow ----
-function discoBuy(releaseId) {
+// ---- Shopping Cart Logic ----
+function discoAddToCart(releaseId) {
   var release = null;
   for (var i = 0; i < discoData.length; i++) {
     if (discoData[i].id === releaseId) { release = discoData[i]; break; }
   }
   if (!release) return;
 
-  var overlay = document.createElement('div');
+  var exists = false;
+  for (var c = 0; c < discoCart.length; c++) {
+    if (discoCart[c].id === releaseId) { exists = true; break; }
+  }
+  if (!exists) {
+    discoCart.push(release);
+  }
+  discoUpdateCartUI();
+}
+
+function discoRemoveFromCart(releaseId) {
+  discoCart = discoCart.filter(function(item) { return item.id !== releaseId; });
+  discoUpdateCartUI();
+  if (document.getElementById('disco-modal-overlay')) {
+    discoOpenCartModal();
+  }
+}
+
+function discoClearCart() {
+  discoCart = [];
+  discoUpdateCartUI();
+  discoCloseModal();
+}
+
+function discoUpdateCartUI() {
+  var bar = document.getElementById('disco-cart-bar');
+  var countEl = document.getElementById('disco-cart-count');
+  var totalEl = document.getElementById('disco-cart-total');
+
+  if (!bar) return;
+
+  if (discoCart.length === 0) {
+    bar.style.display = 'none';
+    return;
+  }
+
+  bar.style.display = 'flex';
+  countEl.textContent = discoCart.length;
+
+  var totalCents = 0;
+  for (var i = 0; i < discoCart.length; i++) {
+    totalCents += discoCart[i].priceCents;
+  }
+  totalEl.textContent = 'R$ ' + (totalCents / 100).toFixed(2).replace('.', ',');
+}
+
+function discoBuySingle(releaseId) {
+  var release = null;
+  for (var i = 0; i < discoData.length; i++) {
+    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
+  }
+  if (!release) return;
+  discoCart = [release];
+  discoUpdateCartUI();
+  discoOpenCartModal();
+}
+
+function discoOpenCartModal() {
+  if (discoCart.length === 0) return;
+
+  var overlay = document.getElementById('disco-modal-overlay');
+  if (overlay) overlay.remove();
+
+  overlay = document.createElement('div');
   overlay.className = 'disco-modal-overlay';
   overlay.id = 'disco-modal-overlay';
 
-  var priceStr = 'R$ ' + (release.priceCents / 100).toFixed(2).replace('.', ',');
-  var typeLabel = release.type === 'album' ? 'Álbum Digital' : (release.type === 'ep' ? 'EP Digital' : 'Single Digital');
-  var trackCount = release.tracks ? release.tracks.length : 1;
+  var totalCents = 0;
+  var itemsHtml = '';
+  for (var i = 0; i < discoCart.length; i++) {
+    var item = discoCart[i];
+    totalCents += item.priceCents;
+    var priceStr = 'R$ ' + (item.priceCents / 100).toFixed(2).replace('.', ',');
+    itemsHtml += '<div class="disco-modal-item">' +
+      '<span>' + item.title + ' — ' + item.artist + '</span>' +
+      '<div>' + priceStr + ' <button onclick="discoRemoveFromCart(\'' + item.id + '\')" style="background:none; border:none; color:#b03030; font-weight:700; cursor:pointer; margin-left:6px;">[x]</button></div>' +
+      '</div>';
+  }
+
+  var totalStr = 'R$ ' + (totalCents / 100).toFixed(2).replace('.', ',');
 
   overlay.innerHTML = '<div class="disco-modal">' +
-    '<div class="disco-modal-header">' +
-      '<img class="disco-modal-cover" src="' + release.cover + '" alt="' + release.title + '">' +
-      '<div class="disco-modal-meta">' +
-        '<h3>' + release.title + '</h3>' +
-        '<div class="disco-modal-sub">' + release.artist + ' &bull; ' + release.year + '</div>' +
-        '<div class="disco-modal-price">' + priceStr + '</div>' +
-      '</div>' +
-    '</div>' +
-    '<div class="disco-modal-badge">&#10003; Entrega Digital Instantânea (' + trackCount + ' faixas &bull; WAV 24-bit / MP3)</div>' +
-    '<label class="disco-modal-label" for="disco-email">Seu E-mail (para receber o download)</label>' +
-    '<input type="email" id="disco-email" placeholder="ex: seuemail@dominio.com" autocomplete="email" required>' +
-    '<label class="disco-modal-label" for="disco-name">Seu Nome (opcional)</label>' +
-    '<input type="text" id="disco-name" placeholder="Seu nome completo">' +
-    '<div class="disco-modal-methods">' +
-      '<span class="disco-method-tag">&bull; PIX (Instantâneo)</span>' +
-      '<span class="disco-method-tag">&bull; Cartão de Crédito</span>' +
-      '<span class="disco-method-tag">&bull; Mercado Pago</span>' +
-    '</div>' +
+    '<h3>checkout &mdash; ' + discoCart.length + ' item(s)</h3>' +
+    '<div class="disco-modal-sub">resumo do pedido (download instantâneo em wav/mp3)</div>' +
+    '<div class="disco-modal-items">' + itemsHtml + '</div>' +
+    '<div class="disco-modal-total">total: ' + totalStr + '</div>' +
+    '<label class="disco-modal-label" for="disco-email">seu e-mail (para envio do download)</label>' +
+    '<input type="email" id="disco-email" placeholder="seuemail@dominio.com" autocomplete="email" required>' +
+    '<label class="disco-modal-label" for="disco-name">seu nome (opcional)</label>' +
+    '<input type="text" id="disco-name" placeholder="seu nome">' +
     '<div class="disco-modal-actions">' +
-      '<button class="disco-modal-btn" onclick="discoCheckout(\'' + releaseId + '\')">pagar com mercado pago &rarr;</button>' +
+      '<button class="disco-modal-btn" onclick="discoCheckoutCart()">pagar com mercado pago &rarr;</button>' +
       '<button class="disco-modal-cancel" onclick="discoCloseModal()">cancelar</button>' +
     '</div>' +
-    '<div class="disco-modal-security">&#128274; Pagamento seguro e encriptado via Mercado Pago SSL</div>' +
     '<div class="disco-modal-error" id="disco-modal-error"></div>' +
     '</div>';
 
@@ -1190,12 +1191,8 @@ function discoCloseModal() {
   if (overlay) overlay.remove();
 }
 
-function discoCheckout(releaseId) {
-  var release = null;
-  for (var i = 0; i < discoData.length; i++) {
-    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
-  }
-  if (!release) return;
+function discoCheckoutCart() {
+  if (discoCart.length === 0) return;
 
   var emailInput = document.getElementById('disco-email');
   var nameInput = document.getElementById('disco-name');
@@ -1211,20 +1208,27 @@ function discoCheckout(releaseId) {
     return;
   }
 
-  // Disable button and show loading text
   var btn = document.querySelector('.disco-modal-btn');
   if (btn) {
     btn.textContent = 'redirecionando ao mercado pago...';
     btn.disabled = true;
   }
 
+  var items = [];
+  for (var i = 0; i < discoCart.length; i++) {
+    items.push({
+      id: discoCart[i].id,
+      title: discoCart[i].title + ' — ' + discoCart[i].artist,
+      priceCents: discoCart[i].priceCents,
+      quantity: 1
+    });
+  }
+
   fetch(BACKEND_URL + '/api/create-preference', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      releaseId: release.id,
-      title: release.title + ' — ' + release.artist,
-      priceCents: release.priceCents,
+      items: items,
       email: email,
       name: name
     })
