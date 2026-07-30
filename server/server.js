@@ -53,7 +53,7 @@ const r2 = new S3Client({
 // ============================================
 app.post('/api/create-preference', async (req, res) => {
   try {
-    const { releaseId, title, priceCents, email } = req.body;
+    const { releaseId, title, priceCents, email, name } = req.body;
 
     if (!releaseId || !title || !priceCents || !email) {
       return res.status(400).json({ error: 'missing required fields' });
@@ -62,22 +62,32 @@ app.post('/api/create-preference', async (req, res) => {
     const body = {
       items: [{
         id: releaseId,
-        title,
+        title: title,
         quantity: 1,
-        unit_price: priceCents / 100,
+        unit_price: Number((priceCents / 100).toFixed(2)),
         currency_id: 'BRL'
       }],
-      payer: { email },
+      payer: {
+        email: email,
+        name: name || undefined
+      },
       back_urls: {
-        success: `${process.env.FRONTEND_URL}/?purchase=success&release=${releaseId}`,
-        failure: `${process.env.FRONTEND_URL}/?purchase=failure`,
-        pending: `${process.env.FRONTEND_URL}/?purchase=pending`,
+        success: `${process.env.FRONTEND_URL || 'https://matesu.me'}/?purchase=success&release=${releaseId}`,
+        failure: `${process.env.FRONTEND_URL || 'https://matesu.me'}/?purchase=failure`,
+        pending: `${process.env.FRONTEND_URL || 'https://matesu.me'}/?purchase=pending`,
       },
       auto_return: 'approved',
-      notification_url: `${process.env.BACKEND_URL}/webhook`,
+      notification_url: `${process.env.BACKEND_URL || 'https://matesu-api.fly.dev'}/webhook`,
     };
 
     const result = await preference.create({ body });
+
+    // Store pending transaction in SQLite
+    db.prepare(
+      `INSERT OR IGNORE INTO purchases (mp_payment_id, release_id, email, status)
+       VALUES (?, ?, ?, 'pending')`
+    ).run(result.id, releaseId, email);
+
     res.json({ checkoutUrl: result.init_point, preferenceId: result.id });
   } catch (err) {
     console.error('Create preference error:', err);

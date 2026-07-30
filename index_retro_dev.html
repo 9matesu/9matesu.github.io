@@ -995,16 +995,24 @@ function renderDiscography() {
 function renderDiscoCard(r, idx) {
   var typeLabel = r.type === 'album' ? 'álbum' : r.type;
   var priceStr = 'R$ ' + (r.priceCents / 100).toFixed(2).replace('.', ',');
+  var cardClass = r.type === 'album' ? 'disco-card-hero' : (r.type === 'ep' ? 'disco-card-medium' : 'disco-card-compact');
 
-  var html = '<div class="disco-card" id="disco-card-' + r.id + '">';
+  var html = '<div class="disco-card ' + cardClass + '" id="disco-card-' + r.id + '">';
+  
+  html += '<div class="disco-cover-wrap">';
   html += '<img src="' + r.cover + '" alt="' + r.title + '" loading="lazy">';
-  html += '<div class="disco-cat">' + typeLabel + '</div>';
+  html += '</div>';
+
+  html += '<div class="disco-body-wrap">';
+  html += '<div>';
+  html += '<div class="disco-cat">' + typeLabel + ' &bull; ' + r.year + '</div>';
   html += '<div class="disco-title">' + r.title + '</div>';
   html += '<div class="disco-artist">' + r.artist + '</div>';
-  html += '<div class="disco-year">' + r.year + '</div>';
   html += '<div class="disco-price">' + priceStr + '</div>';
+  html += '</div>';
 
   // Actions
+  html += '<div>';
   html += '<div class="disco-actions">';
   html += '<button class="disco-buy" onclick="discoBuy(\'' + r.id + '\')">adquirir</button>';
 
@@ -1031,8 +1039,10 @@ function renderDiscoCard(r, idx) {
     }
     html += '</div>';
   }
+  html += '</div>'; // end inner div
 
-  html += '</div>';
+  html += '</div>'; // end disco-body-wrap
+  html += '</div>'; // end disco-card
   return html;
 }
 
@@ -1128,32 +1138,47 @@ function discoBuy(releaseId) {
   }
   if (!release) return;
 
-  // Show email modal
   var overlay = document.createElement('div');
   overlay.className = 'disco-modal-overlay';
   overlay.id = 'disco-modal-overlay';
 
   var priceStr = 'R$ ' + (release.priceCents / 100).toFixed(2).replace('.', ',');
+  var typeLabel = release.type === 'album' ? 'Álbum Digital' : (release.type === 'ep' ? 'EP Digital' : 'Single Digital');
+  var trackCount = release.tracks ? release.tracks.length : 1;
 
   overlay.innerHTML = '<div class="disco-modal">' +
-    '<h3>' + release.title + '</h3>' +
-    '<div class="disco-modal-sub">' + release.artist + ' — ' + priceStr + '</div>' +
-    '<input type="email" id="disco-email" placeholder="seu e-mail para receber o download">' +
-    '<div class="disco-modal-actions">' +
-    '<button class="disco-modal-btn" onclick="discoCheckout(\'' + releaseId + '\')">pagar com mercado pago</button>' +
-    '<button class="disco-modal-cancel" onclick="discoCloseModal()">cancelar</button>' +
+    '<div class="disco-modal-header">' +
+      '<img class="disco-modal-cover" src="' + release.cover + '" alt="' + release.title + '">' +
+      '<div class="disco-modal-meta">' +
+        '<h3>' + release.title + '</h3>' +
+        '<div class="disco-modal-sub">' + release.artist + ' &bull; ' + release.year + '</div>' +
+        '<div class="disco-modal-price">' + priceStr + '</div>' +
+      '</div>' +
     '</div>' +
+    '<div class="disco-modal-badge">&#10003; Entrega Digital Instantânea (' + trackCount + ' faixas &bull; WAV 24-bit / MP3)</div>' +
+    '<label class="disco-modal-label" for="disco-email">Seu E-mail (para receber o download)</label>' +
+    '<input type="email" id="disco-email" placeholder="ex: seuemail@dominio.com" autocomplete="email" required>' +
+    '<label class="disco-modal-label" for="disco-name">Seu Nome (opcional)</label>' +
+    '<input type="text" id="disco-name" placeholder="Seu nome completo">' +
+    '<div class="disco-modal-methods">' +
+      '<span class="disco-method-tag">&bull; PIX (Instantâneo)</span>' +
+      '<span class="disco-method-tag">&bull; Cartão de Crédito</span>' +
+      '<span class="disco-method-tag">&bull; Mercado Pago</span>' +
+    '</div>' +
+    '<div class="disco-modal-actions">' +
+      '<button class="disco-modal-btn" onclick="discoCheckout(\'' + releaseId + '\')">pagar com mercado pago &rarr;</button>' +
+      '<button class="disco-modal-cancel" onclick="discoCloseModal()">cancelar</button>' +
+    '</div>' +
+    '<div class="disco-modal-security">&#128274; Pagamento seguro e encriptado via Mercado Pago SSL</div>' +
     '<div class="disco-modal-error" id="disco-modal-error"></div>' +
     '</div>';
 
   document.body.appendChild(overlay);
 
-  // Close on overlay click
   overlay.addEventListener('click', function(e) {
     if (e.target === overlay) discoCloseModal();
   });
 
-  // Focus email input
   setTimeout(function() {
     var inp = document.getElementById('disco-email');
     if (inp) inp.focus();
@@ -1173,21 +1198,23 @@ function discoCheckout(releaseId) {
   if (!release) return;
 
   var emailInput = document.getElementById('disco-email');
+  var nameInput = document.getElementById('disco-name');
   var email = emailInput ? emailInput.value.trim() : '';
+  var name = nameInput ? nameInput.value.trim() : '';
   var errorEl = document.getElementById('disco-modal-error');
 
-  if (!email || email.indexOf('@') === -1) {
+  if (!email || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
     if (errorEl) {
-      errorEl.textContent = 'insira um e-mail válido';
+      errorEl.textContent = 'por favor, insira um e-mail válido';
       errorEl.style.display = 'block';
     }
     return;
   }
 
-  // Disable button
+  // Disable button and show loading text
   var btn = document.querySelector('.disco-modal-btn');
   if (btn) {
-    btn.textContent = 'processando...';
+    btn.textContent = 'redirecionando ao mercado pago...';
     btn.disabled = true;
   }
 
@@ -1198,7 +1225,8 @@ function discoCheckout(releaseId) {
       releaseId: release.id,
       title: release.title + ' — ' + release.artist,
       priceCents: release.priceCents,
-      email: email
+      email: email,
+      name: name
     })
   })
   .then(function(r) { return r.json(); })
@@ -1211,11 +1239,11 @@ function discoCheckout(releaseId) {
   })
   .catch(function(err) {
     if (errorEl) {
-      errorEl.textContent = 'erro ao conectar ao servidor. tente novamente ou entre em contato: matesubeats@gmail.com';
+      errorEl.textContent = 'erro ao conectar ao servidor. entre em contato via e-mail: matesubeats@gmail.com';
       errorEl.style.display = 'block';
     }
     if (btn) {
-      btn.textContent = 'pagar com mercado pago';
+      btn.textContent = 'pagar com mercado pago \u2192';
       btn.disabled = false;
     }
   });

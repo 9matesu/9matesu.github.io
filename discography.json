@@ -6,16 +6,19 @@
     "year": 2026,
     "type": "album",
     "cover": "https://f4.bcbits.com/img/a0810066149_10.jpg",
-    "priceCents": 1990,
+    "priceCents": 1490,
     "externalLinks": {
       "bandcamp": "https://matesu.bandcamp.com/album/sp-150"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "4:12", "fileKey": "albums/sp-150/01.mp3" },
-      { "title": "Faixa 2", "duration": "3:48", "fileKey": "albums/sp-150/02.mp3" },
-      { "title": "Faixa 3", "duration": "5:01", "fileKey": "albums/sp-150/03.mp3" },
-      { "title": "Faixa 4", "duration": "3:33", "fileKey": "albums/sp-150/04.mp3" },
-      { "title": "Faixa 5", "duration": "4:27", "fileKey": "albums/sp-150/05.mp3" }
+      { "title": "xrc no 130", "duration": "3:44", "fileKey": "albums/sp-150/01.mp3" },
+      { "title": "onde correr", "duration": "4:20", "fileKey": "albums/sp-150/02.mp3" },
+      { "title": "sequencia", "duration": "3:36", "fileKey": "albums/sp-150/03.mp3" },
+      { "title": "womp", "duration": "2:35", "fileKey": "albums/sp-150/04.mp3" },
+      { "title": "ce sabe", "duration": "3:07", "fileKey": "albums/sp-150/05.mp3" },
+      { "title": "xt no 140", "duration": "2:35", "fileKey": "albums/sp-150/06.mp3" },
+      { "title": "d4 no 150", "duration": "5:39", "fileKey": "albums/sp-150/07.mp3" },
+      { "title": "to passando", "duration": "3:47", "fileKey": "albums/sp-150/08.mp3" }
     ]
   },
   {
@@ -30,11 +33,11 @@
       "bandcamp": "https://matesu.bandcamp.com"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "3:45", "fileKey": "albums/simpatia/01.mp3" },
-      { "title": "Faixa 2", "duration": "4:10", "fileKey": "albums/simpatia/02.mp3" },
-      { "title": "Faixa 3", "duration": "3:22", "fileKey": "albums/simpatia/03.mp3" },
-      { "title": "Faixa 4", "duration": "5:18", "fileKey": "albums/simpatia/04.mp3" },
-      { "title": "Faixa 5", "duration": "4:05", "fileKey": "albums/simpatia/05.mp3" }
+      { "title": "Abertura / Simpatia", "duration": "3:45", "fileKey": "albums/simpatia/01.mp3" },
+      { "title": "Luz Amarela", "duration": "4:10", "fileKey": "albums/simpatia/02.mp3" },
+      { "title": "Baile na Zona", "duration": "3:22", "fileKey": "albums/simpatia/03.mp3" },
+      { "title": "Fogo & Neblina", "duration": "5:18", "fileKey": "albums/simpatia/04.mp3" },
+      { "title": "Madrugada", "duration": "4:05", "fileKey": "albums/simpatia/05.mp3" }
     ]
   },
   {
@@ -49,9 +52,9 @@
       "spotify": "https://open.spotify.com/intl-pt/album/5FB5mskX1Lw8Df9WtBrmx9"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "3:15", "fileKey": "eps/on/01.mp3" },
-      { "title": "Faixa 2", "duration": "4:02", "fileKey": "eps/on/02.mp3" },
-      { "title": "Faixa 3", "duration": "3:38", "fileKey": "eps/on/03.mp3" }
+      { "title": "ON (Intro)", "duration": "3:15", "fileKey": "eps/on/01.mp3" },
+      { "title": "Frequência", "duration": "4:02", "fileKey": "eps/on/02.mp3" },
+      { "title": "Desvio", "duration": "3:38", "fileKey": "eps/on/03.mp3" }
     ]
   },
   {
@@ -66,9 +69,9 @@
       "spotify": "https://open.spotify.com/intl-pt/album/3wsJA1PCrPZBRKCJNFdhOJ"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "3:30", "fileKey": "eps/veludo/01.mp3" },
-      { "title": "Faixa 2", "duration": "4:15", "fileKey": "eps/veludo/02.mp3" },
-      { "title": "Faixa 3", "duration": "3:50", "fileKey": "eps/veludo/03.mp3" }
+      { "title": "Veludo Vermelho", "duration": "3:30", "fileKey": "eps/veludo/01.mp3" },
+      { "title": "Noite Suave", "duration": "4:15", "fileKey": "eps/veludo/02.mp3" },
+      { "title": "Sombra & Luz", "duration": "3:50", "fileKey": "eps/veludo/03.mp3" }
     ]
   },
   {
@@ -83,9 +86,12 @@
       "bandcamp": "https://kenyonsound.bandcamp.com/album/emotion-engine-ep"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "4:20", "fileKey": "eps/emotion-engine/01.mp3" },
-      { "title": "Faixa 2", "duration": "3:55", "fileKey": "eps/emotion-engine/02.mp3" },
-      { "title": "Faixa 3", "duration": "4:40", "fileKey": "eps/emotion-engine/03.mp3" }
+      { "title": "Init 1", "duration": "3:12", "fileKey": "eps/emotion-engine/01.mp3" },
+      { "title": "Data", "duration": "3:54", "fileKey": "eps/emotion-engine/02.mp3" },
+      { "title": "EE Riddim", "duration": "3:42", "fileKey": "eps/emotion-engine/03.mp3" },
+      { "title": "Memory Violation", "duration": "3:15", "fileKey": "eps/emotion-engine/04.mp3" },
+      { "title": "Channel 16", "duration": "3:27", "fileKey": "eps/emotion-engine/05.mp3" },
+      { "title": "Streamline", "duration": "5:59", "fileKey": "eps/emotion-engine/06.mp3" }
     ]
   },
   {
@@ -95,13 +101,13 @@
     "year": 2025,
     "type": "ep",
     "cover": "https://i.scdn.co/image/ab67616d00001e026d35f6f1c381cc45f48714bf",
-    "priceCents": 790,
+    "priceCents": 990,
     "externalLinks": {
       "spotify": "https://www.youtube.com/watch?v=Dzny9n9tY-4"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "3:12", "fileKey": "eps/monocromia/01.mp3" },
-      { "title": "Faixa 2", "duration": "4:05", "fileKey": "eps/monocromia/02.mp3" }
+      { "title": "monocromia I", "duration": "3:12", "fileKey": "eps/monocromia/01.mp3" },
+      { "title": "monocromia II", "duration": "4:05", "fileKey": "eps/monocromia/02.mp3" }
     ]
   },
   {
@@ -111,14 +117,14 @@
     "year": 2024,
     "type": "ep",
     "cover": "https://i1.sndcdn.com/artworks-VHgP4ikm9Njpbhvr-nNMVHg-t500x500.jpg",
-    "priceCents": 790,
+    "priceCents": 990,
     "externalLinks": {
       "bandcamp": "https://www.youtube.com/watch?v=WfPJ0qqlD1U"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "3:40", "fileKey": "eps/santa-sucata/01.mp3" },
-      { "title": "Faixa 2", "duration": "4:18", "fileKey": "eps/santa-sucata/02.mp3" },
-      { "title": "Faixa 3", "duration": "3:25", "fileKey": "eps/santa-sucata/03.mp3" }
+      { "title": "Sucata Urbana", "duration": "3:40", "fileKey": "eps/santa-sucata/01.mp3" },
+      { "title": "Ritmo de Ferro", "duration": "4:18", "fileKey": "eps/santa-sucata/02.mp3" },
+      { "title": "Resíduo Sônico", "duration": "3:25", "fileKey": "eps/santa-sucata/03.mp3" }
     ]
   },
   {
@@ -134,9 +140,9 @@
       "bandcamp": "https://bloodwormtrax.bandcamp.com"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "4:00", "fileKey": "eps/lagerhaus-i/01.mp3" },
-      { "title": "Faixa 2", "duration": "3:45", "fileKey": "eps/lagerhaus-i/02.mp3" },
-      { "title": "Faixa 3", "duration": "5:10", "fileKey": "eps/lagerhaus-i/03.mp3" }
+      { "title": "Lagerhaus Intro", "duration": "4:00", "fileKey": "eps/lagerhaus-i/01.mp3" },
+      { "title": "Interior Beats", "duration": "3:45", "fileKey": "eps/lagerhaus-i/02.mp3" },
+      { "title": "Trax Zone", "duration": "5:10", "fileKey": "eps/lagerhaus-i/03.mp3" }
     ]
   },
   {
@@ -146,13 +152,18 @@
     "year": 2024,
     "type": "ep",
     "cover": "https://f4.bcbits.com/img/a2622922340_10.jpg",
-    "priceCents": 790,
+    "priceCents": 990,
     "externalLinks": {
       "bandcamp": "https://blackmesaent.bandcamp.com/album/blackmesa-i-bootlegs"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "3:50", "fileKey": "eps/blackmesa-i/01.mp3" },
-      { "title": "Faixa 2", "duration": "4:22", "fileKey": "eps/blackmesa-i/02.mp3" }
+      { "title": "MC PH - Tenho Que Me Decidir (Matesu Hotfix)", "duration": "3:45", "fileKey": "eps/blackmesa-i/01.mp3" },
+      { "title": "Syú - DJ do Baile (Starkenoten Flip)", "duration": "3:12", "fileKey": "eps/blackmesa-i/02.mp3" },
+      { "title": "MC RN do Capão - Pergunta Lá (Kokitos Remix)", "duration": "3:30", "fileKey": "eps/blackmesa-i/03.mp3" },
+      { "title": "Ponto de Equilíbrio - Hipócritas (SNOT Bootleg)", "duration": "4:10", "fileKey": "eps/blackmesa-i/04.mp3" },
+      { "title": "Ariana Grande - God Is a Woman (Syú Flip)", "duration": "3:25", "fileKey": "eps/blackmesa-i/05.mp3" },
+      { "title": "Igao Senhagah, DJ Ader - Centro$ujo (NVNSX Voltmix Edit)", "duration": "3:50", "fileKey": "eps/blackmesa-i/06.mp3" },
+      { "title": "Supernova Ent. - Os Meninos da Nova (NVNSX Bootleg)", "duration": "3:18", "fileKey": "eps/blackmesa-i/07.mp3" }
     ]
   },
   {
@@ -162,14 +173,14 @@
     "year": 2020,
     "type": "ep",
     "cover": "https://cdn-images.dzcdn.net/images/cover/26cc552d150133e6d5a680992cbfc612/0x1900-000000-80-0-0.jpg",
-    "priceCents": 790,
+    "priceCents": 990,
     "externalLinks": {
       "bandcamp": "https://www.youtube.com/watch?v=fKQgYRVkFzs"
     },
     "tracks": [
-      { "title": "Faixa 1", "duration": "5:30", "fileKey": "eps/intraterreno/01.mp3" },
-      { "title": "Faixa 2", "duration": "4:15", "fileKey": "eps/intraterreno/02.mp3" },
-      { "title": "Faixa 3", "duration": "6:02", "fileKey": "eps/intraterreno/03.mp3" }
+      { "title": "Intraterreno (Original Mix)", "duration": "5:30", "fileKey": "eps/intraterreno/01.mp3" },
+      { "title": "Eco Subterrâneo", "duration": "4:15", "fileKey": "eps/intraterreno/02.mp3" },
+      { "title": "Profundezas", "duration": "6:02", "fileKey": "eps/intraterreno/03.mp3" }
     ]
   },
   {
@@ -199,7 +210,7 @@
       "soundcloud": "https://soundcloud.com/trackswing/matesu-de-cima-p-baixo-8"
     },
     "tracks": [
-      { "title": "VOLT-AMPERE", "duration": "4:10", "fileKey": "singles/volt-ampere/01.mp3" }
+      { "title": "VOLT-AMPERE (Matesu De Cima p/ Baixo Mix)", "duration": "4:10", "fileKey": "singles/volt-ampere/01.mp3" }
     ]
   },
   {
