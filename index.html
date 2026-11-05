@@ -1,1323 +1,1733 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="author" content="Matesu">
-<meta name="description" content="Matesu — produtor musical, engenheiro de áudio. São Paulo.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>matesu</title>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="style_retro.css">
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-main);
+  color: var(--text-muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+:root {
+  --bg-main: #141414;
+  --bg-sidebar: #141414;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-link: rgba(255, 255, 255, 0.15);
+  --text-bright: #f5f5f7;
+  --text-active: #d1d1d6;
+  --text-body: #a1a1a6;
+  --text-muted: #8e8e93;
+  --text-dim: #636366;
+  --text-faint: #48484a;
+  --header-h: 52px;
+}
+
+body.light {
+  --bg-main: #f5f5f7;
+  --bg-sidebar: #f5f5f7;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-link: rgba(0, 0, 0, 0.2);
+  --text-bright: #1d1d1f;
+  --text-active: #1d1d1f;
+  --text-body: #3a3a3c;
+  --text-muted: #6e6e73;
+  --text-dim: #86868b;
+  --text-faint: #aeaeb2;
+}
+
+#viewport {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Coluna fixa esquerda */
+#sidebar {
+  width: 250px;
+  min-width: 250px;
+  height: 100vh;
+  padding: 24px 20px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--border-subtle);
+  user-select: text;
+  flex-shrink: 0;
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.28s cubic-bezier(0.16, 1, 0.3, 1), padding 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease, background 0.25s ease;
+  overflow: hidden;
+  background: var(--bg-sidebar);
+}
+
+#sidebar.collapsed {
+  width: 48px;
+  min-width: 48px;
+  padding: 24px 10px;
+  cursor: pointer;
+}
+
+#sidebar.collapsed .bio-top,
+#sidebar.collapsed .bio-footer {
+  display: none;
+}
+
+.sidebar-collapsed-hint {
+  display: none;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  user-select: none;
+  margin-top: 12px;
+}
+
+#sidebar.collapsed .sidebar-collapsed-hint {
+  display: block;
+}
+
+.bio-top {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bio-photo-wrap {
+  width: 100%;
+  max-width: 202px;
+  margin-bottom: 2px;
+}
+
+.bio-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.brand-name {
+  font-size: 26px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  color: var(--text-bright);
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+  transition: color 0.16s ease;
+}
+
+.brand-name:hover {
+  color: var(--text-bright);
+  opacity: 0.85;
+}
+
+.bio-text {
+  font-size: 11.5px;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  color: var(--text-muted);
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.bio-text a {
+  color: var(--text-body);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-link);
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.bio-text a:hover {
+  color: var(--text-bright);
+  border-color: var(--text-bright);
+}
+
+.bio-text b {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.bio-links {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  letter-spacing: -0.015em;
+  margin-top: 4px;
+}
+
+.bio-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.16s ease;
+  width: fit-content;
+}
+
+.bio-links a:hover {
+  color: var(--text-bright);
+}
+
+.bio-footer {
+  font-size: 10px;
+  letter-spacing: -0.01em;
+  color: var(--text-faint);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: -0.01em;
+  font-family: inherit;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.16s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--text-bright);
+}
+
+/* Coluna principal: header + navegação */
+#main {
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#topbar {
+  height: var(--header-h);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--border-subtle);
+  user-select: none;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 230px;
+  max-width: 42vw;
+  height: 26px;
+  padding: 0 8px 0 9px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.07);
+  transition: background 0.16s ease;
+}
+
+body.light .search-field {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.search-field:focus-within {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+body.light .search-field:focus-within {
+  background: rgba(0, 0, 0, 0.09);
+}
+
+.search-field svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: var(--text-dim);
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-bright);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+}
+
+.search-field input::placeholder {
+  color: var(--text-dim);
+}
+
+.search-field input::-webkit-search-cancel-button,
+.search-field input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-clear {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 14px;
+  height: 14px;
+  line-height: 1;
+  font-size: 14px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.16s ease;
+}
+
+.search-clear:hover {
+  color: var(--text-bright);
+}
+
+.results-count {
+  font-size: 11px;
+  letter-spacing: -0.01em;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: auto;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.control-label {
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.select-wrap::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  margin-left: 6px;
+  margin-top: -3px;
+  border-right: 1px solid var(--text-dim);
+  border-bottom: 1px solid var(--text-dim);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.select-wrap select {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 2px 0;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  transition: color 0.16s ease;
+}
+
+.select-wrap select:hover {
+  color: var(--text-bright);
+}
+
+.select-wrap select option {
+  background: var(--bg-sidebar);
+  color: var(--text-bright);
+}
+
+/* Área de navegação horizontal */
+#stage {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 24px 28px;
+  gap: 28px;
+  user-select: none;
+}
+
+#stage::-webkit-scrollbar {
+  display: none;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-width: max-content;
+  max-height: calc(100vh - var(--header-h) - 48px);
+  overflow-y: auto;
+  animation: colEnter 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.col.leaving {
+  animation: colLeave 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes colEnter {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes colLeave {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+}
+
+.col::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  color: var(--text-dim);
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 1px 0;
+  text-decoration: none;
+  transition: color 0.16s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.16s ease;
+}
+
+.item-thumb {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 0;
+  margin-left: 8px;
+  flex-shrink: 0;
+  display: inline-block;
+  opacity: 0.85;
+  transition: opacity 0.16s ease;
+}
+
+.item:hover .item-thumb {
+  opacity: 1;
+}
+
+.item.active .item-thumb {
+  opacity: 1;
+}
+
+.item-label {
+  display: inline-block;
+}
+
+.item:hover {
+  color: var(--text-bright);
+}
+
+.item:hover .item-count {
+  color: var(--text-muted);
+}
+
+.item.active {
+  color: var(--text-active);
+  font-weight: 500;
+}
+
+.item.active .item-count {
+  color: var(--text-muted);
+}
+
+.item-count {
+  font-size: 13px;
+  line-height: 1;
+  vertical-align: super;
+  letter-spacing: -0.02em;
+  color: var(--text-faint);
+  margin-left: 3px;
+  font-weight: 400;
+  transition: color 0.16s ease;
+  pointer-events: none;
+}
+
+/* Painel de detalhe / final */
+.detail-view {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  min-width: 260px;
+  max-width: 420px;
+  max-height: calc(100vh - var(--header-h) - 48px);
+  overflow-y: auto;
+  user-select: text;
+  animation: colEnter 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.detail-view.leaving {
+  animation: colLeave 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+.detail-view::-webkit-scrollbar {
+  display: none;
+}
+
+.detail-title {
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.detail-meta {
+  font-size: 12px;
+  line-height: 1.25;
+  color: var(--text-muted);
+  letter-spacing: -0.015em;
+}
+
+.detail-body {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-body);
+  letter-spacing: -0.015em;
+  white-space: pre-wrap;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.detail-body a, .detail-link {
+  color: var(--text-bright);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-link);
+  transition: border-color 0.16s ease;
+  width: fit-content;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.detail-body a:hover, .detail-link:hover {
+  border-color: var(--text-bright);
+}
+
+.detail-media {
+  max-width: 360px;
+  height: auto;
+  display: block;
+}
+
+.gallery-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 360px;
+}
+
+.gallery-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gallery-caption {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+}
+
+.result-path {
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text-faint);
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.result-item:hover .result-path {
+  color: var(--text-dim);
+}
+
+.empty-note {
+  font-size: 13px;
+  letter-spacing: -0.015em;
+  color: var(--text-faint);
+  padding-top: 2px;
+}
+</style>
 </head>
 <body>
+<div id="viewport">
 
-<!-- Loader Screen -->
-<div id="loader-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#847e72; z-index:99999; display:flex; justify-content:center; align-items:center; font-family:Helvetica, 'Helvetica Neue', Arial, sans-serif; color:#1e1e1c; pointer-events:all;">
-  <div style="font-size: 72px; font-weight: 900; letter-spacing:-0.05em;" id="loader-pct">0%</div>
-</div>
-
-<!-- Back to top -->
-<div id="btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">^</div>
-
-<!-- Page switch arrows with labels -->
-<div id="arrow-left" class="page-arrow arrow-left" onclick="navLeft()">
-  <span class="arrow-glyph">&larr;</span>
-  <span class="arrow-label" id="label-left">matesuposting</span>
-</div>
-<div id="arrow-right" class="page-arrow arrow-right" onclick="navRight()">
-  <span class="arrow-glyph">&rarr;</span>
-  <span class="arrow-label" id="label-right">serviços</span>
-</div>
-
-<!-- Page slider -->
-<div id="slider">
-
-<!-- ==================== PAGE 0: MATESUPOSTING ==================== -->
-<div id="page-blog" class="page-panel">
-<div class="page-inner">
-
-  <div class="masthead">
-    <h1>matesuposting</h1>
-    <div class="masthead-right">
-      <p class="masthead-line">journal / blog</p>
-      <br>
-      <p class="masthead-small">notes, thoughts, links</p>
-    </div>
-    <div style="clear:both"></div>
-  </div>
-
-  <div class="rule"></div>
-
-  <div class="section blog-section">
-    <div class="blog-body">
-      <p>sob construção. ainda pensando o que construir na verdade.</p>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <div id="footer">
-    matesuposting &mdash; São Paulo
-  </div>
-
-</div>
-</div>
-
-<!-- ==================== PAGE 1: PORTFOLIO ==================== -->
-<div id="page-portfolio" class="page-panel active-page">
-<div class="page-inner">
-
-  <!-- masthead -->
-  <div class="masthead">
-    <img src="logo/logo.png" alt="Matesu Logo" style="height: 130px; mix-blend-mode: multiply; display: block; margin-bottom: 12px;">
-    <h1>matesu</h1>
-    <div class="masthead-right">
-      <p class="masthead-line">produtor musical, engenheiro de áudio</p>
-      <p class="masthead-line">sound designer</p>
-      <br>
-      <p class="masthead-small">São Paulo, desde 2015</p>
-    </div>
-    <div style="clear:both"></div>
-  </div>
-
-  <div class="rule"></div>
-
-  <div id="nav">
-    <a href="#audio">audio</a>
-    <a href="#eventos">eventos</a>
-    <a href="#sobre">sobre</a>
-    <a href="#contato">contato</a>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- hero block -->
-  <div class="hero">
-    <div class="hero-photo">
-      <img src="fotos/BMV1-21.jpg" alt="Matesu" style="cursor: pointer;" onclick="togglePhoto(this)">
-      <div class="hero-navigators">
-        <a href="#" onclick="switchPage('blog'); return false;">matesuposting</a>
-        <span class="nav-divider">|</span>
-        <a href="#" onclick="switchPage('services'); return false;">serviços</a>
-        <span class="nav-divider">|</span>
-        <a href="#" onclick="switchPage('discography'); return false;">discografia</a>
+  <!-- Coluna fixa com informações reais -->
+  <aside id="sidebar">
+    <div class="sidebar-collapsed-hint" onclick="toggleSidebar(event)">matesu</div>
+    <div class="bio-top">
+      <div class="bio-photo-wrap">
+        <img class="bio-photo" src="fotos/BMV1-21.jpg" alt="matesu">
+      </div>
+      <div class="brand-name" onclick="toggleSidebar(event)" title="colapsar/expandir">matesu</div>
+      <div class="bio-text">
+        olá! aqui é onde organizo meus projetos & serviços. mas antes, sou matesu, <b>produtor musical</b>, <b>designer gráfico</b>, <b>desenvolvedor</b>, <b>fotógrafo</b>, <b>engenheiro de mixagem</b>, <b>dj</b>, <b>diretor criativo</b>, <b>social media</b> [...]. amo criar e explorar inúmeras formas de arte.
+      </div>
+      <div class="bio-text">
+        desde 2015 mantenho projetos entre setores audiovisuais diversos — trabalho com o <a href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo criado por <a href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e eu.
+      </div>
+      <div class="bio-text">
+        opero entre todo o espectro eletrônico e além. sempre aberto a novos desafios e elaborações.
+      </div>
+      <div class="bio-links">
+        <a href="mailto:matesubeats@gmail.com">matesubeats@gmail.com</a>
+        <a href="https://instagram.com/9matesu" target="_blank" rel="noopener">instagram</a>
+        <a href="https://matesu.bandcamp.com" target="_blank" rel="noopener">bandcamp</a>
+        <a href="https://www.behance.net/matesu" target="_blank" rel="noopener">behance</a>
+        <a href="https://github.com/9matesu" target="_blank" rel="noopener">github</a>
       </div>
     </div>
-
-    <div class="hero-bio">
-      olá! aqui é onde organizo meus projetos &amp; serviços. mas antes, sou matesu, <span class="role-tag">produtor músical</span>, <span class="role-tag">designer gráfico</span>, <span class="role-tag">desenvolvedor</span>, <span class="role-tag">fotógrafo</span>, <span class="role-tag">engenheiro de mixagem</span>, <span class="role-tag">dj</span>, <span class="role-tag">diretor criativo</span>, <span class="role-tag">social media</span> [...]. amo criar e explorar inúmeras formas de arte. desde 2015 mantenho projetos entre setores audiovisuais diversos — trabalho com o <a href="https://instagram.com/blackmesaent" target="_blank">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank">bloodworm trax</a>, meu selo voltado para as correntes artísticas interioranas de são paulo criado por <a href="https://www.instagram.com/rafao_wav" target="_blank">rafao</a> e eu.
-      <br><br>
-      opero entre todo o espectro eletrônico e além. sempre aberto a novos desafios e elaborações.
-      <br><br>
-      aqui também toco o <a href="#" onclick="switchPage('blog'); return false;">"matesuposting"</a>, meu caderno não-tão-privado de ideias e regurgitações (apenas pelo livre arbítrio, faça igual a mim e vá ler!)
-      <br><br>
-      <b>interessado em me contactar ou ver o que precisa para que trabalhemos junto? acesse a página de serviços ou confira os contatos abaixo.</b>
+    <div class="bio-footer">
+      <span>matesu &mdash; 2026</span>
+      <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="alternar tema">claro</button>
     </div>
-  </div>
+  </aside>
 
-  <div class="rule"></div>
+  <!-- Coluna principal -->
+  <div id="main">
 
-  <!-- BSE TEE RESTOCK SECTION -->
-  <div class="section bse-restock-section">
-    <h2 class="bse-title">RESTOCK IRAN <span class="bse-subtitle">(bulgaria stock exchange)</span></h2>
-    <div class="bse-content">
-      <div class="bse-images">
-        <a href="https://plazaaaaa.com/product/2340" target="_blank" class="bse-img-link">
-          <img src="img/bse/frente.png" alt="Bulgaria Stock Exchange Tee - Frente">
-          <span class="bse-img-caption">frente</span>
-        </a>
-        <a href="https://plazaaaaa.com/product/2340" target="_blank" class="bse-img-link">
-          <img src="img/bse/costas.png" alt="Bulgaria Stock Exchange Tee - Costas">
-          <span class="bse-img-caption">costas</span>
-        </a>
+    <header id="topbar">
+      <div class="search-field">
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.4" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+          <path d="M10.4 10.4 L14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+        </svg>
+        <input id="search" type="search" placeholder="buscar" autocomplete="off" spellcheck="false" aria-label="buscar">
+        <button id="search-clear" class="search-clear" type="button" aria-label="limpar busca" hidden>&times;</button>
       </div>
-      <div class="bse-action">
-        <a href="https://plazaaaaa.com/product/2340" target="_blank" class="bse-cta-link">
-          ACESSE NO PLAZAAAAA &rarr;
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- FLYERS GALLERY -->
-  <div class="section">
-    <h2>coisas novas</h2>
-    
-    <div class="flyer-grid">
-      <!-- 1. TRACKMESA -->
-      <div class="flyer-card flyer-asym-1">
-        <div class="flyer-slider-wrapper" onclick="cycleFlyer('trackmesa', 3)">
-          <div class="flyer-slider" id="slider-trackmesa" style="transform: translateX(0%);">
-            <img src="img/trackmesa/1.png" alt="TRACKMESA V1">
-            <img src="img/trackmesa/2.png" alt="TRACKMESA V2">
-            <img src="img/trackmesa/3.png" alt="TRACKMESA V3">
-          </div>
-          <div class="flyer-overlay-title">TRACKMESA - 10/07/2026</div>
-          <div class="flyer-dots" id="dots-trackmesa">
-            <button class="flyer-dot active" onclick="event.stopPropagation(); slideFlyer('trackmesa', 0, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('trackmesa', 1, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('trackmesa', 2, this)"></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2. SIMPATIA -->
-      <div class="flyer-card flyer-asym-2">
-        <div class="flyer-slider-wrapper" onclick="cycleFlyer('simpatia', 4)">
-          <div class="flyer-slider" id="slider-simpatia" style="transform: translateX(0%);">
-            <img src="img/simpatia/CAPA 3000X3000_1.png" alt="SIMPATIA Capa">
-            <img src="img/simpatia/CONTRA CAPA_1_1.png" alt="SIMPATIA Contra Capa V1">
-            <img src="img/simpatia/CONTRA CAPA_1_2.png" alt="SIMPATIA Contra Capa V2">
-            <img src="img/simpatia/CONTRA CAPA_1_3.png" alt="SIMPATIA Contra Capa V3">
-          </div>
-          <div class="flyer-overlay-title">Simpatia - 20/05/2025</div>
-          <div class="flyer-dots" id="dots-simpatia">
-            <button class="flyer-dot active" onclick="event.stopPropagation(); slideFlyer('simpatia', 0, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('simpatia', 1, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('simpatia', 2, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('simpatia', 3, this)"></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. FLASHDAY -->
-      <div class="flyer-card flyer-asym-3">
-        <div class="flyer-slider-wrapper" onclick="cycleFlyer('flashday', 2)">
-          <div class="flyer-slider" id="slider-flashday" style="transform: translateX(0%);">
-            <img src="img/flashday/FLASHDAY1 F.png" alt="FLASHDAY V1">
-            <img src="img/flashday/FLASHDAY2 Variacao.png" alt="FLASHDAY V2">
-          </div>
-          <div class="flyer-overlay-title">Flashday - 16/04/2025</div>
-          <div class="flyer-dots" id="dots-flashday">
-            <button class="flyer-dot active" onclick="event.stopPropagation(); slideFlyer('flashday', 0, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('flashday', 1, this)"></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. BSE -->
-      <div class="flyer-card flyer-asym-4">
-        <div class="flyer-slider-wrapper" onclick="cycleFlyer('bse', 2)">
-          <div class="flyer-slider" id="slider-bse" style="transform: translateX(0%);">
-            <img src="img/bse/frente.png" alt="BSE Frente">
-            <img src="img/bse/costas.png" alt="BSE Costas">
-          </div>
-          <div class="flyer-overlay-title">bulgarian stock exchange / iran tee 2025</div>
-          <div class="flyer-dots" id="dots-bse">
-            <button class="flyer-dot active" onclick="event.stopPropagation(); slideFlyer('bse', 0, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('bse', 1, this)"></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. MISC (Hidden) -->
-      <div class="flyer-card flyer-asym-5 flyer-hidden">
-        <div class="flyer-slider-wrapper" onclick="cycleFlyer('misc', 3)">
-          <div class="flyer-slider" id="slider-misc" style="transform: translateX(0%);">
-            <img src="img/misc/BROUS_FLYER_2908.png" alt="Brous Flyer">
-            <img src="img/misc/vault2_FINAL_3.png" alt="Vault 2 Flyer">
-            <img src="img/misc/1_1.png" alt="Misc Flyer V3">
-          </div>
-          <div class="flyer-overlay-title">Misc - 17/12/2025</div>
-          <div class="flyer-dots" id="dots-misc">
-            <button class="flyer-dot active" onclick="event.stopPropagation(); slideFlyer('misc', 0, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('misc', 1, this)"></button>
-            <button class="flyer-dot" onclick="event.stopPropagation(); slideFlyer('misc', 2, this)"></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. BMHZ0 (Hidden) -->
-      <div class="flyer-card flyer-asym-6 flyer-hidden">
-        <div class="flyer-slider-wrapper" onclick="cycleFlyer('bmhz0', 1)">
-          <div class="flyer-slider" id="slider-bmhz0" style="transform: translateX(0%);">
-            <img src="img/bmhz0/1. FRENTE.png" alt="BLACKMESA HZ Frente">
-          </div>
-          <div class="flyer-overlay-title">BMHZ0 - 07/06/2026</div>
-          <div class="flyer-dots" id="dots-bmhz0">
-            <button class="flyer-dot active" onclick="event.stopPropagation(); slideFlyer('bmhz0', 0, this)"></button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="expand-container">
-      <button id="btn-expand-flyers" onclick="expandFlyers()">▼</button>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- AUDIO -->
-  <a name="audio"></a>
-  <div class="section">
-    <h2>Audio</h2>
-    <p class="section-note">produção, co-produção, mixagem, masterização, sound design</p>
-
-    <div class="year-block"><div class="year-tag">2026</div><div class="entries-grid">
-      <div class="entry"><a href="https://matesu.bandcamp.com/album/sp-150" target="_blank"><img src="https://f4.bcbits.com/img/a0810066149_10.jpg" alt="SP-150"></a><div class="entry-info"><a href="https://matesu.bandcamp.com/album/sp-150" target="_blank">SP-150</a><span>Matesu</span></div></div>
-      <div class="entry"><a href="https://open.spotify.com/intl-pt/album/5FB5mskX1Lw8Df9WtBrmx9" target="_blank"><img src="https://i.scdn.co/image/ab67616d0000b273a5eac25f150d780244a64390" alt="ON"></a><div class="entry-info"><a href="https://open.spotify.com/intl-pt/album/5FB5mskX1Lw8Df9WtBrmx9" target="_blank">ON</a><span>Cassiel</span></div></div>
-    </div></div>
-
-    <div class="year-block"><div class="year-tag">2025</div><div class="entries-grid">
-      <div class="entry"><a href="https://open.spotify.com/intl-pt/album/3wsJA1PCrPZBRKCJNFdhOJ?si=K7X_vVBpSYi23g3Nw7QoRA" target="_blank"><img src="https://i.scdn.co/image/ab67616d0000b273025189b581cf8215b2181a83" alt="VELUDO"></a><div class="entry-info"><a href="https://open.spotify.com/intl-pt/album/3wsJA1PCrPZBRKCJNFdhOJ?si=K7X_vVBpSYi23g3Nw7QoRA" target="_blank">VELUDO</a><span>Meio Feel</span></div></div>
-      <div class="entry"><a href="https://soundcloud.com/100close/sets/napistaeh100close" target="_blank"><img src="https://i1.sndcdn.com/artworks-g3j3E9IMXgupsfc3-CAzwLg-t500x500.jpg" alt="100CLOSE"></a><div class="entry-info"><a href="https://soundcloud.com/100close/sets/napistaeh100close" target="_blank">NA PISTA EH 100CLOSE</a><span>100CLOSE</span></div></div>
-      <div class="entry"><a href="https://soundcloud.com/trackswing/matesu-de-cima-p-baixo-8" target="_blank"><img src="https://i1.sndcdn.com/artworks-lZBWDzlws8Us0N7y-pa6VDg-t500x500.png" alt="Trackswing"></a><div class="entry-info"><a href="https://soundcloud.com/trackswing/matesu-de-cima-p-baixo-8" target="_blank">VOLT-AMPERE</a><span>Trackswing</span></div></div>
-      <div class="entry"><a href="https://kenyonsound.bandcamp.com/album/emotion-engine-ep" target="_blank"><img src="https://f4.bcbits.com/img/a2661437354_10.jpg" alt="Kenyon Sound"></a><div class="entry-info"><a href="https://kenyonsound.bandcamp.com/album/emotion-engine-ep" target="_blank">Emotion Engine</a><span>Kenyon Sound</span></div></div>
-      <div class="entry"><a href="https://www.youtube.com/watch?v=Dzny9n9tY-4" target="_blank"><img src="https://i.scdn.co/image/ab67616d00001e026d35f6f1c381cc45f48714bf" alt="Chibanca"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=Dzny9n9tY-4" target="_blank">monocromia</a><span>Chibanca</span></div></div>
-      <div class="entry"><a href="https://open.spotify.com/intl-pt/album/11oF0SQtRXc5T9CKQ25u2w" target="_blank"><img src="https://i.scdn.co/image/ab67616d00001e02b815955260ca23bb489c9450" alt="Godar"></a><div class="entry-info"><a href="https://open.spotify.com/intl-pt/album/11oF0SQtRXc5T9CKQ25u2w" target="_blank">Toda Noite Busco o Sol</a><span>Godar</span></div></div>
-      <div class="entry"><a href="https://open.spotify.com/intl-pt/album/0EXtPdqyeDT5WL4oOfoUqs" target="_blank"><img src="https://i.scdn.co/image/ab67616d0000b273fe9a07daab501e61183568b5" alt="Sousx"></a><div class="entry-info"><a href="https://open.spotify.com/intl-pt/album/0EXtPdqyeDT5WL4oOfoUqs" target="_blank">Contratempo</a><span>Sousx</span></div></div>
-    </div></div>
-
-    <div class="year-block"><div class="year-tag">2024</div><div class="entries-grid">
-      <div class="entry"><a href="https://www.youtube.com/watch?v=WfPJ0qqlD1U" target="_blank"><img src="https://i1.sndcdn.com/artworks-VHgP4ikm9Njpbhvr-nNMVHg-t500x500.jpg" alt="Sucateiro"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=WfPJ0qqlD1U" target="_blank">Santa Sucata</a><span>Sucateiro</span></div></div>
-      <div class="entry"><a href="https://open.spotify.com/intl-pt/album/001lOKSKlegQH94zWVrRlP" target="_blank"><img src="https://f4.bcbits.com/img/a2572503252_10.jpg" alt="bloodworm trax"></a><div class="entry-info"><a href="https://open.spotify.com/intl-pt/album/001lOKSKlegQH94zWVrRlP" target="_blank">Lagerhaus I</a><span>bloodworm trax</span></div></div>
-      <div class="entry"><a href="https://www.youtube.com/watch?v=DSLdrArsBx8" target="_blank"><img src="https://i.scdn.co/image/ab67616d00001e023186b15d7d5668daa9a5922c" alt="Bruno Kroz"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=DSLdrArsBx8" target="_blank">Insonia Kurt</a><span>Bruno Kroz</span></div></div>
-      <div class="entry"><a href="https://www.youtube.com/watch?v=6w2wfMiLKt0" target="_blank"><img src="https://f4.bcbits.com/img/a3870683813_10.jpg" alt="SPEEDTEST"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=6w2wfMiLKt0" target="_blank">VOLT MIX: O Retorno</a><span>SPEEDTEST</span></div></div>
-      <div class="entry"><a href="https://blackmesaent.bandcamp.com/album/blackmesa-i-bootlegs" target="_blank"><img src="https://f4.bcbits.com/img/a2622922340_10.jpg" alt="BLACKMESA"></a><div class="entry-info"><a href="https://blackmesaent.bandcamp.com/album/blackmesa-i-bootlegs" target="_blank">BLACKMESA I</a><span>BLACKMESA</span></div></div>
-    </div></div>
-
-    <div class="year-block"><div class="year-tag">2023</div><div class="entries-grid">
-      <div class="entry"><a href="https://open.spotify.com/intl-pt/album/2n3HPrjyYq9ot3g5PnX168" target="_blank"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9c/36/4a/9c364a3b-f1c5-bbbc-f7ef-911d8eabb7a6/0.jpg/1200x630bb.jpg" alt="JPEGO"></a><div class="entry-info"><a href="https://open.spotify.com/intl-pt/album/2n3HPrjyYq9ot3g5PnX168" target="_blank">Rtmz #001</a><span>JPEGO, F.A</span></div></div>
-      <div class="entry"><a href="https://open.spotify.com/intl-pt/track/1E6nJWNp5zZkDjql2RPGV3" target="_blank"><img src="https://source.boomplaymusic.com/group10/M00/09/15/3ff6f7f1f4184f9ba58fda3ee7e27a9a_320_320.jpg" alt="Kiddo"></a><div class="entry-info"><a href="https://open.spotify.com/intl-pt/track/1E6nJWNp5zZkDjql2RPGV3" target="_blank">RENC RENC</a><span>Beat do Avila, Kiddo, Igao Senhagah</span></div></div>
-    </div></div>
-
-    <div class="year-block"><div class="year-tag">2022</div><div class="entries-grid">
-      <div class="entry"><a href="https://www.instagram.com/reel/CcRaWSvDr89/" target="_blank"><img src="https://cdn.prod.website-files.com/65b0367ee6efd0c53e2e8279/65f492f5a509d475cc7bea39_SKATEDECK-p-500.png" alt="Sanches"></a><div class="entry-info"><a href="https://www.instagram.com/reel/CcRaWSvDr89/" target="_blank">skate deck 2.0</a><span>Sanches</span></div></div>
-      <div class="entry"><a href="https://www.instagram.com/reel/CkI3Mopgzr_/" target="_blank"><img src="https://img.odcdn.com.br/wp-content/uploads/2022/10/c619ddbc-be44-4c36-ba66-82df60ca6980.jpg" alt="HyperX"></a><div class="entry-info"><a href="https://www.instagram.com/reel/CkI3Mopgzr_/" target="_blank">Trilha BGS 2022</a><span>HyperX</span></div></div>
-      <div class="entry"><a href="https://www.youtube.com/watch?v=bIFGnQs1GIc" target="_blank"><img src="https://f4.bcbits.com/img/a2313035071_10.jpg" alt="Fernando Kep"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=bIFGnQs1GIc" target="_blank">FAT KEP</a><span>Fernando Kep</span></div></div>
-      <div class="entry"><a href="https://www.youtube.com/watch?v=Pa8oGNu-EDU" target="_blank"><img src="https://i.scdn.co/image/ab67616d0000b273259499b6b84db5e8b8c2b1bf" alt="Godar"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=Pa8oGNu-EDU" target="_blank">Trilha Sonora</a><span>Godar</span></div></div>
-      <div class="entry"><a href="https://www.youtube.com/watch?v=0_Qvl4QCxGg" target="_blank"><img src="https://source.boomplaymusic.com/group10/M00/03/24/78f2e0a4a7db43ccb0270da142ddc32c_320_320.jpg" alt="Meio Feel"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=0_Qvl4QCxGg" target="_blank">Begonia</a><span>Meio Feel</span></div></div>
-    </div></div>
-
-    <div class="year-block"><div class="year-tag">2021</div><div class="entries-grid">
-      <div class="entry"><a href="https://www.youtube.com/watch?v=wSRC0XdE0DA" target="_blank"><img src="https://i.scdn.co/image/ab67616d00001e02c6b48ac716ac3e0a6a62040a" alt="Bruno Kroz"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=wSRC0XdE0DA" target="_blank">Ameaca Detectada</a><span>Bruno Kroz</span></div></div>
-      <div class="entry"><a href="https://zonaexp.bandcamp.com/track/matesu-canato-zona0800-13" target="_blank"><img src="https://f4.bcbits.com/img/a1925775572_16.jpg" alt="zonaEXP."></a><div class="entry-info"><a href="https://zonaexp.bandcamp.com/track/matesu-canato-zona0800-13" target="_blank">Canato [ZONA0800-13]</a><span>zonaEXP.</span></div></div>
-    </div></div>
-
-    <div class="year-block"><div class="year-tag">2020</div><div class="entries-grid">
-      <div class="entry"><a href="https://www.youtube.com/watch?v=fKQgYRVkFzs" target="_blank"><img src="https://cdn-images.dzcdn.net/images/cover/26cc552d150133e6d5a680992cbfc612/0x1900-000000-80-0-0.jpg" alt="ANTCONSTANTINO"></a><div class="entry-info"><a href="https://www.youtube.com/watch?v=fKQgYRVkFzs" target="_blank">Intraterreno</a><span>ANTCONSTANTINO</span></div></div>
-    </div></div>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- EVENTOS -->
-  <a name="eventos"></a>
-  <div class="section">
-    <h2>Próximos Eventos</h2>
-    <p class="section-note">datas e locais de apresentações</p>
-    <ul class="events-list">
-      <li>
-        <span>(10/07/2026)</span> &mdash; <a href="https://zig.tickets/eventos/trackmesa" target="_blank">TRACKMESA</a>, Void Centro, São Paulo
-      </li>
-    </ul>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- SOBRE -->
-  <a name="sobre"></a>
-  <div class="section">
-    <h2>Sobre</h2>
-    <div class="about-cols">
-      <div class="about-left">
-        <p>Matesu é DJ e produtor musical desde 2015. Nascido no fundo do Vale do Paraíba, interior de São Paulo, encontrou seu caminho entre as muitas facetas da música eletrônica. De forma técnica, e assim é traduzida sua paixão pela música, constantemente procura formas de decompor o limite das próprias ferramentas, o que ressoa em sua sonoridade: sempre acompanhada de variados graus de experimentação e turbulência, seja de maneira introspectiva ou explosiva. Desde os 11 anos acompanha e participa no desenvolvimento de diversos nichos do substrato musical eletrônico brasileiro, operando principalmente do House ao Jungle, do UK Garage ao Grime e do Techno ao Ambiente.</p>
-      </div>
-      <div class="about-right">
-        <p>Inserido no circuito underground eletrônico brasileiro, já colaborou com figuras relevantes dentro e fora do país ao longo do tempo: ZONAexp, SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, além de aparições na Rinse FM, NTS Radio, Function!, Veneno, Foundation FM, HÖR, Dekmantel e Aaja Music. É co-fundador do selo "<a href="https://bloodwormtrax.neocities.org" target="_blank">bloodworm trax</a>" e integrante do coletivo artístico <a href="https://instagram.com/blackmesaent" target="_blank">BLACKMESA</a>.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- CONTATO -->
-  <a name="contato"></a>
-  <div class="section">
-    <h2>Contato</h2>
-    <div class="contact-cols">
-      <div class="contact-col"><a href="mailto:matesubeats@gmail.com">matesubeats@gmail.com</a><br><a href="https://instagram.com/9matesu" target="_blank">instagram</a><br><a href="https://matesu.bandcamp.com" target="_blank">bandcamp</a></div>
-      <div class="contact-col"><a href="https://www.behance.net/matesu" target="_blank">behance</a><br><a href="https://instagram.com/matesuposting" target="_blank">fotografia</a><br><a href="https://github.com/9matesu" target="_blank">github</a></div>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-  <div id="footer" style="text-align: center;">matesu - 2026</div>
-
-</div>
-</div>
-
-<!-- ==================== PAGE 2: SERVICOS ==================== -->
-<div id="page-services" class="page-panel">
-<div class="page-inner">
-
-  <div class="masthead">
-    <h1>serviços</h1>
-    <div class="masthead-right">
-      <p class="masthead-line">mixagem &amp; masterização</p>
-      <br>
-      <p class="masthead-small">matesu, São Paulo</p>
-    </div>
-    <div style="clear:both"></div>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- description -->
-  <div class="section">
-    <h2>Diretrizes e Guias</h2>
-    <div class="about-cols">
-      <div class="about-left">
-        <p><b>Diretrizes para Mixagem:</b></p>
-        <p>&bull; Os arquivos (stems) deverão ser enviados em formato <b>.wav</b>, em <b>24 bits</b> e no mínimo <b>44.1kHz</b>.</p>
-        <p>&bull; Certifique-se de que nenhuma faixa de áudio possui artefatos indesejados, tais como ruídos e clipping – caso não seja deliberado.</p>
-        <p>&bull; Certifique-se de que todas as faixas de áudio estão presentes no arquivo compactado/na pasta.</p>
-        <p>&bull; O serviço de tuning/afinamento de vocais <b>não está presente</b> no pacote.</p>
-        <p>&bull; Deverá ser explicitado no pedido: prazo de entrega, referência sônica do projeto e especificações técnicas de preferência para o arquivo final.</p>
-      </div>
-      <div class="about-right">
-        <p><b>Arquivos Finais:</b></p>
-        <p>A mix final poderá ser enviada no formato de preferência do cliente. Caso não seja explicitado, 2 arquivos serão exportados:</p>
-        <p>&bull; Uma faixa em <b>.wav, 24 bits, 44.1khz sem headroom</b></p>
-        <p>&bull; Uma faixa em <b>.wav, 24 bits, 44.1khz com headroom de -6db</b></p>
-        <br>
-        <p><b>Upload dos Arquivos:</b></p>
-        <p>Os arquivos serão enviados à plataforma de preferência do cliente ou por meio do Google Drive. Caso não seja explicitado, o upload será feito no <b>Google Drive</b>, com tempo limite de <b>7 dias</b> para o download. O arquivo poderá ser reenviado a pedido do cliente.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- price simulator -->
-  <div class="section">
-    <h2>Simulador de Preços</h2>
-    <p class="section-note">valores estimados, sujeitos a alteração após avaliação do projeto</p>
-
-    <div class="price-sim">
-      <div class="price-row">
-        <label class="price-label" for="srv-type">serviço</label>
-        <select id="srv-type" class="price-select" onchange="calcPrice()">
-          <option value="mix">mixagem</option>
-          <option value="master">masterização</option>
-          <option value="mixmaster">mix + master</option>
-        </select>
-      </div>
-
-      <div class="price-row">
-        <label class="price-label" for="srv-tracks">faixas</label>
-        <input type="number" id="srv-tracks" class="price-input" value="1" min="1" max="30" onchange="calcPrice()" oninput="calcPrice()">
-      </div>
-
-      <div class="price-row">
-        <label class="price-label">urgência</label>
-        <select id="srv-rush" class="price-select" onchange="calcPrice()">
-          <option value="normal">normal (7-14 dias)</option>
-          <option value="rush">urgente (+50%)</option>
-        </select>
-      </div>
-
-      <div class="rule-light"></div>
-
-      <div class="price-result">
-        <span class="price-result-label">estimativa</span>
-        <span style="display: inline-flex; align-items: baseline; gap: 8px;">
-          <span class="price-result-value" id="price-output">R$ 200</span>
-          <span id="discount-output" style="font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: bold; color: #0000ff; display: none;"></span>
-        </span>
-      </div>
-      <p class="price-note" id="price-negotiable-note" style="display: none; color: #b03030; font-weight: bold; margin-bottom: 4px;">*valor negociável para pacotes acima de 5 faixas</p>
-      <p class="price-note">valores iniciais. preco final definido apos avaliacao do material.</p>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <!-- request form -->
-  <div class="section">
-    <h2>Solicitar Serviço</h2>
-    <p class="section-note">envie uma demo em mp3 (max 15mb) para avaliação</p>
-
-    <form id="service-form" action="https://formsubmit.co/matesubeats@gmail.com" method="POST" enctype="multipart/form-data" onsubmit="submitForm(event)">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_subject" value="Nova Solicitação de Serviço - Matesu">
-      
-      <div class="form-cols">
-        <div class="form-col-left">
-
-          <div class="form-group">
-            <label class="form-label" for="f-name">nome</label>
-            <input type="text" id="f-name" name="nome" class="form-field" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="f-email">email</label>
-            <input type="email" id="f-email" name="email" class="form-field" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="f-phone">telefone</label>
-            <input type="text" id="f-phone" name="telefone" class="form-field" placeholder="(11) 99999-9999">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="f-service">serviço</label>
-            <select id="f-service" name="serviço" class="form-field">
-              <option value="mixagem">mixagem</option>
-              <option value="masterização">masterização</option>
-              <option value="mix+master">mix + master</option>
-              <option value="outro">outro</option>
+      <span id="results-count" class="results-count" hidden></span>
+      <div class="topbar-controls">
+        <label class="control">
+          <span class="control-label">filtro</span>
+          <span class="select-wrap">
+            <select id="filter" aria-label="filtrar por seção">
+              <option value="all">tudo</option>
+              <option value="design">design</option>
+              <option value="música">música</option>
+              <option value="cultura">cultura</option>
+              <option value="desenvolvimento">desenvolvimento</option>
+              <option value="matesuposting">matesuposting</option>
             </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="f-desc">descrição do projeto</label>
-            <textarea id="f-desc" name="descrição" class="form-field form-textarea" rows="5" placeholder="gênero, numero de faixas, prazo, referencias..."></textarea>
-          </div>
-
-        </div>
-
-        <div class="form-col-right">
-
-          <!-- file drop zone -->
-          <div class="form-group">
-            <label class="form-label">demo (mp3, max 15mb)</label>
-            <div id="drop-zone" class="drop-zone" onclick="document.getElementById('f-file').click()">
-              <input type="file" id="f-file" name="attachment" accept=".mp3,audio/mpeg" style="display:none" onchange="handleFile(this.files)">
-              <div id="drop-prompt" class="drop-prompt">
-                <span class="drop-icon">&#9834;</span><br>
-                arraste um mp3 aqui<br>
-                <span class="drop-or">ou clique para selecionar</span>
-              </div>
-              <div id="drop-preview" class="drop-preview" style="display:none">
-                <span class="drop-filename" id="drop-filename"></span><br>
-                <span class="drop-filesize" id="drop-filesize"></span><br>
-                <audio id="drop-audio" controls class="drop-audio"></audio><br>
-                <span class="drop-remove" onclick="removeFile(event)">remover</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
+          </span>
+        </label>
+        <label class="control">
+          <span class="control-label">ordem</span>
+          <span class="select-wrap">
+            <select id="sort" aria-label="ordenar">
+              <option value="natural">natural</option>
+              <option value="az">a-z</option>
+              <option value="za">z-a</option>
+              <option value="recent">recentes</option>
+            </select>
+          </span>
+        </label>
       </div>
+    </header>
 
-      <div class="form-actions">
-        <button type="submit" class="form-btn">enviar solicitação</button>
-      </div>
-      <div id="form-msg" class="form-msg"></div>
-    </form>
+    <!-- Navegação contínua -->
+    <main id="stage"></main>
+
   </div>
-
-  <div class="rule"></div>
-
-  <!-- FOOTER CONTATOS SECTION -->
-  <div id="contato" class="section footer-contatos-section">
-    <div class="footer-contatos-header">
-      <span class="footer-contatos-title">CONTATO &amp; LINKS</span>
-    </div>
-    <ul class="footer-contatos-list">
-      <li><span class="contato-label">instagram:</span> <a href="https://instagram.com/9matesu" target="_blank">@9matesu</a></li>
-      <li><span class="contato-label">bandcamp:</span> <a href="https://matesu.bandcamp.com" target="_blank">matesu</a></li>
-      <li><span class="contato-label">soundcloud:</span> <a href="https://soundcloud.com/9matesu" target="_blank">@9matesu</a></li>
-      <li><span class="contato-label">behance:</span> <a href="https://www.behance.net/matesu" target="_blank">matesu</a></li>
-      <li><span class="contato-label">fotografia:</span> <a href="https://instagram.com/matesuposting" target="_blank">@matesuposting</a></li>
-      <li><span class="contato-label">github:</span> <a href="https://github.com/9matesu" target="_blank">9matesu</a></li>
-      <li><span class="contato-label">e-mail:</span> <a href="mailto:matesubeats@gmail.com">matesubeats@gmail.com</a></li>
-    </ul>
-  </div>
-
-  <div class="rule"></div>
-
-  <div id="footer">matesu &mdash; São Paulo</div>
 
 </div>
-</div>
 
-<!-- ==================== PAGE 3: DISCOGRAFIA ==================== -->
-<section id="page-discography" class="page-panel">
-<div class="page-inner">
-
-  <div class="masthead">
-    <h1>discografia</h1>
-    <div class="masthead-right">
-      <p class="masthead-line">catalogo completo</p>
-      <br>
-      <p class="masthead-small">matesu</p>
-    </div>
-    <div style="clear:both"></div>
-  </div>
-
-  <div class="rule"></div>
-
-  <div class="section">
-    <h2>library</h2>
-    <p class="section-note">todas as faixas e releases</p>
-
-    <!-- sticky cart bar -->
-    <div class="disco-cart-bar" id="disco-cart-bar" style="display:none;">
-      <div class="disco-cart-bar-left">
-        <span>carrinho</span>
-        <span class="disco-cart-count" id="disco-cart-count">0</span>
-        <span id="disco-cart-total">R$ 0,00</span>
-      </div>
-      <div class="disco-cart-actions">
-        <button class="disco-cart-btn" onclick="discoOpenCartModal()">ver carrinho &amp; checkout &rarr;</button>
-        <button class="disco-cart-btn" onclick="discoClearCart()" style="background:none; border-color:#847e72; color:#847e72;">limpar</button>
-      </div>
-    </div>
-
-    <div id="discography-root"></div>
-  </div>
-
-  <!-- sticky player bar -->
-  <div class="disco-player" id="disco-player">
-    <button class="disco-playbtn" id="disco-playbtn" onclick="discoTogglePlay()">&#9654;</button>
-    <span class="disco-now-title" id="disco-now-title">—</span>
-    <input type="range" class="disco-seek" id="disco-seek" value="0" min="0" max="1" step="0.001" oninput="discoSeek(this.value)">
-    <span class="disco-time" id="disco-time">00:00 / 00:00</span>
-  </div>
-
-  <div class="rule"></div>
-  <div id="footer">matesu discografia &mdash; São Paulo</div>
-
-</div>
-</section>
-
-</div><!-- /slider -->
-
-<!-- transition overlay -->
-<div id="transition-overlay"></div>
-
-<script type="text/javascript">
-// Pages: 0=blog, 1=portfolio, 2=services, 3=discography
-var pages = ['blog', 'portfolio', 'services', 'discography'];
-var pageLabels = {
-  blog: 'matesuposting',
-  portfolio: 'portfolio',
-  services: 'serviços',
-  discography: 'discografia'
-};
-var currentIdx = 1; // start on portfolio
-var isTransitioning = false;
-
-function updateArrows() {
-  var arrowL = document.getElementById('arrow-left');
-  var arrowR = document.getElementById('arrow-right');
-  var labelL = document.getElementById('label-left');
-  var labelR = document.getElementById('label-right');
-
-  if (currentIdx === 0) {
-    arrowL.style.display = 'none';
-  } else {
-    arrowL.style.display = 'flex';
-    labelL.textContent = pageLabels[pages[currentIdx - 1]];
-  }
-
-  if (currentIdx === pages.length - 1) {
-    arrowR.style.display = 'none';
-  } else {
-    arrowR.style.display = 'flex';
-    labelR.textContent = pageLabels[pages[currentIdx + 1]];
-  }
-}
-
-function navLeft() {
-  if (currentIdx > 0) goToPage(currentIdx - 1);
-}
-
-function navRight() {
-  if (currentIdx < pages.length - 1) goToPage(currentIdx + 1);
-}
-
-function switchPage(name) {
-  var idx = pages.indexOf(name);
-  if (idx !== -1) goToPage(idx);
-}
-
-function goToPage(idx) {
-  if (isTransitioning || idx === currentIdx) return;
-  isTransitioning = true;
-
-  var overlay = document.getElementById('transition-overlay');
-  overlay.className = 'fade-in';
-
-  setTimeout(function() {
-    window.scrollTo(0, 0);
-
-    // hide all, show target
-    var panels = document.querySelectorAll('.page-panel');
-    for (var i = 0; i < panels.length; i++) {
-      panels[i].style.display = 'none';
-      panels[i].className = 'page-panel';
-    }
-    var targetId = 'page-' + pages[idx];
-    var target = document.getElementById(targetId);
-    target.style.display = 'block';
-    target.className = 'page-panel active-page';
-
-    currentIdx = idx;
-    updateArrows();
-
-    overlay.className = 'fade-out';
-
-    setTimeout(function() {
-      overlay.className = '';
-      isTransitioning = false;
-    }, 400);
-  }, 350);
-}
-
-updateArrows();
-
-// back-to-top visibility
-window.onscroll = function() {
-  var btn = document.getElementById('btn-top');
-  btn.className = window.scrollY > 300 ? 'visible' : '';
-};
-
-// ---- File drop handling ----
-var dropZone = document.getElementById('drop-zone');
-var uploadedFile = null;
-
-dropZone.addEventListener('dragover', function(e) {
-  e.preventDefault();
-  dropZone.classList.add('drop-hover');
-});
-
-dropZone.addEventListener('dragleave', function(e) {
-  e.preventDefault();
-  dropZone.classList.remove('drop-hover');
-});
-
-dropZone.addEventListener('drop', function(e) {
-  e.preventDefault();
-  dropZone.classList.remove('drop-hover');
-  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files);
-});
-
-function handleFile(files) {
-  if (!files || !files.length) return;
-  var file = files[0];
-
-  // validate
-  if (file.type !== 'audio/mpeg' && !file.name.toLowerCase().endsWith('.mp3')) {
-    alert('apenas arquivos mp3');
-    return;
-  }
-  if (file.size > 15 * 1024 * 1024) {
-    alert('arquivo muito grande (max 15mb)');
-    return;
-  }
-
-  uploadedFile = file;
-
-  document.getElementById('drop-prompt').style.display = 'none';
-  document.getElementById('drop-preview').style.display = 'block';
-  document.getElementById('drop-filename').textContent = file.name;
-  document.getElementById('drop-filesize').textContent = (file.size / (1024*1024)).toFixed(2) + ' mb';
-
-  var audio = document.getElementById('drop-audio');
-  audio.src = URL.createObjectURL(file);
-}
-
-function removeFile(e) {
-  e.stopPropagation();
-  uploadedFile = null;
-  document.getElementById('f-file').value = '';
-  document.getElementById('drop-prompt').style.display = 'block';
-  document.getElementById('drop-preview').style.display = 'none';
-  var audio = document.getElementById('drop-audio');
-  if (audio.src) URL.revokeObjectURL(audio.src);
-  audio.src = '';
-}
-
-// ---- Price simulator ----
-function calcPrice() {
-  var type = document.getElementById('srv-type').value;
-  var tracks = parseInt(document.getElementById('srv-tracks').value) || 1;
-  var rush = document.getElementById('srv-rush').value;
-
-  var mix_total = 0;
-  if (tracks === 1) mix_total = 110;
-  else if (tracks === 2) mix_total = 198;
-  else if (tracks === 3) mix_total = 280;
-  else if (tracks === 4) mix_total = 352;
-  else mix_total = tracks * 110 * 0.80;
-
-  var master_total = 0;
-  if (tracks === 1) master_total = 80;
-  else if (tracks === 2) master_total = 144;
-  else if (tracks === 3) master_total = 204;
-  else if (tracks === 4) master_total = 256;
-  else master_total = tracks * 80 * 0.80;
-
-  var total = 0;
-  var baseSingle = 0;
-  if (type === 'mix') {
-    total = mix_total;
-    baseSingle = 110;
-  } else if (type === 'master') {
-    total = master_total;
-    baseSingle = 80;
-  } else if (type === 'mixmaster') {
-    total = (mix_total + master_total) * 0.90;
-    baseSingle = 190;
-  }
-
-  // rush
-  if (rush === 'rush') total *= 1.5;
-
-  var undiscounted = baseSingle * tracks * (rush === 'rush' ? 1.5 : 1);
-  var totalDiscount = Math.round(100 - (total / undiscounted * 100));
-
-  var discEl = document.getElementById('discount-output');
-  if (totalDiscount > 0) {
-    discEl.style.display = 'inline';
-    discEl.textContent = '(-' + totalDiscount + '%)';
-  } else {
-    discEl.style.display = 'none';
-  }
-
-  var negotiableNote = document.getElementById('price-negotiable-note');
-  if (tracks > 5) {
-    negotiableNote.style.display = 'block';
-  } else {
-    negotiableNote.style.display = 'none';
-  }
-
-  document.getElementById('price-output').textContent = 'R$ ' + Math.round(total);
-}
-
-// ---- Profile photo cycling ----
-var photoState = 0;
-var photoUrls = [
-  "fotos/BMV1-21.jpg",
-  "fotos/BMV1-9.jpg",
-  "fotos/IMG_2.png"
-];
-function togglePhoto(imgEl) {
-  photoState = (photoState + 1) % photoUrls.length;
-  imgEl.src = photoUrls[photoState];
-}
-
-// ---- Form submission (FormSubmit.co via AJAX) ----
-function submitForm(e) {
-  e.preventDefault();
-
-  var form = document.getElementById('service-form');
-  var msg = document.getElementById('form-msg');
-  msg.textContent = 'Enviando sua solicitação...';
-
-  var formData = new FormData(form);
-  if (uploadedFile) {
-    formData.append('attachment', uploadedFile);
-  }
-
-  fetch(form.action, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-  .then(function(response) {
-    if (response.ok) {
-      msg.textContent = 'Sua solicitação e arquivo foram enviados com sucesso! Entrarei em contato em breve.';
-      form.reset();
-      removeFile(new Event('click')); // clear file drop preview
-    } else {
-      msg.textContent = 'Ocorreu um erro no envio. Por favor, envie os detalhes diretamente por e-mail para matesubeats@gmail.com.';
-    }
-  })
-  .catch(function(error) {
-    msg.textContent = 'Erro de conexão. Por favor, envie sua solicitação diretamente por e-mail para matesubeats@gmail.com.';
-  });
-}
-
-// ---- Flyer slider and expand functions ----
-function slideFlyer(id, index, btn) {
-  var slider = document.getElementById('slider-' + id);
-  slider.style.transform = 'translateX(-' + (index * 100) + '%)';
-  
-  // Update dot indicators
-  var dotsContainer = btn.parentNode;
-  var dots = dotsContainer.getElementsByClassName('flyer-dot');
-  for (var i = 0; i < dots.length; i++) {
-    dots[i].classList.remove('active');
-  }
-  btn.classList.add('active');
-}
-
-function cycleFlyer(id, maxIndex) {
-  var dotsContainer = document.getElementById('dots-' + id);
-  if (!dotsContainer) return;
-  var dots = dotsContainer.getElementsByClassName('flyer-dot');
-  if (dots.length <= 1) return;
-  var activeIdx = 0;
-  for (var i = 0; i < dots.length; i++) {
-    if (dots[i].classList.contains('active')) {
-      activeIdx = i;
-      break;
-    }
-  }
-  var nextIdx = (activeIdx + 1) % maxIndex;
-  var nextBtn = dots[nextIdx];
-  slideFlyer(id, nextIdx, nextBtn);
-}
-
-function expandFlyers() {
-  var hiddenCards = document.getElementsByClassName('flyer-hidden');
-  for (var i = 0; i < hiddenCards.length; i++) {
-    hiddenCards[i].classList.add('show');
-  }
-  document.getElementById('btn-expand-flyers').parentNode.style.display = 'none';
-}
-
-// ---- Tab title animation ----
-(function() {
-  var frames = ['▖', '▘', '▝', '▗'];
-  var dots = ['.  ', '.. ', '...', ' : '];
-  var frameIdx = 0;
-  var dotIdx = 0;
-  setInterval(function() {
-    document.title = frames[frameIdx] + ' matesu ' + dots[dotIdx];
-    frameIdx = (frameIdx + 1) % frames.length;
-    if (frameIdx === 0) {
-      dotIdx = (dotIdx + 1) % dots.length;
-    }
-  }, 350);
-})();
-
-// ---- Automatic slideshow for profile photo ----
-setInterval(function() {
-  var imgEl = document.querySelector('.hero-photo img');
-  if (imgEl) togglePhoto(imgEl);
-}, 6000);
-
-// ---- Assets preloader ----
-(function() {
-  var assetsToLoad = [
-    "logo/logo.png",
-    "fotos/BMV1-21.jpg",
-    "fotos/BMV1-9.jpg",
-    "fotos/IMG_2.png",
-    "img/trackmesa/1.png",
-    "img/trackmesa/2.png",
-    "img/trackmesa/3.png",
-    "img/simpatia/CAPA 3000X3000_1.png",
-    "img/simpatia/CONTRA CAPA_1_1.png",
-    "img/simpatia/CONTRA CAPA_1_2.png",
-    "img/simpatia/CONTRA CAPA_1_3.png",
-    "img/flashday/FLASHDAY1 F.png",
-    "img/flashday/FLASHDAY2 Variacao.png",
-    "img/bse/frente.png",
-    "img/bse/costas.png",
-    "img/misc/BROUS_FLYER_2908.png",
-    "img/misc/vault2_FINAL_3.png",
-    "img/misc/1_1.png",
-    "img/bmhz0/1. FRENTE.png"
-  ];
-  
-  var loadedCount = 0;
-  var totalAssets = assetsToLoad.length;
-  var simulatedPct = 0;
-  
-  function updateLoaderUI(pct) {
-    var pctEl = document.getElementById('loader-pct');
-    if (pctEl) pctEl.textContent = pct + '%';
-    if (pct >= 100) {
-      setTimeout(function() {
-        var loader = document.getElementById('loader-screen');
-        if (loader) {
-          loader.style.transition = 'opacity 0.2s ease';
-          loader.style.opacity = '0';
-          setTimeout(function() {
-            loader.style.display = 'none';
-          }, 200);
+<script>
+var tree = {
+  "design": {
+    "vestuário": {
+      "bse (iran tee)": {
+        "frente": {
+          title: "Bulgaria Stock Exchange Tee, frente",
+          meta: "restock iran, 2025",
+          body: "Peça de camiseta do restock iran, 2025, com a arte na frente. Atuo como designer gráfico e designer têxtil; a produção fica com o restock e a venda no plazaaaaa.com.",
+          img: "img/bse/frente.png",
+          link: "https://plazaaaaa.com/product/2340"
+        },
+        "costas": {
+          title: "Bulgaria Stock Exchange Tee, costas",
+          meta: "restock iran, 2025",
+          body: "A mesma peça vista de trás. Designer gráfico e designer têxtil na estampa do dorso, produção do restock iran e venda no plazaaaaa.com.",
+          img: "img/bse/costas.png",
+          link: "https://plazaaaaa.com/product/2340"
         }
-      }, 100);
+      }
+    },
+    "arte": {
+      "blackmesa hz": {
+        title: "BLACKMESA Hz",
+        meta: "07/06/2026",
+        body: "Identidade visual e cartaz do BLACKMESA Hz, de 07/06/2026. Atuo como diretor de arte e designer gráfico dentro do coletivo.",
+        img: "img/bmhz0/frente.png"
+      }
+    },
+    "flyers": {
+      "trackmesa": {
+        title: "TRACKMESA, 10/07/2026",
+        meta: "flyer, 3 variações",
+        body: "Flyer do TRACKMESA, evento de 10/07/2026 no Void Centro, em São Paulo. Três variações de cartaz, com design gráfico e diagramação meus.",
+        images: [
+          "img/trackmesa/1.png",
+          "img/trackmesa/2.png",
+          "img/trackmesa/3.png"
+        ]
+      },
+      "simpatia": {
+        title: "Simpatia, 20/05/2025",
+        meta: "capa, 4 arquivos",
+        body: "Capa e contracapas do álbum Simpatia, de 20/05/2025. Atuo como diretor de arte e designer gráfico nos quatro arquivos, em quadrado digital de 3000 por 3000.",
+        images: [
+          "img/simpatia/capa.png",
+          "img/simpatia/contracapa-1.png",
+          "img/simpatia/contracapa-2.png",
+          "img/simpatia/contracapa-3.png"
+        ]
+      },
+      "flash day": {
+        title: "Flash Day, 16/04/2025",
+        meta: "cartaz, 2 versões",
+        body: "Cartaz do Flash Day, de 16/04/2025. Design gráfico em duas versões, a segunda com a tipografia mexida.",
+        images: [
+          "img/flashday/flashday-1.png",
+          "img/flashday/flashday-2.png"
+        ]
+      },
+      "blackmesa hz": {
+        title: "BLACKMESA Hz, 07/06/2026",
+        meta: "cartaz, frente",
+        body: "Cartaz do BLACKMESA Hz, de 07/06/2026. Diretor de arte e designer gráfico para o coletivo.",
+        images: [
+          "img/bmhz0/frente.png"
+        ]
+      },
+      "bse": {
+        title: "bulgarian stock exchange, iran tee 2025",
+        meta: "peça, frente e costas",
+        body: "A peça do Bulgarian Stock Exchange para o iran tee 2025, frente e costas. Design gráfico e designer têxtil na estampa.",
+        images: [
+          "img/bse/frente.png",
+          "img/bse/costas.png"
+        ]
+      },
+      "misc": {
+        title: "Misc, 17/12/2025",
+        meta: "flyers, 3 peças",
+        body: "Três flyers avulsos de 17/12/2025, entre Brous, Vault 2 e mais uma variação gráfica. Design gráfico e diagramação.",
+        images: [
+          "img/misc/BROUS_FLYER_2908.png",
+          "img/misc/vault2_FINAL_3.png",
+          "img/misc/1_1.png"
+        ]
+      }
+    },
+    "fotografia": {
+      "matesuposting": {
+        title: "matesuposting",
+        meta: "registro fotográfico",
+        body: "Fotografia de rua e de show que eu mantenho no matesuposting, com registros de São Paulo e do Vale do Paraíba.",
+        img: "fotos/BMV1-9.jpg",
+        link: "https://instagram.com/matesuposting"
+      }
+    }
+  },
+  "música": {
+    "projetos": {},
+    "sobre mim": {
+      title: "matesu",
+      meta: "produtor musical, coprodutor, mixagem e masterização",
+      body: "Atuo como produtor musical, coprodutor e engenheiro de mixagem, com masterização do material, desde 2015, quando comecei a tocar como dj. Opero entre House, Jungle, UK Garage, Grime, Techno e Ambiente, e trabalho com sound design na mesma linha. Já colaborei com ZONAexp, SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, e passei por Rinse FM, NTS Radio, Function!, Veneno, Foundation FM, HÖR, Dekmantel e Aaja Music. Sou do Vale do Paraíba, no interior de São Paulo.",
+      img: "fotos/BMV1-21.jpg"
+    },
+    "diretrizes técnicas": {
+      "mixagem": {
+        title: "Diretrizes para Mixagem",
+        meta: "especificações técnicas",
+        body: "Stems em .wav, 24 bits, no mínimo 44.1kHz, sem ruídos ou clipping fora do combinado e com todas as faixas presentes no arquivo compactado. Afinação de vocal não está incluída no pacote. O pedido precisa vir com prazo, referência sônica e especificações de preferência.",
+        img: "img/pics/rvsfest-39.jpg"
+      },
+      "arquivos finais": {
+        title: "Arquivos Finais",
+        meta: "entrega",
+        body: "Exporto em .wav, 24 bits e 44.1kHz, em duas versões: uma sem headroom e outra com headroom de -6dB, salvo pedido diferente.",
+        img: "img/pics/IMG_2.png"
+      },
+      "upload dos arquivos": {
+        title: "Upload dos Arquivos",
+        meta: "transferência",
+        body: "Mando por Google Drive ou pela plataforma que o cliente preferir. Os links duram 7 dias, com reenvio quando precisar.",
+        img: "img/pics/BMV1-46.jpg"
+      },
+      "solicitar": {
+        title: "Solicitar Serviço",
+        meta: "contato direto",
+        body: "Para orçamento e envio de demos, escreve para matesubeats@gmail.com. Mp3 de até 15MB.",
+        img: "img/logos/matesulogo.png"
+      }
+    }
+  },
+  "cultura": {
+    "blackmesa": {
+      title: "BLACKMESA",
+      meta: "coletivo artístico, são paulo",
+      body: "Coletivo paulistano que atravessa música, artes visuais e cultura urbana underground. Atuo como produtor cultural e diretor criativo, cuidando da programação e da curadoria.",
+      img: "img/bmhz0/frente.png",
+      link: "https://instagram.com/blackmesaent"
+    },
+    "bloodworm": {
+      title: "bloodworm trax",
+      meta: "selo musical",
+      body: "Selo que fundei com o rafao para as correntes artísticas do interior de São Paulo. Atuo como produtor musical e diretor criativo, cuidando da direção artística e do lançamento dos artistas.",
+      img: "https://f4.bcbits.com/img/a2572503252_10.jpg",
+      link: "https://bloodwormtrax.neocities.org"
+    },
+    "apresentações": {
+      "trackmesa (10/07/2026)": {
+        title: "TRACKMESA",
+        meta: "10/07/2026, Void Centro, São Paulo",
+        body: "Noite de dj no Void Centro, em São Paulo, em 10/07/2026. Também atuo como produtor cultural do evento.",
+        img: "img/trackmesa/1.png",
+        link: "https://zig.tickets/eventos/trackmesa"
+      }
+    }
+  },
+  "desenvolvimento": {
+    "sintetizadores": {
+      "opcoda": {
+        title: "opcoda",
+        meta: "VST3, C++",
+        body: "Sintetizador granular que lê executáveis do Windows e transforma os bytes em som. Roda como VST3 e como aplicativo avulso, na versão 0.1.0. Cuido do parsing do PE, do motor de oito vozes e da interface que expõe a leitura em forma de onda, grade de bytes, curva de entropia e matriz de modulação.",
+        img: "img/github/opcoda.png",
+        link: "https://github.com/9matesu/Opcoda"
+      },
+      "minisynth32": {
+        title: "minisynth32",
+        meta: "ESP32-S3, TypeScript",
+        body: "Sintetizador digital em ESP32-S3, com firmware embarcado, back-end Node.js e front-end React para mexer nos parâmetros em tempo real. Os presets ficam em SQLite. Veio da curricularização do curso de Análise e Desenvolvimento de Sistemas da FATEC Cruzeiro, dentro do programa Acelera 01/2026.",
+        img: "img/github/minisynth32.png",
+        link: "https://github.com/9matesu/minisynth32"
+      }
+    },
+    "ferramentas": {
+      "catlas": {
+        title: "catlas",
+        meta: "Python, documentação",
+        body: "Mapeador de codebases. Inventaria arquivos, rastreia de onde os dados entram e para onde saem, e desenha o resultado em Mermaid para o GitHub renderizar. Serve para onboarding, revisão antes de refatorar e documentação de passagem.",
+        img: "img/github/catlas.png",
+        link: "https://github.com/9matesu/Catlas"
+      },
+      "wptools": {
+        title: "wptools",
+        meta: "PowerShell, Windows",
+        body: "Suíte de PowerShell para instalar e gerenciar o WhatsApp Desktop no Windows 10 e 11, com instalador de uma linha e menu interativo.",
+        img: "img/github/wptools.png",
+        link: "https://github.com/9matesu/WPtools"
+      }
+    },
+    "utilidades": {
+      "resuMe": {
+        title: "resuMe",
+        meta: "extensão, TypeScript",
+        body: "Extensão de navegador que lê a vaga aberta na página e reescreve o currículo para ela, com revisão linha a linha antes de exportar. O motor roda na minha máquina, sem conta e sem servidor.",
+        img: "img/github/resuMe.png",
+        link: "https://github.com/9matesu/resume"
+      }
+    }
+  },
+  "matesuposting": {
+    "journal": {
+      title: "matesuposting",
+      meta: "caderno de ideias, são paulo",
+      body: "Sob construção. Ainda pensando o que construir na verdade.\n\nMeu caderno não-tão-privado de ideias e regurgitações, pelo livre arbítrio, faça igual a mim e vá ler.",
+      img: "fotos/BMV1-9.jpg"
     }
   }
-  
-  var simInterval = setInterval(function() {
-    var loadedProgress = totalAssets > 0 ? Math.round((loadedCount / totalAssets) * 100) : 100;
-    if (simulatedPct < loadedProgress) {
-      simulatedPct += 12;
-    } else if (simulatedPct < 99) {
-      simulatedPct += 6;
-    }
-    if (simulatedPct > 100) simulatedPct = 100;
-    updateLoaderUI(simulatedPct);
-    if (simulatedPct >= 100) {
-      clearInterval(simInterval);
-    }
-  }, 10);
-  
-  assetsToLoad.forEach(function(src) {
-    var img = new Image();
-    img.onload = function() {
-      loadedCount++;
-      if (loadedCount === totalAssets) {
-        simulatedPct = 100;
-        updateLoaderUI(100);
-        clearInterval(simInterval);
+};
+
+// Thumbnails leves (96x96) derivados das imagens originais em img/thumbs/
+var THUMB_MAP = {
+  "img/bse/frente.png": "img/thumbs/bse_frente.jpg",
+  "img/bse/costas.png": "img/thumbs/bse_costas.jpg",
+  "img/bmhz0/frente.png": "img/thumbs/bmhz0_frente.png",
+  "img/trackmesa/1.png": "img/thumbs/trackmesa_1.png",
+  "img/trackmesa/2.png": "img/thumbs/trackmesa_2.png",
+  "img/trackmesa/3.png": "img/thumbs/trackmesa_3.png",
+  "img/simpatia/capa.png": "img/thumbs/simpatia_capa.jpg",
+  "img/simpatia/contracapa-1.png": "img/thumbs/simpatia_contracapa-1.jpg",
+  "img/simpatia/contracapa-2.png": "img/thumbs/simpatia_contracapa-2.jpg",
+  "img/simpatia/contracapa-3.png": "img/thumbs/simpatia_contracapa-3.jpg",
+  "img/flashday/flashday-1.png": "img/thumbs/flashday_flashday-1.jpg",
+  "img/flashday/flashday-2.png": "img/thumbs/flashday_flashday-2.jpg",
+  "img/misc/BROUS_FLYER_2908.png": "img/thumbs/misc_BROUS_FLYER_2908.jpg",
+  "img/misc/vault2_FINAL_3.png": "img/thumbs/misc_vault2_FINAL_3.jpg",
+  "img/misc/1_1.png": "img/thumbs/misc_1_1.jpg",
+  "fotos/BMV1-9.jpg": "img/thumbs/fotos_BMV1-9.jpg",
+  "fotos/BMV1-21.jpg": "img/thumbs/fotos_BMV1-21.jpg",
+  "img/pics/rvsfest-39.jpg": "img/thumbs/pics_rvsfest-39.jpg",
+  "img/pics/IMG_2.png": "img/thumbs/pics_IMG_2.png",
+  "img/pics/BMV1-46.jpg": "img/thumbs/pics_BMV1-46.jpg",
+  "img/logos/matesulogo.png": "img/thumbs/logos_matesulogo.jpg",
+  "https://f4.bcbits.com/img/a2572503252_10.jpg": "img/thumbs/rel_lagerhaus-i.jpg",
+  "img/github/opcoda.png": "img/thumbs/github_opcoda.png",
+  "img/github/minisynth32.png": "img/thumbs/github_minisynth32.jpg",
+  "img/github/catlas.png": "img/thumbs/github_catlas.jpg",
+  "img/github/wptools.png": "img/thumbs/github_wptools.jpg",
+  "img/github/resuMe.png": "img/thumbs/github_resuMe.jpg",
+  "https://f4.bcbits.com/img/a0810066149_10.jpg": "img/thumbs/rel_sp-150.jpg",
+  "https://i.scdn.co/image/ab67616d0000b273a5eac25f150d780244a64390": "img/thumbs/rel_on.jpg",
+  "https://i.scdn.co/image/ab67616d0000b273025189b581cf8215b2181a83": "img/thumbs/rel_veludo.jpg",
+  "https://f4.bcbits.com/img/a2661437354_10.jpg": "img/thumbs/rel_emotion-engine.jpg",
+  "https://i.scdn.co/image/ab67616d00001e026d35f6f1c381cc45f48714bf": "img/thumbs/rel_monocromia.jpg",
+  "https://i1.sndcdn.com/artworks-VHgP4ikm9Njpbhvr-nNMVHg-t500x500.jpg": "img/thumbs/rel_santa-sucata.jpg",
+  "https://f4.bcbits.com/img/a2622922340_10.jpg": "img/thumbs/rel_blackmesa-i.jpg",
+  "https://cdn-images.dzcdn.net/images/cover/26cc552d150133e6d5a680992cbfc612/0x1900-000000-80-0-0.jpg": "img/thumbs/rel_intraterreno.jpg",
+  "https://i1.sndcdn.com/artworks-g3j3E9IMXgupsfc3-CAzwLg-t500x500.jpg": "img/thumbs/rel_na-pista-eh-100close.jpg",
+  "https://i1.sndcdn.com/artworks-lZBWDzlws8Us0N7y-pa6VDg-t500x500.png": "img/thumbs/rel_volt-ampere.jpg",
+  "https://i.scdn.co/image/ab67616d00001e02b815955260ca23bb489c9450": "img/thumbs/rel_toda-noite-busco-o-sol.jpg",
+  "https://i.scdn.co/image/ab67616d0000b273fe9a07daab501e61183568b5": "img/thumbs/rel_contratempo.jpg",
+  "https://i.scdn.co/image/ab67616d00001e023186b15d7d5668daa9a5922c": "img/thumbs/rel_insonia-kurt.jpg",
+  "https://f4.bcbits.com/img/a3870683813_10.jpg": "img/thumbs/rel_volt-mix-o-retorno.jpg",
+  "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9c/36/4a/9c364a3b-f1c5-bbbc-f7ef-911d8eabb7a6/0.jpg/1200x630bb.jpg": "img/thumbs/rel_rtmz-001.jpg",
+  "https://source.boomplaymusic.com/group10/M00/09/15/3ff6f7f1f4184f9ba58fda3ee7e27a9a_320_320.jpg": "img/thumbs/rel_renc-renc.jpg",
+  "https://cdn.prod.website-files.com/65b0367ee6efd0c53e2e8279/65f492f5a509d475cc7bea39_SKATEDECK-p-500.png": "img/thumbs/rel_skate-deck-2.png",
+  "https://i.scdn.co/image/ab67616d00001e02c6b48ac716ac3e0a6a62040a": "img/thumbs/rel_ameaca-detectada.jpg",
+  "https://f4.bcbits.com/img/a1925775572_16.jpg": "img/thumbs/rel_canato-zona0800-13.jpg"
+};
+
+var path = [];
+var stage = document.getElementById("stage");
+
+// Estado do header: busca, filtro e ordenação
+var searchQuery = "";
+var filterMode = "all";
+var sortMode = "natural";
+var pendingScrollLeft = null;
+
+var searchInput = document.getElementById("search");
+var searchClear = document.getElementById("search-clear");
+var resultsCount = document.getElementById("results-count");
+var filterSelect = document.getElementById("filter");
+var sortSelect = document.getElementById("sort");
+
+var collator = new Intl.Collator("pt-BR", { sensitivity: "base", numeric: true });
+
+function normalizeText(s) {
+  return String(s == null ? "" : s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function nodeAt(colIndex, key) {
+  return resolve(path.slice(0, colIndex).concat([key]));
+}
+
+function dateValue(node, key) {
+  var hay = [key, node && node.title, node && node.meta, node && node.body].filter(Boolean).join(" ");
+  var dm = hay.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (dm) {
+    var d = new Date(+dm[3], +dm[2] - 1, +dm[1]);
+    if (!isNaN(d.getTime())) return d.getTime();
+  }
+  var ym = hay.match(/\b(19|20)\d{2}\b/);
+  if (ym) return new Date(+ym[1], 0, 1).getTime();
+  return -Infinity;
+}
+
+function sortKeys(keys, colIndex) {
+  if (sortMode === "natural") return keys;
+  var arr = keys.slice();
+  if (sortMode === "az") {
+    arr.sort(function(a, b) { return collator.compare(a, b); });
+  } else if (sortMode === "za") {
+    arr.sort(function(a, b) { return collator.compare(b, a); });
+  } else if (sortMode === "recent") {
+    arr.sort(function(a, b) {
+      var diff = dateValue(nodeAt(colIndex, b), b) - dateValue(nodeAt(colIndex, a), a);
+      return diff || collator.compare(a, b);
+    });
+  }
+  return arr;
+}
+
+// Percorre a árvore inteira e devolve quem casa com a busca
+function collectMatches() {
+  var q = normalizeText(searchQuery);
+  var out = [];
+
+  (function walk(node, keys) {
+    if (!node || typeof node !== "object") return;
+    Object.keys(node).forEach(function(key) {
+      var child = node[key];
+      if (!child || typeof child !== "object") return;
+      var full = keys.concat([key]);
+      var leaf = isLeaf(child);
+      var hay = normalizeText([key, child.title, child.meta, child.body].filter(Boolean).join(" "));
+      if (hay.indexOf(q) !== -1) {
+        out.push({ key: key, path: full, node: child, leaf: leaf });
       }
-    };
-    img.onerror = function() {
-      loadedCount++;
-      if (loadedCount === totalAssets) {
-        simulatedPct = 100;
-        updateLoaderUI(100);
-        clearInterval(simInterval);
+      if (!leaf) walk(child, full);
+    });
+  })(tree, []);
+
+  if (filterMode !== "all") {
+    out = out.filter(function(m) { return m.path[0] === filterMode; });
+  }
+
+  if (sortMode === "az" || sortMode === "za") {
+    var dir = sortMode === "az" ? 1 : -1;
+    out.sort(function(a, b) {
+      return dir * collator.compare(resultLabel(a), resultLabel(b));
+    });
+  } else if (sortMode === "recent") {
+    out.sort(function(a, b) {
+      var diff = dateValue(b.node, b.key) - dateValue(a.node, a.key);
+      return diff || collator.compare(resultLabel(a), resultLabel(b));
+    });
+  }
+
+  return out;
+}
+
+function resultLabel(m) {
+  return (m.leaf && m.node.title) ? m.node.title : m.key;
+}
+
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function playClick(action) {
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  var now = ctx.currentTime;
+
+  if (action === "close") {
+    // Pitch descendo bem suave e grave (180Hz -> 90Hz em 28ms)
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(180, now);
+    osc.frequency.exponentialRampToValueAtTime(80, now + 0.028);
+    gain.gain.setValueAtTime(0.04, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.028);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.03);
+  } else {
+    // Pitch subindo curto e seco (240Hz -> 480Hz em 20ms)
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(260, now);
+    osc.frequency.exponentialRampToValueAtTime(520, now + 0.022);
+    gain.gain.setValueAtTime(0.035, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.022);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.025);
+  }
+}
+
+// Popula projetos a partir de discography.json
+fetch("discography.json")
+  .then(function(r) { return r.json(); })
+  .then(function(items) {
+    var years = {};
+    items.forEach(function(item) {
+      var y = String(item.year || 2025);
+      if (!years[y]) years[y] = {};
+
+      var isSolo = item.artist && item.artist.toLowerCase().indexOf("matesu") !== -1;
+      var typeLabel = item.type === "ep" ? "EP" : (item.type === "album" ? "álbum" : "release");
+      var roleText = isSolo
+        ? "Álbum solo de " + y + ". Composição, produção musical, mixagem e masterização."
+        : "Lançamento do " + (item.artist || "coletivo") + " em " + y + ". Participo como produtor musical e engenheiro de mixagem, com masterização do material.";
+
+      var tracksText = item.tracks && item.tracks.length > 0
+        ? "\n\nfaixas:\n" + item.tracks.map(function(t, i) { return (i + 1) + ". " + t.title + " (" + t.duration + ")"; }).join("\n")
+        : "";
+
+      var rel = {
+        title: item.title + (item.artist ? ", " + item.artist : ""),
+        meta: typeLabel + ", " + y,
+        body: roleText + tracksText
+      };
+      if (item.cover) {
+        var cleanCover = item.cover.startsWith("/") ? item.cover.slice(1) : item.cover;
+        rel.img = cleanCover;
       }
-    };
-    img.src = src;
+      if (item.externalLinks) {
+        var k = Object.keys(item.externalLinks)[0];
+        if (k) rel.link = item.externalLinks[k];
+      }
+      years[y][item.title.toLowerCase()] = rel;
+    });
+    tree["música"]["projetos"] = years;
+    syncRender();
+  })
+  .catch(function() {
+    syncRender();
   });
+
+function resolve(targetPath) {
+  var cur = tree;
+  for (var i = 0; i < targetPath.length; i++) {
+    if (!cur || typeof cur !== "object") return null;
+    cur = cur[targetPath[i]];
+  }
+  return cur;
+}
+
+function isLeaf(node) {
+  return node && (node.title || node.body || node.img || node.images || node.link);
+}
+
+function toggleSidebar(e) {
+  if (e) e.stopPropagation();
+  var sb = document.getElementById("sidebar");
+  var isCollapsing = !sb.classList.contains("collapsed");
+  playClick(isCollapsing ? "close" : "open");
+  sb.classList.toggle("collapsed");
+}
+
+function toggleTheme() {
+  playClick("open");
+  var isLight = document.body.classList.toggle("light");
+  var btn = document.getElementById("theme-btn");
+  if (btn) btn.textContent = isLight ? "escuro" : "claro";
+  try {
+    localStorage.setItem("matesu_theme", isLight ? "light" : "dark");
+  } catch(e) {}
+}
+
+// Recupera preferência salva
+(function() {
+  try {
+    var saved = localStorage.getItem("matesu_theme");
+    if (saved === "light") {
+      document.body.classList.add("light");
+      var btn = document.getElementById("theme-btn");
+      if (btn) btn.textContent = "escuro";
+    }
+  } catch(e) {}
 })();
 
-// ============================================
-// DISCOGRAPHY MODULE
-// ============================================
-var BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? 'http://localhost:3000'
-  : 'https://matesu-api.fly.dev';
-var discoData = [];
-var discoCart = []; // shopping cart items
-var discoAudio = new Audio();
-var discoPlaying = false;
-var discoCurrentTrack = null;
-var discoFilter = 'all';
+// Smooth scroll horizontal com inércia para o stage
+var targetScrollLeft = stage.scrollLeft;
+var isScrolling = false;
 
-// ---- Fetch and render ----
-function loadDiscography() {
-  fetch('discography.json')
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      discoData = data;
-      renderDiscography();
-      checkPurchaseReturn();
-    })
-    .catch(function(err) {
-      var root = document.getElementById('discography-root');
-      if (root) root.innerHTML = '<p style="font:11px Times; color:#4a4a42; font-style:italic;">erro ao carregar catálogo.</p>';
-    });
-}
-
-function renderDiscography() {
-  var root = document.getElementById('discography-root');
-  if (!root) return;
-
-  var filtered = discoFilter === 'all' ? discoData : discoData.filter(function(r) { return r.type === discoFilter; });
-
-  // Sort by year descending
-  filtered.sort(function(a, b) { return b.year - a.year; });
-
-  var html = '';
-
-  // Filter buttons
-  html += '<div class="disco-filters">';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'all' ? ' active' : '') + '" onclick="setDiscoFilter(\'all\')">todos (' + discoData.length + ')</button>';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'album' ? ' active' : '') + '" onclick="setDiscoFilter(\'album\')">álbuns (r$ 5)</button>';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'ep' ? ' active' : '') + '" onclick="setDiscoFilter(\'ep\')">eps (r$ 5)</button>';
-  html += '<button class="disco-filter-btn' + (discoFilter === 'single' ? ' active' : '') + '" onclick="setDiscoFilter(\'single\')">singles (r$ 3)</button>';
-  html += '</div>';
-
-  // Condensed horizontal list
-  html += '<div class="disco-list">';
-  for (var i = 0; i < filtered.length; i++) {
-    var r = filtered[i];
-    html += renderDiscoRow(r, i);
-  }
-  html += '</div>';
-
-  root.innerHTML = html;
-  discoUpdateCartUI();
-}
-
-function renderDiscoRow(r, idx) {
-  var typeLabel = r.type === 'album' ? 'álbum' : r.type;
-  var priceStr = 'R$ ' + (r.priceCents / 100).toFixed(2).replace('.', ',');
-  var trackCount = r.tracks ? r.tracks.length : 1;
-
-  var html = '<div class="disco-row-wrap">';
-  html += '<div class="disco-row" id="disco-row-' + r.id + '">';
-  
-  html += '<img class="disco-row-thumb" src="' + r.cover + '" alt="' + r.title + '" loading="lazy">';
-
-  html += '<div class="disco-row-info">';
-  html += '<div class="disco-row-cat">' + typeLabel + ' &bull; ' + r.year + ' &bull; ' + trackCount + ' faixas</div>';
-  html += '<div class="disco-row-title">' + r.title + '</div>';
-  html += '<div class="disco-row-artist">' + r.artist + '</div>';
-  html += '</div>';
-
-  html += '<div class="disco-row-price">' + priceStr + '</div>';
-
-  html += '<div class="disco-row-actions">';
-  html += '<button class="disco-btn-add" onclick="discoAddToCart(\'' + r.id + '\')">+ carrinho</button>';
-  html += '<button class="disco-btn-buy" onclick="discoBuySingle(\'' + r.id + '\')">comprar</button>';
-  if (r.tracks && r.tracks.length > 0) {
-    html += '<span class="disco-row-toggle" onclick="toggleDiscoTracklist(\'' + r.id + '\')">faixas</span>';
-  }
-  html += '</div>';
-
-  html += '</div>'; // end disco-row
-
-  // Tracklist expansion
-  if (r.tracks && r.tracks.length > 0) {
-    html += '<div class="disco-row-tracklist" id="disco-tl-' + r.id + '">';
-    for (var t = 0; t < r.tracks.length; t++) {
-      var track = r.tracks[t];
-      html += '<div style="display:flex; justify-space-between; font:10px Helvetica, Arial, sans-serif; color:#1e1e1c; padding:2px 0;">';
-      html += '<span>' + (t + 1) + '. ' + track.title + '</span>';
-      html += '<span style="color:#4a4a42;">' + track.duration + '</span>';
-      html += '</div>';
-    }
-    html += '</div>';
-  }
-
-  html += '</div>'; // end disco-row-wrap
-  return html;
-}
-
-// ---- Filters ----
-function setDiscoFilter(type) {
-  discoFilter = type;
-  renderDiscography();
-}
-
-function toggleDiscoTracklist(id) {
-  var tl = document.getElementById('disco-tl-' + id);
-  if (!tl) return;
-  if (tl.classList.contains('open')) {
-    tl.classList.remove('open');
+function smoothScrollLoop() {
+  var diff = targetScrollLeft - stage.scrollLeft;
+  if (Math.abs(diff) > 0.5) {
+    stage.scrollLeft += diff * 0.16;
+    requestAnimationFrame(smoothScrollLoop);
   } else {
-    tl.classList.add('open');
+    stage.scrollLeft = targetScrollLeft;
+    isScrolling = false;
   }
 }
 
-// ---- Shopping Cart Logic ----
-function discoAddToCart(releaseId) {
-  var release = null;
-  for (var i = 0; i < discoData.length; i++) {
-    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
-  }
-  if (!release) return;
+stage.addEventListener("wheel", function(e) {
+  var delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+  if (!delta) return;
 
-  var exists = false;
-  for (var c = 0; c < discoCart.length; c++) {
-    if (discoCart[c].id === releaseId) { exists = true; break; }
+  // Se o cursor estiver sobre uma coluna/detalhe que tem scroll vertical próprio, verifica limites
+  var el = e.target;
+  while (el && el !== stage) {
+    if ((el.classList.contains("col") || el.classList.contains("detail-view")) && el.scrollHeight > el.clientHeight) {
+      var atTop = el.scrollTop <= 0 && delta < 0;
+      var atBottom = (el.scrollTop + el.clientHeight >= el.scrollHeight - 1) && delta > 0;
+      if (!atTop && !atBottom) {
+        return; // Mantém scroll vertical nativo da coluna
+      }
+    }
+    el = el.parentElement;
   }
-  if (!exists) {
-    discoCart.push(release);
+
+  e.preventDefault();
+  var maxScroll = stage.scrollWidth - stage.clientWidth;
+  targetScrollLeft = Math.max(0, Math.min(maxScroll, (isScrolling ? targetScrollLeft : stage.scrollLeft) + delta * 1.2));
+  
+  if (!isScrolling) {
+    isScrolling = true;
+    requestAnimationFrame(smoothScrollLoop);
   }
-  discoUpdateCartUI();
+}, { passive: false });
+
+function onItemClick(colIndex, key) {
+  if (path[colIndex] === key) {
+    // Clicar no mesmo item recolhe tudo à direita
+    playClick("close");
+    path = path.slice(0, colIndex);
+  } else {
+    // Trunca até a coluna atual e ativa novo item
+    playClick("open");
+    path = path.slice(0, colIndex);
+    path.push(key);
+  }
+  syncRender();
 }
 
-function discoRemoveFromCart(releaseId) {
-  discoCart = discoCart.filter(function(item) { return item.id !== releaseId; });
-  discoUpdateCartUI();
-  if (document.getElementById('disco-modal-overlay')) {
-    discoOpenCartModal();
-  }
-}
+// Atualização com animação de saída ao fechar colunas
+function syncRender() {
+  assignThumbs();
 
-function discoClearCart() {
-  discoCart = [];
-  discoUpdateCartUI();
-  discoCloseModal();
-}
-
-function discoUpdateCartUI() {
-  var bar = document.getElementById('disco-cart-bar');
-  var countEl = document.getElementById('disco-cart-count');
-  var totalEl = document.getElementById('disco-cart-total');
-
-  if (!bar) return;
-
-  if (discoCart.length === 0) {
-    bar.style.display = 'none';
+  if (searchQuery) {
+    renderResults();
     return;
   }
 
-  bar.style.display = 'flex';
-  countEl.textContent = discoCart.length;
+  var targetLevels = [];
 
-  var totalCents = 0;
-  for (var i = 0; i < discoCart.length; i++) {
-    totalCents += discoCart[i].priceCents;
+  // Nível 0: raiz
+  var rootKeys = Object.keys(tree);
+  if (filterMode !== "all") {
+    rootKeys = rootKeys.filter(function(k) { return k === filterMode; });
   }
-  totalEl.textContent = 'R$ ' + (totalCents / 100).toFixed(2).replace('.', ',');
-}
-
-function discoBuySingle(releaseId) {
-  var release = null;
-  for (var i = 0; i < discoData.length; i++) {
-    if (discoData[i].id === releaseId) { release = discoData[i]; break; }
-  }
-  if (!release) return;
-  discoCart = [release];
-  discoUpdateCartUI();
-  discoOpenCartModal();
-}
-
-function discoOpenCartModal() {
-  if (discoCart.length === 0) return;
-
-  var overlay = document.getElementById('disco-modal-overlay');
-  if (overlay) overlay.remove();
-
-  overlay = document.createElement('div');
-  overlay.className = 'disco-modal-overlay';
-  overlay.id = 'disco-modal-overlay';
-
-  var totalCents = 0;
-  var itemsHtml = '';
-  for (var i = 0; i < discoCart.length; i++) {
-    var item = discoCart[i];
-    totalCents += item.priceCents;
-    var priceStr = 'R$ ' + (item.priceCents / 100).toFixed(2).replace('.', ',');
-    itemsHtml += '<div class="disco-modal-item">' +
-      '<span>' + item.title + ' — ' + item.artist + '</span>' +
-      '<div>' + priceStr + ' <button onclick="discoRemoveFromCart(\'' + item.id + '\')" style="background:none; border:none; color:#b03030; font-weight:700; cursor:pointer; margin-left:6px;">[x]</button></div>' +
-      '</div>';
-  }
-
-  var totalStr = 'R$ ' + (totalCents / 100).toFixed(2).replace('.', ',');
-
-  overlay.innerHTML = '<div class="disco-modal">' +
-    '<h3>checkout &mdash; ' + discoCart.length + ' item(s)</h3>' +
-    '<div class="disco-modal-sub">resumo do pedido (download instantâneo em wav/mp3)</div>' +
-    '<div class="disco-modal-items">' + itemsHtml + '</div>' +
-    '<div class="disco-modal-total">total: ' + totalStr + '</div>' +
-    '<label class="disco-modal-label" for="disco-email">seu e-mail (para envio do download)</label>' +
-    '<input type="email" id="disco-email" placeholder="seuemail@dominio.com" autocomplete="email" required>' +
-    '<label class="disco-modal-label" for="disco-name">seu nome (opcional)</label>' +
-    '<input type="text" id="disco-name" placeholder="seu nome">' +
-    '<div class="disco-modal-actions">' +
-      '<button class="disco-modal-btn" onclick="discoCheckoutCart()">pagar com mercado pago &rarr;</button>' +
-      '<button class="disco-modal-cancel" onclick="discoCloseModal()">cancelar</button>' +
-    '</div>' +
-    '<div class="disco-modal-error" id="disco-modal-error"></div>' +
-    '</div>';
-
-  document.body.appendChild(overlay);
-
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) discoCloseModal();
+  targetLevels.push({
+    type: "column",
+    keys: sortKeys(rootKeys, 0),
+    activeKey: path[0] || null
   });
 
-  setTimeout(function() {
-    var inp = document.getElementById('disco-email');
-    if (inp) inp.focus();
-  }, 100);
-}
+  // Níveis intermediários e folha
+  for (var i = 0; i < path.length; i++) {
+    var subPath = path.slice(0, i + 1);
+    var node = resolve(subPath);
 
-function discoCloseModal() {
-  var overlay = document.getElementById('disco-modal-overlay');
-  if (overlay) overlay.remove();
-}
-
-function discoCheckoutCart() {
-  if (discoCart.length === 0) return;
-
-  var emailInput = document.getElementById('disco-email');
-  var nameInput = document.getElementById('disco-name');
-  var email = emailInput ? emailInput.value.trim() : '';
-  var name = nameInput ? nameInput.value.trim() : '';
-  var errorEl = document.getElementById('disco-modal-error');
-
-  if (!email || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
-    if (errorEl) {
-      errorEl.textContent = 'por favor, insira um e-mail válido';
-      errorEl.style.display = 'block';
+    if (node && isLeaf(node)) {
+      targetLevels.push({
+        type: "detail",
+        node: node
+      });
+      break;
+    } else if (node && typeof node === "object") {
+      targetLevels.push({
+        type: "column",
+        keys: sortKeys(Object.keys(node), i + 1),
+        activeKey: path[i + 1] || null
+      });
     }
-    return;
   }
 
-  var btn = document.querySelector('.disco-modal-btn');
-  if (btn) {
-    btn.textContent = 'redirecionando ao mercado pago...';
-    btn.disabled = true;
-  }
+  // Se estamos fechando/recolhendo colunas
+  if (stage.children.length > targetLevels.length) {
+    var toRemove = Array.from(stage.children).slice(targetLevels.length);
+    toRemove.forEach(function(el) {
+      el.classList.add("leaving");
+    });
 
-  var items = [];
-  for (var i = 0; i < discoCart.length; i++) {
-    items.push({
-      id: discoCart[i].id,
-      title: discoCart[i].title + ' — ' + discoCart[i].artist,
-      priceCents: discoCart[i].priceCents,
-      quantity: 1
+    // Anima suavemente o scroll do container de volta ao novo limite enquanto as colunas saem
+    requestAnimationFrame(function() {
+      var remainingCols = Array.from(stage.children).slice(0, targetLevels.length);
+      var newTargetLeft = 0;
+      if (remainingCols.length > 0) {
+        var lastCol = remainingCols[remainingCols.length - 1];
+        newTargetLeft = Math.max(0, lastCol.offsetLeft + lastCol.offsetWidth - stage.clientWidth + 56);
+      }
+      targetScrollLeft = newTargetLeft;
+      stage.scrollTo({ left: newTargetLeft, behavior: "smooth" });
+    });
+
+    setTimeout(function() {
+      toRemove.forEach(function(el) {
+        if (el.parentNode === stage) stage.removeChild(el);
+      });
+      applyLevels(targetLevels, true);
+    }, 180);
+  } else {
+    applyLevels(targetLevels, false);
+  }
+}
+
+function applyLevels(targetLevels, isRecoil) {
+  targetLevels.forEach(function(lvl, colIdx) {
+    var existing = stage.children[colIdx];
+
+    if (lvl.type === "column") {
+      if (!existing || !existing.classList.contains("col")) {
+        var newCol = renderColumnEl(lvl.keys, colIdx, lvl.activeKey);
+        if (existing) {
+          stage.replaceChild(newCol, existing);
+        } else {
+          stage.appendChild(newCol);
+        }
+      } else {
+        updateColumnEl(existing, lvl.keys, colIdx, lvl.activeKey);
+      }
+    } else if (lvl.type === "detail") {
+      var newDetail = renderDetailEl(lvl.node);
+      if (existing) {
+        stage.replaceChild(newDetail, existing);
+      } else {
+        stage.appendChild(newDetail);
+      }
+    }
+  });
+
+  if (!isRecoil) {
+    requestAnimationFrame(function() {
+      var left = pendingScrollLeft != null ? pendingScrollLeft : stage.scrollWidth;
+      pendingScrollLeft = null;
+      targetScrollLeft = left;
+      stage.scrollTo({ left: left, behavior: "smooth" });
+    });
+  }
+}
+
+// Vista de resultados da busca
+function renderResults() {
+  assignThumbs();
+  var matches = collectMatches();
+
+  var col = document.createElement("div");
+  col.className = "col results-col";
+
+  if (!matches.length) {
+    var note = document.createElement("div");
+    note.className = "empty-note";
+    note.textContent = "nada encontrado";
+    col.appendChild(note);
+  } else {
+    matches.forEach(function(m) {
+      var item = document.createElement("a");
+      item.className = "item result-item";
+      item.dataset.key = m.key;
+
+      var label = document.createElement("span");
+      label.className = "item-label";
+      label.textContent = resultLabel(m);
+      item.appendChild(label);
+
+      var thumbSrc = thumbFor(assignedThumb(m.path));
+      if (thumbSrc) item.appendChild(makeThumb(thumbSrc));
+
+      if (m.path.length > 1) {
+        var breadcrumb = document.createElement("span");
+        breadcrumb.className = "result-path";
+        breadcrumb.textContent = m.path.slice(0, -1).join(" › ");
+        item.appendChild(breadcrumb);
+      }
+
+      item.onclick = function() { openMatch(m); };
+      col.appendChild(item);
     });
   }
 
-  fetch(BACKEND_URL + '/api/create-preference', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      items: items,
-      email: email,
-      name: name
-    })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    if (data.checkoutUrl) {
-      window.location.href = data.checkoutUrl;
-    } else {
-      throw new Error('no checkout url');
-    }
-  })
-  .catch(function(err) {
-    if (errorEl) {
-      errorEl.textContent = 'erro ao conectar ao servidor. entre em contato via e-mail: matesubeats@gmail.com';
-      errorEl.style.display = 'block';
-    }
-    if (btn) {
-      btn.textContent = 'pagar com mercado pago \u2192';
-      btn.disabled = false;
-    }
-  });
+  while (stage.firstChild) stage.removeChild(stage.firstChild);
+  stage.appendChild(col);
+  stage.scrollLeft = 0;
+  targetScrollLeft = 0;
+
+  resultsCount.hidden = false;
+  resultsCount.textContent = matches.length === 1
+    ? "1 resultado"
+    : matches.length + " resultados";
 }
 
-// ---- Handle purchase return ----
-function checkPurchaseReturn() {
-  var params = new URLSearchParams(window.location.search);
-  var purchase = params.get('purchase');
-  var releaseId = params.get('release');
+function openMatch(m) {
+  playClick("open");
 
-  if (purchase === 'success' && releaseId) {
-    // Switch to discography page
-    switchPage('discography');
+  // O resultado precisa ficar visível dentro do filtro atual
+  if (filterMode !== "all" && filterMode !== m.path[0]) {
+    filterMode = "all";
+    filterSelect.value = "all";
+  }
 
-    // Highlight the purchased card
-    setTimeout(function() {
-      var card = document.getElementById('disco-card-' + releaseId);
-      if (card) {
-        // Add purchased badge
-        var badge = document.createElement('div');
-        badge.className = 'disco-purchased';
-        badge.textContent = '✓ compra confirmada';
-        card.appendChild(badge);
+  path = m.path.slice();
+  clearSearch();
+  syncRender();
+}
 
-        // Scroll to it
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }, 600);
+function clearSearch() {
+  searchQuery = "";
+  searchInput.value = "";
+  searchClear.hidden = true;
+  resultsCount.hidden = true;
+  resultsCount.textContent = "";
+}
 
-    // Clean URL
-    if (window.history.replaceState) {
-      window.history.replaceState({}, document.title, window.location.pathname);
+function toSuperDigits(num) {
+  var map = {
+    "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
+    "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹"
+  };
+  return String(num).split("").map(function(d) { return map[d] || d; }).join("");
+}
+
+function getItemCount(colIndex, key) {
+  var targetPath = path.slice(0, colIndex).concat([key]);
+  var node = resolve(targetPath);
+  if (node && typeof node === "object" && !isLeaf(node)) {
+    var count = Object.keys(node).length;
+    return count > 0 ? toSuperDigits(count) : null;
+  }
+  return null;
+}
+
+function thumbFor(src) {
+  if (!src) return null;
+  return THUMB_MAP[src] || src;
+}
+
+// Lista, em ordem, a imagem de cada folha dentro de um nó
+function leafImages(node) {
+  var out = [];
+  if (!node || typeof node !== "object") return out;
+  if (isLeaf(node)) {
+    var own = node.img || (node.images && node.images.length ? node.images[0] : null);
+    if (own) out.push(own);
+    return out;
+  }
+  Object.keys(node).forEach(function(key) {
+    out = out.concat(leafImages(node[key]));
+  });
+  return out;
+}
+
+// Toda label ganha uma imagem. Pastas recebem a primeira imagem da sua
+// subárvore que ainda não foi usada por um ancestral, então irmãs nunca
+// repetem a mesma foto. Sem opção livre, a pasta repete a do primeiro filho.
+var thumbAssignments = {};
+
+function assignThumbs() {
+  thumbAssignments = {};
+
+  function walk(node, keys, taken) {
+    if (!node || typeof node !== "object") return;
+
+    if (isLeaf(node)) {
+      var own = node.img || (node.images && node.images.length ? node.images[0] : null);
+      if (own) thumbAssignments[keys.join("|")] = own;
+      return;
     }
+
+    var images = leafImages(node);
+    var pick = null;
+    for (var i = 0; i < images.length; i++) {
+      if (!taken[images[i]]) { pick = images[i]; break; }
+    }
+    if (!pick && images.length) pick = images[0];
+
+    var childTaken = taken;
+    if (pick) {
+      thumbAssignments[keys.join("|")] = pick;
+      childTaken = {};
+      Object.keys(taken).forEach(function(k) { childTaken[k] = true; });
+      childTaken[pick] = true;
+    }
+
+    Object.keys(node).forEach(function(key) {
+      walk(node[key], keys.concat([key]), childTaken);
+    });
+  }
+
+  walk(tree, [], {});
+}
+
+function assignedThumb(pathKeys) {
+  return thumbAssignments[pathKeys.join("|")] || null;
+}
+
+function getItemThumb(colIndex, key) {
+  var targetPath = path.slice(0, colIndex).concat([key]);
+  return thumbFor(assignedThumb(targetPath));
+}
+
+function makeThumb(src) {
+  var thumb = document.createElement("img");
+  thumb.className = "item-thumb";
+  thumb.src = src;
+  thumb.alt = "";
+  thumb.loading = "lazy";
+  thumb.decoding = "async";
+  thumb.width = 24;
+  thumb.height = 24;
+  thumb.onerror = function() { thumb.style.display = "none"; };
+  return thumb;
+}
+
+function renderColumnEl(keys, colIndex, activeKey) {
+  var col = document.createElement("div");
+  col.className = "col";
+  keys.forEach(function(key) {
+    var item = document.createElement("a");
+    item.className = "item" + (key === activeKey ? " active" : "");
+    item.dataset.key = key;
+
+    var label = document.createElement("span");
+    label.className = "item-label";
+    label.textContent = key;
+    item.appendChild(label);
+
+    var count = getItemCount(colIndex, key);
+    if (count) {
+      var sup = document.createElement("span");
+      sup.className = "item-count";
+      sup.textContent = count;
+      item.appendChild(sup);
+    }
+
+    var thumbSrc = getItemThumb(colIndex, key);
+    if (thumbSrc) item.appendChild(makeThumb(thumbSrc));
+
+    item.onclick = function() { onItemClick(colIndex, key); };
+    col.appendChild(item);
+  });
+  return col;
+}
+
+function updateColumnEl(col, keys, colIndex, activeKey) {
+  var currentItems = Array.from(col.children);
+  var currentKeys = currentItems.map(function(el) { return el.dataset.key; });
+
+  // Se as chaves mudaram, reconstrói a coluna
+  if (currentKeys.join("|") !== keys.join("|")) {
+    col.innerHTML = "";
+    keys.forEach(function(key) {
+      var item = document.createElement("a");
+      item.className = "item" + (key === activeKey ? " active" : "");
+      item.dataset.key = key;
+
+      var label = document.createElement("span");
+      label.className = "item-label";
+      label.textContent = key;
+      item.appendChild(label);
+
+      var count = getItemCount(colIndex, key);
+      if (count) {
+        var sup = document.createElement("span");
+        sup.className = "item-count";
+        sup.textContent = count;
+        item.appendChild(sup);
+      }
+
+      var thumbSrc = getItemThumb(colIndex, key);
+      if (thumbSrc) item.appendChild(makeThumb(thumbSrc));
+
+      item.onclick = function() { onItemClick(colIndex, key); };
+      col.appendChild(item);
+    });
+  } else {
+    // Atualiza a classe active e o thumbnail sem reconstruir o DOM
+    currentItems.forEach(function(el) {
+      if (el.dataset.key === activeKey) {
+        el.classList.add("active");
+      } else {
+        el.classList.remove("active");
+      }
+
+      // O thumb pode ter mudado depois, por exemplo quando a discografia carrega
+      var want = getItemThumb(colIndex, el.dataset.key);
+      var img = el.querySelector(".item-thumb");
+      if (want) {
+        if (!img) {
+          el.appendChild(makeThumb(want));
+        } else if (img.getAttribute("src") !== want) {
+          img.src = want;
+        }
+      } else if (img) {
+        el.removeChild(img);
+      }
+    });
   }
 }
 
-// Load discography on page ready
-loadDiscography();
+function renderDetailEl(node) {
+  var detail = document.createElement("div");
+  detail.className = "detail-view";
 
-calcPrice();
+  if (node.title) {
+    var t = document.createElement("div");
+    t.className = "detail-title";
+    t.textContent = node.title;
+    detail.appendChild(t);
+  }
+
+  if (node.meta) {
+    var m = document.createElement("div");
+    m.className = "detail-meta";
+    m.textContent = node.meta;
+    detail.appendChild(m);
+  }
+
+  if (node.images && Array.isArray(node.images)) {
+    var gal = document.createElement("div");
+    gal.className = "gallery-grid";
+    node.images.forEach(function(src, idx) {
+      var it = document.createElement("div");
+      it.className = "gallery-item";
+      var img = document.createElement("img");
+      img.className = "detail-media";
+      img.src = src;
+      img.alt = (node.title || "") + " " + (idx + 1);
+      img.loading = "lazy";
+      img.onerror = function() { it.style.display = "none"; };
+      it.appendChild(img);
+      gal.appendChild(it);
+    });
+    detail.appendChild(gal);
+  } else if (node.img) {
+    var img = document.createElement("img");
+    img.className = "detail-media";
+    img.src = node.img;
+    img.alt = node.title || "";
+    img.loading = "lazy";
+    img.onerror = function() { img.style.display = "none"; };
+    detail.appendChild(img);
+  }
+
+  if (node.body) {
+    var b = document.createElement("div");
+    b.className = "detail-body";
+    b.textContent = node.body;
+    detail.appendChild(b);
+  }
+
+  if (node.link) {
+    var l = document.createElement("a");
+    l.className = "detail-link";
+    l.href = node.link;
+    l.target = "_blank";
+    l.rel = "noopener noreferrer";
+    l.textContent = "abrir link ↗";
+    detail.appendChild(l);
+  }
+
+  return detail;
+}
+
+// Eventos do header
+searchInput.addEventListener("input", function() {
+  searchQuery = this.value.trim();
+  searchClear.hidden = !searchQuery;
+  if (searchQuery) {
+    renderResults();
+  } else {
+    resultsCount.hidden = true;
+    resultsCount.textContent = "";
+    syncRender();
+  }
+});
+
+searchClear.addEventListener("click", function() {
+  clearSearch();
+  searchInput.focus();
+  syncRender();
+});
+
+filterSelect.addEventListener("change", function() {
+  filterMode = this.value;
+  path = [];
+  if (searchQuery) renderResults(); else syncRender();
+});
+
+sortSelect.addEventListener("change", function() {
+  sortMode = this.value;
+  pendingScrollLeft = stage.scrollLeft;
+  if (searchQuery) {
+    renderResults();
+  } else {
+    syncRender();
+  }
+});
+
+document.addEventListener("keydown", function(e) {
+  var tag = document.activeElement ? document.activeElement.tagName : "";
+  var typing = /^(INPUT|TEXTAREA|SELECT)$/.test(tag);
+
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+    return;
+  }
+
+  if (e.key === "/" && !typing) {
+    e.preventDefault();
+    searchInput.focus();
+    return;
+  }
+
+  if (e.key === "Escape" && document.activeElement === searchInput) {
+    clearSearch();
+    searchInput.blur();
+    syncRender();
+  }
+});
+
+syncRender();
 </script>
-
 </body>
 </html>

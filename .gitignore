@@ -4,3 +4,8 @@ node_modules/
 *.sqlite3
 server/node_modules/
 server/store.sqlite3
+
+# backups locais de trabalho
+index_fsb.html
+index_original_backup.html
+index_tree.html
