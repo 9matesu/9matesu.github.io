@@ -5,39 +5,646 @@
     "artist": "Matesu",
     "year": 2026,
     "type": "album",
-    "cover": "https://f4.bcbits.com/img/a0810066149_10.jpg",
-    "priceCents": 500,
+    "group": "lançamentos",
+    "note": "Álbum solo de 2026. Composição, produção musical, mixagem e masterização.",
+    "date": "2026-04-24",
+    "cover": "https://f4.bcbits.com/img/a8100666149_10.jpg",
     "externalLinks": {
       "bandcamp": "https://matesu.bandcamp.com/album/sp-150"
     },
     "tracks": [
-      { "title": "xrc no 130", "duration": "3:44", "fileKey": "albums/sp-150/01.mp3" },
-      { "title": "onde correr", "duration": "4:20", "fileKey": "albums/sp-150/02.mp3" },
-      { "title": "sequencia", "duration": "3:36", "fileKey": "albums/sp-150/03.mp3" },
-      { "title": "womp", "duration": "2:35", "fileKey": "albums/sp-150/04.mp3" },
-      { "title": "ce sabe", "duration": "3:07", "fileKey": "albums/sp-150/05.mp3" },
-      { "title": "xt no 140", "duration": "2:35", "fileKey": "albums/sp-150/06.mp3" },
-      { "title": "d4 no 150", "duration": "5:39", "fileKey": "albums/sp-150/07.mp3" },
-      { "title": "to passando", "duration": "3:47", "fileKey": "albums/sp-150/08.mp3" }
+      {
+        "title": "xrc no 130",
+        "duration": "3:44"
+      },
+      {
+        "title": "onde correr",
+        "duration": "4:20"
+      },
+      {
+        "title": "sequencia",
+        "duration": "3:36"
+      },
+      {
+        "title": "womp",
+        "duration": "2:35"
+      },
+      {
+        "title": "ce sabe",
+        "duration": "3:07"
+      },
+      {
+        "title": "xt no 140",
+        "duration": "2:35"
+      },
+      {
+        "title": "d4 no 150",
+        "duration": "5:39"
+      },
+      {
+        "title": "to passando",
+        "duration": "3:47"
+      }
     ]
   },
   {
-    "id": "simpatia",
-    "title": "Simpatia",
+    "id": "antologia",
+    "title": "Antologia",
+    "artist": "Matesu",
+    "year": 2026,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2026, publicado pelo bloodworm trax, selo que fundei com o rafao. Composição, produção musical, mixagem e masterização.",
+    "date": "2026-07-03",
+    "cover": "https://f4.bcbits.com/img/a3227386020_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://bloodwormtrax.bandcamp.com/album/btx003-antologia"
+    },
+    "tracks": [
+      {
+        "title": "outono",
+        "duration": "2:03"
+      },
+      {
+        "title": "o mal de malandro é achar que só o pai dele fez filho esperto",
+        "duration": "2:25"
+      },
+      {
+        "title": "reminiscencia",
+        "duration": "2:14"
+      },
+      {
+        "title": "anterógrada",
+        "duration": "6:34"
+      },
+      {
+        "title": "simpatia",
+        "duration": "3:47"
+      },
+      {
+        "title": "sino (interlúdio)",
+        "duration": "3:58"
+      },
+      {
+        "title": "palisades",
+        "duration": "3:16"
+      },
+      {
+        "title": "acqua",
+        "duration": "5:42"
+      },
+      {
+        "title": "inverno",
+        "duration": "0:54"
+      }
+    ]
+  },
+  {
+    "id": "btx002-simpatia",
+    "title": "[bTx002] simpatia",
+    "artist": "Matesu e kiddo",
+    "year": 2026,
+    "type": "track",
+    "group": "lançamentos",
+    "note": "Lançamento do Matesu com o kiddo em 2026, pelo bloodworm trax. Produção, mixagem, masterização, edição e design.",
+    "date": "2026-05-06",
+    "cover": "https://f4.bcbits.com/img/a501602669_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://bloodwormtrax.bandcamp.com/track/btx002-simpatia"
+    },
+    "tracks": [
+      {
+        "title": "simpatia",
+        "duration": "3:47"
+      }
+    ]
+  },
+  {
+    "id": "xrc-no-130",
+    "title": "xrc no 130",
+    "artist": "Matesu",
+    "year": 2026,
+    "type": "track",
+    "group": "lançamentos",
+    "note": "Faixa solo de 2026. Composição, produção musical, mixagem e masterização.",
+    "date": "2026-02-13",
+    "cover": "https://f4.bcbits.com/img/a2281298144_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/track/xrc-no-130-2"
+    },
+    "tracks": [
+      {
+        "title": "xrc no 130",
+        "duration": "3:44"
+      }
+    ]
+  },
+  {
+    "id": "paramore-decode",
+    "title": "Paramore - Decode (Matesu Remix)",
+    "artist": "Matesu",
+    "year": 2026,
+    "type": "track",
+    "group": "lançamentos",
+    "note": "Remix solo de 2026. Composição, produção musical, mixagem e masterização.",
+    "date": "2026-09-04",
+    "cover": "https://f4.bcbits.com/img/a3321837188_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/track/paramore-decode-matesu-remix"
+    },
+    "tracks": [
+      {
+        "title": "Paramore - Decode (Matesu Remix)",
+        "duration": "4:38"
+      }
+    ]
+  },
+  {
+    "id": "carnagarage",
+    "title": "carnagarage",
     "artist": "Matesu",
     "year": 2025,
     "type": "album",
-    "cover": "/img/simpatia/capa.png",
-    "priceCents": 500,
+    "group": "lançamentos",
+    "note": "Álbum solo de 2025, com bootlegs e remixes UKG. Composição, produção musical, mixagem e masterização.",
+    "date": "2025-02-27",
+    "cover": "https://f4.bcbits.com/img/a3411651884_10.jpg",
     "externalLinks": {
-      "bandcamp": "https://matesu.bandcamp.com"
+      "bandcamp": "https://matesu.bandcamp.com/album/carnagarage"
     },
     "tracks": [
-      { "title": "Abertura / Simpatia", "duration": "3:45", "fileKey": "albums/simpatia/01.mp3" },
-      { "title": "Luz Amarela", "duration": "4:10", "fileKey": "albums/simpatia/02.mp3" },
-      { "title": "Baile na Zona", "duration": "3:22", "fileKey": "albums/simpatia/03.mp3" },
-      { "title": "Fogo & Neblina", "duration": "5:18", "fileKey": "albums/simpatia/04.mp3" },
-      { "title": "Madrugada", "duration": "4:05", "fileKey": "albums/simpatia/05.mp3" }
+      {
+        "title": "Mu540, Kyan - USD, é USD (Matesu & NVNSX UKG Flip)",
+        "duration": "3:00"
+      },
+      {
+        "title": "Veigh, MC Negão Original - Os Mlk É Ruim (Matesu & NVNSX UKG Flip)",
+        "duration": "3:00"
+      },
+      {
+        "title": "Duquesa, Tasha & Tracie - Disk P@#$%&! (Matesu & NVNSX UKG Flip)",
+        "duration": "2:48"
+      }
+    ]
+  },
+  {
+    "id": "emotion-engine",
+    "title": "Emotion Engine",
+    "artist": "Matesu",
+    "year": 2025,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2025, publicado no Kenyon Sound. Composição, produção musical, mixagem e masterização.",
+    "date": "2025-05-26",
+    "cover": "https://f4.bcbits.com/img/a2661437354_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://kenyonsound.bandcamp.com/album/emotion-engine-ep"
+    },
+    "tracks": [
+      {
+        "title": "Init 1",
+        "duration": "3:12"
+      },
+      {
+        "title": "Data",
+        "duration": "3:54"
+      },
+      {
+        "title": "EE Riddim",
+        "duration": "3:42"
+      },
+      {
+        "title": "Memory Violation",
+        "duration": "3:15"
+      },
+      {
+        "title": "Channel 16",
+        "duration": "3:28"
+      },
+      {
+        "title": "Streamline",
+        "duration": "6:00"
+      }
+    ]
+  },
+  {
+    "id": "mixed-seeds",
+    "title": "mixed seeds archival ('19-'23)",
+    "artist": "Matesu",
+    "year": 2023,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Arquivo de composições gravadas entre 2019 e 2023, publicado em 2023. Composição, produção musical, mixagem e masterização.",
+    "date": "2023-10-06",
+    "cover": "https://f4.bcbits.com/img/a3056827524_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/mixed-seeds-archival-19-23"
+    },
+    "tracks": [
+      {
+        "title": "pump up the jam",
+        "duration": "2:20"
+      },
+      {
+        "title": "overtones (21)",
+        "duration": "3:53"
+      },
+      {
+        "title": "uh (acid)",
+        "duration": "3:58"
+      },
+      {
+        "title": "eastern union",
+        "duration": "3:39"
+      },
+      {
+        "title": "cogu",
+        "duration": "4:03"
+      },
+      {
+        "title": "novembro",
+        "duration": "4:34"
+      },
+      {
+        "title": "chordata",
+        "duration": "5:58"
+      },
+      {
+        "title": "relic (140)",
+        "duration": "5:58"
+      },
+      {
+        "title": "contra a logica",
+        "duration": "3:22"
+      },
+      {
+        "title": "thai tigers",
+        "duration": "3:19"
+      }
+    ]
+  },
+  {
+    "id": "qa",
+    "title": "Qa",
+    "artist": "Matesu",
+    "year": 2023,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2023. Composição, produção musical, mixagem e masterização.",
+    "date": "2023-05-01",
+    "cover": "https://f4.bcbits.com/img/a3766671200_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/qa"
+    },
+    "tracks": [
+      {
+        "title": "Genese",
+        "duration": "3:30"
+      },
+      {
+        "title": "Soca",
+        "duration": "3:17"
+      },
+      {
+        "title": "Moda Paris",
+        "duration": "3:40"
+      },
+      {
+        "title": "Sem Modos",
+        "duration": "3:07"
+      },
+      {
+        "title": "Sem Modos - Instrumental",
+        "duration": "3:07"
+      },
+      {
+        "title": "Ballroom",
+        "duration": "2:35"
+      },
+      {
+        "title": "Refluxo",
+        "duration": "2:43"
+      },
+      {
+        "title": "Isotopo",
+        "duration": "4:37"
+      }
+    ]
+  },
+  {
+    "id": "rarer-demons",
+    "title": "Rarer Demons",
+    "artist": "Matesu",
+    "year": 2022,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2022. Composição, produção musical, mixagem e masterização.",
+    "date": "2022-01-21",
+    "cover": "https://f4.bcbits.com/img/a459386149_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/rarer-demons"
+    },
+    "tracks": [
+      {
+        "title": "Yamaha/FM",
+        "duration": "4:31"
+      },
+      {
+        "title": "Copacabana",
+        "duration": "4:28"
+      },
+      {
+        "title": "de_inferno",
+        "duration": "3:48"
+      },
+      {
+        "title": "9vinho",
+        "duration": "3:46"
+      }
+    ]
+  },
+  {
+    "id": "no-format",
+    "title": "No Format",
+    "artist": "Matesu",
+    "year": 2021,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2021. Composição, produção musical, mixagem e masterização.",
+    "date": "2021-10-01",
+    "cover": "https://f4.bcbits.com/img/a349448324_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/no-format"
+    },
+    "tracks": [
+      {
+        "title": "U Got Me",
+        "duration": "3:28"
+      },
+      {
+        "title": "'04 Dub",
+        "duration": "3:25"
+      },
+      {
+        "title": "Disjointed",
+        "duration": "2:51"
+      },
+      {
+        "title": "Ethos",
+        "duration": "3:33"
+      },
+      {
+        "title": "Neoclassical",
+        "duration": "4:11"
+      },
+      {
+        "title": "Génératif",
+        "duration": "4:27"
+      },
+      {
+        "title": "Your.Scent",
+        "duration": "6:03"
+      }
+    ]
+  },
+  {
+    "id": "virtualsoundscape",
+    "title": "virtualsoundscape.net",
+    "artist": "Matesu",
+    "year": 2021,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2021. Composição, produção musical, mixagem e masterização.",
+    "date": "2021-04-02",
+    "cover": "https://f4.bcbits.com/img/a2120608939_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/virtualsoundscape-net"
+    },
+    "tracks": [
+      {
+        "title": "Sprinting",
+        "duration": "3:19"
+      },
+      {
+        "title": "Corrosive",
+        "duration": "3:02"
+      },
+      {
+        "title": "Transparente",
+        "duration": "2:58"
+      },
+      {
+        "title": "Soundsystem",
+        "duration": "3:17"
+      }
+    ]
+  },
+  {
+    "id": "half-life",
+    "title": "Half Life",
+    "artist": "Matesu",
+    "year": 2021,
+    "type": "track",
+    "group": "lançamentos",
+    "note": "Faixa solo de 2021. Composição, produção musical, mixagem e masterização.",
+    "date": "2021-03-05",
+    "cover": "https://f4.bcbits.com/img/a4155197321_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/track/half-life"
+    },
+    "tracks": [
+      {
+        "title": "Half Life",
+        "duration": "4:27"
+      }
+    ]
+  },
+  {
+    "id": "international-flux",
+    "title": "International Flux",
+    "artist": "Matesu",
+    "year": 2021,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2021. Composição, produção musical, mixagem e masterização.",
+    "date": "2021-02-05",
+    "cover": "https://f4.bcbits.com/img/a2242505594_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/international-flux"
+    },
+    "tracks": [
+      {
+        "title": "Caspian Network",
+        "duration": "5:25"
+      },
+      {
+        "title": "Salang Tunnel Event",
+        "duration": "5:32"
+      },
+      {
+        "title": "Ashgabat Branch",
+        "duration": "5:11"
+      },
+      {
+        "title": "Karakum's Foreign Field",
+        "duration": "7:20"
+      },
+      {
+        "title": "Lost In Tashkent",
+        "duration": "4:47"
+      },
+      {
+        "title": "Semi-Arid Situation",
+        "duration": "5:23"
+      },
+      {
+        "title": "The New Silk Road",
+        "duration": "5:42"
+      },
+      {
+        "title": "Eurasian Steppes",
+        "duration": "5:32"
+      },
+      {
+        "title": "Shipping From Shenzhen",
+        "duration": "5:57"
+      },
+      {
+        "title": "En Route",
+        "duration": "4:37"
+      }
+    ]
+  },
+  {
+    "id": "tenacity",
+    "title": "Tenacity",
+    "artist": "Matesu",
+    "year": 2020,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2020. Composição, produção musical, mixagem e masterização.",
+    "date": "2020-10-02",
+    "cover": "https://f4.bcbits.com/img/a1909319468_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/tenacity"
+    },
+    "tracks": [
+      {
+        "title": "Fratura",
+        "duration": "2:21"
+      },
+      {
+        "title": "Neurose",
+        "duration": "2:46"
+      },
+      {
+        "title": "Atentado",
+        "duration": "3:14"
+      },
+      {
+        "title": "Incômodo",
+        "duration": "4:41"
+      },
+      {
+        "title": "Sônico",
+        "duration": "3:33"
+      }
+    ]
+  },
+  {
+    "id": "worldwide-stream",
+    "title": "Worldwide Stream",
+    "artist": "Matesu",
+    "year": 2020,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2020. Composição, produção musical, mixagem e masterização.",
+    "date": "2020-09-04",
+    "cover": "https://f4.bcbits.com/img/a2786901709_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/worldwide-stream"
+    },
+    "tracks": [
+      {
+        "title": "Peshawar",
+        "duration": "5:16"
+      },
+      {
+        "title": "The Kabul Connection",
+        "duration": "5:46"
+      },
+      {
+        "title": "Mount Fuji",
+        "duration": "6:43"
+      },
+      {
+        "title": "Empty Streets of Tehran",
+        "duration": "6:03"
+      },
+      {
+        "title": "Cambodia's Illegal Racing Scene",
+        "duration": "5:09"
+      },
+      {
+        "title": "Khyber Pass",
+        "duration": "4:47"
+      },
+      {
+        "title": "Oxide Pipeline",
+        "duration": "4:14"
+      },
+      {
+        "title": "Kandahar Highway",
+        "duration": "5:33"
+      },
+      {
+        "title": "Yokohama Travel Party",
+        "duration": "5:27"
+      }
+    ]
+  },
+  {
+    "id": "rare-demons-deluxe",
+    "title": "Rare Demons Minitapes Deluxe",
+    "artist": "Matesu",
+    "year": 2020,
+    "type": "album",
+    "group": "lançamentos",
+    "note": "Álbum solo de 2020, edição deluxe de uma compilação de minitapes. Composição, produção musical, mixagem e masterização.",
+    "date": "2020-04-15",
+    "cover": "https://f4.bcbits.com/img/a954962928_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://matesu.bandcamp.com/album/rare-demons-minitapes-deluxe"
+    },
+    "tracks": [
+      {
+        "title": "Honda Asimo 2000",
+        "duration": "3:53"
+      },
+      {
+        "title": "Selva/Concrete",
+        "duration": "2:40"
+      },
+      {
+        "title": "de_train",
+        "duration": "3:57"
+      },
+      {
+        "title": "Femto",
+        "duration": "3:30"
+      },
+      {
+        "title": "Mulekes Raro Soundsystem",
+        "duration": "3:06"
+      },
+      {
+        "title": "228mm Nails [caótico-industrial arc]",
+        "duration": "2:08"
+      },
+      {
+        "title": "Untitled:eclipse",
+        "duration": "3:13"
+      }
     ]
   },
   {
@@ -45,53 +652,99 @@
     "title": "ON",
     "artist": "Cassiel",
     "year": 2026,
-    "type": "ep",
-    "cover": "https://i.scdn.co/image/ab67616d0000b273a5eac25f150d780244a64390",
-    "priceCents": 500,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento de Cassiel em 2026. Participo na produção musical e na co-produção da faixa FALA PRA MIM.",
+    "date": "2026-05-20",
+    "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a5eac25f150d780244a64390",
     "externalLinks": {
-      "spotify": "https://open.spotify.com/intl-pt/album/5FB5mskX1Lw8Df9WtBrmx9"
+      "spotify": "https://open.spotify.com/album/5FB5mskX1Lw8Df9WtBrmx9"
     },
     "tracks": [
-      { "title": "ON (Intro)", "duration": "3:15", "fileKey": "eps/on/01.mp3" },
-      { "title": "Frequência", "duration": "4:02", "fileKey": "eps/on/02.mp3" },
-      { "title": "Desvio", "duration": "3:38", "fileKey": "eps/on/03.mp3" }
+      {
+        "title": "CAIPORA",
+        "duration": "2:24"
+      },
+      {
+        "title": "MULEQUE DE RUA",
+        "duration": "2:55"
+      },
+      {
+        "title": "RUDEBOYZ (BOOM BYE BYE)",
+        "duration": "3:44"
+      },
+      {
+        "title": "RAINHA DA DANÇA",
+        "duration": "3:44"
+      },
+      {
+        "title": "SEREIA",
+        "duration": "2:56"
+      },
+      {
+        "title": "FALA PRA MIM",
+        "duration": "3:19"
+      },
+      {
+        "title": "DALE",
+        "duration": "3:06"
+      },
+      {
+        "title": "NEM VEM QUE NÃO TEM",
+        "duration": "2:53"
+      },
+      {
+        "title": "ESTILO LIVRE",
+        "duration": "2:19"
+      },
+      {
+        "title": "XERECARD",
+        "duration": "3:16"
+      },
+      {
+        "title": "DALE (FUNGI REMIX)",
+        "duration": "2:35"
+      }
     ]
   },
   {
-    "id": "veludo",
-    "title": "VELUDO",
-    "artist": "Meio Feel",
-    "year": 2025,
-    "type": "ep",
-    "cover": "https://i.scdn.co/image/ab67616d0000b273025189b581cf8215b2181a83",
-    "priceCents": 500,
+    "id": "na-pista-eh-100close",
+    "title": "NA PISTA EH 100CLOSE",
+    "artist": "100CLOSE",
+    "year": 2026,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento de 100CLOSE em 2026. Participo na produção musical do álbum.",
+    "date": "2026-10-18",
+    "cover": "https://i1.sndcdn.com/artworks-g3j3E9IMXgupsfc3-CAzwLg-t500x500.jpg",
     "externalLinks": {
-      "spotify": "https://open.spotify.com/intl-pt/album/3wsJA1PCrPZBRKCJNFdhOJ"
+      "audiomack": "https://audiomack.com/100close/album/na-pista-eh-100-close"
     },
     "tracks": [
-      { "title": "Veludo Vermelho", "duration": "3:30", "fileKey": "eps/veludo/01.mp3" },
-      { "title": "Noite Suave", "duration": "4:15", "fileKey": "eps/veludo/02.mp3" },
-      { "title": "Sombra & Luz", "duration": "3:50", "fileKey": "eps/veludo/03.mp3" }
-    ]
-  },
-  {
-    "id": "emotion-engine",
-    "title": "Emotion Engine",
-    "artist": "Kenyon Sound",
-    "year": 2025,
-    "type": "ep",
-    "cover": "https://f4.bcbits.com/img/a2661437354_10.jpg",
-    "priceCents": 500,
-    "externalLinks": {
-      "bandcamp": "https://kenyonsound.bandcamp.com/album/emotion-engine-ep"
-    },
-    "tracks": [
-      { "title": "Init 1", "duration": "3:12", "fileKey": "eps/emotion-engine/01.mp3" },
-      { "title": "Data", "duration": "3:54", "fileKey": "eps/emotion-engine/02.mp3" },
-      { "title": "EE Riddim", "duration": "3:42", "fileKey": "eps/emotion-engine/03.mp3" },
-      { "title": "Memory Violation", "duration": "3:15", "fileKey": "eps/emotion-engine/04.mp3" },
-      { "title": "Channel 16", "duration": "3:27", "fileKey": "eps/emotion-engine/05.mp3" },
-      { "title": "Streamline", "duration": "5:59", "fileKey": "eps/emotion-engine/06.mp3" }
+      {
+        "title": "GIRLZ AND BOYZ",
+        "duration": null
+      },
+      {
+        "title": "VC FARIA?",
+        "duration": null
+      },
+      {
+        "title": "THAT'S TOUGH",
+        "duration": null
+      },
+      {
+        "title": "BREAKZADA, LUPA E TOUCAH",
+        "duration": null
+      },
+      {
+        "title": "VOGUE DE QUEBRADA",
+        "duration": null
+      },
+      {
+        "title": "MISS MY FRIENDS",
+        "duration": null
+      }
     ]
   },
   {
@@ -99,118 +752,62 @@
     "title": "monocromia",
     "artist": "Chibanca",
     "year": 2025,
-    "type": "ep",
-    "cover": "https://i.scdn.co/image/ab67616d00001e026d35f6f1c381cc45f48714bf",
-    "priceCents": 500,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento de Chibanca em 2025. Participo na produção musical das faixas Prólogo, Tentativa, Purgatório e Limite.",
+    "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e026d35f6f1c381cc45f48714bf",
     "externalLinks": {
-      "spotify": "https://www.youtube.com/watch?v=Dzny9n9tY-4"
+      "spotify": "https://open.spotify.com/album/45u9BhOgGJxEmzxdqEvCXj"
     },
     "tracks": [
-      { "title": "monocromia I", "duration": "3:12", "fileKey": "eps/monocromia/01.mp3" },
-      { "title": "monocromia II", "duration": "4:05", "fileKey": "eps/monocromia/02.mp3" }
-    ]
-  },
-  {
-    "id": "santa-sucata",
-    "title": "Santa Sucata",
-    "artist": "Sucateiro",
-    "year": 2024,
-    "type": "ep",
-    "cover": "https://i1.sndcdn.com/artworks-VHgP4ikm9Njpbhvr-nNMVHg-t500x500.jpg",
-    "priceCents": 500,
-    "externalLinks": {
-      "bandcamp": "https://www.youtube.com/watch?v=WfPJ0qqlD1U"
-    },
-    "tracks": [
-      { "title": "Sucata Urbana", "duration": "3:40", "fileKey": "eps/santa-sucata/01.mp3" },
-      { "title": "Ritmo de Ferro", "duration": "4:18", "fileKey": "eps/santa-sucata/02.mp3" },
-      { "title": "Resíduo Sônico", "duration": "3:25", "fileKey": "eps/santa-sucata/03.mp3" }
-    ]
-  },
-  {
-    "id": "lagerhaus-i",
-    "title": "Lagerhaus I",
-    "artist": "bloodworm trax",
-    "year": 2024,
-    "type": "ep",
-    "cover": "https://f4.bcbits.com/img/a2572503252_10.jpg",
-    "priceCents": 500,
-    "externalLinks": {
-      "spotify": "https://open.spotify.com/intl-pt/album/001lOKSKlegQH94zWVrRlP",
-      "bandcamp": "https://bloodwormtrax.bandcamp.com"
-    },
-    "tracks": [
-      { "title": "Lagerhaus Intro", "duration": "4:00", "fileKey": "eps/lagerhaus-i/01.mp3" },
-      { "title": "Interior Beats", "duration": "3:45", "fileKey": "eps/lagerhaus-i/02.mp3" },
-      { "title": "Trax Zone", "duration": "5:10", "fileKey": "eps/lagerhaus-i/03.mp3" }
-    ]
-  },
-  {
-    "id": "blackmesa-i",
-    "title": "BLACKMESA I",
-    "artist": "BLACKMESA",
-    "year": 2024,
-    "type": "ep",
-    "cover": "https://f4.bcbits.com/img/a2622922340_10.jpg",
-    "priceCents": 500,
-    "externalLinks": {
-      "bandcamp": "https://blackmesaent.bandcamp.com/album/blackmesa-i-bootlegs"
-    },
-    "tracks": [
-      { "title": "MC PH - Tenho Que Me Decidir (Matesu Hotfix)", "duration": "3:45", "fileKey": "eps/blackmesa-i/01.mp3" },
-      { "title": "Syú - DJ do Baile (Starkenoten Flip)", "duration": "3:12", "fileKey": "eps/blackmesa-i/02.mp3" },
-      { "title": "MC RN do Capão - Pergunta Lá (Kokitos Remix)", "duration": "3:30", "fileKey": "eps/blackmesa-i/03.mp3" },
-      { "title": "Ponto de Equilíbrio - Hipócritas (SNOT Bootleg)", "duration": "4:10", "fileKey": "eps/blackmesa-i/04.mp3" },
-      { "title": "Ariana Grande - God Is a Woman (Syú Flip)", "duration": "3:25", "fileKey": "eps/blackmesa-i/05.mp3" },
-      { "title": "Igao Senhagah, DJ Ader - Centro$ujo (NVNSX Voltmix Edit)", "duration": "3:50", "fileKey": "eps/blackmesa-i/06.mp3" },
-      { "title": "Supernova Ent. - Os Meninos da Nova (NVNSX Bootleg)", "duration": "3:18", "fileKey": "eps/blackmesa-i/07.mp3" }
-    ]
-  },
-  {
-    "id": "intraterreno",
-    "title": "Intraterreno",
-    "artist": "ANTCONSTANTINO",
-    "year": 2020,
-    "type": "ep",
-    "cover": "https://cdn-images.dzcdn.net/images/cover/26cc552d150133e6d5a680992cbfc612/0x1900-000000-80-0-0.jpg",
-    "priceCents": 500,
-    "externalLinks": {
-      "bandcamp": "https://www.youtube.com/watch?v=fKQgYRVkFzs"
-    },
-    "tracks": [
-      { "title": "Intraterreno (Original Mix)", "duration": "5:30", "fileKey": "eps/intraterreno/01.mp3" },
-      { "title": "Eco Subterrâneo", "duration": "4:15", "fileKey": "eps/intraterreno/02.mp3" },
-      { "title": "Profundezas", "duration": "6:02", "fileKey": "eps/intraterreno/03.mp3" }
-    ]
-  },
-  {
-    "id": "na-pista-eh-100close",
-    "title": "NA PISTA EH 100CLOSE",
-    "artist": "100CLOSE",
-    "year": 2025,
-    "type": "single",
-    "cover": "https://i1.sndcdn.com/artworks-g3j3E9IMXgupsfc3-CAzwLg-t500x500.jpg",
-    "priceCents": 300,
-    "externalLinks": {
-      "soundcloud": "https://soundcloud.com/100close/sets/napistaeh100close"
-    },
-    "tracks": [
-      { "title": "NA PISTA EH 100CLOSE", "duration": "3:28", "fileKey": "singles/na-pista-eh-100close/01.mp3" }
-    ]
-  },
-  {
-    "id": "volt-ampere",
-    "title": "VOLT-AMPERE",
-    "artist": "Trackswing",
-    "year": 2025,
-    "type": "single",
-    "cover": "https://i1.sndcdn.com/artworks-lZBWDzlws8Us0N7y-pa6VDg-t500x500.png",
-    "priceCents": 300,
-    "externalLinks": {
-      "soundcloud": "https://soundcloud.com/trackswing/matesu-de-cima-p-baixo-8"
-    },
-    "tracks": [
-      { "title": "VOLT-AMPERE (Matesu De Cima p/ Baixo Mix)", "duration": "4:10", "fileKey": "singles/volt-ampere/01.mp3" }
+      {
+        "title": "Prólogo",
+        "duration": "0:50"
+      },
+      {
+        "title": "Punição",
+        "duration": "3:26"
+      },
+      {
+        "title": "Está em mim",
+        "duration": "3:50"
+      },
+      {
+        "title": "Enquanto suportar",
+        "duration": "2:21"
+      },
+      {
+        "title": "Tentativa",
+        "duration": "1:12"
+      },
+      {
+        "title": "Talvez o que devo fazer",
+        "duration": "0:48"
+      },
+      {
+        "title": "Esquecido por deuses",
+        "duration": "2:09"
+      },
+      {
+        "title": "Purgatório",
+        "duration": "0:57"
+      },
+      {
+        "title": "Escápula",
+        "duration": "2:36"
+      },
+      {
+        "title": "Apesar da ignorância",
+        "duration": "3:58"
+      },
+      {
+        "title": "Limite",
+        "duration": "0:41"
+      },
+      {
+        "title": "O percurso em cinza me vi",
+        "duration": "3:56"
+      }
     ]
   },
   {
@@ -218,14 +815,69 @@
     "title": "Toda Noite Busco o Sol",
     "artist": "Godar",
     "year": 2025,
-    "type": "single",
-    "cover": "https://i.scdn.co/image/ab67616d00001e02b815955260ca23bb489c9450",
-    "priceCents": 300,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento de Godar em 2025. Participo na produção musical das faixas Yasuke, Lua e Ervas Daninhas.",
+    "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02b815955260ca23bb489c9450",
     "externalLinks": {
-      "spotify": "https://open.spotify.com/intl-pt/album/11oF0SQtRXc5T9CKQ25u2w"
+      "spotify": "https://open.spotify.com/album/0EXtPdqyeDT5WL4oOfoUqs"
     },
     "tracks": [
-      { "title": "Toda Noite Busco o Sol", "duration": "3:55", "fileKey": "singles/toda-noite/01.mp3" }
+      {
+        "title": "Sol",
+        "duration": "1:22"
+      },
+      {
+        "title": "Sankofa",
+        "duration": "3:29"
+      },
+      {
+        "title": "Yasuke",
+        "duration": "3:14"
+      },
+      {
+        "title": "Pesadelo",
+        "duration": "4:06"
+      },
+      {
+        "title": "Frio",
+        "duration": "2:45"
+      },
+      {
+        "title": "Lua",
+        "duration": "1:24"
+      },
+      {
+        "title": "Bem Melhor",
+        "duration": "3:27"
+      },
+      {
+        "title": "Calor",
+        "duration": "2:24"
+      },
+      {
+        "title": "Ervas Daninhas",
+        "duration": "4:02"
+      }
+    ]
+  },
+  {
+    "id": "de-cima-p-baixo",
+    "title": "de cima p baixo",
+    "artist": "Trackswing",
+    "year": 2025,
+    "type": "track",
+    "group": "participações",
+    "note": "Lançamento de Trackswing em 2025. Participo na mixagem.",
+    "cover": "https://i1.sndcdn.com/artworks-lZBWDzlws8Us0N7y-pa6VDg-t500x500.png",
+    "externalLinks": {
+      "soundcloud": "https://soundcloud.com/trackswing/matesu-de-cima-p-baixo-8"
+    },
+    "tracks": [
+      {
+        "title": "de cima p baixo",
+        "duration": null
+      }
     ]
   },
   {
@@ -233,119 +885,375 @@
     "title": "Contratempo",
     "artist": "Sousx",
     "year": 2025,
-    "type": "single",
-    "cover": "https://i.scdn.co/image/ab67616d0000b273fe9a07daab501e61183568b5",
-    "priceCents": 300,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento de Sousx em 2025. Participo na produção musical, na mixagem e na masterização.",
+    "date": "2025-01-26",
+    "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d0000b273fe9a07daab501e61183568b5",
     "externalLinks": {
-      "spotify": "https://open.spotify.com/intl-pt/album/0EXtPdqyeDT5WL4oOfoUqs"
+      "spotify": "https://open.spotify.com/album/11oF0SQtRXc5T9CKQ25u2w"
     },
     "tracks": [
-      { "title": "Contratempo", "duration": "3:42", "fileKey": "singles/contratempo/01.mp3" }
+      {
+        "title": "Intro",
+        "duration": "2:12"
+      },
+      {
+        "title": "Coração de Pedra",
+        "duration": "2:23"
+      },
+      {
+        "title": "Fase",
+        "duration": "2:56"
+      },
+      {
+        "title": "Dinheiro & Tempo",
+        "duration": "3:24"
+      }
     ]
   },
   {
     "id": "insonia-kurt",
-    "title": "Insonia Kurt",
+    "title": "Insônia Kurt",
     "artist": "Bruno Kroz",
     "year": 2024,
-    "type": "single",
-    "cover": "https://i.scdn.co/image/ab67616d00001e023186b15d7d5668daa9a5922c",
-    "priceCents": 300,
+    "type": "ep",
+    "group": "participações",
+    "note": "EP de Bruno Kroz, lançado em 2024. Participo na produção musical da faixa Cria.",
+    "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e023186b15d7d5668daa9a5922c",
     "externalLinks": {
-      "spotify": "https://www.youtube.com/watch?v=DSLdrArsBx8"
+      "spotify": "https://open.spotify.com/album/78HfLRZ2VFiosec8Jwk0Sa"
     },
     "tracks": [
-      { "title": "Insonia Kurt", "duration": "3:18", "fileKey": "singles/insonia-kurt/01.mp3" }
+      {
+        "title": "Qual a Lei",
+        "duration": "2:03"
+      },
+      {
+        "title": "Halloween",
+        "duration": "2:34"
+      },
+      {
+        "title": "Karma",
+        "duration": "1:47"
+      },
+      {
+        "title": "Chama a Polícia Riddim",
+        "duration": "1:35"
+      },
+      {
+        "title": "Cria",
+        "duration": "3:22"
+      },
+      {
+        "title": "Outro 2024 (Não, cero)",
+        "duration": "3:07"
+      }
+    ]
+  },
+  {
+    "id": "santa-sucata-vol-1",
+    "title": "Santa Sucata vol. 1",
+    "artist": "Sucateiro",
+    "year": 2024,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento de Sucateiro em 2024. Participo na mixagem e na masterização do álbum.",
+    "date": "2024-11-01",
+    "cover": "https://f4.bcbits.com/img/a1771373243_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://sucata.bandcamp.com/album/santa-sucata-vol-1"
+    },
+    "tracks": [
+      {
+        "title": "Ocarina Crá Crá",
+        "duration": "2:51"
+      },
+      {
+        "title": "Capim",
+        "duration": "3:55"
+      },
+      {
+        "title": "Abelha",
+        "duration": "3:14"
+      },
+      {
+        "title": "Sucatas Mínimas",
+        "duration": "3:24"
+      },
+      {
+        "title": "I Shot The Refix",
+        "duration": "3:13"
+      },
+      {
+        "title": "Conheço Um Cara",
+        "duration": "3:28"
+      },
+      {
+        "title": "System Of A Club",
+        "duration": "2:22"
+      },
+      {
+        "title": "Bumbutantã",
+        "duration": "3:51"
+      },
+      {
+        "title": "cidade m.A.L.u.c.A",
+        "duration": "3:46"
+      },
+      {
+        "title": "Strabic Anthem",
+        "duration": "2:20"
+      },
+      {
+        "title": "Outro",
+        "duration": "3:21"
+      },
+      {
+        "title": "Are We Still Friends?",
+        "duration": "3:29"
+      }
+    ]
+  },
+  {
+    "id": "lagerhaus-i",
+    "title": "Lagerhaus I",
+    "artist": "bloodworm trax",
+    "year": 2024,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento do bloodworm trax, selo que fundei com o rafao, em 2024. Cuido da direção do selo e do lançamento.",
+    "date": "2024-10-25",
+    "cover": "https://f4.bcbits.com/img/a2572503252_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://bloodwormtrax.bandcamp.com/album/btx001-lagerhaus-i"
+    },
+    "tracks": [
+      {
+        "title": "Healing For The Weekend",
+        "duration": "3:32"
+      },
+      {
+        "title": "Cycling Thru Seasons",
+        "duration": "6:02"
+      },
+      {
+        "title": "Hazey",
+        "duration": "5:35"
+      },
+      {
+        "title": "Fresh Air",
+        "duration": "6:43"
+      },
+      {
+        "title": "Keep It Up",
+        "duration": "4:37"
+      },
+      {
+        "title": "Roundabout Slidin'",
+        "duration": "5:03"
+      },
+      {
+        "title": "Not.Personal",
+        "duration": "4:33"
+      },
+      {
+        "title": "Supernal Staring",
+        "duration": "5:24"
+      },
+      {
+        "title": "The Mission",
+        "duration": "5:52"
+      }
+    ]
+  },
+  {
+    "id": "bootlegs-bm001",
+    "title": "Bootlegs I BM001",
+    "artist": "BLACKMESA",
+    "year": 2024,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento do BLACKMESA em 2024. Participo na produção musical, na mixagem e na masterização dos bootlegs do coletivo.",
+    "date": "2024-09-06",
+    "cover": "https://f4.bcbits.com/img/a2622922340_10.jpg",
+    "externalLinks": {
+      "bandcamp": "https://blackmesaent.bandcamp.com/album/bootlegs-i-bm001"
+    },
+    "tracks": [
+      {
+        "title": "MC PH - Tenho Que Me Decidir (Matesu Hotfix)",
+        "duration": "2:57"
+      },
+      {
+        "title": "Syú - DJ do Baile (Starkenoten Flip)",
+        "duration": "3:58"
+      },
+      {
+        "title": "MC RN do Capão - Pergunta Lá (Kokitos Remix)",
+        "duration": "2:20"
+      },
+      {
+        "title": "Ponto de Equilíbrio - Hipócritas (SNOT Bootleg)",
+        "duration": "3:16"
+      },
+      {
+        "title": "Ariana Grande - God Is a Woman (Syú Flip)",
+        "duration": "3:52"
+      },
+      {
+        "title": "Igao Senhagah, DJ Ader - Centro$ujo (NVNSX Voltmix Edit)",
+        "duration": "2:38"
+      },
+      {
+        "title": "Supernova Ent. - Os Meninos da Nova (NVNSX Bootleg) [extra]",
+        "duration": "2:29"
+      }
     ]
   },
   {
     "id": "volt-mix-o-retorno",
-    "title": "VOLT MIX: O Retorno",
+    "title": "VOLT MIX O Retorno",
     "artist": "SPEEDTEST",
     "year": 2024,
-    "type": "single",
-    "cover": "https://f4.bcbits.com/img/a3870683813_10.jpg",
-    "priceCents": 300,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento do SPEEDTEST em 2024, VOLT MIX: O Retorno. Participo na produção musical e na co-produção da faixa NBOMe (volt).",
+    "date": "2024-10-25",
+    "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02bcdb9920d2ca0b4816054941",
     "externalLinks": {
-      "bandcamp": "https://www.youtube.com/watch?v=6w2wfMiLKt0"
+      "spotify": "https://open.spotify.com/track/4OjSCz2eB2KWDZYSDjLpkG"
     },
     "tracks": [
-      { "title": "VOLT MIX: O Retorno", "duration": "5:40", "fileKey": "singles/volt-mix/01.mp3" }
+      {
+        "title": "NBOMe (volt)",
+        "duration": "3:26"
+      }
     ]
   },
   {
     "id": "rtmz-001",
     "title": "Rtmz #001",
-    "artist": "JPEGO, F.A",
+    "artist": "JPEGO e F.A",
     "year": 2023,
-    "type": "single",
-    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9c/36/4a/9c364a3b-f1c5-bbbc-f7ef-911d8eabb7a6/0.jpg/1200x630bb.jpg",
-    "priceCents": 300,
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento de JPEGO e F.A em 2023. Participo na produção musical e na mixagem.",
+    "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0255e5ec410aa755f940cdc6c8",
     "externalLinks": {
-      "spotify": "https://open.spotify.com/intl-pt/album/2n3HPrjyYq9ot3g5PnX168"
+      "spotify": "https://open.spotify.com/album/2n3HPrjyYq9ot3g5PnX168"
     },
     "tracks": [
-      { "title": "Rtmz #001", "duration": "4:05", "fileKey": "singles/rtmz-001/01.mp3" }
+      {
+        "title": "Timbres em Movimento - Remix",
+        "duration": "1:45"
+      },
+      {
+        "title": "Press Play",
+        "duration": "2:50"
+      }
     ]
   },
   {
     "id": "renc-renc",
     "title": "RENC RENC",
-    "artist": "Beat do Avila, Kiddo, Igao Senhagah",
+    "artist": "Beat do Ávila, Kiddo e Igao Senhagah",
     "year": 2023,
-    "type": "single",
-    "cover": "https://source.boomplaymusic.com/group10/M00/09/15/3ff6f7f1f4184f9ba58fda3ee7e27a9a_320_320.jpg",
-    "priceCents": 300,
+    "type": "track",
+    "group": "participações",
+    "note": "Lançamento de Beat do Ávila, Kiddo e Igao Senhagah em 2023. Participo na produção musical.",
+    "date": "2023-10-26",
+    "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e020b3855748a315b0c4e545b17",
     "externalLinks": {
-      "spotify": "https://open.spotify.com/intl-pt/track/1E6nJWNp5zZkDjql2RPGV3"
+      "spotify": "https://open.spotify.com/track/1E6nJWNp5zZkDjql2RPGV3"
     },
     "tracks": [
-      { "title": "RENC RENC", "duration": "3:10", "fileKey": "singles/renc-renc/01.mp3" }
+      {
+        "title": "RENC RENC",
+        "duration": "2:16"
+      }
     ]
   },
   {
     "id": "skate-deck-2",
     "title": "skate deck 2.0",
-    "artist": "Sanches",
+    "artist": "Sanches Coleção",
     "year": 2022,
-    "type": "single",
+    "type": "album",
+    "group": "participações",
+    "note": "Lançamento da coleção skate deck 2.0, do Sanches, em 2022. Participo na produção musical das faixas.",
     "cover": "https://cdn.prod.website-files.com/65b0367ee6efd0c53e2e8279/65f492f5a509d475cc7bea39_SKATEDECK-p-500.png",
-    "priceCents": 300,
     "externalLinks": {
       "instagram": "https://www.instagram.com/reel/CcRaWSvDr89/"
-    },
-    "tracks": [
-      { "title": "skate deck 2.0", "duration": "2:58", "fileKey": "singles/skate-deck/01.mp3" }
-    ]
-  },
-  {
-    "id": "ameaca-detectada",
-    "title": "Ameaca Detectada",
-    "artist": "Bruno Kroz",
-    "year": 2021,
-    "type": "single",
-    "cover": "https://i.scdn.co/image/ab67616d00001e02c6b48ac716ac3e0a6a62040a",
-    "priceCents": 300,
-    "externalLinks": {
-      "spotify": "https://www.youtube.com/watch?v=wSRC0XdE0DA"
-    },
-    "tracks": [
-      { "title": "Ameaca Detectada", "duration": "3:35", "fileKey": "singles/ameaca-detectada/01.mp3" }
-    ]
+    }
   },
   {
     "id": "canato-zona0800-13",
-    "title": "Canato [ZONA0800-13]",
-    "artist": "zonaEXP.",
+    "title": "CANATO [ZONA0800-13]",
+    "artist": "ZONAexp.",
     "year": 2021,
-    "type": "single",
+    "type": "track",
+    "group": "participações",
+    "note": "Lançamento da ZONAexp. em 2021. Produzo a faixa CANATO.",
+    "date": "2021-10-13",
     "cover": "https://f4.bcbits.com/img/a1925775572_16.jpg",
-    "priceCents": 300,
     "externalLinks": {
       "bandcamp": "https://zonaexp.bandcamp.com/track/matesu-canato-zona0800-13"
     },
     "tracks": [
-      { "title": "Canato", "duration": "4:22", "fileKey": "singles/canato/01.mp3" }
+      {
+        "title": "MATESU - CANATO [ZONA0800-13]",
+        "duration": "5:16"
+      }
     ]
+  },
+  {
+    "id": "ameaca-detectada",
+    "title": "Ameaça Detectada",
+    "artist": "Bruno Kroz",
+    "year": 2021,
+    "type": "ep",
+    "group": "participações",
+    "note": "EP de Bruno Kroz, lançado em 2021. Participo na produção musical da faixa Pesadelo, junto com o Colas.",
+    "date": "2021-08-06",
+    "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c6b48ac716ac3e0a6a62040a",
+    "externalLinks": {
+      "spotify": "https://open.spotify.com/album/7GkXQSyylRkhYelssYADGT"
+    },
+    "tracks": [
+      {
+        "title": "Intro",
+        "duration": "0:20"
+      },
+      {
+        "title": "Ameaça Detectada",
+        "duration": "2:46"
+      },
+      {
+        "title": "Vapor",
+        "duration": "2:07"
+      },
+      {
+        "title": "QUEBRANDO E AMASSANDO",
+        "duration": "2:42"
+      },
+      {
+        "title": "Pesadelo",
+        "duration": "3:09"
+      }
+    ]
+  },
+  {
+    "id": "intraterreno",
+    "title": "Intraterreno (Matesu Remix)",
+    "artist": "ANTCONSTANTINO e Enigma",
+    "year": 2020,
+    "type": "track",
+    "group": "participações",
+    "note": "Remix de ANTCONSTANTINO e Enigma, de 2020. Faço o remix e a masterização.",
+    "cover": "https://cdn-images.dzcdn.net/images/cover/26cc552d150133e6d5a680992cbfc612/0x1900-000000-80-0-0.jpg",
+    "externalLinks": {
+      "youtube": "https://www.youtube.com/watch?v=fKQgYRVkFzs"
+    }
   }
 ]
