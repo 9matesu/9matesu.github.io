@@ -1375,6 +1375,260 @@ body:not(.light) .ink-dark {
   letter-spacing: -0.01em;
 }
 
+/* -------------------------------------- ficha técnica, faixas e links */
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.section-head h4 {
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.section-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* Uma caixa por dado da ficha técnica */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+.spec-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--bg-main);
+}
+
+.spec-box.wide {
+  grid-column: 1 / -1;
+}
+
+.spec-icon {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+  color: var(--text-faint);
+}
+
+.spec-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.spec-label {
+  font-size: 8.5px;
+  line-height: 1.2;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.spec-value {
+  font-size: 12px;
+  line-height: 1.35;
+  letter-spacing: -0.012em;
+  color: var(--text-bright);
+  overflow-wrap: anywhere;
+}
+
+/* Descrição com filete na lateral */
+.desc-box {
+  border-left: 2px solid var(--border-link);
+  padding: 1px 0 1px 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  letter-spacing: -0.014em;
+  color: var(--text-body);
+}
+
+/* Capa em quadrado */
+.detail-cover {
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Faixas */
+.track-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.track-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.track-num {
+  flex: 0 0 18px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.track-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.track-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--text-bright);
+}
+
+.track-explicit {
+  font-size: 8.5px;
+  line-height: 1;
+  padding: 2px 3px;
+  border: 1px solid var(--border-link);
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.track-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+}
+
+.track-roles {
+  margin-top: 1px;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--text-faint);
+}
+
+.track-isrc {
+  margin-top: 2px;
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+  color: var(--text-faint);
+}
+
+.track-side {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.track-dur {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.track-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.track-play svg {
+  width: 12px;
+  height: 12px;
+}
+
+.track-play:hover {
+  color: var(--text-bright);
+  border-color: var(--border-link);
+}
+
+/* Links em caixa */
+.link-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.link-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border: 1px solid var(--border-link);
+  color: var(--text-bright);
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: border-color 0.16s ease;
+}
+
+.link-box svg {
+  width: 12px;
+  height: 12px;
+  color: var(--text-muted);
+}
+
+.link-box:hover {
+  border-color: var(--text-bright);
+}
+
+#stage .detail-view a {
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .spec-grid {
+    grid-template-columns: 1fr;
+  }
+  .spec-box.wide {
+    grid-column: auto;
+  }
+  .detail-cover {
+    max-width: 180px;
+  }
+}
+
 .result-path {
   font-size: 11px;
   line-height: 1;
@@ -1883,40 +2137,32 @@ var THUMB_MAP = {
   "img/github/catlas.png": "img/thumbs/github_catlas.jpg",
   "img/github/wptools.png": "img/thumbs/github_wptools.jpg",
   "img/github/resuMe.png": "img/thumbs/github_resuMe.jpg",
-  "https://f4.bcbits.com/img/a8100666149_10.jpg": "img/thumbs/rel_sp-150.jpg",
-  "https://f4.bcbits.com/img/a3227386020_10.jpg": "img/thumbs/rel_antologia.jpg",
-  "https://f4.bcbits.com/img/a501602669_10.jpg": "img/thumbs/rel_simpatia-btx002.jpg",
-  "https://f4.bcbits.com/img/a2281298144_10.jpg": "img/thumbs/rel_xrc-no-130.jpg",
-  "https://f4.bcbits.com/img/a3321837188_10.jpg": "img/thumbs/rel_paramore-decode.jpg",
-  "https://f4.bcbits.com/img/a3411651884_10.jpg": "img/thumbs/rel_carnagarage.jpg",
-  "https://f4.bcbits.com/img/a2661437354_10.jpg": "img/thumbs/rel_emotion-engine.jpg",
-  "https://f4.bcbits.com/img/a3056827524_10.jpg": "img/thumbs/rel_mixed-seeds.jpg",
-  "https://f4.bcbits.com/img/a3766671200_10.jpg": "img/thumbs/rel_qa.jpg",
-  "https://f4.bcbits.com/img/a459386149_10.jpg": "img/thumbs/rel_rarer-demons.jpg",
-  "https://f4.bcbits.com/img/a349448324_10.jpg": "img/thumbs/rel_no-format.jpg",
-  "https://f4.bcbits.com/img/a2120608939_10.jpg": "img/thumbs/rel_virtualsoundscape.jpg",
-  "https://f4.bcbits.com/img/a4155197321_10.jpg": "img/thumbs/rel_half-life.jpg",
-  "https://f4.bcbits.com/img/a2242505594_10.jpg": "img/thumbs/rel_international-flux.jpg",
-  "https://f4.bcbits.com/img/a1909319468_10.jpg": "img/thumbs/rel_tenacity.jpg",
-  "https://f4.bcbits.com/img/a2786901709_10.jpg": "img/thumbs/rel_worldwide-stream.jpg",
-  "https://f4.bcbits.com/img/a954962928_10.jpg": "img/thumbs/rel_rare-demons-deluxe.jpg",
-  "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a5eac25f150d780244a64390": "img/thumbs/rel_on.jpg",
-  "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e026d35f6f1c381cc45f48714bf": "img/thumbs/rel_monocromia.jpg",
-  "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02b815955260ca23bb489c9450": "img/thumbs/rel_toda-noite-busco-o-sol.jpg",
-  "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e023186b15d7d5668daa9a5922c": "img/thumbs/rel_insonia-kurt.jpg",
-  "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c6b48ac716ac3e0a6a62040a": "img/thumbs/rel_ameaca-detectada.jpg",
-  "https://image-cdn-ak.spotifycdn.com/image/ab67616d0000b273fe9a07daab501e61183568b5": "img/thumbs/rel_contratempo.jpg",
-  "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0255e5ec410aa755f940cdc6c8": "img/thumbs/rel_rtmz-001.jpg",
-  "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e020b3855748a315b0c4e545b17": "img/thumbs/rel_renc-renc.jpg",
-  "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02bcdb9920d2ca0b4816054941": "img/thumbs/rel_volt-mix-o-retorno.jpg",
-  "https://f4.bcbits.com/img/a1771373243_10.jpg": "img/thumbs/rel_santa-sucata.jpg",
-  "https://f4.bcbits.com/img/a2572503252_10.jpg": "img/thumbs/rel_lagerhaus-i.jpg",
-  "https://f4.bcbits.com/img/a2622922340_10.jpg": "img/thumbs/rel_bootlegs-bm001.jpg",
-  "https://f4.bcbits.com/img/a1925775572_16.jpg": "img/thumbs/rel_canato-zona0800-13.jpg",
-  "https://i1.sndcdn.com/artworks-g3j3E9IMXgupsfc3-CAzwLg-t500x500.jpg": "img/thumbs/rel_na-pista-eh-100close.jpg",
-  "https://i1.sndcdn.com/artworks-lZBWDzlws8Us0N7y-pa6VDg-t500x500.png": "img/thumbs/rel_de-cima-p-baixo.jpg",
-  "https://cdn.prod.website-files.com/65b0367ee6efd0c53e2e8279/65f492f5a509d475cc7bea39_SKATEDECK-p-500.png": "img/thumbs/rel_skate-deck-2.png",
-  "https://cdn-images.dzcdn.net/images/cover/26cc552d150133e6d5a680992cbfc612/0x1900-000000-80-0-0.jpg": "img/thumbs/rel_intraterreno.jpg"
+  "img/covers/ameaca-detectada.jpg": "img/thumbs/rel_ameaca-detectada.jpg",
+  "img/covers/baby-i-m-bleeding.jpg": "img/thumbs/rel_baby-i-m-bleeding.jpg",
+  "img/covers/begonia.jpg": "img/thumbs/rel_begonia.jpg",
+  "img/covers/calor.jpg": "img/thumbs/rel_calor.jpg",
+  "img/covers/contratempo.jpg": "img/thumbs/rel_contratempo.jpg",
+  "img/covers/evangeline-blue.jpg": "img/thumbs/rel_evangeline-blue.jpg",
+  "img/covers/fat-kep.jpg": "img/thumbs/rel_fat-kep.jpg",
+  "img/covers/insonia-kurt.jpg": "img/thumbs/rel_insonia-kurt.jpg",
+  "img/covers/intraterreno.jpg": "img/thumbs/rel_intraterreno.jpg",
+  "img/covers/intro-2024.jpg": "img/thumbs/rel_intro-2024.jpg",
+  "img/covers/modo-mola.jpg": "img/thumbs/rel_modo-mola.jpg",
+  "img/covers/on.jpg": "img/thumbs/rel_on.jpg",
+  "img/covers/qual-a-lei.jpg": "img/thumbs/rel_qual-a-lei.jpg",
+  "img/covers/renc-renc.jpg": "img/thumbs/rel_renc-renc.jpg",
+  "img/covers/rtmz-001.jpg": "img/thumbs/rel_rtmz-001.jpg",
+  "img/covers/toda-noite-busco-o-sol.jpg": "img/thumbs/rel_toda-noite-busco-o-sol.jpg",
+  "img/covers/trilha-sonora.jpg": "img/thumbs/rel_trilha-sonora.jpg",
+  "img/covers/veludo.jpg": "img/thumbs/rel_veludo.jpg",
+  "img/covers/volt-mix-o-retorno.jpg": "img/thumbs/rel_volt-mix-o-retorno.jpg",
+  "img/covers/volt-ampere.jpg": "img/thumbs/rel_volt-ampere.jpg",
+  "img/covers/vida-baguncada.jpg": "img/thumbs/rel_vida-baguncada.jpg",
+  "img/covers/entao-pede-mae-de-pet.jpg": "img/thumbs/rel_entao-pede-mae-de-pet.jpg",
+  "img/covers/intrinseca-city.jpg": "img/thumbs/rel_intrinseca-city.jpg",
+  "img/covers/monocromia.jpg": "img/thumbs/rel_monocromia.jpg",
+  "img/covers/simpatia.jpg": "img/thumbs/rel_simpatia.jpg",
+  "img/covers/xrc-no-130.jpg": "img/thumbs/rel_xrc-no-130.jpg"
 };
 
 var path = [];
@@ -1986,6 +2232,26 @@ function sortKeys(keys, colIndex) {
   return arr;
 }
 
+// Texto que a busca enxerga dentro de um item: título, meta, descrição,
+// ficha técnica, faixas e links
+function nodeSearchText(node) {
+  var parts = [node.title, node.meta, node.body];
+  if (node.spec) {
+    node.spec.forEach(function(s) { parts.push(s.label, s.value); });
+  }
+  if (node.tracks) {
+    node.tracks.forEach(function(t) {
+      parts.push(t.title);
+      if (t.artists) parts = parts.concat(t.artists);
+      if (t.roles) parts = parts.concat(t.roles);
+    });
+  }
+  if (node.links) {
+    node.links.forEach(function(l) { parts.push(l.label); });
+  }
+  return parts.filter(Boolean).join(" ");
+}
+
 // Percorre a árvore inteira e devolve quem casa com a busca
 function collectMatches() {
   var q = normalizeText(searchQuery);
@@ -1998,7 +2264,7 @@ function collectMatches() {
       if (!child || typeof child !== "object") return;
       var full = keys.concat([key]);
       var leaf = isLeaf(child);
-      var hay = normalizeText([key, child.title, child.meta, child.body].filter(Boolean).join(" "));
+      var hay = normalizeText([key, nodeSearchText(child)].filter(Boolean).join(" "));
       if (hay.indexOf(q) !== -1) {
         out.push({ key: key, path: full, node: child, leaf: leaf });
       }
@@ -2074,44 +2340,191 @@ function playClick(action) {
 }
 
 // Popula a discografia a partir de discography.json
+// O arquivo é o SSOT: lançamentos, participações, ficha técnica, faixas e
+// links. Tudo que aparece na seção música sai daqui, sem nada inventado.
+// As capas ficam no sidecar discography-covers.json, porque o SSOT não
+// guarda imagem.
+var DISC_MONTHS = ["janeiro", "fevereiro", "março", "abril", "maio", "junho",
+  "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+var DISC_LINKS = {
+  spotify: "Spotify",
+  bandcamp: "Bandcamp",
+  soundcloud: "SoundCloud",
+  youtube: "YouTube",
+  instagram: "Instagram",
+  audiomack: "Audiomack",
+  deezer: "Deezer",
+  tidal: "Tidal",
+  applemusic: "Apple Music",
+  apple: "Apple Music"
+};
+
+// Ícones em traço, desenhados no próprio SVG
+var DISC_ICONS = {
+  disc: "M12 3.4a8.6 8.6 0 1 1 0 17.2 8.6 8.6 0 0 1 0-17.2zM12 9.6a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8z",
+  calendar: "M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM3 10h18M8 3v4M16 3v4",
+  user: "M12 4.6a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8zM4.6 20c1.4-3.6 4-5.4 7.4-5.4s6 1.8 7.4 5.4",
+  group: "M9 6a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM16.6 7.7a2.3 2.3 0 1 1 0 4.6 2.3 2.3 0 0 1 0-4.6zM3.4 19c1.1-3 3-4.5 5.6-4.5s4.5 1.5 5.6 4.5M15 14.8c2 .2 3.6 1.5 4.4 3.7",
+  tag: "M4.7 4h6.5c.3 0 .5.1.7.3l8 8c.4.4.4 1 0 1.4l-5.9 5.9c-.4.4-1 .4-1.4 0l-8-8c-.2-.2-.3-.4-.3-.7V4.7c0-.4.3-.7.7-.7zM8.3 7.2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z",
+  sliders: "M3.5 7h9M17 7h3.5M3.5 17h3M11 17h9.5M12 4.9a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2zM6.9 14.9a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2z",
+  wave: "M3 12h2M7.5 8.5v7M12 4.5v15M16.5 9v6M21 11.5v1",
+  music: "M10.1 18V7.3l9.5-2.2v10.7M7.5 15.4a2.6 2.6 0 1 1 0 5.2 2.6 2.6 0 0 1 0-5.2zM17 13.2a2.6 2.6 0 1 1 0 5.2 2.6 2.6 0 0 1 0-5.2z",
+  clock: "M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 7.2V12l3.2 2",
+  link: "M10.6 13.4a4 4 0 0 0 5.7 0l2.5-2.5a4 4 0 0 0-5.7-5.7l-1.2 1.2M13.4 10.6a4 4 0 0 0-5.7 0l-2.5 2.5a4 4 0 0 0 5.7 5.7l1.2-1.2",
+  play: "M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM10.3 8.9l5 3.1-5 3.1z"
+};
+
+var DISC_NS = "http://www.w3.org/2000/svg";
+
+// Desenha um ícone da discografia
+function discIcon(name, cls) {
+  var svg = document.createElementNS(DISC_NS, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", "1.4");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("focusable", "false");
+  if (cls) svg.setAttribute("class", cls);
+  var p = document.createElementNS(DISC_NS, "path");
+  p.setAttribute("d", DISC_ICONS[name] || "");
+  svg.appendChild(p);
+  return svg;
+}
+
+// "2026-05-20" vira "20 de maio de 2026"
+function discDate(iso) {
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ""));
+  if (!m) return String(iso || "");
+  var mes = DISC_MONTHS[parseInt(m[2], 10) - 1] || m[2];
+  return parseInt(m[3], 10) + " de " + mes + " de " + m[1];
+}
+
+// Junta uma lista de nomes sem "&" e sem dois-pontos
+function discJoin(arr) {
+  var list = (arr || []).filter(function(v) { return !!v; });
+  if (!list.length) return "";
+  if (list.length === 1) return list[0];
+  return list.slice(0, -1).join(", ") + " e " + list[list.length - 1];
+}
+
+function discCapital(s) {
+  s = String(s || "");
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+}
+
+// Soma a duração das faixas e devolve no formato m:ss
+function discDuration(tracks) {
+  var total = 0;
+  (tracks || []).forEach(function(t) {
+    var parts = String(t.duration || "").split(":").map(Number);
+    if (parts.length === 2 && parts[0] >= 0 && parts[1] >= 0) total += parts[0] * 60 + parts[1];
+  });
+  if (!total) return "";
+  var m = Math.floor(total / 60);
+  var s = total % 60;
+  return m + ":" + (s < 10 ? "0" : "") + s;
+}
+
+// Monta a ficha técnica de um lançamento
+function discSpec(item, credited, mainArtist, others, tracks) {
+  var spec = [];
+  spec.push({ icon: "disc", label: "tipo", value: credited ? "lançamento" : "participação" });
+  spec.push({ icon: "calendar", label: "data", value: discDate(item.releaseDate) });
+  spec.push({ icon: "user", label: "artista", value: mainArtist });
+  if (others.length) spec.push({ icon: "group", label: "participantes", value: discJoin(others) });
+  spec.push({ icon: "tag", label: "selo", value: item.label || "—" });
+  spec.push({ icon: "sliders", label: "funções", value: discJoin(item.roles) || "—" });
+  spec.push({ icon: "wave", label: "gêneros", value: discJoin(item.genres) || "—" });
+  spec.push({ icon: "music", label: "faixas", value: String(tracks.length) });
+  var dur = discDuration(tracks);
+  if (dur) spec.push({ icon: "clock", label: "duração", value: dur });
+  return spec;
+}
+
+// Texto da descrição, montado só com o que o SSOT traz
+function discDescription(item, credited, mainArtist, others, tracks) {
+  var roles = discCapital(discJoin(item.roles));
+  var n = tracks.length;
+  var contagem = n === 1 ? "1 faixa" : n + " faixas";
+  var partes = [];
+
+  if (credited) {
+    if (mainArtist.toLowerCase() === "matesu") {
+      partes.push("Lançamento solo de Matesu.");
+      if (roles) partes.push(roles + ".");
+    } else {
+      partes.push("Lançamento de " + mainArtist + (others.length ? " com " + discJoin(others) : "") + ".");
+      if (roles) partes.push("Matesu responde por " + roles.toLowerCase() + ".");
+    }
+  } else {
+    partes.push("Participação de Matesu em " + item.title + ", de " + mainArtist + (others.length ? " com " + discJoin(others) : "") + ".");
+    if (roles) partes.push("Matesu responde por " + roles.toLowerCase() + ".");
+  }
+
+  partes.push(contagem + ".");
+  return partes.join(" ");
+}
+
+// Links externos do lançamento
+function discLinks(item) {
+  var out = [];
+  var links = item.externalLinks || {};
+  Object.keys(links).forEach(function(k) {
+    var url = links[k];
+    if (!url) return;
+    var label = DISC_LINKS[k.toLowerCase()] || discCapital(k);
+    out.push({ label: label, url: url });
+  });
+  return out;
+}
+
 fetch("discography.json")
   .then(function(r) { return r.json(); })
   .then(function(items) {
+    return fetch("discography-covers.json")
+      .then(function(r) { return r.json(); })
+      .catch(function() { return {}; })
+      .then(function(covers) { return { items: items, covers: covers }; });
+  })
+  .then(function(data) {
+    var items = data.items || [];
+    var covers = data.covers || {};
+
     var grupos = {};
     grupos["lançamentos"] = {};
     grupos["participações"] = {};
 
     items.forEach(function(item) {
-      var grupo = grupos[item.group] ? item.group : "lançamentos";
-      var y = String(item.year || 2025);
+      var credited = !!item.matesuCredited;
+      var grupo = credited ? "lançamentos" : "participações";
+      var y = String(item.year || String(item.releaseDate || "").slice(0, 4) || "");
+      if (!y) return;
       if (!grupos[grupo][y]) grupos[grupo][y] = {};
 
-      var typeLabel = item.type === "ep" ? "EP"
-        : (item.type === "album" ? "álbum"
-        : (item.type === "single" ? "single" : "faixa"));
+      var mainArtist = item.artist || "";
+      var others = (item.artists || []).filter(function(a) { return a !== mainArtist; });
+      var tracks = item.tracks || [];
+      var cover = covers[item.title] || {};
 
-      var tracksText = item.tracks && item.tracks.length > 0
-        ? "\n\nfaixas:\n" + item.tracks.map(function(t, i) {
-            return (i + 1) + ". " + t.title + (t.duration ? " (" + t.duration + ")" : "");
-          }).join("\n")
-        : "";
+      var key = item.title;
+      if (grupos[grupo][y][key]) key = item.title + " · " + mainArtist;
 
-      var nome = item.title + (item.artist ? ", " + item.artist : "");
       var rel = {
-        title: nome,
-        meta: typeLabel + ", " + y,
-        body: (item.note || "") + tracksText
+        title: item.title,
+        meta: mainArtist + " · " + discDate(item.releaseDate),
+        body: discDescription(item, credited, mainArtist, others, tracks),
+        date: item.releaseDate,
+        spec: discSpec(item, credited, mainArtist, others, tracks),
+        tracks: tracks,
+        links: discLinks(item)
       };
-      if (item.date) rel.date = item.date;
-      if (item.cover) {
-        var cleanCover = item.cover.startsWith("/") ? item.cover.slice(1) : item.cover;
-        rel.img = cleanCover;
-      }
-      if (item.externalLinks) {
-        var k = Object.keys(item.externalLinks)[0];
-        if (k) rel.link = item.externalLinks[k];
-      }
-      grupos[grupo][y][nome] = rel;
+      if (cover.local) rel.img = cover.local;
+
+      grupos[grupo][y][key] = rel;
     });
 
     tree["música"]["lançamentos"] = grupos["lançamentos"];
@@ -3178,6 +3591,139 @@ function updateColumnEl(col, keys, colIndex, activeKey) {
   }
 }
 
+// Cabeçalho de seção: título em caixa alta e um fio que estica até o fim
+function detailSectionHead(text) {
+  var head = document.createElement("div");
+  head.className = "section-head";
+  var h = document.createElement("h4");
+  h.textContent = text;
+  head.appendChild(h);
+  var rule = document.createElement("span");
+  rule.className = "section-rule";
+  head.appendChild(rule);
+  return head;
+}
+
+// Ficha técnica: uma caixa por dado, com ícone e rótulo
+function detailSpecEl(spec) {
+  var grid = document.createElement("div");
+  grid.className = "spec-grid";
+  // Com número ímpar de caixas a última ocupa a linha inteira
+  var wide = spec.length % 2 === 1;
+  spec.forEach(function(s, i) {
+    var box = document.createElement("div");
+    box.className = "spec-box" + (wide && i === spec.length - 1 ? " wide" : "");
+    box.appendChild(discIcon(s.icon, "spec-icon"));
+    var text = document.createElement("span");
+    text.className = "spec-text";
+    var label = document.createElement("span");
+    label.className = "spec-label";
+    label.textContent = s.label;
+    var value = document.createElement("span");
+    value.className = "spec-value";
+    value.textContent = s.value;
+    text.appendChild(label);
+    text.appendChild(value);
+    box.appendChild(text);
+    grid.appendChild(box);
+  });
+  return grid;
+}
+
+// Lista de faixas com duração, crédito, ISRC e link
+function detailTracksEl(tracks) {
+  var list = document.createElement("div");
+  list.className = "track-list";
+  tracks.forEach(function(t, i) {
+    var row = document.createElement("div");
+    row.className = "track-row";
+
+    var num = document.createElement("span");
+    num.className = "track-num";
+    num.textContent = (i + 1 < 10 ? "0" : "") + (i + 1);
+    row.appendChild(num);
+
+    var main = document.createElement("div");
+    main.className = "track-main";
+
+    var title = document.createElement("div");
+    title.className = "track-title";
+    var name = document.createElement("span");
+    name.textContent = t.title;
+    title.appendChild(name);
+    if (t.explicit) {
+      var ex = document.createElement("span");
+      ex.className = "track-explicit";
+      ex.textContent = "E";
+      ex.title = "conteúdo explícito";
+      title.appendChild(ex);
+    }
+    main.appendChild(title);
+
+    if (t.artists && t.artists.length) {
+      var art = document.createElement("div");
+      art.className = "track-sub";
+      art.textContent = discJoin(t.artists);
+      main.appendChild(art);
+    }
+    if (t.roles && t.roles.length) {
+      var roles = document.createElement("div");
+      roles.className = "track-roles";
+      roles.textContent = discJoin(t.roles);
+      main.appendChild(roles);
+    }
+    if (t.isrc) {
+      var isrc = document.createElement("div");
+      isrc.className = "track-isrc";
+      isrc.textContent = "ISRC " + t.isrc;
+      main.appendChild(isrc);
+    }
+    row.appendChild(main);
+
+    var side = document.createElement("div");
+    side.className = "track-side";
+    if (t.duration) {
+      var dur = document.createElement("span");
+      dur.className = "track-dur";
+      dur.textContent = t.duration;
+      side.appendChild(dur);
+    }
+    if (t.spotify) {
+      var link = document.createElement("a");
+      link.className = "track-play";
+      link.href = t.spotify;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.setAttribute("aria-label", "abrir " + t.title + " no spotify");
+      link.appendChild(discIcon("play"));
+      side.appendChild(link);
+    }
+    row.appendChild(side);
+
+    list.appendChild(row);
+  });
+  return list;
+}
+
+// Caixas de link externo
+function detailLinksEl(links) {
+  var boxes = document.createElement("div");
+  boxes.className = "link-boxes";
+  links.forEach(function(l) {
+    var a = document.createElement("a");
+    a.className = "link-box";
+    a.href = l.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.appendChild(discIcon("link"));
+    var span = document.createElement("span");
+    span.textContent = l.label;
+    a.appendChild(span);
+    boxes.appendChild(a);
+  });
+  return boxes;
+}
+
 function renderDetailEl(node) {
   var detail = document.createElement("div");
   detail.className = "detail-view";
@@ -3215,7 +3761,7 @@ function renderDetailEl(node) {
     detail.appendChild(gal);
   } else if (node.img) {
     var img = document.createElement("img");
-    img.className = "detail-media";
+    img.className = node.spec ? "detail-media detail-cover" : "detail-media";
     if (assetNeedsInvert(node.img)) img.classList.add("ink-dark");
     img.src = node.img;
     img.alt = node.title || "";
@@ -3224,14 +3770,51 @@ function renderDetailEl(node) {
     detail.appendChild(img);
   }
 
-  if (node.body) {
-    var b = document.createElement("div");
-    b.className = "detail-body";
-    b.textContent = node.body;
-    detail.appendChild(b);
+  // Ficha técnica
+  if (node.spec && node.spec.length) {
+    var specSection = document.createElement("div");
+    specSection.className = "detail-section";
+    specSection.appendChild(detailSectionHead("ficha técnica"));
+    specSection.appendChild(detailSpecEl(node.spec));
+    detail.appendChild(specSection);
   }
 
-  if (node.link) {
+  // Descrição
+  if (node.body) {
+    var bodySection = document.createElement("div");
+    bodySection.className = "detail-section";
+    if (node.spec) {
+      bodySection.appendChild(detailSectionHead("descrição"));
+      var box = document.createElement("div");
+      box.className = "desc-box";
+      box.textContent = node.body;
+      bodySection.appendChild(box);
+    } else {
+      var b = document.createElement("div");
+      b.className = "detail-body";
+      b.textContent = node.body;
+      bodySection.appendChild(b);
+    }
+    detail.appendChild(bodySection);
+  }
+
+  // Faixas
+  if (node.tracks && node.tracks.length) {
+    var trackSection = document.createElement("div");
+    trackSection.className = "detail-section";
+    trackSection.appendChild(detailSectionHead("faixas"));
+    trackSection.appendChild(detailTracksEl(node.tracks));
+    detail.appendChild(trackSection);
+  }
+
+  // Links
+  if (node.links && node.links.length) {
+    var linkSection = document.createElement("div");
+    linkSection.className = "detail-section";
+    linkSection.appendChild(detailSectionHead("links"));
+    linkSection.appendChild(detailLinksEl(node.links));
+    detail.appendChild(linkSection);
+  } else if (node.link) {
     var l = document.createElement("a");
     l.className = "detail-link";
     l.href = node.link;
