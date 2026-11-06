@@ -126,7 +126,7 @@ html, body {
   height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center var(--photo-pan, 25%);
   display: block;
 }
 
@@ -137,38 +137,20 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center var(--photo-pan, 25%);
   opacity: 0;
   transition: opacity 0.2s ease;
   pointer-events: none;
 }
 
-.bio-photo-wrap.hovered .bio-photo-dots {
+.bio-photo-wrap.hovered .bio-photo-dots,
+.bio-photo-wrap.dots-on .bio-photo-dots {
   opacity: 1;
 }
 
 /* Threshold chapado: o mouse dentro da caixa muda o limiar */
 .bio-photo-wrap.threshold .bio-photo-base {
   filter: grayscale(1) brightness(var(--photo-b, 1)) contrast(var(--photo-c, 16));
-}
-
-.photo-readout {
-  position: absolute;
-  left: 6px;
-  bottom: 6px;
-  padding: 2px 5px;
-  font-size: 9.5px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--bg-main);
-  background: var(--text-bright);
-  opacity: 0;
-  transition: opacity 0.16s ease;
-  pointer-events: none;
-}
-
-.bio-photo-wrap.threshold .photo-readout {
-  opacity: 1;
 }
 
 .brand-name {
@@ -1298,10 +1280,9 @@ body:not(.light) .ink-dark {
   <aside id="sidebar">
     <div class="sidebar-collapsed-hint" onclick="toggleSidebar(event)">matesu</div>
     <div class="bio-top">
-      <div class="bio-photo-wrap" id="bio-photo" title="clique para o threshold, botão direito para sair">
+      <div class="bio-photo-wrap" id="bio-photo" title="esquerda bolinha, direita limiar, scroll move a foto">
         <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
         <img class="bio-photo-dots" src="fotos/matesu-dots.jpg" alt="" aria-hidden="true" draggable="false">
-        <span class="photo-readout" id="photo-readout">limiar 50</span>
       </div>
       <div class="brand-name" onclick="toggleSidebar(event)" title="colapsar/expandir">matesu</div>
       <div class="bio-text">
@@ -2166,14 +2147,17 @@ setInterval(function() {
 }, 60000);
 
 // ------------------------------------------------- foto do perfil
-// O hover troca para a versão com as bolinhas vermelhas. O clique
-// esquerdo abre um threshold chapado que segue o mouse dentro da caixa.
-// O clique direito sai da caixa no estado salvo.
+// O hover mostra a versão com as bolinhas vermelhas. O clique
+// esquerdo deixa a bolinha fixa. O botão direito abre o threshold
+// chapado, que segue o mouse dentro da caixa, e o segundo clique
+// direito salva o estado e sai da caixa. O scroll move a foto.
 var photoWrap = document.getElementById("bio-photo");
 var photoState = {
-  mode: "normal",   // normal | threshold
-  saved: 50,        // limiar salvo
-  live: 50          // limiar em edição
+  dots: false,       // bolinha fixa
+  mode: "normal",    // normal | threshold
+  saved: 50,         // limiar salvo
+  live: 50,          // limiar em edição
+  pan: 25            // posição vertical da foto dentro da caixa
 };
 
 // O limiar sai da posição horizontal do mouse dentro da caixa
@@ -2190,12 +2174,12 @@ function photoBrightness(t) {
   return 0.5 / cut;
 }
 
-function applyPhotoFilter() {
+function applyPhoto() {
   if (!photoWrap) return;
   photoWrap.classList.toggle("threshold", photoState.mode === "threshold");
+  photoWrap.classList.toggle("dots-on", photoState.dots);
   photoWrap.style.setProperty("--photo-b", photoBrightness(photoState.live).toFixed(3));
-  var out = document.getElementById("photo-readout");
-  if (out) out.textContent = "limiar " + Math.round(photoState.live);
+  photoWrap.style.setProperty("--photo-pan", photoState.pan + "%");
 }
 
 if (photoWrap) {
@@ -2211,31 +2195,36 @@ if (photoWrap) {
   photoWrap.addEventListener("mousemove", function(e) {
     if (photoState.mode !== "threshold") return;
     photoState.live = photoThresholdAt(e.clientX);
-    applyPhotoFilter();
+    applyPhoto();
   });
 
+  // Scroll dentro da caixa sobe e desce a foto original
+  photoWrap.addEventListener("wheel", function(e) {
+    e.preventDefault();
+    var d = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    photoState.pan = Math.max(0, Math.min(100, photoState.pan + d * 0.06));
+    applyPhoto();
+  }, { passive: false });
+
+  // Botão esquerdo: adiciona a bolinha
   photoWrap.addEventListener("click", function(e) {
     if (e.button !== 0) return;
     e.preventDefault();
+    photoState.dots = !photoState.dots;
+    applyPhoto();
+  });
+
+  // Botão direito: o limiar. O segundo clique salva e sai da caixa
+  photoWrap.addEventListener("contextmenu", function(e) {
+    e.preventDefault();
     if (photoState.mode === "normal") {
-      // Entra no threshold, já com o limiar salvo
       photoState.mode = "threshold";
       photoState.live = photoState.saved;
     } else {
-      // Segundo clique: salva o limiar e volta ao normal
       photoState.saved = photoState.live;
       photoState.mode = "normal";
     }
-    applyPhotoFilter();
-  });
-
-  photoWrap.addEventListener("contextmenu", function(e) {
-    // Botão direito: sai da caixa no estado salvo
-    e.preventDefault();
-    photoState.mode = "normal";
-    photoState.live = photoState.saved;
-    photoWrap.classList.remove("hovered");
-    applyPhotoFilter();
+    applyPhoto();
   });
 }
 
