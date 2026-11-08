@@ -746,8 +746,12 @@ html, body {
   vector-effect: non-scaling-stroke;
 }
 
+.map-route.main {
+  stroke-width: 2.8;
+}
+
 .map-route.trunk {
-  stroke-width: 3.2;
+  stroke-width: 3.4;
 }
 
 .map-route.branch {
@@ -4170,11 +4174,11 @@ function mapRootKeys() {
 }
 
 // Distância entre estações da mesma fila e entre as filas
-var MAP_STEP = 54;
-var MAP_GROUP_GAP = 26;
-var MAP_ROW_H = 150;
-var MAP_DIST_GAP = 190;
-var MAP_MARGIN = 140;
+var MAP_STEP = 70;
+var MAP_GROUP_GAP = 34;
+var MAP_ROW_H = 170;
+var MAP_DIST_GAP = 240;
+var MAP_MARGIN = 150;
 
 function mapLeafCount(node) {
   if (!node || typeof node !== "object") return 0;
@@ -4529,6 +4533,21 @@ function mapRenderScene() {
   });
 
   var frag = document.createDocumentFragment();
+
+  // A linha principal: atravessa a fila das raízes de ponta a ponta e
+  // emenda os distritos uns nos outros
+  var rootItems = mapLayout.items.filter(function(it) { return it.level === 0; });
+  if (rootItems.length > 1) {
+    var x1 = rootItems[0].x, x2 = rootItems[0].x;
+    rootItems.forEach(function(it) {
+      if (it.x < x1) x1 = it.x;
+      if (it.x > x2) x2 = it.x;
+    });
+    var main = mapSvgEl("path", "map-route main");
+    main.setAttribute("d", "M" + mapNum(x1) + " " + mapNum(rootItems[0].y) + "H" + mapNum(x2));
+    frag.appendChild(main);
+  }
+
   Object.keys(byKey).forEach(function(key) {
     var g = byKey[key];
     g.kids.sort(function(a, b) { return a.x - b.x; });
