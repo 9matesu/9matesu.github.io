@@ -49,7 +49,7 @@ html, body {
   --map-ink-3: rgba(245, 245, 247, 0.52);
   --map-ink-4: rgba(245, 245, 247, 0.34);
   --map-grid: rgba(245, 245, 247, 0.22);
-  --map-shade: #080808;
+--map-accent: #f6c343;  --map-shade: #080808;
 }
 
 #viewport {
@@ -736,29 +736,26 @@ html, body {
 }
 
 /* ------------------------------------------------- rotas da árvore
-   O tronco desce da raiz, o galho segue a volta e o ramo fino chega na
-   folha. Só três espessuras: é o que basta para ler a hierarquia. */
+   Cada ramo é uma linha de metô na cor única amarela: a espessura
+   revela a hierarquia, a cor não muda. */
 .map-route {
   fill: none;
-  stroke: var(--map-ink-3);
-  stroke-width: 1.1;
+  stroke: var(--map-accent);
+  stroke-width: 2.2;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
 }
 
 .map-route.trunk {
-  stroke: var(--map-ink-2);
-  stroke-width: 1.8;
+  stroke-width: 3.2;
 }
 
 .map-route.branch {
-  stroke: var(--map-ink-4);
-  stroke-width: 0.8;
+  stroke-width: 1.4;
 }
 
 .map-route.active {
-  stroke: var(--map-ink);
-  stroke-width: 2.4;
+  stroke-width: 3.6;
 }
 
 /* ------------------------------------------------- marcas: os itens
@@ -777,7 +774,7 @@ html, body {
   stroke: var(--map-ink);
   stroke-width: 3;
   r: 12;
-  transition: r 0.16s ease, fill 0.16s ease;
+  transition: r 0.16s ease, fill 0.16s ease, stroke 0.16s ease;
 }
 
 .map-mark-halo {
@@ -811,6 +808,7 @@ html, body {
 .map-mark.root .map-mark-dot {
   r: 34;
   stroke-width: 5.5;
+  stroke: var(--map-accent);
 }
 
 .map-mark.root .map-mark-halo {
@@ -839,18 +837,29 @@ html, body {
   opacity: 0.45;
 }
 
+/* As folhas são as estações terminais: ponto de contorno amarelo */
+.map-mark.leaf .map-mark-dot {
+  stroke: var(--map-accent);
+}
+
 .map-mark.active .map-mark-dot {
   fill: var(--map-ink);
 }
 
+.map-mark.current .map-mark-dot {
+  fill: var(--map-accent);
+  stroke: var(--map-accent);
+}
+
 .map-mark.current .map-mark-halo {
+  stroke: var(--map-accent);
   opacity: 0.85;
 }
 
-/* A novidade é um ponto cheio com o nome em caixa */
+/* A novidade é um ponto cheio amarelo com o nome em caixa */
 .map-mark.novidade .map-mark-dot {
-  fill: var(--map-ink);
-  stroke: var(--map-ink);
+  fill: var(--map-accent);
+  stroke: var(--map-accent);
 }
 
 .map-mark-box {
@@ -2624,6 +2633,8 @@ function applyPalette() {
   root.setProperty("--map-ink-4", mixColors(fg, bg, 0.34));
   root.setProperty("--map-grid", mixColors(fg, bg, 0.2));
   root.setProperty("--map-shade", mixColors(bg, "#000000", 0.5));
+  // Amarelo: no papel claro precisa escurecer para não sumir
+  root.setProperty("--map-accent", light ? "#a4770e" : "#f6c343");
 
   document.body.classList.toggle("light", light);
 
@@ -3883,33 +3894,19 @@ document.addEventListener("keydown", function(e) {
 });
 
 // ------------------------------------------------- mapa topográfico
-// A carta é uma folha de papel de tamanho fixo. O relevo vem de um campo
-// de ruído com semente certa, então a folha é sempre a mesma. Sobre ela,
-// cada raiz da árvore vira um distrito: a raiz no centro, os filhos na
-// primeira volta, os netos na segunda. Todo item fica ligado ao pai por
-// um ramo e todo ramo sai do meio do gomo do pai, de modo que irmãos
-// ficam alinhados na mesma volta.
+// A carta agora é uma flora de linhas: cada seção da árvore é uma linha
+// de metô. O relevo fica no fundo, apagado; o que se lê é a malha amarela
+// com as estações. Toda linha é linear: estações enfileiradas por fila,
+// raiz no topo, filhos na fila de baixo, alinhados no eixo do próprio
+// ramo.
 
 var MAP_NS = "http://www.w3.org/2000/svg";
 
 var MAP_SEED = 20260211;
 
-// Folha: o papel cobre a viewport em qualquer zoom, porque a câmera nunca
-// sai dos seus limites. Nada de mapa infinito: só esta folha. As sobras
-// laterais são pequenas, então o conjunto inteiro cabe de uma vez.
-var MAP_PAPER_W = 4160;
-var MAP_PAPER_H = 1800;
-
 var MAP_COLS = 170;
 var MAP_ROWS = 70;
 var MAP_LEVELS = 9;
-
-// Geometria dos distritos
-var MAP_MIN_ARC = 78;      // menor arco entre dois vizinhos da mesma volta
-var MAP_MIN_STEP = 112;    // menor distância entre duas voltas
-var MAP_MIN_WEDGE = 0.05;  // menor gomo angular de um ramo
-var MAP_DISTRICT_GAP = 240;// vão entre um distrito e o seguinte
-var MAP_CLUSTER_R = 220;   // raio base de um distrito
 var MAP_NEWS_COUNT = 7;
 
 // ------------------------------------------------- ruído e relevo
@@ -3955,8 +3952,8 @@ function mapFbm(x, y, seed, octaves) {
 
 // Altitude do terreno, normalizada entre 0 e 1
 function mapRelief(u, v) {
-  var x = u * 5.6;
-  var y = v * 3.2;
+  var x = u * (mapPaperW / 620);
+  var y = v * (mapPaperH / 620);
   var soft = mapFbm(x, y, MAP_SEED, 4);
   var ridge = 1 - Math.abs(2 * mapFbm(x * 0.8 + 9.7, y * 0.8 + 3.3, MAP_SEED + 91, 3) - 1);
   var h = 0.5 * soft + 0.4 * ridge + 0.1 * (1 - v);
@@ -4074,7 +4071,7 @@ function mapContourLines(f, level) {
     var line = [];
     for (var k = 0; k < chain.length; k++) {
       var p = pts.get(chain[k]);
-      line.push([p[0] / cols * MAP_PAPER_W, p[1] / rows * MAP_PAPER_H]);
+      line.push([p[0] / cols * mapPaperW, p[1] / rows * mapPaperH]);
     }
     lines.push(mapWobble(line));
   });
@@ -4120,8 +4117,17 @@ function mapSvgEl(tag, cls) {
 
 // Só as curvas de nível: o resto do relevo sai para não brigar com os itens
 function mapBuildTerrain() {
-  if (mapBuilt) return;
+  if (!mapPaperRect) mapPaperRect = document.querySelector("#map-camera .map-paper-fill");
+  if (!mapPaperRect) return;
   mapBuilt = true;
+  mapPaperRect.setAttribute("width", String(mapPaperW));
+  mapPaperRect.setAttribute("height", String(mapPaperH));
+  if (mapTerrainSize && mapTerrainSize[0] === mapPaperW && mapTerrainSize[1] === mapPaperH) return;
+  mapTerrainSize = [mapPaperW, mapPaperH];
+  mapContours.innerHTML = "";
+
+  MAP_COLS = Math.round(mapPaperW / 24);
+  MAP_ROWS = Math.round(mapPaperH / 24);
 
   var f = new Float32Array((MAP_COLS + 1) * (MAP_ROWS + 1));
   var min = 2;
@@ -4152,7 +4158,7 @@ function mapBuildTerrain() {
 
 // ------------------------------------------------- núcleo do mapa
 // ================================================================
-//  Núcleo do mapa: onde cada item da árvore cai na carta.
+//  Núcleo do mapa: onde cada item da árvore vira uma estação de metô.
 //  Puro, sem DOM: o navegador desenha, o terminal confere.
 // ================================================================
 
@@ -4162,6 +4168,13 @@ function mapRootKeys() {
   if (filterMode !== "all") keys = keys.filter(function(k) { return k === filterMode; });
   return sortKeys(keys, 0);
 }
+
+// Distância entre estações da mesma fila e entre as filas
+var MAP_STEP = 54;
+var MAP_GROUP_GAP = 26;
+var MAP_ROW_H = 150;
+var MAP_DIST_GAP = 190;
+var MAP_MARGIN = 140;
 
 function mapLeafCount(node) {
   if (!node || typeof node !== "object") return 0;
@@ -4173,13 +4186,6 @@ function mapLeafCount(node) {
     if (c && typeof c === "object") n += mapLeafCount(c);
   }
   return n;
-}
-
-function mapCountLevels(node, out) {
-  out = out || {};
-  out[node.level] = (out[node.level] || 0) + 1;
-  for (var i = 0; i < node.kids.length; i++) mapCountLevels(node.kids[i], out);
-  return out;
 }
 
 // Árvore do distrito: cada nó sabe o nível, os filhos e o peso em folhas
@@ -4204,176 +4210,39 @@ function mapClusterTree(rootKey, rootNode) {
   return root;
 }
 
-// Reparte um total de ângulos entre pesos. Quem passa do máximo ou fica
-// abaixo do mínimo é travado no limite e o resto é redistribuído.
-function mapSpread(weights, min, max, total) {
-  var n = weights.length;
-  var out = [];
-  var active = [];
-  var i;
-  for (i = 0; i < n; i++) { out.push(0); active.push(true); }
-  var rest = total;
-  for (var guard = 0; guard < 200; guard++) {
-    var sum = 0, cnt = 0;
-    for (i = 0; i < n; i++) if (active[i]) { sum += weights[i]; cnt++; }
-    if (!cnt) break;
-    if (sum <= 0) {
-      for (var z = 0; z < n; z++) if (active[z]) out[z] = rest / cnt;
-      break;
+// Mede a extensão do distrito inteiro e a profundidade maior
+function mapDistrictSize(root) {
+  var out = { cursor: 0, depth: 0 };
+
+  function walk(n, depth) {
+    n.level = depth;
+    if (depth > out.depth) out.depth = depth;
+    if (!n.kids.length) {
+      n.x = out.cursor;
+      out.cursor += MAP_STEP;
+      return;
     }
-    var viol = -1, val = 0;
-    for (i = 0; i < n; i++) {
-      if (!active[i]) continue;
-      var share = weights[i] / sum * rest;
-      if (share < min) { viol = i; val = min; break; }
-      if (max && share > max) { viol = i; val = max; break; }
-    }
-    if (viol < 0) {
-      for (i = 0; i < n; i++) if (active[i]) out[i] = weights[i] / sum * rest;
-      break;
-    }
-    out[viol] = val;
-    active[viol] = false;
-    rest -= val;
+    for (var i = 0; i < n.kids.length; i++) walk(n.kids[i], depth + 1);
+    n.x = (n.kids[0].x + n.kids[n.kids.length - 1].x) / 2;
+    out.cursor += MAP_GROUP_GAP;
   }
+
+  walk(root, 0);
   return out;
 }
 
-// Quantos itens há em cada nível dentro da fatia de um nó
-function mapSubCounts(node) {
-  var counts = {};
-  (function walk(n) {
-    counts[n.level] = (counts[n.level] || 0) + 1;
-    for (var i = 0; i < n.kids.length; i++) walk(n.kids[i]);
-  })(node);
-  return counts;
-}
-
-// Gomos angulares: o pai reparte a sua fatia entre os filhos. Cada filho
-// recebe o que precisa para caber na volta e o resto da fatia é dividido
-// igual, para os ramos não ficarem todos grudados.
-function mapAllocateWedges(node, radii) {
-  if (!node.kids.length) return;
-  var needs = [];
-  var i;
-  for (i = 0; i < node.kids.length; i++) {
-    var k = node.kids[i];
-    var counts = mapSubCounts(k);
-    var need = MAP_MIN_WEDGE;
-    for (var L in counts) {
-      if (!Object.prototype.hasOwnProperty.call(counts, L)) continue;
-      if (+L <= k.level) continue;
-      var r = radii[+L] || 1;
-      need = Math.max(need, counts[L] * MAP_MIN_ARC / r);
-    }
-    k.need = need;
-    needs.push(need);
+// Espalha as estações de uma fila para que nunca fiquem mais perto que
+// MAP_STEP: só empurra para a direita, de modo que cada distrito ocupa
+// o espaço que já é seu
+function mapSpreadRow(stations, minX) {
+  stations.sort(function(a, b) { return a.x - b.x; });
+  var x = stations.length ? stations[0].x : 0;
+  for (var i = 0; i < stations.length; i++) {
+    var want = Math.max(stations[i].x, x);
+    if (i > 0 && want - x < MAP_STEP) want = x + MAP_STEP;
+    stations[i].x = want;
+    x = want;
   }
-  var sum = 0;
-  for (i = 0; i < needs.length; i++) sum += needs[i];
-  var angles = [];
-  if (sum >= node.wedge) {
-    for (i = 0; i < needs.length; i++) angles.push(needs[i] / sum * node.wedge);
-  } else {
-    var slack = (node.wedge - sum) / needs.length;
-    for (i = 0; i < needs.length; i++) angles.push(needs[i] + slack);
-  }
-  var a = node.a0;
-  for (var j = 0; j < node.kids.length; j++) {
-    var b = a + angles[j];
-    var kid = node.kids[j];
-    kid.a0 = a;
-    kid.a1 = b;
-    kid.wedge = b - a;
-    mapAllocateWedges(kid, radii);
-    a = b;
-  }
-}
-
-// Raios: cada volta é larga o bastante para caber o que mora nela
-function mapRadii(root, cluster, radii) {
-  var counts = mapCountLevels(root, {});
-  var maxLevel = 0;
-  for (var key in counts) if (Object.prototype.hasOwnProperty.call(counts, key) && +key > maxLevel) maxLevel = +key;
-  var R = [0];
-  for (var L = 1; L <= maxLevel; L++) {
-    var ring = (0.34 + 0.22 * (L - 1)) * cluster.r;
-    var step = R[L - 1] + MAP_MIN_STEP;
-    var arc = counts[L] * MAP_MIN_ARC / (2 * Math.PI);
-    var need = 0;
-    (function scan(n) {
-      if (n.level === L - 1) {
-        var c = mapSubCounts(n);
-        var cnt = c[L] || 0;
-        if (cnt && n.wedge > 0) need = Math.max(need, cnt * MAP_MIN_ARC / n.wedge);
-      } else {
-        for (var i = 0; i < n.kids.length; i++) scan(n.kids[i]);
-      }
-    })(root);
-    R[L] = Math.max(ring, step, arc, need);
-  }
-  return R;
-}
-
-// Gomos e raios conversam até assentar
-function mapSolveCluster(root, cluster) {
-  var radii = mapRadii(root, cluster, null);
-  for (var iter = 0; iter < 8; iter++) {
-    root.a0 = 0;
-    root.a1 = Math.PI * 2;
-    root.wedge = Math.PI * 2;
-    mapAllocateWedges(root, radii);
-    var next = mapRadii(root, cluster, radii);
-    var delta = 0;
-    for (var i = 0; i < next.length; i++) delta = Math.max(delta, Math.abs(next[i] - radii[i]));
-    radii = next;
-    if (delta < 0.5) break;
-  }
-  return radii;
-}
-
-// Posições: cada nó fica no meio do seu gomo, na volta do seu nível
-function mapPlace(root, cluster, R) {
-  root.x = cluster.x;
-  root.y = cluster.y;
-  root.angle = 0;
-  root.r = 0;
-  mapPlaceKids(root, cluster, R);
-}
-
-function mapPlaceKids(node, cluster, R) {
-  for (var i = 0; i < node.kids.length; i++) {
-    var k = node.kids[i];
-    var ang = (k.a0 + k.a1) / 2;
-    k.angle = ang;
-    k.r = R[k.level];
-    k.x = cluster.x + Math.cos(ang) * R[k.level];
-    k.y = cluster.y + Math.sin(ang) * R[k.level];
-    mapPlaceKids(k, cluster, R);
-  }
-}
-
-// O maior vão angular entre os filhos: é para lá que a raiz escreve
-function mapRootGap(root) {
-  var kids = root.kids;
-  if (!kids.length) return 0;
-  var angles = kids.map(function(k) { return k.angle; }).sort(function(a, b) { return a - b; });
-  var best = 0, bestMid = 0;
-  for (var i = 0; i < angles.length; i++) {
-    var a = angles[i];
-    var b = i + 1 < angles.length ? angles[i + 1] : angles[0] + Math.PI * 2;
-    var gap = b - a;
-    if (gap > best) { best = gap; bestMid = (a + b) / 2; }
-  }
-  return bestMid;
-}
-
-// Direção do rótulo: para fora do centro do distrito, seguindo o item
-function mapSlotOf(angle) {
-  var c = Math.cos(angle);
-  if (c > 0.35) return "right";
-  if (c < -0.35) return "left";
-  return Math.sin(angle) > 0 ? "down" : "up";
 }
 
 // ------------------------------------------------- montagem completa
@@ -4390,98 +4259,136 @@ function mapBuildLayout(tree, roots, newsPaths) {
     var node = tree[rootKey];
     if (!node || typeof node !== "object") return;
     var root = mapClusterTree(rootKey, node);
-    var cluster = { x: 0, y: 0, r: MAP_CLUSTER_R };
-    var radii = mapSolveCluster(root, cluster);
-    mapPlace(root, cluster, radii);
-    root.angle = mapRootGap(root);
-    var extent = 0;
-    for (var i = 0; i < radii.length; i++) if (radii[i] > extent) extent = radii[i];
-    districts.push({ key: rootKey, root: root, extent: extent });
+    var size = mapDistrictSize(root);
+    districts.push({ key: rootKey, root: root, size: size });
   });
 
-  var total = 0;
-  districts.forEach(function(d) { total += 2 * d.extent; });
-  total += MAP_DISTRICT_GAP * Math.max(0, districts.length - 1);
+  // Espalha os distritos: as estações de cada fila nunca ficam mais
+  // perto que MAP_STEP, e os pais voltam para o meio dos filhos
+  function spreadDistrict(d) {
+    var rows = {};
+    (function rowsWalk(n) {
+      var r = rows[n.level] = rows[n.level] || [];
+      r.push(n);
+      if (n.kids) n.kids.forEach(rowsWalk);
+    })(d.root);
 
-  var x = (MAP_PAPER_W - total) / 2;
-  var cy = MAP_PAPER_H / 2;
+    for (var L = d.size.depth; L >= 0; L--) {
+      if (rows[L]) mapSpreadRow(rows[L]);
+      if (L > 0 && rows[L - 1]) {
+        rows[L - 1].forEach(function(n) {
+          if (!n.kids.length) return;
+          n.x = (n.kids[0].x + n.kids[n.kids.length - 1].x) / 2;
+        });
+      }
+    }
+
+    var minX = null, maxX = null;
+    (function bounds(n) {
+      if (minX === null || n.x < minX) minX = n.x;
+      if (maxX === null || n.x > maxX) maxX = n.x;
+      if (n.kids) n.kids.forEach(bounds);
+    })(d.root);
+    d.minX = minX;
+    d.width = maxX - minX + MAP_MARGIN;
+  }
+
+  districts.forEach(spreadDistrict);
+
+  // A folha é medida da árvore inteira, sempre: o filtro muda as larguras
+  // e a folha se reacerta junto
+  var w = 0;
+  Object.keys(tree).forEach(function(rootKey, idx) {
+    var node = tree[rootKey];
+    if (!node || typeof node !== "object") return;
+    var probeRoot = mapClusterTree(rootKey, node);
+    var probe = { key: rootKey, root: probeRoot, size: mapDistrictSize(probeRoot) };
+    spreadDistrict(probe);
+    w += probe.width;
+    if (idx) w += MAP_DIST_GAP;
+  });
+  w += MAP_MARGIN * 2;
+  var wOld = mapPaperW;
+  mapPaperW = Math.max(1, Math.round(w));
+  mapPaperH = Math.max(1, Math.round(MAP_ROW_H * 3 + MAP_MARGIN * 2));
+  if (wOld !== mapPaperW) mapPaperDims = [mapPaperW, mapPaperH];
+
+  var total = 0;
+  districts.forEach(function(d, i) { total += d.width; if (i) total += MAP_DIST_GAP; });
+  var cx = Math.max(MAP_MARGIN, (mapPaperW - total) / 2);
+  var baseY = MAP_MARGIN;
 
   districts.forEach(function(d) {
-    var cx = x + d.extent;
-    x += 2 * d.extent + MAP_DISTRICT_GAP;
-    clusters.push({ key: d.key, x: cx, y: cy, r: d.extent });
+    var minX = d.minX;
+    var baseX = cx;
+    cx = baseX + d.width + MAP_DIST_GAP;
 
-    var stack = [d.root];
+    var stack = [{ n: d.root }];
     while (stack.length) {
-      var n = stack.pop();
-      for (var i = 0; i < n.kids.length; i++) stack.push(n.kids[i]);
-      items.push({
+      var frame = stack.pop();
+      var n = frame.n;
+      for (var i = 0; i < n.kids.length; i++) stack.push({ n: n.kids[i] });
+
+      var slot = mapSlotOf(n);
+      var item = {
         key: n.key,
         path: n.path,
         level: n.level,
+        rowY: baseY + n.level * MAP_ROW_H,
         node: n.node,
         isRoot: n.level === 0,
         isLeaf: !!isLeaf(n.node),
         isNews: !!newsSet[n.path.join(" > ")],
-        x: cx + n.x,
-        y: cy + n.y,
-        cx: cx,
-        cy: cy,
-        angle: n.angle,
-        r: n.r,
+        x: baseX + (n.x - minX),
+        y: baseY + n.level * MAP_ROW_H,
+        slot: slot,
         dotR: MAP_DOT_R[n.level] || MAP_DOT_R[3],
-        slot: mapSlotOf(n.angle),
         cluster: d.key,
         parent: n.parent ? {
-          x: cx + n.parent.x,
-          y: cy + n.parent.y,
-          cx: cx,
-          cy: cy,
-          angle: n.parent.angle,
-          r: n.parent.r,
+          key: n.parent.key,
+          path: n.parent.path,
           level: n.parent.level,
-          isRoot: n.parent.level === 0
+          isRoot: n.parent.level === 0,
+          x: baseX + (n.parent.x - minX),
+          y: baseY + n.parent.level * MAP_ROW_H
         } : null
-      });
+      };
+      n.item = item;
+      items.push(item);
     }
+    clusters.push({ key: d.key, x: baseX - minX, y: baseY, r: 0, items: items.filter(function(it) { return it.cluster === d.key; }) });
   });
 
   return { items: items, clusters: clusters };
 }
 
 // Raio de tela de cada nível, em unidades da folha
-var MAP_DOT_R = [34, 22, 16, 12];
+var MAP_DOT_R = [26, 20, 16, 12];
 
-// O ramo: sai do pai na direção do pai, anda até a volta do filho e
-// acompanha o arco até a marca. Assim irmãos ficam na mesma volta.
-function mapBranchPath(parent, child) {
-  if (!parent) return "";
-  if (parent.isRoot || !parent.r) {
-    return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
-      "L" + mapNum(child.x) + " " + mapNum(child.y);
-  }
-  var r1 = child.r;
-  var a0 = parent.angle;
-  var xm = child.cx + Math.cos(a0) * r1;
-  var ym = child.cy + Math.sin(a0) * r1;
-  var delta = child.angle - a0;
-  while (delta > Math.PI) delta -= Math.PI * 2;
-  while (delta < -Math.PI) delta += Math.PI * 2;
-  var sweep = delta >= 0 ? 1 : 0;
-  return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
-    "L" + mapNum(xm) + " " + mapNum(ym) +
-    "A" + mapNum(r1) + " " + mapNum(r1) + " 0 0 " + sweep + " " +
-    mapNum(child.x) + " " + mapNum(child.y);
+// Direção do rótulo: raiz escreve ao lado; nas filas, alterna cima/baixo
+function mapSlotOf(n) {
+  if (n.level === 0) return "right";
+  var idx = Math.round(n.x / MAP_STEP);
+  return idx % 2 === 0 ? "up" : "down";
 }
 
 // ------------------------------------------------- desenho da carta
 var mapSheet = document.getElementById("map-sheet");
 var mapSvg = document.getElementById("map-canvas");
 var mapCamera = document.getElementById("map-camera");
+var mapPaperRect = document.querySelector("#map-camera .map-paper-fill");
 var mapContours = document.getElementById("map-contours");
 var mapRoute = document.getElementById("map-route");
 var mapRouteActive = document.getElementById("map-route-active");
 var mapMarks = document.getElementById("map-marks");
+
+// Tamanho da folha: medido da árvore inteira e congelado
+var mapPaperW = 4160;
+var mapPaperH = 1800;
+
+var mapPaperDims = [];
+var mapNewsPathsCache = [];
+var mapTerrainSize = null;
 
 // Zoom: longe mostra as raízes e os ramos; perto, todos os nomes
 var MAP_ZOOM_MID = 1.9;
@@ -4490,7 +4397,7 @@ var MAP_ZOOM_DETAIL = 5.2;
 var MAP_ZOOM_MIN = 1;   // a folha inteira cobrindo a viewport
 var MAP_ZOOM_MAX = 9;
 
-var mapCam = { cx: MAP_PAPER_W / 2, cy: MAP_PAPER_H / 2, z: MAP_ZOOM_MIN };
+var mapCam = { cx: 0, cy: 0, z: MAP_ZOOM_MIN };
 var mapCamFrom = null;
 var mapCamTo = null;
 var mapCamStart = 0;
@@ -4535,7 +4442,7 @@ function mapSignature(roots) {
 
 // ------------------------------------------------- câmera da folha
 function mapBaseScale(vw, vh) {
-  return Math.max(vw / MAP_PAPER_W, vh / MAP_PAPER_H);
+  return Math.max(vw / mapPaperW, vh / mapPaperH);
 }
 
 // A câmera só anda dentro do papel: o relevo cobre a viewport inteira
@@ -4543,10 +4450,10 @@ function mapBaseScale(vw, vh) {
 function mapClampCam(vw, vh, s) {
   var hw = vw / 2 / s;
   var hh = vh / 2 / s;
-  if (hw * 2 >= MAP_PAPER_W) mapCam.cx = MAP_PAPER_W / 2;
-  else mapCam.cx = Math.max(hw, Math.min(MAP_PAPER_W - hw, mapCam.cx));
-  if (hh * 2 >= MAP_PAPER_H) mapCam.cy = MAP_PAPER_H / 2;
-  else mapCam.cy = Math.max(hh, Math.min(MAP_PAPER_H - hh, mapCam.cy));
+  if (hw * 2 >= mapPaperW) mapCam.cx = mapPaperW / 2;
+  else mapCam.cx = Math.max(hw, Math.min(mapPaperW - hw, mapCam.cx));
+  if (hh * 2 >= mapPaperH) mapCam.cy = mapPaperH / 2;
+  else mapCam.cy = Math.max(hh, Math.min(mapPaperH - hh, mapCam.cy));
 }
 
 // Contra-escala: as etiquetas mantêm o corpo na tela, os pontos seguem o zoom
@@ -4594,16 +4501,40 @@ function mapLabelBox(it, rpx) {
   }
 }
 
+// O ramo: desce do pai, passa em fila pela rail e atravessa as estações
+function mapBranchPath(parent, kids) {
+  var rowY = kids[0].y;
+  var x1 = parent.x, x2 = parent.x;
+  kids.forEach(function(k) {
+    if (k.x < x1) x1 = k.x;
+    if (k.x > x2) x2 = k.x;
+  });
+  var d = "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
+    "V" + mapNum(rowY);
+  if (x2 - x1 > 0.5) d += "M" + mapNum(x1) + " " + mapNum(rowY) + "H" + mapNum(x2);
+  return d;
+}
+
 function mapRenderScene() {
   if (!mapRoute || !mapMarks || !mapLayout) return;
 
-  // Rotas: cada item ligado ao seu pai
-  var frag = document.createDocumentFragment();
+  // Linhas: cada pai é um trilho que atravessa as estações dos filhos
+  var byKey = {};
   mapLayout.items.forEach(function(it) {
-    if (!it.parent) return;
-    var cls = "map-route" + (it.level === 1 ? " trunk" : it.level >= 3 ? " branch" : "");
+    if (it.parent) {
+      var key = it.parent.path.join(">");
+      if (!byKey[key]) byKey[key] = { parent: it.parent, kids: [] };
+      byKey[key].kids.push(it);
+    }
+  });
+
+  var frag = document.createDocumentFragment();
+  Object.keys(byKey).forEach(function(key) {
+    var g = byKey[key];
+    g.kids.sort(function(a, b) { return a.x - b.x; });
+    var cls = "map-route" + (g.parent.level === 0 ? " trunk" : g.parent.level >= 2 ? " branch" : "");
     var p = mapSvgEl("path", cls);
-    p.setAttribute("d", mapBranchPath(it.parent, it));
+    p.setAttribute("d", mapBranchPath(g.parent, g.kids));
     frag.appendChild(p);
   });
   mapRoute.innerHTML = "";
@@ -4613,48 +4544,50 @@ function mapRenderScene() {
   var mfrag = document.createDocumentFragment();
   mapInners = [];
   mapLabels = [];
-  mapLayout.items.forEach(function(it, idx) {
-    var cls = "map-mark l" + it.level +
-      (it.isRoot ? " root" : it.isLeaf ? " leaf" : " branch") +
-      (it.isNews ? " novidade" : "");
-    var g = mapSvgEl("g", cls);
-    g.setAttribute("transform", "translate(" + mapNum(it.x) + " " + mapNum(it.y) + ")");
-    g.setAttribute("data-idx", String(idx));
-    g.setAttribute("tabindex", "0");
-    g.setAttribute("role", "button");
+  mapLayout.clusters.forEach(function(c) {
+    c.items.forEach(function(it, idx) {
+      var cls = "map-mark l" + it.level +
+        (it.isRoot ? " root" : it.isLeaf ? " leaf" : " branch") +
+        (it.isNews ? " novidade" : "");
+      var g = mapSvgEl("g", cls);
+      g.setAttribute("transform", "translate(" + mapNum(it.x) + " " + mapNum(it.y) + ")");
+      g.setAttribute("data-idx", String(mapLayout.items.indexOf(it)));
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
 
-    var title = mapSvgEl("title");
-    title.textContent = it.isNews ? (it.node.title || it.key) : it.key;
-    g.appendChild(title);
+      var title = mapSvgEl("title");
+      title.textContent = it.isNews ? (it.node.title || it.key) : it.key;
+      g.appendChild(title);
 
-    g.appendChild(mapSvgEl("circle", "map-mark-halo"));
-    g.appendChild(mapSvgEl("circle", "map-mark-dot"));
+      g.appendChild(mapSvgEl("circle", "map-mark-halo"));
+      g.appendChild(mapSvgEl("circle", "map-mark-dot"));
 
-    var inner = mapSvgEl("g", "map-mark-in");
-    g.appendChild(inner);
-    mapInners.push(inner);
+      var inner = mapSvgEl("g", "map-mark-in");
+      g.appendChild(inner);
+      mapInners.push(inner);
 
-    var tag = mapSvgEl("g", "map-mark-tag");
-    inner.appendChild(tag);
+      var tag = mapSvgEl("g", "map-mark-tag");
+      inner.appendChild(tag);
 
-    var box = mapLabelBox(it, it.dotR);
-    var label = mapSvgEl("text", "map-mark-label");
-    label.setAttribute("x", String(box.x));
-    label.setAttribute("y", String(box.y));
-    if (box.anchor !== "start") label.setAttribute("text-anchor", box.anchor);
-    if (box.anchor === "middle") label.setAttribute("dominant-baseline", "middle");
-    label.textContent = it.isNews ? (it.node.title || it.key) : it.key;
-    tag.appendChild(label);
+      var box = mapLabelBox(it, it.dotR);
+      var label = mapSvgEl("text", "map-mark-label");
+      label.setAttribute("x", String(box.x));
+      label.setAttribute("y", String(box.y));
+      if (box.anchor !== "start") label.setAttribute("text-anchor", box.anchor);
+      if (box.anchor === "middle") label.setAttribute("dominant-baseline", "middle");
+      label.textContent = it.isNews ? (it.node.title || it.key) : it.key;
+      tag.appendChild(label);
 
-    if (it.isNews) mapLabels.push({ label: label, tag: tag, item: it, boxed: true });
-    else mapLabels.push({ label: label, tag: tag, item: it, boxed: false });
+      mapLabels.push({ label: label, tag: tag, item: it, boxed: it.isNews });
 
-    mfrag.appendChild(g);
+      mfrag.appendChild(g);
+    });
   });
   mapMarks.innerHTML = "";
   mapMarks.appendChild(mfrag);
 
   mapFitNewsBoxes();
+  mapMarkList = mapLayout.items;
 }
 
 // A caixa das novidades: mede o nome e desenha o contorno em volta
@@ -4683,16 +4616,23 @@ function mapUpdateActive() {
   for (var i = 0; i < path.length; i++) {
     var target = path.slice(0, i + 1);
     var it = mapFindItem(target);
-    if (!it || !it.parent) continue;
+    var parentIt = it && it.parent;
+    if (!it || !parentIt) continue;
+    var kids = [];
+    var pk = it.parent.path.join(">");
+    mapLayout.items.forEach(function(c) {
+      if (c.parent && c.parent.path.join(">") === pk) kids.push(c);
+    });
     var p = mapSvgEl("path", "map-route active");
-    p.setAttribute("d", mapBranchPath(it.parent, it));
+    kids.unshift(it);
+    p.setAttribute("d", mapBranchPath(it.parent, kids));
     frag.appendChild(p);
   }
   mapRouteActive.innerHTML = "";
   mapRouteActive.appendChild(frag);
 
-  var kids = mapMarks.children;
-  for (var k = 0; k < kids.length; k++) {
+  var marks = mapMarks.children;
+  for (var k = 0; k < marks.length; k++) {
     var it2 = mapMarkList[k];
     if (!it2) continue;
     var same = it2.path.length <= path.length;
@@ -4701,8 +4641,8 @@ function mapUpdateActive() {
         if (path[j] !== it2.path[j]) { same = false; break; }
       }
     }
-    kids[k].classList.toggle("active", same);
-    kids[k].classList.toggle("current", same && it2.path.length === path.length);
+    marks[k].classList.toggle("active", same);
+    marks[k].classList.toggle("current", same && it2.path.length === path.length);
   }
 }
 
@@ -4723,9 +4663,10 @@ function mapRender() {
   if (sig !== mapSig) {
     mapSig = sig;
     mapLayout = mapBuildLayout(tree, roots, news);
-    mapMarkList = mapLayout.items;
+    if (!mapCamReady) mapCam = { cx: mapPaperW / 2, cy: mapPaperH / 2, z: MAP_ZOOM_MIN };
     mapRenderScene();
-    mapGoTo({ cx: MAP_PAPER_W / 2, cy: MAP_PAPER_H / 2, z: mapCam.z }, !mapCamReady);
+    mapBuildTerrain();
+    mapGoTo({ cx: mapPaperW / 2, cy: mapPaperH / 2, z: mapCam.z }, !mapCamReady);
   }
   mapUpdateActive();
 }
@@ -4841,7 +4782,7 @@ if (mapSvg) {
   // dois cliques reenquadram a folha inteira
   mapSvg.addEventListener("dblclick", function(e) {
     if (e.target.closest && e.target.closest(".map-mark")) return;
-    mapGoTo({ cx: MAP_PAPER_W / 2, cy: MAP_PAPER_H / 2, z: MAP_ZOOM_MIN }, true);
+    mapGoTo({ cx: mapPaperW / 2, cy: mapPaperH / 2, z: MAP_ZOOM_MIN }, true);
   });
 }
 
@@ -4876,8 +4817,8 @@ function mapInit() {
   if (!mapSvg) return;
   mapResize();
   setTimeout(function() {
-    mapBuildTerrain();
     mapRender();
+    mapBuildTerrain();
   }, 40);
 }
 
