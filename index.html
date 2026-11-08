@@ -42,8 +42,7 @@ html, body {
   --bg-glass: rgba(20, 20, 20, 0.74);
   --bg-glass-strong: rgba(20, 20, 20, 0.88);
   --header-h: 52px;
-  --sheet-h: 26vh;
-  --hero-h: 38vh;
+  --map-h: 46vh;
   --map-paper: #141414;
   --map-ink: #f5f5f7;
   --map-ink-2: rgba(245, 245, 247, 0.72);
@@ -117,7 +116,7 @@ html, body {
 .bio-photo-wrap {
   position: relative;
   width: 100%;
-  max-width: 202px;
+  max-width: 176px;
   margin-bottom: 2px;
   overflow: hidden;
   cursor: crosshair;
@@ -133,7 +132,7 @@ html, body {
 .bio-photo {
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 7 / 9;
   object-fit: cover;
   object-position: center var(--photo-pan, 25%);
   display: block;
@@ -681,23 +680,23 @@ html, body {
   mix-blend-mode: overlay;
 }
 
-/* ------------------------------------------------- hero: folha de atlas
-   O topo do site é uma carta topográfica: relevo em curvas de nível,
-   hachuras nos declives, rachaduras de papel, malha e a rota que liga
-   os itens da navegação. Tudo em SVG nativo, desenhado por JS. */
-#hero {
+/* ------------------------------------------------- mapa: folha de atlas
+   O rodapé do site é uma carta topográfica. O relevo fica no fundo, em
+   duas ou três curvas apagadas: o que se lê são os itens, ligados uns
+   aos outros pelos ramos da árvore. Tudo em SVG nativo, desenhado por JS. */
+#map-sheet {
   position: relative;
-  height: var(--hero-h, 44vh);
+  height: var(--map-h, 46vh);
   min-height: 0;
   flex-shrink: 0;
   overflow: hidden;
   background: var(--map-paper, #141414);
-  border-bottom: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--border-subtle);
   user-select: none;
   contain: paint;
 }
 
-#hero-map {
+#map-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -707,7 +706,7 @@ html, body {
   touch-action: none;
 }
 
-#hero-map.grabbing {
+#map-canvas.grabbing {
   cursor: grabbing;
 }
 
@@ -715,102 +714,56 @@ html, body {
   fill: var(--map-paper);
 }
 
-.map-grat-fill {
-  fill: url(#map-grat);
-}
-
-.map-grid-line {
-  fill: none;
-  stroke: var(--map-grid);
-  stroke-width: 0.6;
-  vector-effect: non-scaling-stroke;
-}
-
-.map-vignette {
-  pointer-events: none;
-}
-
 .map-grain {
   pointer-events: none;
-  opacity: 0.07;
+  opacity: 0.05;
   mix-blend-mode: overlay;
 }
 
 .map-contour {
   fill: none;
-  stroke: var(--map-ink-3);
-  stroke-width: 1;
+  stroke: var(--map-ink-4);
+  stroke-width: 0.7;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+  opacity: 0.55;
 }
 
 .map-contour.major {
+  stroke: var(--map-ink-3);
+  stroke-width: 1.1;
+  opacity: 0.6;
+}
+
+/* ------------------------------------------------- rotas da árvore
+   O tronco desce da raiz, o galho segue a volta e o ramo fino chega na
+   folha. Só três espessuras: é o que basta para ler a hierarquia. */
+.map-route {
+  fill: none;
+  stroke: var(--map-ink-3);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.map-route.trunk {
   stroke: var(--map-ink-2);
   stroke-width: 1.8;
 }
 
-.map-hachure {
-  fill: none;
-  stroke: var(--map-ink-4);
-  stroke-width: 0.9;
-  vector-effect: non-scaling-stroke;
-}
-
-.map-fold {
-  fill: none;
-  stroke: var(--map-grid);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-
-.map-crack {
-  fill: none;
-  stroke: var(--map-ink-4);
-  stroke-width: 0.9;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.map-crack-gap {
-  fill: none;
-  stroke: var(--map-paper);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.map-cross {
-  fill: none;
-  stroke: var(--map-grid);
-  stroke-width: 0.9;
-  vector-effect: non-scaling-stroke;
-}
-
-.map-route {
-  fill: none;
-  stroke: var(--map-ink);
-  stroke-width: 1.8;
-  stroke-dasharray: 14 10;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  animation: mapMarch 2.8s linear infinite;
-}
-
 .map-route.branch {
-  stroke-dasharray: 6 9;
-  stroke-width: 1.4;
-  opacity: 0.85;
+  stroke: var(--map-ink-4);
+  stroke-width: 0.8;
 }
 
-@keyframes mapMarch {
-  to { stroke-dashoffset: -24; }
+.map-route.active {
+  stroke: var(--map-ink);
+  stroke-width: 2.4;
 }
 
-#hero.paused .map-route,
-#hero.paused .map-mark.current .map-mark-halo {
-  animation-play-state: paused;
-}
-
+/* ------------------------------------------------- marcas: os itens
+   Os pontos acompanham o zoom, as etiquetas não: o nome continua do
+   mesmo tamanho na tela e sempre se sobrepõe ao relevo. */
 .map-mark {
   cursor: pointer;
 }
@@ -822,85 +775,259 @@ html, body {
 .map-mark-dot {
   fill: var(--map-paper);
   stroke: var(--map-ink);
-  stroke-width: 2;
-  r: 11;
-  transition: r 0.18s ease, fill 0.18s ease;
+  stroke-width: 3;
+  r: 12;
+  transition: r 0.16s ease, fill 0.16s ease;
 }
 
 .map-mark-halo {
   fill: none;
   stroke: var(--map-ink);
-  stroke-width: 1.4;
-  r: 18;
+  stroke-width: 1.6;
+  r: 24;
   opacity: 0;
-  transition: opacity 0.18s ease;
+  transition: opacity 0.16s ease;
 }
 
-.map-mark-cross {
-  fill: none;
-  stroke: var(--map-ink-3);
-  stroke-width: 1.4;
-  vector-effect: non-scaling-stroke;
+.map-mark.l2 .map-mark-dot {
+  r: 16;
+  stroke-width: 3.4;
 }
 
-.map-mark-label {
-  fill: var(--map-ink);
-  font-family: var(--font-base);
-  font-size: 26px;
-  letter-spacing: 0.005em;
-  paint-order: stroke;
-  stroke: var(--map-paper);
-  stroke-width: 6;
-  stroke-linejoin: round;
+.map-mark.l2 .map-mark-halo {
+  r: 30;
 }
 
-.map-mark-count {
-  fill: var(--map-ink-3);
-  font-family: var(--font-base);
-  font-size: 19px;
-  paint-order: stroke;
-  stroke: var(--map-paper);
-  stroke-width: 4.5;
+.map-mark.l1 .map-mark-dot {
+  r: 22;
+  stroke-width: 4;
+}
+
+.map-mark.l1 .map-mark-halo {
+  r: 38;
+}
+
+/* As raízes são os marcos da carta */
+.map-mark.root .map-mark-dot {
+  r: 34;
+  stroke-width: 5.5;
+}
+
+.map-mark.root .map-mark-halo {
+  r: 54;
+  stroke-width: 2;
+}
+
+.map-mark:hover .map-mark-dot {
+  r: 16;
+}
+
+.map-mark.l2:hover .map-mark-dot {
+  r: 21;
+}
+
+.map-mark.l1:hover .map-mark-dot {
+  r: 28;
+}
+
+.map-mark.root:hover .map-mark-dot {
+  r: 42;
 }
 
 .map-mark:hover .map-mark-halo,
 .map-mark:focus .map-mark-halo {
-  opacity: 0.6;
-}
-
-.map-mark:hover .map-mark-dot {
-  r: 14;
+  opacity: 0.45;
 }
 
 .map-mark.active .map-mark-dot {
   fill: var(--map-ink);
 }
 
+.map-mark.current .map-mark-halo {
+  opacity: 0.85;
+}
+
+/* A novidade é um ponto cheio com o nome em caixa */
+.map-mark.novidade .map-mark-dot {
+  fill: var(--map-ink);
+  stroke: var(--map-ink);
+}
+
+.map-mark-box {
+  fill: var(--map-paper);
+  stroke: var(--map-ink);
+  stroke-width: 1;
+  rx: 2;
+}
+
+.map-mark-label {
+  fill: var(--map-ink);
+  font-family: var(--font-base);
+  font-size: 13px;
+  letter-spacing: -0.005em;
+  paint-order: stroke;
+  stroke: var(--map-paper);
+  stroke-width: 3.5;
+  stroke-linejoin: round;
+}
+
+.map-mark.l2 .map-mark-label {
+  font-size: 12.5px;
+  fill: var(--map-ink-2);
+}
+
+.map-mark.l3 .map-mark-label {
+  font-size: 11.5px;
+  fill: var(--map-ink-2);
+}
+
+.map-mark.l1 .map-mark-label {
+  font-size: 14px;
+}
+
+.map-mark.root .map-mark-label {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.map-mark.novidade .map-mark-label {
+  font-size: 12px;
+  fill: var(--map-ink);
+}
+
 .map-mark.active .map-mark-label {
   font-weight: 600;
+  fill: var(--map-ink);
 }
 
-.map-mark.current .map-mark-halo {
-  opacity: 0.75;
-  animation: mapPulse 3s ease-in-out infinite;
+/* Zoom: longe só os marcos, perto todos os nomes. Quem está escondido
+   aparece no hover e no foco do teclado. */
+#map-canvas[data-zoom="far"] .map-mark.l2 .map-mark-tag,
+#map-canvas[data-zoom="far"] .map-mark.l3 .map-mark-tag,
+#map-canvas[data-zoom="mid"] .map-mark.l3 .map-mark-tag {
+  opacity: 0;
 }
 
-@keyframes mapPulse {
-  0%, 100% { r: 16; opacity: 0.3; }
-  50% { r: 26; opacity: 0.8; }
+.map-mark:hover .map-mark-tag,
+.map-mark:focus .map-mark-tag,
+.map-mark.active .map-mark-tag {
+  opacity: 1;
 }
 
-/* Legenda e controles sobre a folha */
 @media (max-width: 760px) {
-  .map-mark-label {
-    font-size: 15px;
+  .map-mark.root .map-mark-label {
+    font-size: 18px;
+  }
+  .map-mark.l1 .map-mark-label {
+    font-size: 13px;
+  }
+  .map-mark.l2 .map-mark-label,
+  .map-mark.l3 .map-mark-label,
+  .map-mark.novidade .map-mark-label {
+    font-size: 11.5px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .map-route,
-  .map-mark.current .map-mark-halo {
-    animation: none !important;
+/* ------------------------------------------------- coluna da direita
+   O item final abre numa coluna fixa, do topo ao rodapé, e empurra o
+   resto do site para a esquerda. */
+#detail-panel {
+  height: 100vh;
+  flex-shrink: 0;
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--bg-sidebar);
+  border-left: 1px solid transparent;
+  user-select: text;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+#detail-panel.open {
+  width: 420px;
+  min-width: 420px;
+  border-left-color: var(--border-subtle);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: var(--header-h);
+  padding: 0 24px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.panel-kicker {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.panel-close {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 22px;
+  line-height: 1;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 0.16s ease;
+}
+
+.panel-close:hover {
+  color: var(--text-bright);
+}
+
+.panel-scroll {
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 22px 24px 40px;
+  width: 420px;
+}
+
+.panel-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.panel-crumb {
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+#detail-panel .detail-view {
+  min-width: 0;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+  gap: 10px;
+  animation: none;
+}
+
+#detail-panel .detail-media,
+#detail-panel .gallery-grid {
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  #detail-panel.open {
+    width: 320px;
+    min-width: 320px;
+  }
+  .panel-scroll {
+    width: 320px;
+    padding: 18px 18px 32px;
+  }
+  .panel-head {
+    padding: 0 18px;
   }
 }
 
@@ -930,7 +1057,7 @@ html, body {
   touch-action: pan-y;
 }
 
-/* Puxador entre o palco e a homepage */
+/* Puxador entre as novidades e a folha do mapa */
 #grabber {
   height: 20px;
   flex-shrink: 0;
@@ -965,175 +1092,6 @@ html, body {
 #grabber.dragging .grabber-grip {
   background: var(--text-muted);
   width: 58px;
-}
-
-/* Homepage com as novidades: a tela de baixo */
-#homepage {
-  flex: 0 0 var(--sheet-h, 26vh);
-  height: var(--sheet-h, 26vh);
-  min-height: 0;
-  overflow-y: auto;
-  padding: 24px 28px 44px;
-  border-top: 1px solid var(--border-subtle);
-  background: var(--bg-main);
-  user-select: text;
-}
-
-#homepage::-webkit-scrollbar {
-  display: none;
-}
-
-.home-head {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.home-kicker {
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-.home-date {
-  font-size: 11px;
-  color: var(--text-dim);
-}
-
-.home-list {
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: 30px;
-  align-items: start;
-}
-
-.home-lead {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-.home-lead-media {
-  width: 100%;
-  max-width: 240px;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: var(--field-bg);
-  margin-bottom: 14px;
-}
-
-.home-lead-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.home-lead:hover .home-lead-media img {
-  transform: scale(1.03);
-}
-
-.home-lead-kicker {
-  display: block;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  margin-bottom: 6px;
-}
-
-.home-lead-title {
-  font-size: 26px;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  font-weight: 600;
-  color: var(--text-bright);
-  margin-bottom: 5px;
-}
-
-.home-lead-meta {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-bottom: 9px;
-}
-
-.home-lead-body {
-  font-size: 13px;
-  line-height: 1.45;
-  color: var(--text-body);
-  max-width: 46ch;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.home-side {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.home-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 9px 2px;
-  background: none;
-  border: none;
-  border-bottom: 1px solid var(--border-subtle);
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 13px;
-  text-align: left;
-  cursor: pointer;
-  transition: color 0.16s ease;
-}
-
-.home-row:hover {
-  color: var(--text-bright);
-}
-
-.home-row img {
-  width: 24px;
-  height: 24px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.home-row-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-}
-
-.home-row-title {
-  color: var(--text-body);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.home-row:hover .home-row-title {
-  color: var(--text-bright);
-}
-
-.home-row-meta {
-  font-size: 10px;
-  color: var(--text-faint);
-  letter-spacing: 0.02em;
-}
-
-@media (max-width: 760px) {
-  .home-list {
-    grid-template-columns: 1fr;
-  }
 }
 
 #stage::-webkit-scrollbar {
@@ -1764,58 +1722,46 @@ body:not(.light) .ink-dark {
       </div>
     </header>
 
-    <!-- Hero: carta topográfica com as rotas da navegação -->
-    <section id="hero" aria-label="mapa topográfico do site">
-      <svg id="hero-map" xmlns="http://www.w3.org/2000/svg" aria-label="mapa topográfico com as rotas dos itens">
-        <defs>
-          <filter id="map-noise-filter" x="0" y="0" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence>
-            <feColorMatrix type="saturate" values="0"></feColorMatrix>
-          </filter>
-          <pattern id="map-grat" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path class="map-grid-line" d="M100 0H0V100"></path>
-          </pattern>
-          <radialGradient id="map-vignette-grad" cx="50%" cy="44%" r="76%">
-            <stop offset="52%" style="stop-color:var(--map-shade)" stop-opacity="0"></stop>
-            <stop offset="100%" style="stop-color:var(--map-shade)" stop-opacity="0.55"></stop>
-          </radialGradient>
-        </defs>
-        <g id="map-camera">
-          <rect class="map-paper-fill" x="-600" y="-600" width="2800" height="2100"></rect>
-          <rect class="map-grat-fill" x="-600" y="-600" width="2800" height="2100" fill="url(#map-grat)"></rect>
-          <g id="map-crosses"></g>
-          <g id="map-contours"></g>
-          <g id="map-hachures"></g>
-          <g id="map-folds"></g>
-          <g id="map-cracks"></g>
-          <g id="map-route"></g>
-          <g id="map-marks"></g>
-        </g>
-        <rect class="map-vignette" x="0" y="0" width="100%" height="100%" fill="url(#map-vignette-grad)"></rect>
-        <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
-      </svg>
-    </section>
+    <!-- Navegação contínua -->
+    <div id="stage-wrap">
+      <main id="stage"></main>
+    </div>
 
     <!-- Puxador: encolhe ou aumenta a folha do mapa -->
     <div id="grabber" role="separator" aria-orientation="horizontal" aria-label="arrastar para cima ou para baixo" title="arraste para cima ou para baixo">
       <span class="grabber-grip"></span>
     </div>
 
-    <!-- Navegação contínua -->
-    <div id="stage-wrap">
-      <main id="stage"></main>
-    </div>
-
-    <!-- Novidades do site -->
-    <section id="homepage" aria-label="novidades">
-      <div class="home-head">
-        <span class="home-kicker">novidades</span>
-        <span class="home-date" id="home-date"></span>
-      </div>
-      <div class="home-list" id="home-list"></div>
+    <!-- Mapa do site: carta topográfica com todos os itens pré-mapeados -->
+    <section id="map-sheet" aria-label="mapa topográfico do site">
+      <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa topográfico com todos os itens do site">
+        <defs>
+          <filter id="map-noise-filter" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence>
+            <feColorMatrix type="saturate" values="0"></feColorMatrix>
+          </filter>
+        </defs>
+        <g id="map-camera">
+          <rect class="map-paper-fill" x="0" y="0" width="4160" height="1800"></rect>
+          <g id="map-contours"></g>
+          <g id="map-route"></g>
+          <g id="map-route-active"></g>
+          <g id="map-marks"></g>
+        </g>
+        <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
+      </svg>
     </section>
 
   </div>
+
+  <!-- Coluna fixa da direita: o item final, do topo ao rodapé -->
+  <aside id="detail-panel" aria-label="detalhe do item" inert>
+    <div class="panel-head">
+      <span class="panel-kicker">item</span>
+      <button class="panel-close" id="panel-close" type="button" aria-label="fechar detalhe">&times;</button>
+    </div>
+    <div class="panel-scroll" id="panel-scroll"></div>
+  </aside>
 
   <!-- Ajustes do canvas -->
   <section id="settings-panel" aria-label="ajustes do canvas">
@@ -2530,7 +2476,6 @@ fetch("discography.json")
     tree["música"]["lançamentos"] = grupos["lançamentos"];
     tree["música"]["participações"] = grupos["participações"];
     syncRender();
-    if (typeof renderNews === "function") renderNews();
   })
   .catch(function() {
     syncRender();
@@ -3203,6 +3148,7 @@ function onItemClick(colIndex, key, el) {
     playClick("close");
     path = path.slice(0, colIndex);
   } else {
+
     // Trunca até a coluna atual e ativa novo item
     playClick("open");
     path = path.slice(0, colIndex);
@@ -3236,16 +3182,15 @@ function syncRender() {
     activeKey: path[0] || null
   });
 
-  // Níveis intermediários e folha
+  // Níveis intermediários: o item final não vira coluna no palco, ele
+  // abre na coluna fixa da direita
+  var leafNode = null;
   for (var i = 0; i < path.length; i++) {
     var subPath = path.slice(0, i + 1);
     var node = resolve(subPath);
 
     if (node && isLeaf(node)) {
-      targetLevels.push({
-        type: "detail",
-        node: node
-      });
+      leafNode = node;
       break;
     } else if (node && typeof node === "object") {
       targetLevels.push({
@@ -3255,6 +3200,8 @@ function syncRender() {
       });
     }
   }
+
+  showDetail(leafNode, path);
 
   // Se estamos fechando/recolhendo colunas
   if (stage.children.length > targetLevels.length) {
@@ -3311,13 +3258,6 @@ function applyLevels(targetLevels, isRecoil) {
       } else {
         updateColumnEl(existing, lvl.keys, colIdx, lvl.activeKey);
       }
-    } else if (lvl.type === "detail") {
-      var newDetail = renderDetailEl(lvl.node);
-      if (existing) {
-        stage.replaceChild(newDetail, existing);
-      } else {
-        stage.appendChild(newDetail);
-      }
     }
   });
 
@@ -3335,6 +3275,7 @@ function applyLevels(targetLevels, isRecoil) {
 function renderResults() {
   assignThumbs();
   var matches = collectMatches();
+  showDetail(null);
 
   var col = document.createElement("div");
   col.className = "col results-col";
@@ -3724,6 +3665,61 @@ function detailLinksEl(links) {
   return boxes;
 }
 
+// ------------------------------------------------- coluna fixa da direita
+// O item final abre numa coluna fixa, do topo ao rodapé. Ela sai do fluxo
+// do viewport, então tudo o que está à esquerda encolhe e é empurrado.
+var detailPanel = document.getElementById("detail-panel");
+var panelScroll = document.getElementById("panel-scroll");
+var panelClose = document.getElementById("panel-close");
+var panelOpenPath = null;
+
+function showDetail(node, nodePath) {
+  if (!detailPanel || !panelScroll) return;
+
+  if (!node) {
+    if (panelOpenPath === null) return;
+    panelOpenPath = null;
+    detailPanel.classList.remove("open");
+    detailPanel.setAttribute("inert", "");
+    // O conteúdo sai depois da transição, para não cortar a animação
+    setTimeout(function() {
+      if (!detailPanel.classList.contains("open")) panelScroll.innerHTML = "";
+    }, 320);
+    return;
+  }
+
+  var key = nodePath.join(" > ");
+  if (panelOpenPath === key && detailPanel.classList.contains("open")) return;
+  panelOpenPath = key;
+
+  panelScroll.innerHTML = "";
+
+  var crumb = document.createElement("div");
+  crumb.className = "panel-crumb";
+  crumb.textContent = nodePath.join(" › ");
+  panelScroll.appendChild(crumb);
+
+  panelScroll.appendChild(renderDetailEl(node));
+
+  detailPanel.classList.add("open");
+  detailPanel.removeAttribute("inert");
+  panelScroll.scrollTop = 0;
+
+  // O palco encolheu: o scroll se reajusta ao novo limite
+  requestAnimationFrame(function() {
+    var max = Math.max(0, stage.scrollWidth - stage.clientWidth);
+    if (stage.scrollLeft > max) animateScrollTo(max, 300);
+  });
+}
+
+if (panelClose) {
+  panelClose.addEventListener("click", function() {
+    playClick("close");
+    path = path.slice(0, -1);
+    syncRender();
+  });
+}
+
 function renderDetailEl(node) {
   var detail = document.createElement("div");
   detail.className = "detail-view";
@@ -3886,43 +3882,37 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
-// ------------------------------------------------- hero: mapa topográfico
-// O relevo nasce de um campo de ruído com semente fixa: a carta é sempre
-// a mesma. Curvas de nível, hachuras, rachaduras e malha são desenhadas
-// em SVG nativo; a rota liga os itens da navegação.
+// ------------------------------------------------- mapa topográfico
+// A carta é uma folha de papel de tamanho fixo. O relevo vem de um campo
+// de ruído com semente certa, então a folha é sempre a mesma. Sobre ela,
+// cada raiz da árvore vira um distrito: a raiz no centro, os filhos na
+// primeira volta, os netos na segunda. Todo item fica ligado ao pai por
+// um ramo e todo ramo sai do meio do gomo do pai, de modo que irmãos
+// ficam alinhados na mesma volta.
+
 var MAP_NS = "http://www.w3.org/2000/svg";
-var MAP_SHEET_W = 1600;
-var MAP_SHEET_H = 900;
+
 var MAP_SEED = 20260211;
-var MAP_COLS = 112;
-var MAP_ROWS = 64;
-var MAP_LEVELS = 18;
 
-var mapHero = document.getElementById("hero");
-var mapSvg = document.getElementById("hero-map");
-var mapCamera = document.getElementById("map-camera");
-var mapContours = document.getElementById("map-contours");
-var mapHachures = document.getElementById("map-hachures");
-var mapFolds = document.getElementById("map-folds");
-var mapCracks = document.getElementById("map-cracks");
-var mapCrosses = document.getElementById("map-crosses");
-var mapRoute = document.getElementById("map-route");
-var mapMarks = document.getElementById("map-marks");
+// Folha: o papel cobre a viewport em qualquer zoom, porque a câmera nunca
+// sai dos seus limites. Nada de mapa infinito: só esta folha. As sobras
+// laterais são pequenas, então o conjunto inteiro cabe de uma vez.
+var MAP_PAPER_W = 4160;
+var MAP_PAPER_H = 1800;
 
-var mapCam = { cx: MAP_SHEET_W / 2, cy: MAP_SHEET_H / 2, z: 1 };
-var mapCamFrom = null;
-var mapCamTo = null;
-var mapCamStart = 0;
-var mapCamRaf = null;
-var mapTrail = null;
-var mapMarkList = [];
-var mapPan = null;
-var mapBuilt = false;
-var mapCamReady = false;
-var mapReduce = window.matchMedia
-  ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  : false;
+var MAP_COLS = 170;
+var MAP_ROWS = 70;
+var MAP_LEVELS = 9;
 
+// Geometria dos distritos
+var MAP_MIN_ARC = 78;      // menor arco entre dois vizinhos da mesma volta
+var MAP_MIN_STEP = 112;    // menor distância entre duas voltas
+var MAP_MIN_WEDGE = 0.05;  // menor gomo angular de um ramo
+var MAP_DISTRICT_GAP = 240;// vão entre um distrito e o seguinte
+var MAP_CLUSTER_R = 220;   // raio base de um distrito
+var MAP_NEWS_COUNT = 7;
+
+// ------------------------------------------------- ruído e relevo
 function mapNum(v) {
   return Math.round(v * 10) / 10;
 }
@@ -3965,11 +3955,11 @@ function mapFbm(x, y, seed, octaves) {
 
 // Altitude do terreno, normalizada entre 0 e 1
 function mapRelief(u, v) {
-  var x = u * 6.4;
-  var y = v * 3.8;
-  var soft = mapFbm(x, y, MAP_SEED, 6);
-  var ridge = 1 - Math.abs(2 * mapFbm(x * 0.85 + 9.7, y * 0.85 + 3.3, MAP_SEED + 91, 4) - 1);
-  var h = 0.44 * soft + 0.46 * ridge + 0.16 * (1 - v) + 0.08 * (1 - u);
+  var x = u * 5.6;
+  var y = v * 3.2;
+  var soft = mapFbm(x, y, MAP_SEED, 4);
+  var ridge = 1 - Math.abs(2 * mapFbm(x * 0.8 + 9.7, y * 0.8 + 3.3, MAP_SEED + 91, 3) - 1);
+  var h = 0.5 * soft + 0.4 * ridge + 0.1 * (1 - v);
   return h < 0 ? 0 : h > 1 ? 1 : h;
 }
 
@@ -4084,7 +4074,7 @@ function mapContourLines(f, level) {
     var line = [];
     for (var k = 0; k < chain.length; k++) {
       var p = pts.get(chain[k]);
-      line.push([p[0] / cols * MAP_SHEET_W, p[1] / rows * MAP_SHEET_H]);
+      line.push([p[0] / cols * MAP_PAPER_W, p[1] / rows * MAP_PAPER_H]);
     }
     lines.push(mapWobble(line));
   });
@@ -4102,8 +4092,7 @@ function mapWobble(pts) {
     var tx = b[0] - a[0];
     var ty = b[1] - a[1];
     var len = Math.sqrt(tx * tx + ty * ty) || 1;
-    var w = (mapNoise(p[0] * 0.035, p[1] * 0.035, MAP_SEED + 31) - 0.5) * 4.4 +
-            (mapNoise(p[0] * 0.14, p[1] * 0.14, MAP_SEED + 47) - 0.5) * 1.8;
+    var w = (mapNoise(p[0] * 0.03, p[1] * 0.03, MAP_SEED + 31) - 0.5) * 5;
     out.push([p[0] - ty / len * w, p[1] + tx / len * w]);
   }
   return out;
@@ -4129,9 +4118,9 @@ function mapSvgEl(tag, cls) {
   return el;
 }
 
-// Monta o terreno: curvas, hachuras, dobras, rachaduras e malha
+// Só as curvas de nível: o resto do relevo sai para não brigar com os itens
 function mapBuildTerrain() {
-  if (mapBuilt || !mapContours) return;
+  if (mapBuilt) return;
   mapBuilt = true;
 
   var f = new Float32Array((MAP_COLS + 1) * (MAP_ROWS + 1));
@@ -4154,206 +4143,467 @@ function mapBuildTerrain() {
     var d = "";
     for (var i = 0; i < lines.length; i++) d += mapSmoothPath(lines[i]);
     if (!d) continue;
-    var path = mapSvgEl("path", "map-contour" + (l % 5 === 0 ? " major" : ""));
+    var path = mapSvgEl("path", "map-contour" + (l % 3 === 0 ? " major" : ""));
     path.setAttribute("d", d);
     frag.appendChild(path);
   }
   mapContours.appendChild(frag);
-
-  // Hachuras nos declives
-  var hd = "";
-  var cell = 30;
-  for (var hy = cell; hy < MAP_SHEET_H - cell; hy += cell) {
-    for (var hx = cell; hx < MAP_SHEET_W - cell; hx += cell) {
-      var jx = hx + (mapHash(hx, hy, 17) - 0.5) * cell * 0.9;
-      var jy = hy + (mapHash(hx, hy, 29) - 0.5) * cell * 0.9;
-      var u = jx / MAP_SHEET_W;
-      var v = jy / MAP_SHEET_H;
-      var h0 = mapRelief(u, v);
-      var gx = mapRelief(u + 10 / MAP_SHEET_W, v) - h0;
-      var gy = mapRelief(u, v + 10 / MAP_SHEET_H) - h0;
-      var g = Math.sqrt(gx * gx + gy * gy);
-      if (g < 0.0025) continue;
-      var l2 = Math.min(12, 1.5 + g * 600);
-      hd += "M" + mapNum(jx) + " " + mapNum(jy) + "L" + mapNum(jx - gx / g * l2) + " " + mapNum(jy - gy / g * l2);
-    }
-  }
-  var hach = mapSvgEl("path", "map-hachure");
-  hach.setAttribute("d", hd);
-  mapHachures.appendChild(hach);
-
-  // Dobras da folha
-  var fd = "";
-  var folds = [MAP_SHEET_W / 3, MAP_SHEET_W * 2 / 3];
-  for (var fi = 0; fi < folds.length; fi++) {
-    fd += "M" + mapNum(folds[fi]) + " -400V" + (MAP_SHEET_H + 400);
-  }
-  fd += "M-400 " + mapNum(MAP_SHEET_H / 2) + "H" + (MAP_SHEET_W + 400);
-  var fold = mapSvgEl("path", "map-fold");
-  fold.setAttribute("d", fd);
-  mapFolds.appendChild(fold);
-
-  // Rachaduras no papel
-  var rnd = mapRandom(MAP_SEED + 5);
-  var cd = "";
-  for (var c = 0; c < 8; c++) {
-    var px = rnd() * MAP_SHEET_W;
-    var py = rnd() * MAP_SHEET_H;
-    var ang = rnd() * Math.PI * 2;
-    cd += "M" + mapNum(px) + " " + mapNum(py);
-    var steps = 20 + Math.floor(rnd() * 34);
-    for (var s = 0; s < steps; s++) {
-      ang += (rnd() - 0.5);
-      var len = 10 + rnd() * 26;
-      px += Math.cos(ang) * len;
-      py += Math.sin(ang) * len;
-      cd += "L" + mapNum(px) + " " + mapNum(py);
-    }
-  }
-  var gap = mapSvgEl("path", "map-crack-gap");
-  gap.setAttribute("d", cd);
-  gap.setAttribute("transform", "translate(1.6 1.6)");
-  var crack = mapSvgEl("path", "map-crack");
-  crack.setAttribute("d", cd);
-  mapCracks.appendChild(gap);
-  mapCracks.appendChild(crack);
-
-  // Cruzes da malha
-  var xd = "";
-  for (var cx = 100; cx <= MAP_SHEET_W; cx += 200) {
-    for (var cy = 100; cy <= MAP_SHEET_H; cy += 200) {
-      xd += "M" + (cx - 9) + " " + cy + "H" + (cx + 9) + "M" + cx + " " + (cy - 9) + "V" + (cy + 9);
-    }
-  }
-  var cross = mapSvgEl("path", "map-cross");
-  cross.setAttribute("d", xd);
-  mapCrosses.appendChild(cross);
 }
 
-// A trilha da rota: uma curva que atravessa a folha
-var MAP_TRAIL_POINTS = [
-  [70, 700], [290, 520], [530, 650], [770, 430], [1000, 570], [1230, 350], [1500, 470]
-];
+// ------------------------------------------------- núcleo do mapa
+// ================================================================
+//  Núcleo do mapa: onde cada item da árvore cai na carta.
+//  Puro, sem DOM: o navegador desenha, o terminal confere.
+// ================================================================
 
-function mapCatmull(p0, p1, p2, p3, t) {
-  var t2 = t * t;
-  var t3 = t2 * t;
-  return [
-    0.5 * (2 * p1[0] + (-p0[0] + p2[0]) * t + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * t2 + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * t3),
-    0.5 * (2 * p1[1] + (-p0[1] + p2[1]) * t + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * t2 + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * t3)
-  ];
-}
-
-function mapBuildTrail() {
-  var pts = MAP_TRAIL_POINTS;
-  var out = [];
-  for (var i = 0; i < pts.length - 1; i++) {
-    var p0 = pts[Math.max(0, i - 1)];
-    var p1 = pts[i];
-    var p2 = pts[i + 1];
-    var p3 = pts[Math.min(pts.length - 1, i + 2)];
-    var steps = 48;
-    for (var s = 0; s < steps; s++) {
-      out.push(mapCatmull(p0, p1, p2, p3, s / steps));
-    }
-  }
-  out.push(pts[pts.length - 1]);
-  var cum = [0];
-  for (var k = 1; k < out.length; k++) {
-    var dx = out[k][0] - out[k - 1][0];
-    var dy = out[k][1] - out[k - 1][1];
-    cum.push(cum[k - 1] + Math.sqrt(dx * dx + dy * dy));
-  }
-  return { pts: out, cum: cum, total: cum[cum.length - 1] };
-}
-
-function mapPointAt(trail, frac) {
-  var target = trail.total * (frac < 0 ? 0 : frac > 1 ? 1 : frac);
-  var lo = 0;
-  var hi = trail.cum.length - 1;
-  while (lo < hi - 1) {
-    var mid = (lo + hi) >> 1;
-    if (trail.cum[mid] <= target) lo = mid; else hi = mid;
-  }
-  var c0 = trail.cum[lo];
-  var c1 = trail.cum[hi];
-  var t = c1 > c0 ? (target - c0) / (c1 - c0) : 0;
-  return [
-    trail.pts[lo][0] + (trail.pts[hi][0] - trail.pts[lo][0]) * t,
-    trail.pts[lo][1] + (trail.pts[hi][1] - trail.pts[lo][1]) * t
-  ];
-}
-
+// As raízes visíveis no mapa seguem o filtro da navegação
 function mapRootKeys() {
   var keys = Object.keys(tree);
   if (filterMode !== "all") keys = keys.filter(function(k) { return k === filterMode; });
   return sortKeys(keys, 0);
 }
 
-// Desenha a rota e as marcas do caminho atual
-function mapRender() {
-  if (!mapRoute || !mapMarks) return;
-  if (!mapTrail) mapTrail = mapBuildTrail();
+function mapLeafCount(node) {
+  if (!node || typeof node !== "object") return 0;
+  if (isLeaf(node)) return 1;
+  var n = 0;
+  var keys = Object.keys(node);
+  for (var i = 0; i < keys.length; i++) {
+    var c = node[keys[i]];
+    if (c && typeof c === "object") n += mapLeafCount(c);
+  }
+  return n;
+}
 
-  var roots = mapRootKeys();
-  var n = Math.max(1, roots.length);
-  var marks = [];
+function mapCountLevels(node, out) {
+  out = out || {};
+  out[node.level] = (out[node.level] || 0) + 1;
+  for (var i = 0; i < node.kids.length; i++) mapCountLevels(node.kids[i], out);
+  return out;
+}
 
-  roots.forEach(function(key, i) {
-    var frac = n === 1 ? 0.5 : (i + 0.5) / n;
-    var p = mapPointAt(mapTrail, frac);
-    marks.push({ key: key, col: 0, x: p[0], y: p[1], frac: frac });
+// Árvore do distrito: cada nó sabe o nível, os filhos e o peso em folhas
+function mapClusterTree(rootKey, rootNode) {
+  var root = { key: rootKey, node: rootNode, level: 0, kids: [], path: [rootKey], parent: null, leaves: 0 };
+  (function walk(n) {
+    n.leaves = mapLeafCount(n.node);
+    if (isLeaf(n.node)) return;
+    var keys = Object.keys(n.node);
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      var c = n.node[k];
+      if (!c || typeof c !== "object") continue;
+      var child = {
+        key: k, node: c, level: n.level + 1, kids: [],
+        path: n.path.concat([k]), parent: n, leaves: 0
+      };
+      n.kids.push(child);
+      walk(child);
+    }
+  })(root);
+  return root;
+}
+
+// Reparte um total de ângulos entre pesos. Quem passa do máximo ou fica
+// abaixo do mínimo é travado no limite e o resto é redistribuído.
+function mapSpread(weights, min, max, total) {
+  var n = weights.length;
+  var out = [];
+  var active = [];
+  var i;
+  for (i = 0; i < n; i++) { out.push(0); active.push(true); }
+  var rest = total;
+  for (var guard = 0; guard < 200; guard++) {
+    var sum = 0, cnt = 0;
+    for (i = 0; i < n; i++) if (active[i]) { sum += weights[i]; cnt++; }
+    if (!cnt) break;
+    if (sum <= 0) {
+      for (var z = 0; z < n; z++) if (active[z]) out[z] = rest / cnt;
+      break;
+    }
+    var viol = -1, val = 0;
+    for (i = 0; i < n; i++) {
+      if (!active[i]) continue;
+      var share = weights[i] / sum * rest;
+      if (share < min) { viol = i; val = min; break; }
+      if (max && share > max) { viol = i; val = max; break; }
+    }
+    if (viol < 0) {
+      for (i = 0; i < n; i++) if (active[i]) out[i] = weights[i] / sum * rest;
+      break;
+    }
+    out[viol] = val;
+    active[viol] = false;
+    rest -= val;
+  }
+  return out;
+}
+
+// Quantos itens há em cada nível dentro da fatia de um nó
+function mapSubCounts(node) {
+  var counts = {};
+  (function walk(n) {
+    counts[n.level] = (counts[n.level] || 0) + 1;
+    for (var i = 0; i < n.kids.length; i++) walk(n.kids[i]);
+  })(node);
+  return counts;
+}
+
+// Gomos angulares: o pai reparte a sua fatia entre os filhos. Cada filho
+// recebe o que precisa para caber na volta e o resto da fatia é dividido
+// igual, para os ramos não ficarem todos grudados.
+function mapAllocateWedges(node, radii) {
+  if (!node.kids.length) return;
+  var needs = [];
+  var i;
+  for (i = 0; i < node.kids.length; i++) {
+    var k = node.kids[i];
+    var counts = mapSubCounts(k);
+    var need = MAP_MIN_WEDGE;
+    for (var L in counts) {
+      if (!Object.prototype.hasOwnProperty.call(counts, L)) continue;
+      if (+L <= k.level) continue;
+      var r = radii[+L] || 1;
+      need = Math.max(need, counts[L] * MAP_MIN_ARC / r);
+    }
+    k.need = need;
+    needs.push(need);
+  }
+  var sum = 0;
+  for (i = 0; i < needs.length; i++) sum += needs[i];
+  var angles = [];
+  if (sum >= node.wedge) {
+    for (i = 0; i < needs.length; i++) angles.push(needs[i] / sum * node.wedge);
+  } else {
+    var slack = (node.wedge - sum) / needs.length;
+    for (i = 0; i < needs.length; i++) angles.push(needs[i] + slack);
+  }
+  var a = node.a0;
+  for (var j = 0; j < node.kids.length; j++) {
+    var b = a + angles[j];
+    var kid = node.kids[j];
+    kid.a0 = a;
+    kid.a1 = b;
+    kid.wedge = b - a;
+    mapAllocateWedges(kid, radii);
+    a = b;
+  }
+}
+
+// Raios: cada volta é larga o bastante para caber o que mora nela
+function mapRadii(root, cluster, radii) {
+  var counts = mapCountLevels(root, {});
+  var maxLevel = 0;
+  for (var key in counts) if (Object.prototype.hasOwnProperty.call(counts, key) && +key > maxLevel) maxLevel = +key;
+  var R = [0];
+  for (var L = 1; L <= maxLevel; L++) {
+    var ring = (0.34 + 0.22 * (L - 1)) * cluster.r;
+    var step = R[L - 1] + MAP_MIN_STEP;
+    var arc = counts[L] * MAP_MIN_ARC / (2 * Math.PI);
+    var need = 0;
+    (function scan(n) {
+      if (n.level === L - 1) {
+        var c = mapSubCounts(n);
+        var cnt = c[L] || 0;
+        if (cnt && n.wedge > 0) need = Math.max(need, cnt * MAP_MIN_ARC / n.wedge);
+      } else {
+        for (var i = 0; i < n.kids.length; i++) scan(n.kids[i]);
+      }
+    })(root);
+    R[L] = Math.max(ring, step, arc, need);
+  }
+  return R;
+}
+
+// Gomos e raios conversam até assentar
+function mapSolveCluster(root, cluster) {
+  var radii = mapRadii(root, cluster, null);
+  for (var iter = 0; iter < 8; iter++) {
+    root.a0 = 0;
+    root.a1 = Math.PI * 2;
+    root.wedge = Math.PI * 2;
+    mapAllocateWedges(root, radii);
+    var next = mapRadii(root, cluster, radii);
+    var delta = 0;
+    for (var i = 0; i < next.length; i++) delta = Math.max(delta, Math.abs(next[i] - radii[i]));
+    radii = next;
+    if (delta < 0.5) break;
+  }
+  return radii;
+}
+
+// Posições: cada nó fica no meio do seu gomo, na volta do seu nível
+function mapPlace(root, cluster, R) {
+  root.x = cluster.x;
+  root.y = cluster.y;
+  root.angle = 0;
+  root.r = 0;
+  mapPlaceKids(root, cluster, R);
+}
+
+function mapPlaceKids(node, cluster, R) {
+  for (var i = 0; i < node.kids.length; i++) {
+    var k = node.kids[i];
+    var ang = (k.a0 + k.a1) / 2;
+    k.angle = ang;
+    k.r = R[k.level];
+    k.x = cluster.x + Math.cos(ang) * R[k.level];
+    k.y = cluster.y + Math.sin(ang) * R[k.level];
+    mapPlaceKids(k, cluster, R);
+  }
+}
+
+// O maior vão angular entre os filhos: é para lá que a raiz escreve
+function mapRootGap(root) {
+  var kids = root.kids;
+  if (!kids.length) return 0;
+  var angles = kids.map(function(k) { return k.angle; }).sort(function(a, b) { return a - b; });
+  var best = 0, bestMid = 0;
+  for (var i = 0; i < angles.length; i++) {
+    var a = angles[i];
+    var b = i + 1 < angles.length ? angles[i + 1] : angles[0] + Math.PI * 2;
+    var gap = b - a;
+    if (gap > best) { best = gap; bestMid = (a + b) / 2; }
+  }
+  return bestMid;
+}
+
+// Direção do rótulo: para fora do centro do distrito, seguindo o item
+function mapSlotOf(angle) {
+  var c = Math.cos(angle);
+  if (c > 0.35) return "right";
+  if (c < -0.35) return "left";
+  return Math.sin(angle) > 0 ? "down" : "up";
+}
+
+// ------------------------------------------------- montagem completa
+// Devolve a lista de marcas da carta, já com posição e rótulo. Os
+// distritos ficam enfileirados no meio da folha, todos na mesma linha.
+function mapBuildLayout(tree, roots, newsPaths) {
+  var items = [];
+  var clusters = [];
+  var newsSet = {};
+  (newsPaths || []).forEach(function(p) { newsSet[p.join(" > ")] = true; });
+
+  var districts = [];
+  roots.forEach(function(rootKey) {
+    var node = tree[rootKey];
+    if (!node || typeof node !== "object") return;
+    var root = mapClusterTree(rootKey, node);
+    var cluster = { x: 0, y: 0, r: MAP_CLUSTER_R };
+    var radii = mapSolveCluster(root, cluster);
+    mapPlace(root, cluster, radii);
+    root.angle = mapRootGap(root);
+    var extent = 0;
+    for (var i = 0; i < radii.length; i++) if (radii[i] > extent) extent = radii[i];
+    districts.push({ key: rootKey, root: root, extent: extent });
   });
 
-  // O caminho aberto vira um galho que sai da raiz escolhida
-  var branch = [];
-  if (path.length) {
-    var base = null;
-    marks.forEach(function(m) { if (m.key === path[0]) base = m; });
-    if (base) {
-      var a = mapPointAt(mapTrail, Math.max(0, base.frac - 0.03));
-      var b = mapPointAt(mapTrail, Math.min(1, base.frac + 0.03));
-      var tx = b[0] - a[0];
-      var ty = b[1] - a[1];
-      var len = Math.sqrt(tx * tx + ty * ty) || 1;
-      var nx = -ty / len;
-      var ny = tx / len;
-      var px = base.x;
-      var py = base.y;
-      for (var k = 1; k < path.length; k++) {
-        var side = k % 2 ? 1 : -1;
-        var off = 100 + 78 * (k - 1);
-        var bx = base.x + nx * off * side + (mapHash(k, 3, 71) - 0.5) * 70;
-        var by = base.y + ny * off * side + (mapHash(k, 5, 73) - 0.5) * 70;
-        branch.push({ key: path[k], col: k, x: bx, y: by, from: [px, py] });
-        px = bx;
-        py = by;
-      }
+  var total = 0;
+  districts.forEach(function(d) { total += 2 * d.extent; });
+  total += MAP_DISTRICT_GAP * Math.max(0, districts.length - 1);
+
+  var x = (MAP_PAPER_W - total) / 2;
+  var cy = MAP_PAPER_H / 2;
+
+  districts.forEach(function(d) {
+    var cx = x + d.extent;
+    x += 2 * d.extent + MAP_DISTRICT_GAP;
+    clusters.push({ key: d.key, x: cx, y: cy, r: d.extent });
+
+    var stack = [d.root];
+    while (stack.length) {
+      var n = stack.pop();
+      for (var i = 0; i < n.kids.length; i++) stack.push(n.kids[i]);
+      items.push({
+        key: n.key,
+        path: n.path,
+        level: n.level,
+        node: n.node,
+        isRoot: n.level === 0,
+        isLeaf: !!isLeaf(n.node),
+        isNews: !!newsSet[n.path.join(" > ")],
+        x: cx + n.x,
+        y: cy + n.y,
+        cx: cx,
+        cy: cy,
+        angle: n.angle,
+        r: n.r,
+        dotR: MAP_DOT_R[n.level] || MAP_DOT_R[3],
+        slot: mapSlotOf(n.angle),
+        cluster: d.key,
+        parent: n.parent ? {
+          x: cx + n.parent.x,
+          y: cy + n.parent.y,
+          cx: cx,
+          cy: cy,
+          angle: n.parent.angle,
+          r: n.parent.r,
+          level: n.parent.level,
+          isRoot: n.parent.level === 0
+        } : null
+      });
+    }
+  });
+
+  return { items: items, clusters: clusters };
+}
+
+// Raio de tela de cada nível, em unidades da folha
+var MAP_DOT_R = [34, 22, 16, 12];
+
+// O ramo: sai do pai na direção do pai, anda até a volta do filho e
+// acompanha o arco até a marca. Assim irmãos ficam na mesma volta.
+function mapBranchPath(parent, child) {
+  if (!parent) return "";
+  if (parent.isRoot || !parent.r) {
+    return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
+      "L" + mapNum(child.x) + " " + mapNum(child.y);
+  }
+  var r1 = child.r;
+  var a0 = parent.angle;
+  var xm = child.cx + Math.cos(a0) * r1;
+  var ym = child.cy + Math.sin(a0) * r1;
+  var delta = child.angle - a0;
+  while (delta > Math.PI) delta -= Math.PI * 2;
+  while (delta < -Math.PI) delta += Math.PI * 2;
+  var sweep = delta >= 0 ? 1 : 0;
+  return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
+    "L" + mapNum(xm) + " " + mapNum(ym) +
+    "A" + mapNum(r1) + " " + mapNum(r1) + " 0 0 " + sweep + " " +
+    mapNum(child.x) + " " + mapNum(child.y);
+}
+
+// ------------------------------------------------- desenho da carta
+var mapSheet = document.getElementById("map-sheet");
+var mapSvg = document.getElementById("map-canvas");
+var mapCamera = document.getElementById("map-camera");
+var mapContours = document.getElementById("map-contours");
+var mapRoute = document.getElementById("map-route");
+var mapRouteActive = document.getElementById("map-route-active");
+var mapMarks = document.getElementById("map-marks");
+
+// Zoom: longe mostra as raízes e os ramos; perto, todos os nomes
+var MAP_ZOOM_MID = 1.9;
+var MAP_ZOOM_NEAR = 3.1;
+var MAP_ZOOM_DETAIL = 5.2;
+var MAP_ZOOM_MIN = 1;   // a folha inteira cobrindo a viewport
+var MAP_ZOOM_MAX = 9;
+
+var mapCam = { cx: MAP_PAPER_W / 2, cy: MAP_PAPER_H / 2, z: MAP_ZOOM_MIN };
+var mapCamFrom = null;
+var mapCamTo = null;
+var mapCamStart = 0;
+var mapCamRaf = null;
+var mapMarkList = [];
+var mapLayout = null;
+var mapSig = "";
+var mapPan = null;
+var mapBuilt = false;
+var mapCamReady = false;
+var mapLastScale = 0;
+var mapInners = [];
+var mapLabels = [];
+var mapReduce = window.matchMedia
+  ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  : false;
+
+// A trilha das novidades: entram na carta com destaque, mas ficam no
+// lugar que é delas na árvore
+function mapNewsPaths() {
+  if (typeof collectNews !== "function") return [];
+  return collectNews().slice(0, MAP_NEWS_COUNT).map(function(entry) {
+    return entry.path;
+  });
+}
+
+// Assinatura do desenho: muda quando a árvore ou as novidades mudam
+function mapSignature(roots) {
+  var parts = [];
+  (function walk(node, keys) {
+    if (!node || typeof node !== "object") return;
+    Object.keys(node).forEach(function(k) {
+      var c = node[k];
+      if (!c || typeof c !== "object") return;
+      var full = keys.concat([k]);
+      parts.push(full.join(">"));
+      if (!isLeaf(c)) walk(c, full);
+    });
+  })(tree, []);
+  return roots.join(",") + "#" + parts.join("|");
+}
+
+// ------------------------------------------------- câmera da folha
+function mapBaseScale(vw, vh) {
+  return Math.max(vw / MAP_PAPER_W, vh / MAP_PAPER_H);
+}
+
+// A câmera só anda dentro do papel: o relevo cobre a viewport inteira
+// em qualquer zoom, sem mapa infinito e sem borda vazia.
+function mapClampCam(vw, vh, s) {
+  var hw = vw / 2 / s;
+  var hh = vh / 2 / s;
+  if (hw * 2 >= MAP_PAPER_W) mapCam.cx = MAP_PAPER_W / 2;
+  else mapCam.cx = Math.max(hw, Math.min(MAP_PAPER_W - hw, mapCam.cx));
+  if (hh * 2 >= MAP_PAPER_H) mapCam.cy = MAP_PAPER_H / 2;
+  else mapCam.cy = Math.max(hh, Math.min(MAP_PAPER_H - hh, mapCam.cy));
+}
+
+// Contra-escala: as etiquetas mantêm o corpo na tela, os pontos seguem o zoom
+function mapApplyCam() {
+  if (!mapCamera || !mapSvg) return;
+  var vw = mapSvg.clientWidth || 1;
+  var vh = mapSvg.clientHeight || 1;
+  var s = mapBaseScale(vw, vh) * mapCam.z;
+  mapClampCam(vw, vh, s);
+  var tx = vw / 2 - mapCam.cx * s;
+  var ty = vh / 2 - mapCam.cy * s;
+  mapCamera.setAttribute("transform", "translate(" + tx.toFixed(2) + " " + ty.toFixed(2) + ") scale(" + s.toFixed(5) + ")");
+
+  if (!mapLastScale || Math.abs(s - mapLastScale) / mapLastScale > 0.002) {
+    mapLastScale = s;
+    var inv = (1 / s).toFixed(5);
+    for (var i = 0; i < mapInners.length; i++) {
+      mapInners[i].setAttribute("transform", "scale(" + inv + ")");
+    }
+    // O rótulo se afasta do ponto na medida em que o ponto cresce na tela
+    for (var j = 0; j < mapLabels.length; j++) {
+      var it = mapLabels[j].item;
+      var box = mapLabelBox(it, it.dotR * s);
+      mapLabels[j].label.setAttribute("x", String(box.x));
+      mapLabels[j].label.setAttribute("y", String(box.y));
     }
   }
 
-  mapMarkList = marks.concat(branch);
+  var z = mapCam.z;
+  var level = z >= MAP_ZOOM_DETAIL ? "detail"
+    : z >= MAP_ZOOM_NEAR ? "near"
+    : z >= MAP_ZOOM_MID ? "mid"
+    : "far";
+  if (mapSvg.getAttribute("data-zoom") !== level) mapSvg.setAttribute("data-zoom", level);
+}
 
-  // A câmera é calculada antes dos rótulos: quem estiver perto da borda
-  // direita escreve o nome para o lado de dentro
-  var cam = mapFrame();
-  var vw = mapHero ? mapHero.clientWidth : 900;
-  var vh = mapHero ? mapHero.clientHeight : 420;
-  var scale = mapBaseScale(vw, vh) * cam.z;
-  var flip = function(x) {
-    return (x - cam.cx) * scale + vw / 2 > vw - 210;
-  };
+// ------------------------------------------------- desenho das marcas
+function mapLabelBox(it, rpx) {
+  var off = Math.max(13, rpx + 7);
+  switch (it.slot) {
+    case "right": return { x: off, y: 0, anchor: "start" };
+    case "left": return { x: -off, y: 0, anchor: "end" };
+    case "down": return { x: 0, y: off + 5, anchor: "middle" };
+    default: return { x: 0, y: -(off + 5), anchor: "middle" };
+  }
+}
 
-  // Rota
+function mapRenderScene() {
+  if (!mapRoute || !mapMarks || !mapLayout) return;
+
+  // Rotas: cada item ligado ao seu pai
   var frag = document.createDocumentFragment();
-  var route = mapSvgEl("path", "map-route");
-  route.setAttribute("d", mapSmoothPath(mapTrail.pts));
-  frag.appendChild(route);
-  branch.forEach(function(br) {
-    var mx = (br.from[0] + br.x) / 2 + (br.y - br.from[1]) * 0.2;
-    var my = (br.from[1] + br.y) / 2 - (br.x - br.from[0]) * 0.2;
-    var p = mapSvgEl("path", "map-route branch");
-    p.setAttribute("d", "M" + mapNum(br.from[0]) + " " + mapNum(br.from[1]) + "Q" + mapNum(mx) + " " + mapNum(my) + " " + mapNum(br.x) + " " + mapNum(br.y));
+  mapLayout.items.forEach(function(it) {
+    if (!it.parent) return;
+    var cls = "map-route" + (it.level === 1 ? " trunk" : it.level >= 3 ? " branch" : "");
+    var p = mapSvgEl("path", cls);
+    p.setAttribute("d", mapBranchPath(it.parent, it));
     frag.appendChild(p);
   });
   mapRoute.innerHTML = "";
@@ -4361,109 +4611,123 @@ function mapRender() {
 
   // Marcas
   var mfrag = document.createDocumentFragment();
-  mapMarkList.forEach(function(m) {
-    var isActive = path[m.col] === m.key;
-    var isCurrent = path.length > 0 && m.col === path.length - 1 && isActive;
-    var g = mapSvgEl("g", "map-mark" + (isActive ? " active" : "") + (isCurrent ? " current" : ""));
-    g.setAttribute("transform", "translate(" + mapNum(m.x) + " " + mapNum(m.y) + ")");
-    g.setAttribute("data-key", m.key);
-    g.setAttribute("data-col", String(m.col));
+  mapInners = [];
+  mapLabels = [];
+  mapLayout.items.forEach(function(it, idx) {
+    var cls = "map-mark l" + it.level +
+      (it.isRoot ? " root" : it.isLeaf ? " leaf" : " branch") +
+      (it.isNews ? " novidade" : "");
+    var g = mapSvgEl("g", cls);
+    g.setAttribute("transform", "translate(" + mapNum(it.x) + " " + mapNum(it.y) + ")");
+    g.setAttribute("data-idx", String(idx));
     g.setAttribute("tabindex", "0");
     g.setAttribute("role", "button");
 
     var title = mapSvgEl("title");
-    title.textContent = m.key;
+    title.textContent = it.isNews ? (it.node.title || it.key) : it.key;
     g.appendChild(title);
 
     g.appendChild(mapSvgEl("circle", "map-mark-halo"));
-
-    var cross = mapSvgEl("path", "map-mark-cross");
-    cross.setAttribute("d", "M-19 0H-10M10 0H19M0 -19V-10M0 10V19");
-    g.appendChild(cross);
-
     g.appendChild(mapSvgEl("circle", "map-mark-dot"));
 
-    var label = mapSvgEl("text", "map-mark-label");
-    var side = flip(m.x) ? -21 : 21;
-    label.setAttribute("x", String(side));
-    label.setAttribute("y", "-7");
-    if (side < 0) label.setAttribute("text-anchor", "end");
-    label.textContent = m.key;
-    g.appendChild(label);
+    var inner = mapSvgEl("g", "map-mark-in");
+    g.appendChild(inner);
+    mapInners.push(inner);
 
-    var count = getItemCount(m.col, m.key);
-    if (count) {
-      var c = mapSvgEl("text", "map-mark-count");
-      c.setAttribute("x", String(side));
-      c.setAttribute("y", "11");
-      if (side < 0) c.setAttribute("text-anchor", "end");
-      c.textContent = count;
-      g.appendChild(c);
-    }
+    var tag = mapSvgEl("g", "map-mark-tag");
+    inner.appendChild(tag);
+
+    var box = mapLabelBox(it, it.dotR);
+    var label = mapSvgEl("text", "map-mark-label");
+    label.setAttribute("x", String(box.x));
+    label.setAttribute("y", String(box.y));
+    if (box.anchor !== "start") label.setAttribute("text-anchor", box.anchor);
+    if (box.anchor === "middle") label.setAttribute("dominant-baseline", "middle");
+    label.textContent = it.isNews ? (it.node.title || it.key) : it.key;
+    tag.appendChild(label);
+
+    if (it.isNews) mapLabels.push({ label: label, tag: tag, item: it, boxed: true });
+    else mapLabels.push({ label: label, tag: tag, item: it, boxed: false });
 
     mfrag.appendChild(g);
   });
   mapMarks.innerHTML = "";
   mapMarks.appendChild(mfrag);
 
-  mapGoTo(cam, true);
+  mapFitNewsBoxes();
 }
 
-// ------------------------------------------------------- câmera da folha
-function mapBaseScale(vw, vh) {
-  return Math.max(vw / MAP_SHEET_W, vh / MAP_SHEET_H);
-}
-
-function mapApplyCam() {
-  if (!mapCamera || !mapSvg) return;
-  var vw = mapSvg.clientWidth || 1;
-  var vh = mapSvg.clientHeight || 1;
-  var s = mapBaseScale(vw, vh) * mapCam.z;
-  var tx = vw / 2 - mapCam.cx * s;
-  var ty = vh / 2 - mapCam.cy * s;
-  mapCamera.setAttribute("transform", "translate(" + tx.toFixed(2) + " " + ty.toFixed(2) + ") scale(" + s.toFixed(5) + ")");
-}
-
-// Enquadra as marcas da rota dentro da folha visível
-function mapFrame() {
-  var vw = mapHero ? mapHero.clientWidth : 900;
-  var vh = mapHero ? mapHero.clientHeight : 420;
-  var base = mapBaseScale(vw, vh);
-  if (!mapMarkList.length) {
-    return { cx: MAP_SHEET_W / 2, cy: MAP_SHEET_H / 2, z: 1 };
-  }
-  var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-  mapMarkList.forEach(function(m) {
-    if (m.x < minX) minX = m.x;
-    if (m.x > maxX) maxX = m.x;
-    if (m.y < minY) minY = m.y;
-    if (m.y > maxY) maxY = m.y;
+// A caixa das novidades: mede o nome e desenha o contorno em volta
+function mapFitNewsBoxes() {
+  mapLabels.forEach(function(nb) {
+    if (!nb.boxed) return;
+    var b = null;
+    try { b = nb.label.getBBox(); } catch (err) { b = null; }
+    if (!b || !b.width) return;
+    var pad = 4;
+    var rect = mapSvgEl("rect", "map-mark-box");
+    rect.setAttribute("x", String(b.x - pad));
+    rect.setAttribute("y", String(b.y - pad * 0.6));
+    rect.setAttribute("width", String(b.width + pad * 2));
+    rect.setAttribute("height", String(b.height + pad * 1.2));
+    rect.setAttribute("rx", "2");
+    nb.tag.insertBefore(rect, nb.label);
   });
-  var w = maxX - minX + 340;
-  var h = maxY - minY + 250;
-  var scale = Math.min(vw / w, vh / h);
-  var cx = (minX + maxX) / 2;
-  var cy = (minY + maxY) / 2;
+}
 
-  // Em tela estreita a rota inteira ficaria microscópica: a câmera desce
-  // para a marca ativa e mantém o rótulo legível.
-  if (scale < 0.32) {
-    scale = 0.32;
-    var active = null;
-    mapMarkList.forEach(function(m) {
-      if (path[m.col] === m.key) active = m;
-    });
-    if (active) {
-      cx = active.x;
-      cy = active.y;
-    }
+// Marca o caminho aberto na navegação
+function mapUpdateActive() {
+  if (!mapLayout || !mapMarks) return;
+
+  var frag = document.createDocumentFragment();
+  for (var i = 0; i < path.length; i++) {
+    var target = path.slice(0, i + 1);
+    var it = mapFindItem(target);
+    if (!it || !it.parent) continue;
+    var p = mapSvgEl("path", "map-route active");
+    p.setAttribute("d", mapBranchPath(it.parent, it));
+    frag.appendChild(p);
   }
+  mapRouteActive.innerHTML = "";
+  mapRouteActive.appendChild(frag);
 
-  return {
-    cx: cx,
-    cy: cy,
-    z: Math.max(0.12, Math.min(2.6, scale / base))
-  };
+  var kids = mapMarks.children;
+  for (var k = 0; k < kids.length; k++) {
+    var it2 = mapMarkList[k];
+    if (!it2) continue;
+    var same = it2.path.length <= path.length;
+    if (same) {
+      for (var j = 0; j < it2.path.length; j++) {
+        if (path[j] !== it2.path[j]) { same = false; break; }
+      }
+    }
+    kids[k].classList.toggle("active", same);
+    kids[k].classList.toggle("current", same && it2.path.length === path.length);
+  }
+}
+
+function mapFindItem(targetPath) {
+  var key = targetPath.join(">");
+  for (var i = 0; i < mapMarkList.length; i++) {
+    if (mapMarkList[i].path.join(">") === key) return mapMarkList[i];
+  }
+  return null;
+}
+
+// Desenha a rota e as marcas do caminho atual
+function mapRender() {
+  if (!mapRoute || !mapMarks) return;
+  var roots = mapRootKeys();
+  var news = mapNewsPaths();
+  var sig = mapSignature(roots) + "#" + news.join(";");
+  if (sig !== mapSig) {
+    mapSig = sig;
+    mapLayout = mapBuildLayout(tree, roots, news);
+    mapMarkList = mapLayout.items;
+    mapRenderScene();
+    mapGoTo({ cx: MAP_PAPER_W / 2, cy: MAP_PAPER_H / 2, z: mapCam.z }, !mapCamReady);
+  }
+  mapUpdateActive();
 }
 
 function mapGoTo(target, animate) {
@@ -4472,11 +4736,11 @@ function mapGoTo(target, animate) {
     cancelAnimationFrame(mapCamRaf);
     mapCamRaf = null;
   }
-  // A primeira chamada posiciona a câmera sem animação
   if (!mapCamReady) {
     mapCamReady = true;
     animate = false;
   }
+  target.z = Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, target.z));
   if (!animate || mapReduce) {
     mapCam.cx = target.cx;
     mapCam.cy = target.cy;
@@ -4510,15 +4774,33 @@ function mapPointerPos(e) {
   };
 }
 
+// Abrir uma marca: o item final vai para a coluna fixa da direita
 function mapOpenMark(g) {
-  var col = parseInt(g.getAttribute("data-col"), 10);
-  var key = g.getAttribute("data-key");
-  if (!key || isNaN(col)) return;
-  onItemClick(col, key, null);
+  var idx = parseInt(g.getAttribute("data-idx"), 10);
+  if (isNaN(idx)) return;
+  var it = mapMarkList[idx];
+  if (!it) return;
+  playClick("open");
+  path = it.path.slice();
+  clearSearch();
+  syncRender();
+  mapFocusItem(it);
+}
+
+function mapFocusItem(it) {
+  if (!it || !mapSvg) return;
+  var vw = mapSvg.clientWidth || 1;
+  var vh = mapSvg.clientHeight || 1;
+  var s = mapBaseScale(vw, vh) * mapCam.z;
+  var px = (it.x - mapCam.cx) * s + vw / 2;
+  var py = (it.y - mapCam.cy) * s + vh / 2;
+  var margin = 90;
+  if (px > -margin && px < vw + margin && py > -margin && py < vh + margin) return;
+  mapGoTo({ cx: it.x, cy: it.y, z: mapCam.z }, true);
 }
 
 if (mapSvg) {
-  // arrastar move a folha
+  // arrastar anda pela folha, sem sair dela
   mapSvg.addEventListener("pointerdown", function(e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     if (e.target.closest && e.target.closest(".map-mark")) return;
@@ -4543,11 +4825,11 @@ if (mapSvg) {
     mapSvg.classList.remove("grabbing");
   });
 
-  // a roda aproxima e afasta
+  // a roda aproxima e afasta, sempre presa na folha
   mapSvg.addEventListener("wheel", function(e) {
     e.preventDefault();
     var before = mapPointerPos(e);
-    var z = Math.max(0.25, Math.min(4, mapCam.z * (e.deltaY < 0 ? 1.12 : 1 / 1.12)));
+    var z = Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, mapCam.z * (e.deltaY < 0 ? 1.12 : 1 / 1.12)));
     if (z === mapCam.z) return;
     mapCam.z = z;
     var after = mapPointerPos(e);
@@ -4556,10 +4838,10 @@ if (mapSvg) {
     mapApplyCam();
   }, { passive: false });
 
-  // dois cliques reenquadram a folha
+  // dois cliques reenquadram a folha inteira
   mapSvg.addEventListener("dblclick", function(e) {
     if (e.target.closest && e.target.closest(".map-mark")) return;
-    mapGoTo(mapFrame(), true);
+    mapGoTo({ cx: MAP_PAPER_W / 2, cy: MAP_PAPER_H / 2, z: MAP_ZOOM_MIN }, true);
   });
 }
 
@@ -4581,14 +4863,15 @@ if (mapMarks) {
 }
 
 function mapResize() {
-  if (!mapSvg || !mapHero) return;
-  var w = Math.max(1, Math.round(mapHero.clientWidth));
-  var h = Math.max(1, Math.round(mapHero.clientHeight));
+  if (!mapSvg || !mapSheet) return;
+  var w = Math.max(1, Math.round(mapSheet.clientWidth));
+  var h = Math.max(1, Math.round(mapSheet.clientHeight));
   mapSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
+  mapLastScale = 0;
   mapApplyCam();
 }
 
-// O terreno é pesado: entra logo depois da primeira pintura
+// O relevo é pesado: entra logo depois da primeira pintura
 function mapInit() {
   if (!mapSvg) return;
   mapResize();
@@ -4601,38 +4884,36 @@ function mapInit() {
 mapInit();
 
 document.addEventListener("visibilitychange", function() {
-  if (mapHero) mapHero.classList.toggle("paused", document.hidden);
+  if (mapSheet) mapSheet.classList.toggle("paused", document.hidden);
 });
 
-// ------------------------------------------------- puxador do hero
-// O grabber abre e fecha a folha do mapa: arrastar para baixo esconde o
-// hero, arrastar para cima mostra a folha inteira.
+// ------------------------------------------------- puxador do mapa
+// O grabber abre e fecha a folha do mapa: arrastar para cima aumenta,
+// arrastar para baixo encolhe até sumir.
 var grabber = document.getElementById("grabber");
-var heroHeight = 0;
+var mapHeight = 0;
 var dragState = null;
 
-function heroMin() {
+function mapMinHeight() {
   return 0;
 }
 
-function heroMax() {
-  // sobra para o palco e para a tela de baixo
-  var reserved = 52 + 20 + 110 + Math.round(window.innerHeight * 0.26);
-  return Math.max(160, window.innerHeight - reserved);
+function mapMaxHeight() {
+  return Math.max(180, Math.round(window.innerHeight * 0.82));
 }
 
-function setHeroHeight(px) {
-  heroHeight = Math.max(heroMin(), Math.min(heroMax(), Math.round(px)));
-  document.documentElement.style.setProperty("--hero-h", heroHeight + "px");
+function setMapHeight(px) {
+  mapHeight = Math.max(mapMinHeight(), Math.min(mapMaxHeight(), Math.round(px)));
+  document.documentElement.style.setProperty("--map-h", mapHeight + "px");
   mapResize();
 }
 
-setHeroHeight(Math.round(window.innerHeight * 0.38));
+setMapHeight(Math.round(window.innerHeight * 0.46));
 
 if (grabber) {
   grabber.addEventListener("pointerdown", function(e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    dragState = { y: e.clientY, h: heroHeight, moved: false };
+    dragState = { y: e.clientY, h: mapHeight, moved: false };
     grabber.classList.add("dragging");
     try { grabber.setPointerCapture(e.pointerId); } catch(err) {}
     e.preventDefault();
@@ -4642,8 +4923,7 @@ if (grabber) {
     if (!dragState) return;
     var dy = dragState.y - e.clientY;
     if (Math.abs(dy) > 2) dragState.moved = true;
-    // Puxar para cima aumenta a folha, puxar para baixo encolhe
-    setHeroHeight(dragState.h + dy);
+    setMapHeight(dragState.h + dy);
   });
 
   function endGrab(e) {
@@ -4652,8 +4932,7 @@ if (grabber) {
     dragState = null;
     grabber.classList.remove("dragging");
     if (!moved) {
-      // Clique simples alterna entre a folha aberta e escondida
-      setHeroHeight(heroHeight > 8 ? 0 : Math.round(window.innerHeight * 0.38));
+      setMapHeight(mapHeight > 8 ? 0 : Math.round(window.innerHeight * 0.46));
     }
   }
 
@@ -4662,13 +4941,12 @@ if (grabber) {
 }
 
 window.addEventListener("resize", function() {
-  setHeroHeight(heroHeight);
+  setMapHeight(mapHeight);
   mapResize();
-  mapGoTo(mapFrame(), false);
 });
 
-
 // ------------------------------------------------- novidades do site
+// A lista que alimenta o mapa: as novidades aparecem dentro da carta.
 function nodeDate(node) {
   if (!node) return null;
   if (node.date) {
@@ -4706,115 +4984,6 @@ function collectNews() {
   return out;
 }
 
-function newsThumb(node) {
-  var src = node.img || (node.images && node.images.length ? node.images[0] : null);
-  if (!src) return null;
-  return thumbFor(src);
-}
-
-function openNews(entry) {
-  if (!entry) return;
-  path = entry.path.slice();
-  clearSearch();
-  syncRender();
-}
-
-function renderNews() {
-  var list = document.getElementById("home-list");
-  var dateEl = document.getElementById("home-date");
-  if (!list) return;
-
-  var news = collectNews();
-  list.innerHTML = "";
-
-  if (dateEl) {
-    dateEl.textContent = news.length ? news.length + " novidades" : "sem novidades";
-  }
-  if (!news.length) return;
-
-  // O post mais recente aparece em destaque
-  var lead = news[0];
-  var leadEl = document.createElement("a");
-  leadEl.className = "home-lead";
-  leadEl.href = "#";
-  leadEl.addEventListener("click", function(e) {
-    e.preventDefault();
-    openNews(lead);
-  });
-
-  var media = document.createElement("div");
-  media.className = "home-lead-media";
-  var leadThumb = newsThumb(lead.node);
-  if (leadThumb) {
-    var img = document.createElement("img");
-    img.src = leadThumb;
-    img.alt = "";
-    img.loading = "lazy";
-    img.decoding = "async";
-    if (assetNeedsInvert(leadThumb)) img.classList.add("ink-dark");
-    media.appendChild(img);
-  }
-
-  var text = document.createElement("div");
-  var kicker = document.createElement("span");
-  kicker.className = "home-lead-kicker";
-  kicker.textContent = "mais recente";
-  var title = document.createElement("h3");
-  title.className = "home-lead-title";
-  title.textContent = lead.node.title || lead.path[lead.path.length - 1];
-  var meta = document.createElement("p");
-  meta.className = "home-lead-meta";
-  meta.textContent = lead.node.meta || "";
-  var body = document.createElement("p");
-  body.className = "home-lead-body";
-  body.textContent = (lead.node.body || "").split("\n")[0];
-
-  text.appendChild(kicker);
-  text.appendChild(title);
-  if (lead.node.meta) text.appendChild(meta);
-  if (lead.node.body) text.appendChild(body);
-
-  leadEl.appendChild(media);
-  leadEl.appendChild(text);
-  list.appendChild(leadEl);
-
-  // O resto fica na lista lateral
-  var side = document.createElement("div");
-  side.className = "home-side";
-  news.slice(1, 7).forEach(function(entry) {
-    var row = document.createElement("button");
-    row.type = "button";
-    row.className = "home-row";
-
-    var t = newsThumb(entry.node);
-    if (t) {
-      var im = document.createElement("img");
-      im.src = t;
-      im.alt = "";
-      im.loading = "lazy";
-      im.decoding = "async";
-      if (assetNeedsInvert(t)) im.classList.add("ink-dark");
-      row.appendChild(im);
-    }
-
-    var tx = document.createElement("span");
-    tx.className = "home-row-text";
-    var tt = document.createElement("span");
-    tt.className = "home-row-title";
-    tt.textContent = entry.node.title || entry.path[entry.path.length - 1];
-    var tm = document.createElement("span");
-    tm.className = "home-row-meta";
-    tm.textContent = entry.node.meta || "";
-    tx.appendChild(tt);
-    tx.appendChild(tm);
-    row.appendChild(tx);
-
-    row.addEventListener("click", function() { openNews(entry); });
-    side.appendChild(row);
-  });
-  list.appendChild(side);
-}
-
 // ------------------------------------------------- scroll que não prende
 // Ao abrir uma coluna, a tela se move só o suficiente para ela aparecer.
 function revealColumn(el) {
@@ -4831,7 +5000,6 @@ function revealColumn(el) {
 }
 
 syncRender();
-renderNews();
 </script>
 </body>
 </html>
