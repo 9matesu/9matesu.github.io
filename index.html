@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>matesu</title>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700&display=swap">
 <style>
 * {
   box-sizing: border-box;
@@ -26,7 +28,7 @@ html, body {
 }
 
 :root {
-  --font-base: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-base: "Switzer", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --bg-main: #141414;
   --bg-sidebar: #141414;
   --border-subtle: rgba(255, 255, 255, 0.05);
@@ -49,7 +51,8 @@ html, body {
   --map-ink-3: rgba(245, 245, 247, 0.52);
   --map-ink-4: rgba(245, 245, 247, 0.34);
   --map-grid: rgba(245, 245, 247, 0.22);
---map-accent: #f6c343;  --map-shade: #080808;
+  --map-accent: #f5f5f7;
+  --map-shade: #080808;
 }
 
 #viewport {
@@ -706,6 +709,21 @@ html, body {
   touch-action: none;
 }
 
+.map-caption {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 4px 7px;
+  background: var(--map-paper);
+  color: var(--text-faint);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
 #map-canvas.grabbing {
   cursor: grabbing;
 }
@@ -736,14 +754,16 @@ html, body {
 }
 
 /* ------------------------------------------------- rotas da árvore
-   Cada ramo é uma linha de metô na cor única amarela: a espessura
-   revela a hierarquia, a cor não muda. */
+   Cada ramo é uma linha de metrô em preto e branco: a espessura revela
+   a hierarquia, a cor não muda. */
 .map-route {
   fill: none;
   stroke: var(--map-accent);
   stroke-width: 2.2;
   stroke-linecap: round;
+  stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+  transition: stroke-width 0.18s ease, opacity 0.18s ease;
 }
 
 .map-route.main {
@@ -760,6 +780,22 @@ html, body {
 
 .map-route.active {
   stroke-width: 3.6;
+}
+
+/* O trem passando: riscos na cor do papel correm pela linha principal */
+.map-flow {
+  fill: none;
+  stroke: var(--map-paper);
+  stroke-width: 2.8;
+  stroke-linecap: butt;
+  stroke-dasharray: 2 46;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  animation: mapTrain 3.2s linear infinite;
+}
+
+@keyframes mapTrain {
+  to { stroke-dashoffset: -48; }
 }
 
 /* ------------------------------------------------- marcas: os itens
@@ -907,6 +943,21 @@ html, body {
 .map-mark.novidade .map-mark-label {
   font-size: 12px;
   fill: var(--map-ink);
+}
+
+/* O número da linha: placa cheia sobre a raiz, como nas placas de metrô */
+.map-badge-rect {
+  fill: var(--map-accent);
+  stroke: var(--map-paper);
+  stroke-width: 1;
+}
+
+.map-badge-num {
+  fill: var(--map-paper);
+  font-family: var(--font-base);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .map-mark.active .map-mark-label {
@@ -1619,10 +1670,761 @@ body:not(.light) .ink-dark {
   color: var(--text-faint);
   padding-top: 2px;
 }
+
+/* ================================================================
+   Área de trabalho, janelas e entrada
+   O site vive dentro de uma janela de sistema operacional: papel de
+   parede é o mapa SVG, ícones na mesa, barra de tarefas no pé, e um
+   cartão de entrada com a foto e o sobre.
+   ================================================================ */
+
+#desktop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg-main);
+}
+
+/* Papel de parede: só o relevo topográfico, sem estações */
+#desk-wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--map-paper, #141414);
+  pointer-events: none;
+}
+
+#desk-topo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#desk-contours {
+  opacity: 0.75;
+}
+
+/* O mapa com as estações vive dentro da janela, no pé da coluna */
+#app-window #map-sheet {
+  height: 42%;
+  min-height: 168px;
+}
+
+/* ------------------------------------------------- ícones da mesa */
+#desk-icons {
+  position: absolute;
+  z-index: 4;
+  left: 14px;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.desk-icon {
+  width: 78px;
+  padding: 6px 4px 7px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.desk-icon:hover,
+.desk-icon:focus-visible {
+  background: rgba(127, 127, 127, 0.16);
+  color: var(--text-bright);
+  outline: none;
+}
+
+.desk-icon-art {
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--border-link);
+  border-radius: 7px;
+  background: var(--bg-main);
+  display: grid;
+  place-items: center;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, border-color 0.18s ease;
+}
+
+.desk-icon:hover .desk-icon-art {
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--text-bright);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+}
+
+.desk-icon-label {
+  padding: 1px 5px;
+  border-radius: 3px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.desk-icon:hover .desk-icon-label {
+  background: var(--text-bright);
+  color: var(--bg-main);
+}
+
+/* ícone do portfólio: uma janela em miniatura */
+.desk-icon-win {
+  width: 22px;
+  height: 18px;
+  border: 1px solid var(--text-muted);
+  position: relative;
+  display: block;
+  transition: border-color 0.18s ease;
+}
+
+.desk-icon:hover .desk-icon-win {
+  border-color: var(--text-bright);
+}
+
+.desk-icon-win::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 3px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* ícone do sobre: o "m" em círculo */
+.desk-icon-me {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--text-muted);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text-muted);
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+
+.desk-icon-me::after { content: "m"; }
+
+.desk-icon:hover .desk-icon-me {
+  border-color: var(--text-bright);
+  color: var(--text-bright);
+}
+
+/* ------------------------------------------------- a janela */
+.window {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-main);
+  border: 1px solid var(--border-link);
+  box-shadow:
+    0 44px 120px rgba(0, 0, 0, 0.55),
+    0 2px 0 rgba(255, 255, 255, 0.05) inset;
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+}
+
+#app-window {
+  left: 104px;
+  right: 20px;
+  top: 18px;
+  bottom: 62px;
+  opacity: 0;
+  transform: scale(0.95) translateY(14px);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.desk--app #app-window {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.desk--min #app-window,
+.desk--closed #app-window {
+  pointer-events: none;
+}
+
+/* barra de título */
+.win-bar {
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 0 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-glass);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  backdrop-filter: blur(14px) saturate(1.05);
+  user-select: none;
+}
+
+.win-title {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.win-btns {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+}
+
+.win-btn {
+  width: 34px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.win-btn:hover {
+  background: var(--field-bg);
+  color: var(--text-bright);
+}
+
+.win-btn span {
+  position: relative;
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+.win-min span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+}
+
+.win-close span::before,
+.win-close span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4.5px;
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.win-close span::after {
+  transform: rotate(-45deg);
+}
+
+.win-close:hover {
+  background: var(--text-bright);
+  color: var(--bg-main);
+}
+
+.win-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+#app-window #viewport {
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+
+#app-window #sidebar,
+#app-window #main,
+#app-window #detail-panel {
+  height: 100%;
+}
+
+/* A coluna da esquerda rola quando o texto passa da altura da janela */
+#app-window #sidebar {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+#app-window #sidebar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+#app-window .panel-scroll {
+  height: calc(100% - var(--header-h));
+}
+
+/* Dentro da janela o detalhe vira uma gaveta por cima da coluna:
+   assim o palco não encolhe e o texto não fica espremido. */
+#app-window #detail-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: min(340px, 84%);
+  min-width: 0;
+  z-index: 25;
+  border-left: 1px solid transparent;
+  box-shadow: -22px 0 44px rgba(0, 0, 0, 0.4);
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.24s ease,
+    border-color 0.2s ease,
+    visibility 0s linear 0.34s;
+}
+
+#app-window #detail-panel.open {
+  width: min(340px, 84%);
+  min-width: 0;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  border-left-color: var(--border-subtle);
+  transition:
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.24s ease,
+    border-color 0.2s ease,
+    visibility 0s;
+}
+
+#app-window .panel-scroll {
+  width: 100%;
+}
+
+#app-window #settings-panel {
+  position: absolute;
+  top: calc(var(--header-h) + 10px);
+  right: 14px;
+  max-height: calc(100% - var(--header-h) - 24px);
+}
+
+/* ------------------------------------------------- cartão de entrada */
+#intro-card {
+  left: 50%;
+  top: 50%;
+  width: min(392px, calc(100vw - 40px));
+  padding: 20px 22px 22px;
+  transform: translate(-50%, -50%);
+  border-color: var(--text-faint);
+  background: var(--bg-main);
+  z-index: 12;
+  overflow: hidden;
+}
+
+#intro-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(180deg, rgba(127, 127, 127, 0.06), transparent 40%);
+}
+
+.desk--app #intro-card,
+.desk--min #intro-card,
+.desk--closed #intro-card {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.97);
+}
+
+.intro-photo {
+  width: 172px;
+  margin: 0 auto 16px;
+  overflow: hidden;
+  background: var(--field-bg);
+  opacity: 0;
+  animation: introRise 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+}
+
+.intro-photo .bio-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 7 / 9;
+  object-fit: cover;
+  object-position: center 25%;
+  filter: grayscale(1) contrast(1.06);
+  transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#intro-card:hover .bio-photo {
+  filter: grayscale(1) contrast(1.16) brightness(1.05);
+  transform: scale(1.02);
+}
+
+.intro-name {
+  font-size: 40px;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  font-weight: 700;
+  color: var(--text-bright);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.intro-name span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%) rotate(5deg);
+  animation: letterRun 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 46ms + 160ms);
+}
+
+.intro-bio {
+  font-size: 11.5px;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  color: var(--text-muted);
+  text-align: justify;
+  text-justify: inter-word;
+  opacity: 0;
+  animation: introRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.42s forwards;
+}
+
+.intro-bio b {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.intro-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  opacity: 0;
+  animation: introRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.56s forwards;
+}
+
+.intro-enter {
+  border: 1px solid var(--text-bright);
+  background: transparent;
+  color: var(--text-bright);
+  font-family: inherit;
+  font-size: 10.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  transition: background 0.18s ease, color 0.18s ease, gap 0.18s ease;
+}
+
+.intro-enter span {
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.intro-enter:hover {
+  background: var(--text-bright);
+  color: var(--bg-main);
+}
+
+.intro-enter:hover span {
+  transform: translateX(4px);
+}
+
+.intro-enter:focus-visible {
+  outline: 1px solid var(--text-bright);
+  outline-offset: 3px;
+}
+
+.intro-hint {
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  animation: hintFloat 2.8s ease-in-out infinite;
+}
+
+.intro-corner {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+@keyframes letterRun {
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes introRise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes hintFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(3px); opacity: 1; }
+}
+
+/* saída: cada letra corre para fora, sincronizada com a janela abrindo */
+#intro-card.leaving .intro-name span {
+  animation: letterOut 0.42s cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
+  animation-delay: calc(var(--i, 0) * 24ms);
+}
+
+@keyframes letterOut {
+  to { opacity: 0; transform: translateY(-130%) rotate(-7deg); }
+}
+
+#intro-card.leaving .intro-photo,
+#intro-card.leaving .intro-bio,
+#intro-card.leaving .intro-actions,
+#intro-card.leaving .intro-corner {
+  animation: introFall 0.34s ease-in forwards;
+  animation-delay: 0.1s;
+}
+
+@keyframes introFall {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ------------------------------------------------- entrada do app */
+#app-window.enter-anim #topbar {
+  animation: barDrop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+#app-window.enter-anim #sidebar .bio-top > *,
+#app-window.enter-anim #sidebar .bio-footer {
+  animation: slideFromLeft 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms + 80ms);
+}
+
+#app-window.enter-anim #stage .col {
+  animation: slideFromRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+}
+
+@keyframes barDrop {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes slideFromRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Texto que empurra: cada item entra um tico depois do outro */
+#stage .col .item {
+  animation: itemRun 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 18ms);
+}
+
+@keyframes itemRun {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------- barra de tarefas */
+#taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 44px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  background: var(--bg-glass-strong);
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
+  backdrop-filter: blur(16px) saturate(1.05);
+  border-top: 1px solid var(--border-subtle);
+  user-select: none;
+}
+
+.task-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--border-subtle);
+  background: var(--field-bg);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.task-item:hover {
+  color: var(--text-bright);
+  border-color: var(--border-link);
+  background: var(--field-bg-focus);
+}
+
+.task-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.desk--app .task-dot {
+  background: var(--text-bright);
+  box-shadow: 0 0 8px var(--text-bright);
+}
+
+#task-clock {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* ------------------------------------------------- hover das estações */
+.map-mark-dot,
+.map-mark-halo {
+  transition: r 0.18s cubic-bezier(0.22, 1, 0.36, 1), fill 0.18s ease, stroke 0.18s ease, opacity 0.18s ease, filter 0.18s ease;
+}
+
+.map-mark:hover .map-mark-dot {
+  filter: drop-shadow(0 0 6px var(--map-ink));
+}
+
+.map-mark:hover .map-mark-label {
+  fill: var(--map-ink);
+}
+
+.map-mark-tag {
+  transition: opacity 0.18s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window,
+  .map-route.main,
+  .intro-hint,
+  #stage .col .item,
+  #app-window.enter-anim #sidebar .bio-top > *,
+  #app-window.enter-anim #stage .col {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  #app-window {
+    left: 8px;
+    right: 8px;
+    top: 8px;
+    bottom: 56px;
+  }
+  #desk-icons {
+    flex-direction: row;
+    left: 6px;
+    top: 4px;
+    gap: 6px;
+  }
+  .desk-icon {
+    width: 64px;
+  }
+  #intro-card {
+    width: calc(100vw - 24px);
+    padding: 16px 16px 18px;
+  }
+  .intro-name {
+    font-size: 34px;
+  }
+}
 </style>
 </head>
 <body>
-<div id="viewport">
+<div id="desktop" class="desk--intro">
+
+  <!-- Papel de parede: so o relevo, sem estacoes -->
+  <div id="desk-wallpaper" aria-hidden="true">
+    <svg id="desk-topo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" preserveAspectRatio="xMidYMid slice">
+      <rect class="map-paper-fill" x="0" y="0" width="1600" height="1100"></rect>
+      <g id="desk-contours"></g>
+    </svg>
+  </div>
+
+  <!-- Ícones da área de trabalho -->
+  <div id="desk-icons" aria-label="área de trabalho">
+    <button class="desk-icon" id="icon-portfolio" type="button" aria-label="abrir portfólio">
+      <span class="desk-icon-art" aria-hidden="true"><span class="desk-icon-win"></span></span>
+      <span class="desk-icon-label">portfólio</span>
+    </button>
+    <button class="desk-icon" id="icon-sobre" type="button" aria-label="abrir sobre">
+      <span class="desk-icon-art" aria-hidden="true"><span class="desk-icon-me"></span></span>
+      <span class="desk-icon-label">sobre</span>
+    </button>
+  </div>
+
+  <!-- Cartão de entrada: a janela fechada, só a foto e o sobre -->
+  <section id="intro-card" class="window" aria-label="sobre matesu">
+    <div class="intro-photo">
+      <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
+    </div>
+    <h1 class="intro-name" aria-label="matesu">matesu</h1>
+    <p class="intro-bio">produtor musical, designer gráfico, desenvolvedor, fotógrafo,
+      engenheiro de mixagem, dj e diretor criativo. desde 2015 entre o audiovisual,
+      o <b>@blackmesaent</b> e o <b>bloodworm trax</b>.</p>
+    <div class="intro-actions">
+      <button class="intro-enter" id="intro-enter" type="button">abrir portfólio <span aria-hidden="true">→</span></button>
+      <span class="intro-hint">ou role para entrar</span>
+    </div>
+    <span class="intro-corner" aria-hidden="true">1.0</span>
+  </section>
+
+  <!-- A janela do portfolio -->
+  <section id="app-window" class="window" aria-label="portfólio matesu">
+    <div class="win-bar">
+      <span class="win-title">matesu — portfólio</span>
+      <div class="win-btns">
+        <button class="win-btn win-min" id="win-min" type="button" aria-label="minimizar"><span></span></button>
+        <button class="win-btn win-close" id="win-close" type="button" aria-label="fechar"><span></span></button>
+      </div>
+    </div>
+    <div class="win-body">
+      <div id="viewport">
 
   <!-- Coluna fixa com informações reais -->
   <aside id="sidebar">
@@ -1740,11 +2542,6 @@ body:not(.light) .ink-dark {
       <main id="stage"></main>
     </div>
 
-    <!-- Puxador: encolhe ou aumenta a folha do mapa -->
-    <div id="grabber" role="separator" aria-orientation="horizontal" aria-label="arrastar para cima ou para baixo" title="arraste para cima ou para baixo">
-      <span class="grabber-grip"></span>
-    </div>
-
     <!-- Mapa do site: carta topográfica com todos os itens pré-mapeados -->
     <section id="map-sheet" aria-label="mapa topográfico do site">
       <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa topográfico com todos os itens do site">
@@ -1763,7 +2560,10 @@ body:not(.light) .ink-dark {
         </g>
         <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
       </svg>
+      <span class="map-caption" aria-hidden="true">mapa do site — arraste, role para ampliar</span>
     </section>
+
+
 
   </div>
 
@@ -1817,9 +2617,21 @@ body:not(.light) .ink-dark {
     <p class="settings-note">Tema, fonte, grão e matiz ficam salvos neste navegador.</p>
   </section>
 
+      </div><!-- /viewport -->
+    </div><!-- /win-body -->
+  </section>
+
+  <!-- Barra de tarefas -->
+  <div id="taskbar">
+    <button id="task-app" class="task-item" type="button">
+      <span class="task-dot" aria-hidden="true"></span>matesu — portfólio
+    </button>
+    <span id="task-clock" aria-hidden="true">--:--</span>
+  </div>
+
   <div id="grain"></div>
 
-</div>
+</div><!-- /desktop -->
 
 <script>
 var tree = {
@@ -2530,6 +3342,7 @@ var THEMES = [
 ];
 
 var FONTS = [
+  { id: "switzer", name: "switzer", stack: '"Switzer", "Helvetica Neue", Helvetica, Arial, sans-serif' },
   { id: "helvetica", name: "helvetica", stack: '"Helvetica Neue", Helvetica, Arial, sans-serif' },
   { id: "verdana", name: "verdana", stack: "Verdana, Geneva, Tahoma, sans-serif" },
   { id: "colibri", name: "colibri", stack: 'Colibri, "Segoe UI", Candara, sans-serif' },
@@ -2548,7 +3361,7 @@ var CURSORS = [
 var ajustes = {
   theme: "noite",
   light: false,
-  font: "helvetica",
+  font: "switzer",
   cursor: "padrao",
   grain: 0,
   hue: 0
@@ -2637,8 +3450,8 @@ function applyPalette() {
   root.setProperty("--map-ink-4", mixColors(fg, bg, 0.34));
   root.setProperty("--map-grid", mixColors(fg, bg, 0.2));
   root.setProperty("--map-shade", mixColors(bg, "#000000", 0.5));
-  // Amarelo: no papel claro precisa escurecer para não sumir
-  root.setProperty("--map-accent", light ? "#a4770e" : "#f6c343");
+  // Tudo em preto e branco: a linha do metrô fica na tinta do tema
+  root.setProperty("--map-accent", fg);
 
   document.body.classList.toggle("light", light);
 
@@ -2780,7 +3593,7 @@ function loadAjustes() {
       var data = JSON.parse(saved);
       if (data && typeof data === "object") {
         if (data.theme) ajustes.theme = data.theme;
-        if (data.font) ajustes.font = data.font;
+        if (data.font) ajustes.font = data.font === "helvetica" ? "switzer" : data.font;
         if (data.cursor) ajustes.cursor = data.cursor;
         if (typeof data.grain === "number") ajustes.grain = data.grain;
         if (typeof data.hue === "number") ajustes.hue = data.hue;
@@ -3976,9 +4789,11 @@ function mapRandom(seed) {
 }
 
 // Curvas de nível por marching squares, com os trechos unidos em polilinhas
-function mapContourLines(f, level) {
-  var cols = MAP_COLS;
-  var rows = MAP_ROWS;
+function mapContourLines(f, level, cols, rows, paperW, paperH) {
+  cols = cols || MAP_COLS;
+  rows = rows || MAP_ROWS;
+  paperW = paperW || mapPaperW;
+  paperH = paperH || mapPaperH;
   var hCount = (rows + 1) * (cols + 1);
   var adj = new Map();
   var pts = new Map();
@@ -4075,7 +4890,7 @@ function mapContourLines(f, level) {
     var line = [];
     for (var k = 0; k < chain.length; k++) {
       var p = pts.get(chain[k]);
-      line.push([p[0] / cols * mapPaperW, p[1] / rows * mapPaperH]);
+      line.push([p[0] / cols * paperW, p[1] / rows * paperH]);
     }
     lines.push(mapWobble(line));
   });
@@ -4119,6 +4934,35 @@ function mapSvgEl(tag, cls) {
   return el;
 }
 
+// Desenha as curvas de nível de um campo qualquer dentro de um grupo SVG
+function mapContoursInto(group, cols, rows, w, h, relief) {
+  var f = new Float32Array((cols + 1) * (rows + 1));
+  var min = 2;
+  var max = -1;
+  for (var y = 0; y <= rows; y++) {
+    for (var x = 0; x <= cols; x++) {
+      var hgt = relief(x / cols, y / rows);
+      f[y * (cols + 1) + x] = hgt;
+      if (hgt < min) min = hgt;
+      if (hgt > max) max = hgt;
+    }
+  }
+  var step = (max - min) / (MAP_LEVELS + 1);
+  var frag = document.createDocumentFragment();
+  for (var l = 1; l <= MAP_LEVELS; l++) {
+    var level = min + step * l;
+    var lines = mapContourLines(f, level, cols, rows, w, h);
+    var d = "";
+    for (var i = 0; i < lines.length; i++) d += mapSmoothPath(lines[i]);
+    if (!d) continue;
+    var path = mapSvgEl("path", "map-contour" + (l % 3 === 0 ? " major" : ""));
+    path.setAttribute("d", d);
+    frag.appendChild(path);
+  }
+  group.innerHTML = "";
+  group.appendChild(frag);
+}
+
 // Só as curvas de nível: o resto do relevo sai para não brigar com os itens
 function mapBuildTerrain() {
   if (!mapPaperRect) mapPaperRect = document.querySelector("#map-camera .map-paper-fill");
@@ -4128,36 +4972,26 @@ function mapBuildTerrain() {
   mapPaperRect.setAttribute("height", String(mapPaperH));
   if (mapTerrainSize && mapTerrainSize[0] === mapPaperW && mapTerrainSize[1] === mapPaperH) return;
   mapTerrainSize = [mapPaperW, mapPaperH];
-  mapContours.innerHTML = "";
 
   MAP_COLS = Math.round(mapPaperW / 24);
   MAP_ROWS = Math.round(mapPaperH / 24);
 
-  var f = new Float32Array((MAP_COLS + 1) * (MAP_ROWS + 1));
-  var min = 2;
-  var max = -1;
-  for (var y = 0; y <= MAP_ROWS; y++) {
-    for (var x = 0; x <= MAP_COLS; x++) {
-      var h = mapRelief(x / MAP_COLS, y / MAP_ROWS);
-      f[y * (MAP_COLS + 1) + x] = h;
-      if (h < min) min = h;
-      if (h > max) max = h;
-    }
-  }
+  mapContoursInto(mapContours, MAP_COLS, MAP_ROWS, mapPaperW, mapPaperH, mapRelief);
+}
 
-  var step = (max - min) / (MAP_LEVELS + 1);
-  var frag = document.createDocumentFragment();
-  for (var l = 1; l <= MAP_LEVELS; l++) {
-    var level = min + step * l;
-    var lines = mapContourLines(f, level);
-    var d = "";
-    for (var i = 0; i < lines.length; i++) d += mapSmoothPath(lines[i]);
-    if (!d) continue;
-    var path = mapSvgEl("path", "map-contour" + (l % 3 === 0 ? " major" : ""));
-    path.setAttribute("d", d);
-    frag.appendChild(path);
+// O papel de parede da mesa: o mesmo relevo, em outra escala, sem estações
+function mapBuildWallpaper() {
+  var group = document.getElementById("desk-contours");
+  if (!group) return;
+  function relief(u, v) {
+    var x = u * 9.5;
+    var y = v * 7.2;
+    var soft = mapFbm(x, y, MAP_SEED + 7, 4);
+    var ridge = 1 - Math.abs(2 * mapFbm(x * 0.8 + 4.7, y * 0.8 + 8.3, MAP_SEED + 55, 3) - 1);
+    var hv = 0.5 * soft + 0.4 * ridge + 0.1 * (1 - v);
+    return hv < 0 ? 0 : hv > 1 ? 1 : hv;
   }
-  mapContours.appendChild(frag);
+  mapContoursInto(group, 120, 84, 1600, 1100, relief);
 }
 
 // ------------------------------------------------- núcleo do mapa
@@ -4174,11 +5008,11 @@ function mapRootKeys() {
 }
 
 // Distância entre estações da mesma fila e entre as filas
-var MAP_STEP = 70;
-var MAP_GROUP_GAP = 34;
-var MAP_ROW_H = 170;
-var MAP_DIST_GAP = 240;
-var MAP_MARGIN = 150;
+var MAP_STEP = 96;
+var MAP_GROUP_GAP = 44;
+var MAP_ROW_H = 200;
+var MAP_DIST_GAP = 300;
+var MAP_MARGIN = 170;
 
 function mapLeafCount(node) {
   if (!node || typeof node !== "object") return 0;
@@ -4264,7 +5098,7 @@ function mapBuildLayout(tree, roots, newsPaths) {
     if (!node || typeof node !== "object") return;
     var root = mapClusterTree(rootKey, node);
     var size = mapDistrictSize(root);
-    districts.push({ key: rootKey, root: root, size: size });
+    districts.push({ key: rootKey, root: root, size: size, no: districts.length + 1 });
   });
 
   // Espalha os distritos: as estações de cada fila nunca ficam mais
@@ -4348,6 +5182,7 @@ function mapBuildLayout(tree, roots, newsPaths) {
         slot: slot,
         dotR: MAP_DOT_R[n.level] || MAP_DOT_R[3],
         cluster: d.key,
+        lineNo: d.no,
         parent: n.parent ? {
           key: n.parent.key,
           path: n.parent.path,
@@ -4415,6 +5250,7 @@ var mapCamReady = false;
 var mapLastScale = 0;
 var mapInners = [];
 var mapLabels = [];
+var mapBadges = [];
 var mapReduce = window.matchMedia
   ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
   : false;
@@ -4484,6 +5320,12 @@ function mapApplyCam() {
       mapLabels[j].label.setAttribute("x", String(box.x));
       mapLabels[j].label.setAttribute("y", String(box.y));
     }
+    // O número da linha fica logo acima da estação-raiz
+    for (var b = 0; b < mapBadges.length; b++) {
+      var bit = mapBadges[b].item;
+      var off = Math.min(bit.dotR * s, 26) + 26;
+      mapBadges[b].el.setAttribute("transform", "translate(0 " + (-off).toFixed(1) + ")");
+    }
   }
 
   var z = mapCam.z;
@@ -4505,7 +5347,8 @@ function mapLabelBox(it, rpx) {
   }
 }
 
-// O ramo: desce do pai, passa em fila pela rail e atravessa as estações
+// O ramo: desce reto do pai, abre num "Y" a 45 graus e corre pela fila
+// até as estações dos filhos
 function mapBranchPath(parent, kids) {
   var rowY = kids[0].y;
   var x1 = parent.x, x2 = parent.x;
@@ -4513,10 +5356,28 @@ function mapBranchPath(parent, kids) {
     if (k.x < x1) x1 = k.x;
     if (k.x > x2) x2 = k.x;
   });
-  var d = "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
-    "V" + mapNum(rowY);
-  if (x2 - x1 > 0.5) d += "M" + mapNum(x1) + " " + mapNum(rowY) + "H" + mapNum(x2);
-  return d;
+
+  // filho único logo abaixo: cano reto
+  if (x2 - x1 < 0.5) {
+    return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
+      "V" + mapNum(rowY);
+  }
+
+  var span = rowY - parent.y;
+  var elbowY = parent.y + span * 0.46;
+  var reach = rowY - elbowY;           // cateto horizontal = vertical: 45°
+  var xL = parent.x - reach;
+  var xR = parent.x + reach;
+  if (x1 > xL) x1 = xL;
+  if (x2 < xR) x2 = xR;
+
+  return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
+    "V" + mapNum(elbowY) +
+    "L" + mapNum(xL) + " " + mapNum(rowY) +
+    "M" + mapNum(parent.x) + " " + mapNum(elbowY) +
+    "L" + mapNum(xR) + " " + mapNum(rowY) +
+    "M" + mapNum(x1) + " " + mapNum(rowY) +
+    "H" + mapNum(x2);
 }
 
 function mapRenderScene() {
@@ -4544,8 +5405,12 @@ function mapRenderScene() {
       if (it.x > x2) x2 = it.x;
     });
     var main = mapSvgEl("path", "map-route main");
-    main.setAttribute("d", "M" + mapNum(x1) + " " + mapNum(rootItems[0].y) + "H" + mapNum(x2));
+    var mainD = "M" + mapNum(x1) + " " + mapNum(rootItems[0].y) + "H" + mapNum(x2);
+    main.setAttribute("d", mainD);
     frag.appendChild(main);
+    var flow = mapSvgEl("path", "map-flow");
+    flow.setAttribute("d", mainD);
+    frag.appendChild(flow);
   }
 
   Object.keys(byKey).forEach(function(key) {
@@ -4563,6 +5428,7 @@ function mapRenderScene() {
   var mfrag = document.createDocumentFragment();
   mapInners = [];
   mapLabels = [];
+  mapBadges = [];
   mapLayout.clusters.forEach(function(c) {
     c.items.forEach(function(it, idx) {
       var cls = "map-mark l" + it.level +
@@ -4598,6 +5464,25 @@ function mapRenderScene() {
       tag.appendChild(label);
 
       mapLabels.push({ label: label, tag: tag, item: it, boxed: it.isNews });
+
+      // A raiz ganha o número da linha, como nas placas de metrô
+      if (it.isRoot) {
+        var badge = mapSvgEl("g", "map-badge");
+        var badgeRect = mapSvgEl("rect", "map-badge-rect");
+        badgeRect.setAttribute("x", "-13");
+        badgeRect.setAttribute("y", "-13");
+        badgeRect.setAttribute("width", "26");
+        badgeRect.setAttribute("height", "26");
+        badgeRect.setAttribute("rx", "3");
+        badge.appendChild(badgeRect);
+        var badgeNum = mapSvgEl("text", "map-badge-num");
+        badgeNum.setAttribute("text-anchor", "middle");
+        badgeNum.setAttribute("dominant-baseline", "central");
+        badgeNum.textContent = String(it.lineNo);
+        badge.appendChild(badgeNum);
+        inner.appendChild(badge);
+        mapBadges.push({ el: badge, item: it });
+      }
 
       mfrag.appendChild(g);
     });
@@ -4682,10 +5567,20 @@ function mapRender() {
   if (sig !== mapSig) {
     mapSig = sig;
     mapLayout = mapBuildLayout(tree, roots, news);
-    if (!mapCamReady) mapCam = { cx: mapPaperW / 2, cy: mapPaperH / 2, z: MAP_ZOOM_MIN };
+    if (!mapCamReady) {
+      var firstRoot = null;
+      for (var fi = 0; fi < mapLayout.items.length; fi++) {
+        if (mapLayout.items[fi].level === 0) { firstRoot = mapLayout.items[fi]; break; }
+      }
+      mapCam = {
+        cx: firstRoot ? firstRoot.x : mapPaperW / 2,
+        cy: mapPaperH / 2,
+        z: MAP_ZOOM_MIN
+      };
+    }
     mapRenderScene();
     mapBuildTerrain();
-    mapGoTo({ cx: mapPaperW / 2, cy: mapPaperH / 2, z: mapCam.z }, !mapCamReady);
+    mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, !mapCamReady);
   }
   mapUpdateActive();
 }
@@ -4741,6 +5636,7 @@ function mapOpenMark(g) {
   var it = mapMarkList[idx];
   if (!it) return;
   playClick("open");
+  deskEnsureOpen();
   path = it.path.slice();
   clearSearch();
   syncRender();
@@ -4838,6 +5734,7 @@ function mapInit() {
   setTimeout(function() {
     mapRender();
     mapBuildTerrain();
+    mapBuildWallpaper();
   }, 40);
 }
 
@@ -4957,6 +5854,230 @@ function revealColumn(el) {
   if (left >= view + vw) return Math.max(view, left - 110);
   if (right - left <= vw - 80) return right - vw;
   return Math.max(view, left + 110);
+}
+
+// ------------------------------------------------- área de trabalho
+// A página é um sistema operacional de mentira: papel de parede com o
+// mapa, ícones na mesa, a janela do portfólio e uma barra de tarefas.
+var deskEl = document.getElementById("desktop");
+var introCard = document.getElementById("intro-card");
+var appWindow = document.getElementById("app-window");
+var winMin = document.getElementById("win-min");
+var winClose = document.getElementById("win-close");
+var iconPortfolio = document.getElementById("icon-portfolio");
+var iconSobre = document.getElementById("icon-sobre");
+var taskApp = document.getElementById("task-app");
+var taskClock = document.getElementById("task-clock");
+var introEnter = document.getElementById("intro-enter");
+var viewportEl = document.getElementById("viewport");
+
+var deskState = "intro";
+var deskBusy = false;
+
+// O nome vira letras soltas, cada uma com o seu atraso
+(function splitIntroName() {
+  var name = document.querySelector(".intro-name");
+  if (!name) return;
+  var text = name.getAttribute("aria-label") || name.textContent;
+  name.innerHTML = "";
+  for (var i = 0; i < text.length; i++) {
+    var span = document.createElement("span");
+    span.textContent = text.charAt(i);
+    span.style.setProperty("--i", i);
+    span.setAttribute("aria-hidden", "true");
+    name.appendChild(span);
+  }
+})();
+
+// Índices para o texto entrar em cascata
+function deskStagger() {
+  if (!viewportEl) return;
+  var bio = viewportEl.querySelectorAll("#sidebar .bio-top > *, #sidebar .bio-footer");
+  for (var i = 0; i < bio.length; i++) bio[i].style.setProperty("--i", i);
+  var cols = viewportEl.querySelectorAll("#stage .col");
+  for (var c = 0; c < cols.length; c++) {
+    cols[c].style.setProperty("--i", c);
+    var items = cols[c].querySelectorAll(".item");
+    for (var k = 0; k < items.length; k++) items[k].style.setProperty("--i", k);
+  }
+}
+
+function deskSet(state) {
+  deskState = state;
+  if (deskEl) deskEl.className = "desk--" + state;
+  if (state === "app" && appWindow) {
+    appWindow.style.transform = "";
+    appWindow.style.opacity = "";
+    appWindow.style.pointerEvents = "";
+  }
+}
+
+// Abre a janela grande. Vindo do cartão, a janela cresce de dentro dele
+// e o texto do cartão corre para fora junto.
+function openApp() {
+  if (!appWindow || deskBusy) return;
+  if (deskState === "app") return;
+  deskBusy = true;
+
+  if (deskState === "intro" && introCard) {
+    introCard.classList.add("leaving");
+    var ir = introCard.getBoundingClientRect();
+    appWindow.style.transition = "none";
+    appWindow.style.transform = "none";
+    appWindow.style.opacity = "1";
+    appWindow.style.pointerEvents = "none";
+    appWindow.style.transformOrigin = "center";
+    var ar = appWindow.getBoundingClientRect();
+    var sx = ir.width / ar.width;
+    var sy = ir.height / ar.height;
+    var tx = (ir.left + ir.width / 2) - (ar.left + ar.width / 2);
+    var ty = (ir.top + ir.height / 2) - (ar.top + ar.height / 2);
+    appWindow.style.transform = "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px) scale(" + sx.toFixed(3) + "," + sy.toFixed(3) + ")";
+
+    deskState = "app";
+    deskEl.className = "desk--app";
+    appWindow.classList.add("enter-anim");
+    deskStagger();
+    mapResize();
+
+    var applied = false;
+    function applyEnd() {
+      if (applied) return;
+      applied = true;
+      appWindow.style.transition = "";
+      appWindow.style.transform = "";
+      appWindow.style.opacity = "";
+      appWindow.style.pointerEvents = "";
+    }
+
+    requestAnimationFrame(function() {
+      requestAnimationFrame(applyEnd);
+    });
+    setTimeout(applyEnd, 60);
+
+    setTimeout(function() {
+      introCard.classList.remove("leaving");
+      appWindow.classList.remove("enter-anim");
+      deskBusy = false;
+    }, 900);
+    return;
+  }
+
+  // voltando da barra de tarefas ou do ícone
+  deskSet("app");
+  deskStagger();
+  appWindow.classList.add("enter-anim");
+  setTimeout(function() {
+    appWindow.classList.remove("enter-anim");
+    deskBusy = false;
+  }, 900);
+  mapResize();
+}
+
+function collapseApp(target, state) {
+  if (!appWindow) return;
+  var r = appWindow.getBoundingClientRect();
+  var tx = target.left + target.width / 2 - (r.left + r.width / 2);
+  var ty = target.top + target.height / 2 - (r.top + r.height / 2);
+  appWindow.style.transition = "";
+  appWindow.style.transform = "translate(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px) scale(0.05)";
+  appWindow.style.opacity = "0";
+  appWindow.style.pointerEvents = "none";
+  deskSet(state);
+}
+
+function minimizeApp() {
+  if (deskState !== "app" || !taskApp) return;
+  collapseApp(taskApp.getBoundingClientRect(), "min");
+}
+
+function closeApp() {
+  if (deskState !== "app" || !iconPortfolio) return;
+  collapseApp(iconPortfolio.getBoundingClientRect(), "closed");
+}
+
+// Mostra o cartão de entrada por cima do papel de parede
+function showIntro(soft) {
+  if (!introCard) return;
+  deskSet("intro");
+  if (appWindow) {
+    appWindow.style.transform = "";
+    appWindow.style.transition = "";
+    appWindow.style.opacity = "";
+    appWindow.style.pointerEvents = "";
+  }
+  // reinicia as animações do cartão
+  introCard.querySelectorAll(".intro-photo, .intro-bio, .intro-actions, .intro-corner").forEach(function(el) {
+    el.style.animation = "none";
+    void el.offsetWidth;
+    el.style.animation = "";
+  });
+  var name = introCard.querySelector(".intro-name");
+  if (name) {
+    name.querySelectorAll("span").forEach(function(sp) {
+      sp.style.animation = "none";
+      void sp.offsetWidth;
+      sp.style.animation = "";
+    });
+  }
+  introCard.classList.remove("leaving");
+}
+
+if (introEnter) introEnter.addEventListener("click", openApp);
+
+if (winMin) winMin.addEventListener("click", function(e) {
+  e.stopPropagation();
+  minimizeApp();
+});
+
+if (winClose) winClose.addEventListener("click", function(e) {
+  e.stopPropagation();
+  closeApp();
+});
+
+if (taskApp) taskApp.addEventListener("click", function() {
+  if (deskState === "app") minimizeApp();
+  else openApp();
+});
+
+if (iconPortfolio) iconPortfolio.addEventListener("click", function() {
+  openApp();
+});
+
+if (iconSobre) iconSobre.addEventListener("click", function() {
+  if (deskState === "intro") return;
+  showIntro(false);
+});
+
+// Entrar rolando: no cartão, qualquer rolagem abre a janela
+document.addEventListener("wheel", function(e) {
+  if (deskState !== "intro") return;
+  e.preventDefault();
+  openApp();
+}, { passive: false, capture: true });
+
+document.addEventListener("keydown", function(e) {
+  if (deskState !== "intro") return;
+  if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+    e.preventDefault();
+    openApp();
+  }
+});
+
+// Relógio da barra de tarefas
+function deskClock() {
+  if (!taskClock) return;
+  var d = new Date();
+  var h = d.getHours();
+  var m = d.getMinutes();
+  taskClock.textContent = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
+}
+deskClock();
+setInterval(deskClock, 15000);
+
+// O mapa pode abrir a janela quando o usuário clica numa estação na mesa
+function deskEnsureOpen() {
+  if (deskState !== "app") openApp();
 }
 
 syncRender();
