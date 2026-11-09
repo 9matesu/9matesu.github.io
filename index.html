@@ -1673,38 +1673,126 @@ body:not(.light) .ink-dark {
 
 /* ================================================================
    Área de trabalho, janelas e entrada
-   O site vive dentro de uma janela de sistema operacional: papel de
-   parede é o mapa SVG, ícones na mesa, barra de tarefas no pé, e um
-   cartão de entrada com a foto e o sobre.
+   O site vive dentro de uma janela de sistema operacional no espírito
+   do Windows XP: praia azul no papel de parede, ícones na mesa,
+   barra de tarefas no pé e um cartão de entrada com foto e sobre.
    ================================================================ */
 
 #desktop {
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: var(--bg-main);
+  background: #1a68c4;
+  font-family: Tahoma, "Segoe UI", Geneva, sans-serif;
 }
 
-/* Papel de parede: só o relevo topográfico, sem estações */
+/* Papel de parede: céu, sol, mar e areia */
 #desk-wallpaper {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: var(--map-paper, #141414);
   pointer-events: none;
+  background: #1a68c4;
 }
 
-#desk-topo {
+.beach-sky {
+  position: absolute;
+  inset: 0 0 24% 0;
+  background: linear-gradient(180deg, #0d55b6 0%, #2378d6 26%, #5aa7ea 50%, #a6d3f5 70%, #e2f2ff 84%, #f7fcff 100%);
+}
+
+/* Duas nuvens soltas, do jeito que o XP gostava */
+.beach-cloud {
+  position: absolute;
+  z-index: 1;
+  width: 86px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    34px 7px 0 -4px rgba(255, 255, 255, 0.8),
+    -30px 8px 0 -5px rgba(255, 255, 255, 0.72),
+    8px -8px 0 -3px rgba(255, 255, 255, 0.9);
+  filter: blur(1.1px);
+}
+
+.beach-cloud--a {
+  left: 38%;
+  top: 5%;
+}
+
+.beach-cloud--b {
+  right: 6%;
+  top: 31%;
+  transform: scale(0.72);
+  opacity: 0.78;
+}
+
+.beach-sun {
+  position: absolute;
+  top: -18%;
+  right: 2%;
+  width: 64%;
+  height: 84%;
+  background: radial-gradient(circle at 66% 34%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.35) 22%, rgba(255, 255, 255, 0) 58%);
+  filter: blur(2px);
+}
+
+.beach-sea {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 52%;
+  bottom: 24%;
+  background: linear-gradient(180deg, #b9e2fb 0%, #51a8e0 3%, #1d74c8 14%, #0d5bb4 46%, #08479a 80%, #063a83 100%);
+}
+
+.beach-sea::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+}
+
+.beach-sea::after {
+  content: "";
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+  background:
+    radial-gradient(40% 96% at 79% 0%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 62%),
+    repeating-linear-gradient(180deg,
+      rgba(255, 255, 255, 0.1) 0 1px,
+      rgba(255, 255, 255, 0) 1px 15px);
+  opacity: 0.85;
 }
 
-#desk-contours {
-  opacity: 0.75;
+.beach-sand {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24%;
+  background: linear-gradient(180deg, #f8ecc6 0%, #ecdaa8 16%, #dcc287 52%, #c9a96a 82%, #b9955a 100%);
+}
+
+.beach-sand::before {
+  content: "";
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: -8px;
+  height: 16px;
+  background:
+    radial-gradient(70px 10px at 10% 55%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    radial-gradient(90px 11px at 30% 40%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 74%),
+    radial-gradient(72px 10px at 52% 58%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 72%),
+    radial-gradient(96px 12px at 74% 42%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 74%),
+    radial-gradient(64px 9px at 92% 56%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 72%);
+  filter: blur(1px);
 }
 
 /* O mapa com as estações vive dentro da janela, no pé da coluna */
@@ -1717,137 +1805,164 @@ body:not(.light) .ink-dark {
 #desk-icons {
   position: absolute;
   z-index: 4;
-  left: 14px;
-  top: 16px;
+  left: 10px;
+  top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .desk-icon {
-  width: 78px;
-  padding: 6px 4px 7px;
+  width: 84px;
+  padding: 5px 2px 6px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 2px;
   background: transparent;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 10px;
-  letter-spacing: 0.02em;
+  color: #fff;
+  font-family: Tahoma, "Segoe UI", Geneva, sans-serif;
+  font-size: 11px;
+  line-height: 1.15;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-
-.desk-icon:hover,
-.desk-icon:focus-visible {
-  background: rgba(127, 127, 127, 0.16);
-  color: var(--text-bright);
   outline: none;
 }
 
 .desk-icon-art {
-  width: 46px;
-  height: 46px;
-  border: 1px solid var(--border-link);
-  border-radius: 7px;
-  background: var(--bg-main);
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, border-color 0.18s ease;
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.55));
+  transition: transform 0.14s ease;
 }
 
-.desk-icon:hover .desk-icon-art {
-  transform: translateY(-2px) scale(1.04);
-  border-color: var(--text-bright);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+.desk-icon:hover .desk-icon-art,
+.desk-icon:focus-visible .desk-icon-art {
+  transform: translateY(-1px);
 }
 
 .desk-icon-label {
-  padding: 1px 5px;
-  border-radius: 3px;
-  transition: background 0.18s ease, color 0.18s ease;
+  padding: 1px 4px;
+  border-radius: 2px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.6);
+  transition: background 0.12s ease;
 }
 
-.desk-icon:hover .desk-icon-label {
-  background: var(--text-bright);
-  color: var(--bg-main);
+.desk-icon:hover .desk-icon-label,
+.desk-icon:focus-visible .desk-icon-label {
+  background: #316ac5;
 }
 
-/* ícone do portfólio: uma janela em miniatura */
+/* portfólio: uma janelinha do XP */
 .desk-icon-win {
-  width: 22px;
-  height: 18px;
-  border: 1px solid var(--text-muted);
+  width: 38px;
+  height: 33px;
   position: relative;
   display: block;
-  transition: border-color 0.18s ease;
-}
-
-.desk-icon:hover .desk-icon-win {
-  border-color: var(--text-bright);
+  border: 1px solid #0a3d8f;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #ffffff 0%, #e8f1fb 55%, #d3e3f5 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.85);
 }
 
 .desk-icon-win::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 3px;
+  left: -1px;
+  right: -1px;
+  top: -1px;
+  height: 10px;
+  border-radius: 2px 2px 0 0;
+  border-bottom: 1px solid #0a3d8f;
+  background: linear-gradient(180deg, #66b0f8 0%, #2b80ea 45%, #0d5ed4 100%);
+}
+
+.desk-icon-win::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 17px;
   height: 1px;
-  background: currentColor;
+  background: #b7cbe2;
+  box-shadow: 0 4px 0 #b7cbe2, 0 8px 0 #b7cbe2;
 }
 
-/* ícone do sobre: o "m" em círculo */
+/* sobre: o cartão do usuário */
 .desk-icon-me {
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--text-muted);
+  width: 36px;
+  height: 36px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid #2d6cab;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f2faff 0%, #c6e0f8 48%, #8fbbec 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.desk-icon-me::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 13px;
+  height: 13px;
+  margin-left: -6.5px;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--text-muted);
-  transition: border-color 0.18s ease, color 0.18s ease;
+  background: linear-gradient(180deg, #8fc0ee 0%, #4b86c6 100%);
 }
 
-.desk-icon-me::after { content: "m"; }
-
-.desk-icon:hover .desk-icon-me {
-  border-color: var(--text-bright);
-  color: var(--text-bright);
+.desk-icon-me::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 27px;
+  height: 19px;
+  margin-left: -13.5px;
+  border-radius: 50% 50% 0 0;
+  background: linear-gradient(180deg, #8fc0ee 0%, #3d77b6 100%);
 }
 
-/* ------------------------------------------------- a janela */
+/* ------------------------------------------------- a janela (Luna) */
 .window {
   position: absolute;
   z-index: 10;
   display: flex;
   flex-direction: column;
-  background: var(--bg-main);
-  border: 1px solid var(--border-link);
+  padding: 0 3px 3px;
+  border: 1px solid #003399;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #0a5fe0 0%, #0a4fd0 46%, #083fae 100%);
   box-shadow:
-    0 44px 120px rgba(0, 0, 0, 0.55),
-    0 2px 0 rgba(255, 255, 255, 0.05) inset;
+    0 18px 44px rgba(0, 8, 40, 0.45),
+    0 3px 8px rgba(0, 8, 40, 0.32);
   transition:
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.4s ease;
 }
 
 #app-window {
-  left: 104px;
-  right: 20px;
-  top: 18px;
-  bottom: 62px;
+  left: 96px;
+  right: 16px;
+  top: 14px;
+  bottom: 46px;
   opacity: 0;
   transform: scale(0.95) translateY(14px);
   pointer-events: none;
   will-change: transform, opacity;
+}
+
+#app-window.maximized {
+  left: 2px;
+  right: 2px;
+  top: 2px;
+  bottom: 36px;
+  border-radius: 6px;
 }
 
 .desk--app #app-window {
@@ -1863,67 +1978,159 @@ body:not(.light) .ink-dark {
 
 /* barra de título */
 .win-bar {
-  height: 36px;
+  height: 30px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 8px 0 14px;
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--bg-glass);
-  -webkit-backdrop-filter: blur(14px) saturate(1.05);
-  backdrop-filter: blur(14px) saturate(1.05);
+  gap: 6px;
+  padding: 0 4px 0 6px;
+  border-radius: 7px 7px 0 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.12) 8%, rgba(255, 255, 255, 0) 12%),
+    linear-gradient(180deg, #0e6ce4 0%, #3d8ef7 4%, #2a7cee 22%, #0f62dc 54%, #0b57cf 82%, #0949b4 96%, #073b98 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.35),
+    inset -1px 0 0 rgba(0, 0, 0, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
   user-select: none;
 }
 
+#intro-card .win-bar {
+  height: 28px;
+}
+
+.win-icon {
+  width: 16px;
+  height: 15px;
+  flex-shrink: 0;
+  position: relative;
+  border: 1px solid #073b98;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #ffffff, #dbe9f8);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.win-icon::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: -1px;
+  height: 5px;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #66b0f8, #0d5ed4);
+}
+
+.win-icon--me {
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 34%, #8fc0ee 0 4px, #4b86c6 4.5px 100%);
+}
+
+.win-icon--me::before {
+  display: none;
+}
+
 .win-title {
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-dim);
+  font-family: Tahoma, "Segoe UI", Geneva, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0;
+  text-shadow: 1px 1px 1px rgba(0, 20, 80, 0.75);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-bottom: 1px;
 }
 
 .win-btns {
   margin-left: auto;
   display: flex;
   gap: 2px;
+  padding-right: 1px;
 }
 
 .win-btn {
-  width: 34px;
-  height: 26px;
-  border: 0;
-  background: transparent;
-  color: var(--text-muted);
+  width: 21px;
+  height: 21px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 3px;
+  outline: none;
+  color: #fff;
   cursor: pointer;
   display: grid;
   place-items: center;
-  transition: background 0.16s ease, color 0.16s ease;
+  background: linear-gradient(180deg, #6bb2fb 0%, #2b7ff0 42%, #0d62dc 54%, #0a4fb8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 1px 1px rgba(0, 0, 0, 0.3);
+  transition: filter 0.1s ease, transform 0.06s ease;
 }
 
 .win-btn:hover {
-  background: var(--field-bg);
-  color: var(--text-bright);
+  filter: brightness(1.14);
+}
+
+.win-btn:active {
+  transform: translateY(1px);
+  filter: brightness(0.94);
+}
+
+.win-close {
+  background: linear-gradient(180deg, #f6a79e 0%, #e5573f 40%, #cf3421 55%, #a81f10 100%);
+  border-color: rgba(255, 210, 200, 0.9);
 }
 
 .win-btn span {
   position: relative;
   display: block;
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
 }
 
 .win-min span::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 4px;
-  width: 10px;
-  height: 1px;
-  background: currentColor;
+  left: 1px;
+  bottom: 2px;
+  width: 7px;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.win-max span::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 8px;
+  height: 7px;
+  border: 1px solid #fff;
+  border-top-width: 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Maximizada, a mesma tecla vira restaurar */
+#app-window.maximized .win-max span::before {
+  left: 3px;
+  top: 3px;
+  width: 6px;
+  height: 5px;
+  border-top-width: 2px;
+}
+
+#app-window.maximized .win-max span::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 6px;
+  height: 5px;
+  border: 1px solid #fff;
+  border-top-width: 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 .win-close span::before,
@@ -1932,9 +2139,11 @@ body:not(.light) .ink-dark {
   position: absolute;
   left: 0;
   top: 4.5px;
-  width: 10px;
-  height: 1px;
-  background: currentColor;
+  width: 11px;
+  height: 2px;
+  border-radius: 1px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
   transform: rotate(45deg);
 }
 
@@ -1942,16 +2151,14 @@ body:not(.light) .ink-dark {
   transform: rotate(-45deg);
 }
 
-.win-close:hover {
-  background: var(--text-bright);
-  color: var(--bg-main);
-}
-
 .win-body {
   flex: 1;
   min-height: 0;
   position: relative;
   overflow: hidden;
+  background: var(--bg-main);
+  border: 1px solid #002f86;
+  border-radius: 0 0 6px 6px;
 }
 
 #app-window #viewport {
@@ -2035,20 +2242,17 @@ body:not(.light) .ink-dark {
   left: 50%;
   top: 50%;
   width: min(392px, calc(100vw - 40px));
-  padding: 20px 22px 22px;
+  padding: 0 3px 3px;
   transform: translate(-50%, -50%);
-  border-color: var(--text-faint);
-  background: var(--bg-main);
   z-index: 12;
   overflow: hidden;
 }
 
-#intro-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: linear-gradient(180deg, rgba(127, 127, 127, 0.06), transparent 40%);
+.intro-body {
+  background: var(--bg-main);
+  border: 1px solid #002f86;
+  border-radius: 0 0 6px 6px;
+  padding: 18px 20px 22px;
 }
 
 .desk--app #intro-card,
@@ -2263,60 +2467,306 @@ body:not(.light) .ink-dark {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 44px;
+  height: 34px;
   z-index: 30;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 14px;
-  background: var(--bg-glass-strong);
-  -webkit-backdrop-filter: blur(16px) saturate(1.05);
-  backdrop-filter: blur(16px) saturate(1.05);
-  border-top: 1px solid var(--border-subtle);
+  gap: 5px;
+  padding: 0 3px 0 0;
+  font-family: Tahoma, "Segoe UI", Geneva, sans-serif;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 10%, rgba(255, 255, 255, 0) 14%),
+    linear-gradient(180deg, #2f7ce8 0%, #3f8cf3 4%, #1d5ddc 10%, #2266e5 52%, #1b55c9 90%, #17439f 100%);
+  border-top: 1px solid #5fa8ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
   user-select: none;
 }
 
+/* botão iniciar */
+.start-btn {
+  height: 32px;
+  padding: 0 14px 0 7px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #1d5b06;
+  border-left: 0;
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(180deg, #8ada5c 0%, #4cae1e 8%, #3f9c12 40%, #2f7d09 72%, #215c05 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset -1px 0 0 rgba(0, 0, 0, 0.18),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 1px 1px 1px rgba(0, 40, 0, 0.55);
+  cursor: pointer;
+  outline: none;
+  transition: filter 0.1s ease;
+}
+
+.start-btn:hover {
+  filter: brightness(1.1);
+}
+
+.start-btn:active,
+.start-btn[aria-expanded="true"] {
+  filter: brightness(0.92);
+  box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+.xp-flag {
+  width: 17px;
+  height: 17px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  transform: perspective(18px) rotateY(-16deg) rotate(-6deg);
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.25));
+}
+
+.xp-flag i {
+  display: block;
+}
+
+.xp-flag i:nth-child(1) { background: #f25022; }
+.xp-flag i:nth-child(2) { background: #7fba00; }
+.xp-flag i:nth-child(3) { background: #00a4ef; }
+.xp-flag i:nth-child(4) { background: #ffb900; }
+
+/* botão da janela aberta */
 .task-item {
+  height: 24px;
+  padding: 0 10px 0 7px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 28px;
-  padding: 0 12px;
-  border: 1px solid var(--border-subtle);
-  background: var(--field-bg);
-  color: var(--text-muted);
+  gap: 6px;
+  max-width: 230px;
+  border: 1px solid #0c3f9c;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #4b9cf8 0%, #2a7ce8 46%, #1a63d8 58%, #1252bd 100%);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.4);
+  color: #fff;
   font-family: inherit;
   font-size: 11px;
-  letter-spacing: 0.01em;
+  text-shadow: 1px 1px 1px rgba(0, 20, 80, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
-  transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+  outline: none;
 }
 
 .task-item:hover {
-  color: var(--text-bright);
-  border-color: var(--border-link);
-  background: var(--field-bg-focus);
+  filter: brightness(1.1);
 }
 
-.task-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--text-faint);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+.desk--app .task-item {
+  background: linear-gradient(180deg, #1b55b4 0%, #0e3f97 60%, #0a357f 100%);
+  box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.desk--app .task-dot {
-  background: var(--text-bright);
-  box-shadow: 0 0 8px var(--text-bright);
+.task-icon {
+  width: 13px;
+  height: 12px;
+  flex-shrink: 0;
+  position: relative;
+  border: 1px solid #062f7a;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #ffffff, #dbe9f8);
+}
+
+.task-icon::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: -1px;
+  height: 4px;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #66b0f8, #0d5ed4);
+}
+
+/* bandeja do relógio */
+.tray {
+  margin-left: auto;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 9px;
+  border: 1px solid #0a3f9e;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #0d54c8 0%, #2f7ce8 45%, #1670e6 100%);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.tray-ico {
+  width: 13px;
+  height: 13px;
+  color: #fff;
+  opacity: 0.9;
 }
 
 #task-clock {
-  margin-left: auto;
+  font-family: inherit;
   font-size: 11px;
-  color: var(--text-faint);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
+  color: #fff;
+}
+
+/* ------------------------------------------------- menu iniciar */
+#start-menu {
+  position: absolute;
+  left: 0;
+  bottom: 34px;
+  width: 296px;
+  z-index: 40;
+  display: none;
+  flex-direction: column;
+  border: 1px solid #0831d9;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.35);
+  font-family: Tahoma, "Segoe UI", Geneva, sans-serif;
+  color: #0b2a5b;
+}
+
+#start-menu.open {
+  display: flex;
+}
+
+.start-head {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px;
+  background: linear-gradient(180deg, #0f6ce4 0%, #3d8ef7 10%, #1a63d8 55%, #0b4fc0 100%);
+  border-bottom: 1px solid #0831d9;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.start-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 3px;
+  border: 1px solid #fff;
+  background: linear-gradient(180deg, #dcefff 0%, #7fb2e0 60%, #3d77b6 100%);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-style: normal;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.start-items {
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #0b2a5b;
+  font-family: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.start-item:hover,
+.start-item:focus-visible {
+  background: #2f71cd;
+  color: #fff;
+}
+
+.start-ico {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.start-ico--folder {
+  position: relative;
+  border: 1px solid #8a6a12;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #fce9a2 0%, #e8b93a 55%, #d09a17 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.start-ico--folder::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -5px;
+  width: 11px;
+  height: 5px;
+  border: 1px solid #8a6a12;
+  border-bottom: 0;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #fce9a2, #e8b93a);
+}
+
+.start-ico--user {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #2d6cab;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f2faff 0%, #c6e0f8 48%, #8fbbec 100%);
+}
+
+.start-ico--user::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #8fc0ee, #4b86c6);
+}
+
+.start-ico--user::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 19px;
+  height: 13px;
+  margin-left: -9.5px;
+  border-radius: 50% 50% 0 0;
+  background: linear-gradient(180deg, #8fc0ee, #3d77b6);
+}
+
+.start-foot {
+  height: 24px;
+  background: linear-gradient(180deg, #3f8cf3, #1e5fc4);
+  border-top: 1px solid #0a3f9e;
 }
 
 /* ------------------------------------------------- hover das estações */
@@ -2351,26 +2801,71 @@ body:not(.light) .ink-dark {
 
 @media (max-width: 720px) {
   #app-window {
-    left: 8px;
-    right: 8px;
-    top: 8px;
-    bottom: 56px;
+    left: 4px;
+    right: 4px;
+    top: 4px;
+    bottom: 38px;
+  }
+  #app-window.maximized {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 34px;
   }
   #desk-icons {
     flex-direction: row;
-    left: 6px;
-    top: 4px;
-    gap: 6px;
+    left: 4px;
+    top: 2px;
+    gap: 2px;
   }
   .desk-icon {
-    width: 64px;
+    width: 62px;
+    font-size: 10px;
+  }
+  .desk-icon-art {
+    width: 38px;
+    height: 38px;
   }
   #intro-card {
-    width: calc(100vw - 24px);
-    padding: 16px 16px 18px;
+    width: calc(100vw - 16px);
+  }
+  .intro-body {
+    padding: 14px 16px 18px;
   }
   .intro-name {
     font-size: 34px;
+  }
+  #start-menu {
+    width: min(296px, calc(100vw - 8px));
+  }
+  /* No celular a janela perde a coluna da foto: o sobre vive no cartão */
+  #app-window #sidebar {
+    display: none;
+  }
+  #app-window #main {
+    width: 100%;
+  }
+  #topbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: var(--header-h);
+    padding: 7px 12px;
+    gap: 7px;
+  }
+  .search-field {
+    width: 100%;
+    max-width: none;
+  }
+  .topbar-controls {
+    width: 100%;
+    gap: 12px;
+  }
+  #app-window #map-sheet {
+    height: 38%;
+    min-height: 140px;
+  }
+  .map-caption {
+    display: none;
   }
 }
 </style>
@@ -2378,12 +2873,14 @@ body:not(.light) .ink-dark {
 <body>
 <div id="desktop" class="desk--intro">
 
-  <!-- Papel de parede: so o relevo, sem estacoes -->
+  <!-- Papel de parede: praia azul, no espírito do XP -->
   <div id="desk-wallpaper" aria-hidden="true">
-    <svg id="desk-topo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" preserveAspectRatio="xMidYMid slice">
-      <rect class="map-paper-fill" x="0" y="0" width="1600" height="1100"></rect>
-      <g id="desk-contours"></g>
-    </svg>
+    <div class="beach-sky"></div>
+    <div class="beach-cloud beach-cloud--a"></div>
+    <div class="beach-cloud beach-cloud--b"></div>
+    <div class="beach-sun"></div>
+    <div class="beach-sea"></div>
+    <div class="beach-sand"></div>
   </div>
 
   <!-- Ícones da área de trabalho -->
@@ -2400,26 +2897,37 @@ body:not(.light) .ink-dark {
 
   <!-- Cartão de entrada: a janela fechada, só a foto e o sobre -->
   <section id="intro-card" class="window" aria-label="sobre matesu">
-    <div class="intro-photo">
-      <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
+    <div class="win-bar">
+      <span class="win-icon win-icon--me" aria-hidden="true"></span>
+      <span class="win-title">sobre — matesu</span>
+      <div class="win-btns">
+        <button class="win-btn win-close" id="intro-close" type="button" aria-label="fechar sobre"><span></span></button>
+      </div>
     </div>
-    <h1 class="intro-name" aria-label="matesu">matesu</h1>
-    <p class="intro-bio">produtor musical, designer gráfico, desenvolvedor, fotógrafo,
-      engenheiro de mixagem, dj e diretor criativo. desde 2015 entre o audiovisual,
-      o <b>@blackmesaent</b> e o <b>bloodworm trax</b>.</p>
-    <div class="intro-actions">
-      <button class="intro-enter" id="intro-enter" type="button">abrir portfólio <span aria-hidden="true">→</span></button>
-      <span class="intro-hint">ou role para entrar</span>
+    <div class="intro-body">
+      <div class="intro-photo">
+        <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
+      </div>
+      <h1 class="intro-name" aria-label="matesu">matesu</h1>
+      <p class="intro-bio">produtor musical, designer gráfico, desenvolvedor, fotógrafo,
+        engenheiro de mixagem, dj e diretor criativo. desde 2015 entre o audiovisual,
+        o <b>@blackmesaent</b> e o <b>bloodworm trax</b>.</p>
+      <div class="intro-actions">
+        <button class="intro-enter" id="intro-enter" type="button">abrir portfólio <span aria-hidden="true">→</span></button>
+        <span class="intro-hint">ou role para entrar</span>
+      </div>
+      <span class="intro-corner" aria-hidden="true">1.0</span>
     </div>
-    <span class="intro-corner" aria-hidden="true">1.0</span>
   </section>
 
   <!-- A janela do portfolio -->
   <section id="app-window" class="window" aria-label="portfólio matesu">
     <div class="win-bar">
+      <span class="win-icon" aria-hidden="true"></span>
       <span class="win-title">matesu — portfólio</span>
       <div class="win-btns">
         <button class="win-btn win-min" id="win-min" type="button" aria-label="minimizar"><span></span></button>
+        <button class="win-btn win-max" id="win-max" type="button" aria-label="maximizar"><span></span></button>
         <button class="win-btn win-close" id="win-close" type="button" aria-label="fechar"><span></span></button>
       </div>
     </div>
@@ -2621,12 +3129,40 @@ body:not(.light) .ink-dark {
     </div><!-- /win-body -->
   </section>
 
+  <!-- Menu iniciar -->
+  <div id="start-menu" role="menu" aria-label="menu iniciar">
+    <div class="start-head">
+      <span class="start-avatar" aria-hidden="true">m</span>
+      <span>matesu</span>
+    </div>
+    <div class="start-items">
+      <button class="start-item" type="button" role="menuitem" data-start="portfolio">
+        <span class="start-ico start-ico--folder" aria-hidden="true"></span>portfólio
+      </button>
+      <button class="start-item" type="button" role="menuitem" data-start="sobre">
+        <span class="start-ico start-ico--user" aria-hidden="true"></span>sobre
+      </button>
+    </div>
+    <div class="start-foot"></div>
+  </div>
+
   <!-- Barra de tarefas -->
   <div id="taskbar">
-    <button id="task-app" class="task-item" type="button">
-      <span class="task-dot" aria-hidden="true"></span>matesu — portfólio
+    <button id="start-btn" class="start-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="start-menu">
+      <span class="xp-flag" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="start-label">iniciar</span>
     </button>
-    <span id="task-clock" aria-hidden="true">--:--</span>
+    <button id="task-app" class="task-item" type="button">
+      <span class="task-icon" aria-hidden="true"></span>matesu — portfólio
+    </button>
+    <div class="tray">
+      <svg class="tray-ico" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2.4 6.2h2.2l3.1-2.5v8.6L4.6 9.8H2.4z"></path>
+        <path d="M10.4 5.6a3.4 3.4 0 0 1 0 4.8"></path>
+        <path d="M12.2 3.8a6 6 0 0 1 0 8.4"></path>
+      </svg>
+      <span id="task-clock" aria-hidden="true">--:--</span>
+    </div>
   </div>
 
   <div id="grain"></div>
@@ -4979,21 +5515,6 @@ function mapBuildTerrain() {
   mapContoursInto(mapContours, MAP_COLS, MAP_ROWS, mapPaperW, mapPaperH, mapRelief);
 }
 
-// O papel de parede da mesa: o mesmo relevo, em outra escala, sem estações
-function mapBuildWallpaper() {
-  var group = document.getElementById("desk-contours");
-  if (!group) return;
-  function relief(u, v) {
-    var x = u * 9.5;
-    var y = v * 7.2;
-    var soft = mapFbm(x, y, MAP_SEED + 7, 4);
-    var ridge = 1 - Math.abs(2 * mapFbm(x * 0.8 + 4.7, y * 0.8 + 8.3, MAP_SEED + 55, 3) - 1);
-    var hv = 0.5 * soft + 0.4 * ridge + 0.1 * (1 - v);
-    return hv < 0 ? 0 : hv > 1 ? 1 : hv;
-  }
-  mapContoursInto(group, 120, 84, 1600, 1100, relief);
-}
-
 // ------------------------------------------------- núcleo do mapa
 // ================================================================
 //  Núcleo do mapa: onde cada item da árvore vira uma estação de metô.
@@ -5734,7 +6255,6 @@ function mapInit() {
   setTimeout(function() {
     mapRender();
     mapBuildTerrain();
-    mapBuildWallpaper();
   }, 40);
 }
 
@@ -5863,10 +6383,14 @@ var deskEl = document.getElementById("desktop");
 var introCard = document.getElementById("intro-card");
 var appWindow = document.getElementById("app-window");
 var winMin = document.getElementById("win-min");
+var winMax = document.getElementById("win-max");
 var winClose = document.getElementById("win-close");
+var introClose = document.getElementById("intro-close");
 var iconPortfolio = document.getElementById("icon-portfolio");
 var iconSobre = document.getElementById("icon-sobre");
 var taskApp = document.getElementById("task-app");
+var startBtn = document.getElementById("start-btn");
+var startMenu = document.getElementById("start-menu");
 var taskClock = document.getElementById("task-clock");
 var introEnter = document.getElementById("intro-enter");
 var viewportEl = document.getElementById("viewport");
@@ -5993,7 +6517,19 @@ function minimizeApp() {
 
 function closeApp() {
   if (deskState !== "app" || !iconPortfolio) return;
+  appWindow.classList.remove("maximized");
+  if (winMax) winMax.setAttribute("aria-label", "maximizar");
   collapseApp(iconPortfolio.getBoundingClientRect(), "closed");
+  setTimeout(mapResize, 600);
+}
+
+// Maximizar: ocupa a mesa toda, com uma folga mínima nas bordas
+function maximizeApp() {
+  if (!appWindow || deskState !== "app") return;
+  var on = appWindow.classList.toggle("maximized");
+  if (winMax) winMax.setAttribute("aria-label", on ? "restaurar" : "maximizar");
+  mapResize();
+  setTimeout(mapResize, 620);
 }
 
 // Mostra o cartão de entrada por cima do papel de parede
@@ -6030,9 +6566,74 @@ if (winMin) winMin.addEventListener("click", function(e) {
   minimizeApp();
 });
 
+if (winMax) winMax.addEventListener("click", function(e) {
+  e.stopPropagation();
+  maximizeApp();
+});
+
+// Duplo clique na barra de título alterna maximizar, como no XP
+if (appWindow) {
+  var winBarEl = appWindow.querySelector(".win-bar");
+  if (winBarEl) winBarEl.addEventListener("dblclick", function(e) {
+    if (e.target.closest(".win-btn")) return;
+    maximizeApp();
+  });
+}
+
 if (winClose) winClose.addEventListener("click", function(e) {
   e.stopPropagation();
   closeApp();
+});
+
+// Fechar o cartão de sobre deixa só a mesa, como no XP
+if (introClose) introClose.addEventListener("click", function(e) {
+  e.stopPropagation();
+  deskSet("closed");
+});
+
+// ------------------------------------------------- menu iniciar
+function startMenuSet(open) {
+  if (!startMenu || !startBtn) return;
+  startMenu.classList.toggle("open", open);
+  startBtn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+function startMenuClose() {
+  startMenuSet(false);
+}
+
+if (startBtn) startBtn.addEventListener("click", function(e) {
+  e.stopPropagation();
+  startMenuSet(!(startMenu && startMenu.classList.contains("open")));
+});
+
+if (startMenu) {
+  startMenu.addEventListener("click", function(e) {
+    var item = e.target.closest("[data-start]");
+    if (!item) return;
+    startMenuClose();
+    var action = item.getAttribute("data-start");
+    if (action === "portfolio") openApp();
+    else if (action === "sobre") showIntro(true);
+  });
+}
+
+document.addEventListener("click", function(e) {
+  if (!startMenu || !startMenu.classList.contains("open")) return;
+  if (startMenu.contains(e.target) || startBtn.contains(e.target)) return;
+  startMenuClose();
+});
+
+document.addEventListener("keydown", function(e) {
+  if (e.key !== "Escape") return;
+  if (startMenu && startMenu.classList.contains("open")) {
+    startMenuClose();
+    if (startBtn) startBtn.focus();
+    return;
+  }
+  if (deskState === "app" && appWindow.classList.contains("maximized")) {
+    maximizeApp();
+  }
 });
 
 if (taskApp) taskApp.addEventListener("click", function() {
