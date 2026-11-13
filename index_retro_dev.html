@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="Matesu">
-<meta name="description" content="Matesu — produtor musical, engenheiro de áudio. São Paulo.">
+<meta name="description" content="Matesu: produtor musical, engenheiro de áudio. São Paulo.">
 <title>matesu</title>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="style_retro.css">
@@ -56,7 +56,7 @@
   <div class="rule"></div>
 
   <div id="footer">
-    matesuposting &mdash; São Paulo
+    matesuposting · São Paulo
   </div>
 
 </div>
@@ -104,7 +104,7 @@
     </div>
 
     <div class="hero-bio">
-      olá! aqui é onde organizo meus projetos &amp; serviços. mas antes, sou matesu, <span class="role-tag">produtor músical</span>, <span class="role-tag">designer gráfico</span>, <span class="role-tag">desenvolvedor</span>, <span class="role-tag">fotógrafo</span>, <span class="role-tag">engenheiro de mixagem</span>, <span class="role-tag">dj</span>, <span class="role-tag">diretor criativo</span>, <span class="role-tag">social media</span> [...]. amo criar e explorar inúmeras formas de arte. desde 2015 mantenho projetos entre setores audiovisuais diversos — trabalho com o <a href="https://instagram.com/blackmesaent" target="_blank">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank">bloodworm trax</a>, meu selo voltado para as correntes artísticas interioranas de são paulo criado por <a href="https://www.instagram.com/rafao_wav" target="_blank">rafao</a> e eu.
+      olá! aqui é onde organizo meus projetos &amp; serviços. mas antes, sou matesu, <span class="role-tag">produtor músical</span>, <span class="role-tag">designer gráfico</span>, <span class="role-tag">desenvolvedor</span>, <span class="role-tag">fotógrafo</span>, <span class="role-tag">engenheiro de mixagem</span>, <span class="role-tag">dj</span>, <span class="role-tag">diretor criativo</span>, <span class="role-tag">social media</span> [...]. amo criar e explorar inúmeras formas de arte. desde 2015 mantenho projetos entre setores audiovisuais diversos e trabalho com o <a href="https://instagram.com/blackmesaent" target="_blank">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank">bloodworm trax</a>, meu selo voltado para as correntes artísticas interioranas de são paulo criado por <a href="https://www.instagram.com/rafao_wav" target="_blank">rafao</a> e eu.
       <br><br>
       opero entre todo o espectro eletrônico e além. sempre aberto a novos desafios e elaborações.
       <br><br>
@@ -310,7 +310,7 @@
     <p class="section-note">datas e locais de apresentações</p>
     <ul class="events-list">
       <li>
-        <span>(10/07/2026)</span> &mdash; <a href="https://zig.tickets/eventos/trackmesa" target="_blank">TRACKMESA</a>, Void Centro, São Paulo
+        <span>(10/07/2026)</span> · <a href="https://zig.tickets/eventos/trackmesa" target="_blank">TRACKMESA</a>, Void Centro, São Paulo
       </li>
     </ul>
   </div>
@@ -372,7 +372,7 @@
       <div class="about-left">
         <p><b>Diretrizes para Mixagem:</b></p>
         <p>&bull; Os arquivos (stems) deverão ser enviados em formato <b>.wav</b>, em <b>24 bits</b> e no mínimo <b>44.1kHz</b>.</p>
-        <p>&bull; Certifique-se de que nenhuma faixa de áudio possui artefatos indesejados, tais como ruídos e clipping – caso não seja deliberado.</p>
+        <p>&bull; Certifique-se de que nenhuma faixa de áudio possui artefatos indesejados, tais como ruídos e clipping, caso não seja deliberado.</p>
         <p>&bull; Certifique-se de que todas as faixas de áudio estão presentes no arquivo compactado/na pasta.</p>
         <p>&bull; O serviço de tuning/afinamento de vocais <b>não está presente</b> no pacote.</p>
         <p>&bull; Deverá ser explicitado no pedido: prazo de entrega, referência sônica do projeto e especificações técnicas de preferência para o arquivo final.</p>
@@ -530,7 +530,7 @@
 
   <div class="rule"></div>
 
-  <div id="footer">matesu &mdash; São Paulo</div>
+  <div id="footer">matesu · São Paulo</div>
 
 </div>
 </div>
@@ -574,13 +574,13 @@
   <!-- sticky player bar -->
   <div class="disco-player" id="disco-player">
     <button class="disco-playbtn" id="disco-playbtn" onclick="discoTogglePlay()">&#9654;</button>
-    <span class="disco-now-title" id="disco-now-title">—</span>
+    <span class="disco-now-title" id="disco-now-title">·</span>
     <input type="range" class="disco-seek" id="disco-seek" value="0" min="0" max="1" step="0.001" oninput="discoSeek(this.value)">
     <span class="disco-time" id="disco-time">00:00 / 00:00</span>
   </div>
 
   <div class="rule"></div>
-  <div id="footer">matesu discografia &mdash; São Paulo</div>
+  <div id="footer">matesu discografia · São Paulo</div>
 
 </div>
 </section>
@@ -1179,7 +1179,7 @@ function discoOpenCartModal() {
     totalCents += item.priceCents;
     var priceStr = 'R$ ' + (item.priceCents / 100).toFixed(2).replace('.', ',');
     itemsHtml += '<div class="disco-modal-item">' +
-      '<span>' + item.title + ' — ' + item.artist + '</span>' +
+      '<span>' + item.title + ' · ' + item.artist + '</span>' +
       '<div>' + priceStr + ' <button onclick="discoRemoveFromCart(\'' + item.id + '\')" style="background:none; border:none; color:#b03030; font-weight:700; cursor:pointer; margin-left:6px;">[x]</button></div>' +
       '</div>';
   }
@@ -1187,7 +1187,7 @@ function discoOpenCartModal() {
   var totalStr = 'R$ ' + (totalCents / 100).toFixed(2).replace('.', ',');
 
   overlay.innerHTML = '<div class="disco-modal">' +
-    '<h3>checkout &mdash; ' + discoCart.length + ' item(s)</h3>' +
+    '<h3>checkout · ' + discoCart.length + ' item(s)</h3>' +
     '<div class="disco-modal-sub">resumo do pedido (download instantâneo em wav/mp3)</div>' +
     '<div class="disco-modal-items">' + itemsHtml + '</div>' +
     '<div class="disco-modal-total">total: ' + totalStr + '</div>' +
@@ -1246,7 +1246,7 @@ function discoCheckoutCart() {
   for (var i = 0; i < discoCart.length; i++) {
     items.push({
       id: discoCart[i].id,
-      title: discoCart[i].title + ' — ' + discoCart[i].artist,
+      title: discoCart[i].title + ' · ' + discoCart[i].artist,
       priceCents: discoCart[i].priceCents,
       quantity: 1
     });
