@@ -75,22 +75,24 @@ html, body {
   --metro-social: var(--metro-5);
 
   /* Cursores originais do Windows XP (pacote windows-xp-1). São os
-     arquivos .cur/.ani de verdade, extraídos em img/xp/cursors/. */
-  --cur-arrow:    url("img/xp/cursors/default_arrow.cur") 0 0, default;
-  --cur-hand:     url("img/xp/cursors/default_link.cur") 0 0, pointer;
-  --cur-grab:     url("img/xp/cursors/default_link.cur") 0 0, grab;
-  --cur-grabbing: url("img/xp/cursors/default_move.cur") 0 0, move;
-  --cur-move:     url("img/xp/cursors/default_move.cur") 0 0, move;
-  --cur-cross:    url("img/xp/cursors/cross.cur") 0 0, crosshair;
-  --cur-text:     url("img/xp/cursors/default_ibeam.cur") 0 0, text;
-  --cur-wait:     url("img/xp/cursors/default_wait.cur") 0 0, wait;
-  --cur-busy:     url("img/xp/cursors/default_busy.cur") 0 0, progress;
-  --cur-no:       url("img/xp/cursors/default_no.cur") 0 0, not-allowed;
-  --cur-help:     url("img/xp/cursors/default_helpsel.cur") 0 0, help;
-  --cur-ns:       url("img/xp/cursors/default_size4.cur") 0 0, ns-resize;
-  --cur-ew:       url("img/xp/cursors/default_size3.cur") 0 0, ew-resize;
-  --cur-nwse:     url("img/xp/cursors/default_size2.cur") 0 0, nwse-resize;
-  --cur-nesw:     url("img/xp/cursors/default_size1.cur") 0 0, nesw-resize;
+     arquivos .cur/.ani de verdade, extraídos em img/xp/cursors/.
+     Sem coordenadas de hotspot no CSS: quem manda é o hotspot
+     embutido em cada arquivo, senão o ponteiro sai do eixo. */
+  --cur-arrow:    url("img/xp/cursors/default_arrow.cur"), default;
+  --cur-hand:     url("img/xp/cursors/default_link.cur"), pointer;
+  --cur-grab:     url("img/xp/cursors/default_link.cur"), grab;
+  --cur-grabbing: url("img/xp/cursors/default_move.cur"), move;
+  --cur-move:     url("img/xp/cursors/default_move.cur"), move;
+  --cur-cross:    url("img/xp/cursors/cross.cur"), crosshair;
+  --cur-text:     url("img/xp/cursors/default_ibeam.cur"), text;
+  --cur-wait:     url("img/xp/cursors/default_wait.cur"), wait;
+  --cur-busy:     url("img/xp/cursors/default_busy.cur"), progress;
+  --cur-no:       url("img/xp/cursors/default_no.cur"), not-allowed;
+  --cur-help:     url("img/xp/cursors/default_helpsel.cur"), help;
+  --cur-ns:       url("img/xp/cursors/default_size4.cur"), ns-resize;
+  --cur-ew:       url("img/xp/cursors/default_size3.cur"), ew-resize;
+  --cur-nwse:     url("img/xp/cursors/default_size2.cur"), nwse-resize;
+  --cur-nesw:     url("img/xp/cursors/default_size1.cur"), nesw-resize;
 }
 
 /* A seta XP vale para a mesa inteira e para o chrome (botões, menus,
@@ -118,20 +120,11 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   letter-spacing: 0.02em;
   color: var(--map-ink);
   pointer-events: none;
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
 }
 .map-legend-item { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
 .map-legend-item:first-child { margin-top: 0; }
 .map-legend-item:last-child { margin-bottom: 0; }
 .legend-swatch { width: 14px; height: 5px; flex-shrink: 0; }
-
-/* Estação de baldeação: retângulo branco onde o expresso cruza a linha */
-.map-interchange {
-  fill: var(--map-paper);
-  stroke: var(--map-ink);
-  stroke-width: 2px;
-  vector-effect: non-scaling-stroke;
-}
 
 #viewport {
   position: relative;
@@ -845,13 +838,9 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   min-height: 0;
   flex-shrink: 0;
   overflow: hidden;
-  /* Papel branco com grid de carta. O grid fica AQUI (não no :root),
-     num único bloco, para nenhum `background:` posterior zerar a imagem. */
+  /* Papel branco liso: o grid agora é SVG, dentro da câmera, e anda
+     com o pan e o zoom junto com o relevo e as linhas. */
   background-color: var(--map-paper);
-  background-image:
-    linear-gradient(var(--map-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--map-grid) 1px, transparent 1px);
-  background-size: 40px 40px;
   border-top: 1px solid var(--border-subtle);
   user-select: none;
   contain: paint;
@@ -889,10 +878,23 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 }
 
 .map-paper-fill {
-  /* O papel é transparente: quem desenha o fundo branco + grid é o
-     #map-sheet (CSS), que cobre a viewport inteira. Assim o grid é
-     contínuo mesmo quando a câmera passeia além da folha. */
+  /* O papel é transparente: quem desenha o fundo branco é o
+     #map-sheet (CSS). O grid e o relevo vivem no SVG, dentro da
+     câmera, e acompanham o manejo do mapa. */
   fill: none;
+}
+
+/* Grid de carta em coordenadas do mundo: as células crescem e
+   encolhem com o zoom, e o traço fica sempre com 1px de tela. */
+.map-grid-rect {
+  pointer-events: none;
+}
+
+.map-grid-line {
+  stroke: var(--map-grid);
+  stroke-width: 1px;
+  fill: none;
+  vector-effect: non-scaling-stroke;
 }
 
 .map-grain {
@@ -944,7 +946,6 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 
 .map-route.active {
   stroke-width: 11px;
-  filter: drop-shadow(0 0 6px currentColor);
 }
 
 /* Cores por linha — Metrô SP */
@@ -964,7 +965,10 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   opacity: 0.8;
 }
 
-/* ------------------------------------------------- marcas: estações do metrô */
+/* ------------------------------------------------- marcas: estações do metrô
+   Bolinha com a cor da linha e um miolo branco no centro, sem contorno
+   e sem nenhum brilho. O clique apenas preenche a bolinha: nada de
+   halo, raio, sombra ou rota piscando. */
 .map-mark {
   cursor: var(--cur-hand, pointer);
 }
@@ -973,82 +977,53 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   outline: none;
 }
 
+/* A bolinha carrega a cor da linha e um miolo branco no centro —
+   como o pictograma de parada do Metrô de SP. Sem contorno preto:
+   o contraste vem da cor viva sobre o papel branco. */
+.map-mark {
+  --dot-color: var(--metro-1);
+}
+.map-mark.line-2 { --dot-color: var(--metro-2); }
+.map-mark.line-3 { --dot-color: var(--metro-3); }
+.map-mark.line-4 { --dot-color: var(--metro-4); }
+.map-mark.line-5 { --dot-color: var(--metro-5); }
+
 .map-mark-dot {
-  fill: #ffffff;
-  stroke: #333333;
-  stroke-width: 3.5px;
+  fill: var(--dot-color);
+  stroke: none;
   r: 9;
-  transition: r 0.16s ease, fill 0.16s ease, stroke 0.16s ease;
 }
 
-.map-mark-halo {
-  fill: none;
-  stroke: var(--map-ink);
-  stroke-width: 2px;
-  r: 16;
-  opacity: 0;
-  transition: opacity 0.16s ease;
+.map-mark-core {
+  fill: #ffffff;
+  r: 3.4;
+  pointer-events: none;
 }
 
-/* Cores das estações por linha */
-.map-mark.line-1 .map-mark-dot { stroke: var(--metro-1); }
-.map-mark.line-2 .map-mark-dot { stroke: var(--metro-2); }
-.map-mark.line-3 .map-mark-dot { stroke: var(--metro-3); }
-.map-mark.line-4 .map-mark-dot { stroke: var(--metro-4); }
-.map-mark.line-5 .map-mark-dot { stroke: var(--metro-5); }
+.map-mark.l2 .map-mark-dot { r: 10; }
 
-.map-mark.l2 .map-mark-dot {
-  r: 10;
-  stroke-width: 3.5px;
-}
-
-.map-mark.l1 .map-mark-dot {
-  r: 12;
-  stroke-width: 4px;
-}
+.map-mark.l1 .map-mark-dot { r: 12; }
 
 /* Terminais (raízes) — o próprio badge circular do Metrô SP atua como estação */
-.map-mark.root .map-mark-dot {
+.map-mark.root .map-mark-dot,
+.map-mark.root .map-mark-core {
   display: none;
-}
-
-.map-mark.root .map-mark-halo {
-  r: 22;
-  stroke-width: 2px;
-}
-
-.map-mark:hover .map-mark-dot {
-  r: 12;
-}
-
-.map-mark:hover .map-mark-halo,
-.map-mark:focus .map-mark-halo {
-  opacity: 0.35;
 }
 
 /* Folhas (estações terminais de ponta) */
 .map-mark.leaf .map-mark-dot {
   r: 8;
-  stroke-width: 3px;
 }
 
-.map-mark.active .map-mark-dot {
-  fill: #ffffff;
+/* Novidades: amarelo do Metrô */
+.map-mark.novidade {
+  --dot-color: #FED304;
 }
 
-.map-mark.current .map-mark-dot {
-  fill: #ffffff;
-  stroke-width: 5px;
-}
-
-.map-mark.current .map-mark-halo {
-  opacity: 0.6;
-}
-
-/* Novidades */
-.map-mark.novidade .map-mark-dot {
-  fill: #FED304;
-  stroke: #EE3124;
+/* Clique: a única mudança é o preenchimento da bolinha — o miolo
+   branco recebe a cor da linha e a estação fica cheia. */
+.map-mark.selected .map-mark-core {
+  fill: var(--dot-color);
 }
 
 .map-mark-box {
@@ -1103,10 +1078,10 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   fill: var(--map-ink);
 }
 
-/* Badges estilo Metrô SP — círculos coloridos com número branco */
+/* Badges estilo Metrô SP — círculo colorido, contorno preto, número branco */
 .map-badge-rect {
   rx: 13;
-  stroke: var(--map-paper);
+  stroke: var(--map-ink);
   stroke-width: 2px;
 }
 
@@ -1122,16 +1097,6 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0;
-}
-
-/* Linha 4 Amarela: texto preto no Metrô de SP */
-.map-mark.line-4 .map-badge-num {
-  fill: #111111;
-}
-
-.map-mark.active .map-mark-label {
-  font-weight: 600;
-  fill: var(--map-ink);
 }
 
 /* Zoom: longe só os marcos, perto todos os nomes. Quem está escondido
@@ -1224,6 +1189,23 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   width: 420px;
 }
 
+/* Troca de item: o conteúdo novo entra com um passo curto, sem
+   empurrar a coluna nem atrapalhar a leitura. */
+.panel-scroll.panel-swap {
+  animation: panelSwap 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes panelSwap {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .panel-scroll::-webkit-scrollbar {
   display: none;
 }
@@ -1292,13 +1274,16 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 
 /* Puxador entre as novidades e a folha do mapa */
 #grabber {
+  width: 100%;
   height: 20px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: ns-resize;
+  gap: 8px;
+  font: inherit;
   color: var(--text-faint);
+  cursor: ns-resize;
   background: var(--bg-glass);
   -webkit-backdrop-filter: blur(18px) saturate(1.1);
   backdrop-filter: blur(18px) saturate(1.1);
@@ -1321,10 +1306,23 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   transition: background 0.16s ease, width 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.grabber-hint {
+  font-family: var(--font-xp);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  transition: opacity 0.16s ease;
+}
+
 #grabber:hover .grabber-grip,
 #grabber.dragging .grabber-grip {
   background: var(--text-muted);
   width: 58px;
+}
+
+#grabber:hover .grabber-hint {
+  opacity: 1;
 }
 
 #stage::-webkit-scrollbar {
@@ -1874,11 +1872,9 @@ body:not(.light) .ink-dark {
   object-position: center;
 }
 
-/* O mapa com as estações vive dentro da janela, no pé da coluna */
-#app-window #map-sheet {
-  height: 42%;
-  min-height: 168px;
-}
+/* O mapa com as estações vive dentro da janela, no pé da coluna.
+   A altura é controlada pelo grabber via --map-h; nada de height%
+   fixo aqui, senão o puxador deixa de funcionar. */
 
 /* ------------------------------------------------- ícones da mesa */
 #desk-icons {
@@ -1941,6 +1937,8 @@ body:not(.light) .ink-dark {
   height: 44px;
   display: block;
   object-fit: contain;
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
 /* ------------------------------------------------- área de trabalho: grade
@@ -1964,6 +1962,11 @@ body:not(.light) .ink-dark {
   border: 1px dotted transparent;
   border-radius: 0;
   user-select: none;
+  /* posicionados por física: nada de transição atrapalhando o passo */
+  transition: none;
+  transform-origin: 50% 62%;
+  will-change: left, top, transform;
+  touch-action: none;
 }
 
 #desk-icons .desk-icon.selected {
@@ -4237,18 +4240,11 @@ body.xp-resizing * {
   will-change: transform;
 }
 
-/* ------------------------------------------------- hover das estações */
-.map-mark-dot,
-.map-mark-halo {
-  transition: r 0.18s cubic-bezier(0.22, 1, 0.36, 1), fill 0.18s ease, stroke 0.18s ease, opacity 0.18s ease, filter 0.18s ease;
-}
-
-.map-mark:hover .map-mark-dot {
-  filter: drop-shadow(0 0 6px var(--map-ink));
-}
-
-.map-mark:hover .map-mark-label {
-  fill: var(--map-ink);
+/* ------------------------------------------------- estações: sem efeito
+   O clique só preenche a bolinha (o miolo branco recebe a cor da
+   linha). Nenhum hover que cresce, nenhum brilho, nenhum halo. */
+.map-mark-core {
+  transition: fill 0.14s ease;
 }
 
 .map-mark-tag {
@@ -4403,10 +4399,6 @@ body.xp-resizing * {
   .topbar-controls .control .select-wrap select {
     width: 100%;
   }
-  #app-window #map-sheet {
-    height: 38%;
-    min-height: 140px;
-  }
   .map-legend {
     top: 8px;
     right: 8px;
@@ -4429,7 +4421,7 @@ body.xp-resizing * {
   <!-- Ícones da área de trabalho -->
   <div id="desk-icons" aria-label="área de trabalho">
     <button class="desk-icon" id="icon-portfolio" type="button" aria-label="abrir portfólio">
-      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/MyComputer-48.png" alt=""></span>
+      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/Explorer-48.png" alt=""></span>
       <span class="desk-icon-label">portfólio</span>
     </button>
     <button class="desk-icon" id="icon-sobre" type="button" aria-label="abrir sobre">
@@ -4488,7 +4480,7 @@ body.xp-resizing * {
   <!-- A janela do portfolio -->
   <section id="app-window" class="window" aria-label="portfólio matesu">
     <div class="win-bar">
-      <span class="win-icon" aria-hidden="true"></span>
+      <img class="win-bar-ico" src="img/xp/Explorer-16.png" alt="" aria-hidden="true">
       <span class="win-title">matesu: portfólio</span>
       <div class="win-btns">
         <button class="win-btn win-min" id="win-min" type="button" aria-label="minimizar"><span></span></button>
@@ -4509,13 +4501,13 @@ body.xp-resizing * {
       </div>
       <div class="brand-name" onclick="toggleSidebar(event)" title="colapsar/expandir">matesu</div>
       <div class="bio-text">
-        olá! aqui é onde organizo meus projetos & serviços. mas antes, sou matesu, <b>produtor musical</b>, <b>designer gráfico</b>, <b>desenvolvedor</b>, <b>fotógrafo</b>, <b>engenheiro de mixagem</b>, <b>dj</b>, <b>diretor criativo</b>, <b>social media</b> [...]. amo criar e explorar inúmeras formas de arte.
+        olá! aqui ficam os projetos &amp; serviços. antes, matesu: <b>produtor musical</b>, <b>designer gráfico</b>, <b>desenvolvedor</b>, <b>fotógrafo</b>, <b>engenheiro de mixagem</b>, <b>dj</b>, <b>diretor criativo</b>, <b>social media</b> [...]. criação e exploração de inúmeras formas de arte, sempre.
       </div>
       <div class="bio-text">
-        desde 2015 mantenho projetos entre setores audiovisuais diversos e trabalho com o <a class="mention" href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo criado por <a class="mention" href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e eu.
+        desde 2015, projetos entre setores audiovisuais diversos, com o <a class="mention" href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo, criado por <a class="mention" href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e matesu.
       </div>
       <div class="bio-text">
-        opero entre todo o espectro eletrônico e além. sempre aberto a novos desafios e elaborações.
+        trânsito livre pelo espectro eletrônico inteiro e além. sempre aberto a novos desafios e elaborações.
       </div>
       <div class="bio-links">
         <a href="mailto:matesubeats@gmail.com" title="email">
@@ -4614,6 +4606,13 @@ body.xp-resizing * {
       <main id="stage"></main>
     </div>
 
+    <!-- Puxador da janela: arrasta redimensiona a folha do mapa,
+         clique simples expande/fecha, duplo clique vai ao máximo -->
+    <button id="grabber" type="button" aria-label="expandir ou fechar o mapa do metrô" title="arraste para redimensionar; clique abre e fecha">
+      <span class="grabber-grip" aria-hidden="true"></span>
+      <span class="grabber-hint" aria-hidden="true">mapa</span>
+    </button>
+
     <!-- Mapa do site: diagrama estilo Metrô de SP com linhas coloridas -->
     <section id="map-sheet" aria-label="mapa metropolitano do site">
       <div class="map-legend">
@@ -4629,14 +4628,19 @@ body.xp-resizing * {
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence>
             <feColorMatrix type="saturate" values="0"></feColorMatrix>
           </filter>
+          <pattern id="map-grid-pat" width="300" height="300" patternUnits="userSpaceOnUse">
+            <path class="map-grid-line" d="M300 0H0V300"></path>
+          </pattern>
         </defs>
+        <!-- O relevo topográfico mora DENTRO da câmera: ele acompanha o
+             pan e o zoom junto com as linhas, como uma carta de verdade. -->
         <g id="map-camera">
           <rect class="map-paper-fill" x="0" y="0" width="3600" height="3000"></rect>
-          <g id="map-contours"></g>
+          <rect class="map-grid-rect" x="-1500" y="-1200" width="6600" height="5400" fill="url(#map-grid-pat)"></rect>
+          <g id="map-contours" aria-hidden="true"></g>
           <g id="map-route"></g>
           <g id="map-links"></g>
           <g id="map-route-active"></g>
-          <g id="map-interchanges"></g>
           <g id="map-marks"></g>
         </g>
         <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
@@ -4665,9 +4669,9 @@ body.xp-resizing * {
         <img class="win-bar-ico" src="img/xp/ControlPanel.png" alt="">
         <span class="win-title">ajustes: painel de controle</span>
         <div class="win-btns">
-          <button class="win-btn win-btn--min" id="settings-min" type="button" aria-label="minimizar ajustes">&minus;</button>
-          <button class="win-btn win-btn--max" id="settings-max" type="button" aria-label="maximizar ajustes">&#9634;</button>
-          <button class="win-btn win-btn--close" id="settings-close" type="button" aria-label="fechar ajustes">&times;</button>
+          <button class="win-btn win-min" id="settings-min" type="button" aria-label="minimizar ajustes"><span></span></button>
+          <button class="win-btn win-max" id="settings-max" type="button" aria-label="maximizar ajustes"><span></span></button>
+          <button class="win-btn win-close" id="settings-close" type="button" aria-label="fechar ajustes"><span></span></button>
         </div>
       </div>
       <div class="settings-scroll">
@@ -4866,7 +4870,7 @@ body.xp-resizing * {
 
     <div class="task-buttons" id="task-buttons">
       <button id="task-app" class="task-item" type="button">
-        <span class="task-icon" aria-hidden="true"><img src="img/xp/MyComputer-32.png" alt=""></span><span class="task-label">matesu: portfólio</span>
+        <span class="task-icon" aria-hidden="true"><img src="img/xp/Explorer-32.png" alt=""></span><span class="task-label">matesu: portfólio</span>
       </button>
     </div>
 
@@ -4923,14 +4927,14 @@ var tree = {
         "frente": {
           title: "Bulgaria Stock Exchange Tee, frente",
           meta: "restock iran, 2025",
-          body: "Peça de camiseta do restock iran, 2025, com a arte na frente. Atuo como designer gráfico e designer têxtil; a produção fica com o restock e a venda no plazaaaaa.com.",
+          body: "Peça de camiseta do restock iran, 2025, com a arte na frente. Design gráfico e estampa têxtil; produção do restock e venda no plazaaaaa.com.",
           img: "img/bse/frente.png",
           link: "https://plazaaaaa.com/product/2340"
         },
         "costas": {
           title: "Bulgaria Stock Exchange Tee, costas",
           meta: "restock iran, 2025",
-          body: "A mesma peça vista de trás. Designer gráfico e designer têxtil na estampa do dorso, produção do restock iran e venda no plazaaaaa.com.",
+          body: "A mesma peça vista de trás. Design gráfico e estampa têxtil no dorso, produção do restock iran e venda no plazaaaaa.com.",
           img: "img/bse/costas.png",
           link: "https://plazaaaaa.com/product/2340"
         }
@@ -4940,7 +4944,7 @@ var tree = {
       "blackmesa hz": {
         title: "BLACKMESA Hz",
         meta: "07/06/2026",
-        body: "Identidade visual e cartaz do BLACKMESA Hz, de 07/06/2026. Atuo como diretor de arte e designer gráfico dentro do coletivo.",
+        body: "Identidade visual e cartaz do BLACKMESA Hz, de 07/06/2026. Direção de arte e design gráfico no coletivo.",
         img: "img/bmhz0/frente.png"
       },
       "logo blackmesa": {
@@ -4950,11 +4954,51 @@ var tree = {
         img: "img/logos/blackmesa.png"
       }
     },
+    "identidade visual": {
+      "blackmesa 2025": {
+        title: "BLACKMESA 2025",
+        meta: "identidade visual, 2025",
+        body: "Identidade visual do BLACKMESA em 2025, com flyers, cartazes e peças gráficas do coletivo. Projeto publicado no Behance.",
+        img: "img/logos/blackmesa.png",
+        link: "https://www.behance.net/gallery/226862609/BLACKMESA-2025"
+      },
+      "blackmesa 2024": {
+        title: "BLACKMESA 2024",
+        meta: "identidade visual, 2024",
+        body: "Identidade visual do BLACKMESA em 2024: flyers, cartazes e peças gráficas do coletivo ao longo do ano. Projeto publicado no Behance.",
+        link: "https://www.behance.net/gallery/226860687/BLACKMESA-2024"
+      },
+      "lagerhaus i": {
+        title: "bloodworm trax — LAGERHAUS I",
+        meta: "identidade visual, 2024",
+        body: "Identidade visual do LAGERHAUS I, primeira edição do bloodworm trax, em 25/10/2024. Peças gráficas do selo publicadas no Behance.",
+        img: "img/logos/bloodworm.png",
+        link: "https://www.behance.net/gallery/226864143/bloodworm-trax-LAGERHAUS-I"
+      },
+      "worm spotter": {
+        title: "bloodworm trax — worm spotter",
+        meta: "identidade visual, 2024",
+        body: "Peças de identidade visual do worm spotter, dentro do bloodworm trax. Projeto publicado no Behance.",
+        link: "https://www.behance.net/gallery/226863501/bloodworm-trax-worm-spotter"
+      },
+      "agendas 2024-2025": {
+        title: "agendas 2024-2025",
+        meta: "design gráfico, 2024",
+        body: "Agendas de 2024 e 2025: design gráfico e diagramação do material. Projeto publicado no Behance.",
+        link: "https://www.behance.net/gallery/226863685/agendas-2024-2025"
+      },
+      "variados": {
+        title: "variados",
+        meta: "seleção, 2025",
+        body: "Seleção de trabalhos variados de design gráfico, entre peças avulsas e experimentos. Projeto publicado no Behance.",
+        link: "https://www.behance.net/gallery/226863923/variados"
+      }
+    },
     "flyers": {
       "trackmesa": {
         title: "TRACKMESA, 10/07/2026",
         meta: "flyer, 4 variações",
-        body: "Flyer do TRACKMESA, evento de 10/07/2026 no Void Centro, em São Paulo. Quatro variações de cartaz, com design gráfico e diagramação meus.",
+        body: "Flyer do TRACKMESA, evento de 10/07/2026 no Void Centro, em São Paulo. Quatro variações de cartaz, com design gráfico e diagramação.",
         images: [
           "img/trackmesa/1.png",
           "img/trackmesa/2.png",
@@ -4989,7 +5033,7 @@ var tree = {
       "simpatia": {
         title: "Simpatia, 20/05/2025",
         meta: "capa, 4 arquivos",
-        body: "Capa e contracapas do álbum Simpatia, de 20/05/2025. Atuo como diretor de arte e designer gráfico nos quatro arquivos, em quadrado digital de 3000 por 3000.",
+        body: "Capa e contracapas do álbum Simpatia, de 20/05/2025. Direção de arte e design gráfico nos quatro arquivos, em quadrado digital de 3000 por 3000.",
         images: [
           "img/simpatia/capa.png",
           "img/simpatia/contracapa-1.png",
@@ -5009,7 +5053,7 @@ var tree = {
       "blackmesa hz": {
         title: "BLACKMESA Hz, 07/06/2026",
         meta: "cartaz, frente",
-        body: "Cartaz do BLACKMESA Hz, de 07/06/2026. Diretor de arte e designer gráfico para o coletivo.",
+        body: "Cartaz do BLACKMESA Hz, de 07/06/2026. Direção de arte e design gráfico para o coletivo.",
         images: [
           "img/bmhz0/frente.png"
         ]
@@ -5037,7 +5081,7 @@ var tree = {
       "matesuposting": {
         title: "matesuposting",
         meta: "registro fotográfico",
-        body: "Fotografia de rua e de show que eu mantenho no matesuposting, com registros de São Paulo e do Vale do Paraíba.",
+        body: "Fotografia de rua e de show publicada no matesuposting, com registros de São Paulo e do Vale do Paraíba.",
         img: "fotos/BMV1-9.jpg",
         link: "https://instagram.com/matesuposting"
       }
@@ -5049,7 +5093,7 @@ var tree = {
     "sobre mim": {
       title: "matesu",
       meta: "produtor musical, coprodutor, mixagem e masterização",
-      body: "Atuo como produtor musical, coprodutor e engenheiro de mixagem, com masterização do material, desde 2015, quando comecei a tocar como dj. Opero entre House, Jungle, UK Garage, Grime, Techno e Ambiente, e trabalho com sound design na mesma linha. Já colaborei com ZONAexp, SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, e passei por Rinse FM, NTS Radio, Function!, Veneno, Foundation FM, HÖR, Dekmantel e Aaja Music. Sou do Vale do Paraíba, no interior de São Paulo.",
+      body: "Produção musical, coprodução e mixagem desde 2015, com masterização do material e sound design na mesma linha, entre House, Jungle, UK Garage, Grime, Techno e Ambiente. Colaborações com ZONAexp, SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, e passagens por Rinse FM, NTS Radio, Function!, Veneno, Foundation FM, HÖR, Dekmantel e Aaja Music. Vale do Paraíba, interior de São Paulo.",
       img: "fotos/BMV1-21.jpg"
     },
     "diretrizes técnicas": {
@@ -5062,13 +5106,13 @@ var tree = {
       "arquivos finais": {
         title: "Arquivos Finais",
         meta: "entrega",
-        body: "Exporto em .wav, 24 bits e 44.1kHz, em duas versões: uma sem headroom e outra com headroom de -6dB, salvo pedido diferente.",
+        body: "Entrega em .wav, 24 bits e 44.1kHz, em duas versões: uma sem headroom e outra com headroom de -6dB, salvo pedido diferente.",
         img: "img/pics/IMG_2.png"
       },
       "upload dos arquivos": {
         title: "Upload dos Arquivos",
         meta: "transferência",
-        body: "Mando por Google Drive ou pela plataforma que o cliente preferir. Os links duram 7 dias, com reenvio quando precisar.",
+        body: "Entrega por Google Drive ou pela plataforma que o cliente preferir. Os links duram 7 dias, com reenvio quando precisar.",
         img: "img/pics/BMV1-46.jpg"
       },
       "solicitar": {
@@ -5083,14 +5127,14 @@ var tree = {
     "blackmesa": {
       title: "BLACKMESA",
       meta: "coletivo artístico, são paulo",
-      body: "Coletivo paulistano que atravessa música, artes visuais e cultura urbana underground. Atuo como produtor cultural e diretor criativo, cuidando da programação e da curadoria.",
+      body: "Coletivo paulistano que atravessa música, artes visuais e cultura urbana underground. Produção cultural e direção criativa no coletivo, com programação e curadoria.",
       img: "img/bmhz0/frente.png",
       link: "https://instagram.com/blackmesaent"
     },
     "bloodworm": {
       title: "bloodworm trax",
       meta: "selo musical",
-      body: "Selo que fundei com o rafao para as correntes artísticas do interior de São Paulo. Atuo como produtor musical e diretor criativo, cuidando da direção artística e do lançamento dos artistas. O logo do selo, em halftone, também é trabalho meu.",
+      body: "Selo criado com o rafao para as correntes artísticas do interior de São Paulo. Lá dentro: produção musical, direção criativa, direção artística e lançamento dos artistas. O logo do selo, em halftone, também é peça da casa.",
       img: "img/logos/bloodworm.png",
       link: "https://bloodwormtrax.neocities.org"
     },
@@ -5098,7 +5142,7 @@ var tree = {
       "trackmesa (10/07/2026)": {
         title: "TRACKMESA",
         meta: "10/07/2026, Void Centro, São Paulo",
-        body: "Noite de dj no Void Centro, em São Paulo, em 10/07/2026. Também atuo como produtor cultural do evento.",
+        body: "Noite de dj no Void Centro, em São Paulo, em 10/07/2026. Produção cultural do evento.",
         img: "img/trackmesa/1.png",
         link: "https://zig.tickets/eventos/trackmesa"
       }
@@ -5109,7 +5153,7 @@ var tree = {
       "opcoda": {
         title: "opcoda",
         meta: "VST3, C++",
-        body: "Sintetizador granular que lê executáveis do Windows e transforma os bytes em som. Roda como VST3 e como aplicativo avulso, na versão 0.1.0. Cuido do parsing do PE, do motor de oito vozes e da interface que expõe a leitura em forma de onda, grade de bytes, curva de entropia e matriz de modulação.",
+        body: "Sintetizador granular que lê executáveis do Windows e transforma os bytes em som. Roda como VST3 e como aplicativo avulso, na versão 0.1.0. Parsing do PE, motor de oito vozes e interface que expõe a leitura em forma de onda, grade de bytes, curva de entropia e matriz de modulação.",
         img: "img/github/opcoda.png",
         link: "https://github.com/9matesu/Opcoda"
       },
@@ -5141,7 +5185,7 @@ var tree = {
       "resuMe": {
         title: "resuMe",
         meta: "extensão, TypeScript",
-        body: "Extensão de navegador que lê a vaga aberta na página e reescreve o currículo para ela, com revisão linha a linha antes de exportar. O motor roda na minha máquina, sem conta e sem servidor.",
+        body: "Extensão de navegador que lê a vaga aberta na página e reescreve o currículo para ela, com revisão linha a linha antes de exportar. O motor roda local, sem conta e sem servidor.",
         img: "img/github/resuMe.png",
         link: "https://github.com/9matesu/resume"
       }
@@ -5151,7 +5195,7 @@ var tree = {
     "journal": {
       title: "matesuposting",
       meta: "caderno de ideias, são paulo",
-      body: "Sob construção. Ainda pensando o que construir na verdade.\n\nMeu caderno não-tão-privado de ideias e regurgitações, pelo livre arbítrio, faça igual a mim e vá ler.",
+      body: "Sob construção. Ainda sem saber o que construir, na verdade.\n\nCaderno não-tão-privado de ideias e regurgitações, pelo livre arbítrio — leitura recomendada.",
       img: "fotos/BMV1-9.jpg"
     }
   }
@@ -5219,6 +5263,7 @@ var THUMB_MAP = {
 };
 
 var path = [];
+var deskPathReady = false;
 var stage = document.getElementById("stage");
 
 // Assets com tinta preta e fundo transparente, que somem no tema escuro
@@ -5648,14 +5693,15 @@ var FONTS = [
 ];
 
 // Cursores do XP de verdade: cada opção aponta para os .cur extraídos.
+// Sem coordenadas de hotspot — o arquivo embute o ponto correto.
 // "canvas" é a mão sobre a carta; "item" é a seta/link sobre os clicáveis.
 var CURSORS = [
-  { id: "padrao", name: "padrão",  canvas: 'url("img/xp/cursors/default_link.cur") 0 0, grab',     item: 'url("img/xp/cursors/default_arrow.cur") 0 0, default' },
-  { id: "mao",    name: "mão",     canvas: 'url("img/xp/cursors/default_link.cur") 0 0, pointer',  item: 'url("img/xp/cursors/default_link.cur") 0 0, pointer' },
-  { id: "cruz",   name: "cruz",    canvas: 'url("img/xp/cursors/cross.cur") 0 0, crosshair',       item: 'url("img/xp/cursors/cross.cur") 0 0, crosshair' },
-  { id: "mover",  name: "mover",   canvas: 'url("img/xp/cursors/default_move.cur") 0 0, move',     item: 'url("img/xp/cursors/default_move.cur") 0 0, move' },
-  { id: "texto",  name: "texto",   canvas: 'url("img/xp/cursors/default_ibeam.cur") 0 0, text',    item: 'url("img/xp/cursors/default_ibeam.cur") 0 0, text' },
-  { id: "espera", name: "espera",  canvas: 'url("img/xp/cursors/default_wait.cur") 0 0, wait',     item: 'url("img/xp/cursors/default_wait.cur") 0 0, wait' }
+  { id: "padrao", name: "padrão",  canvas: 'url("img/xp/cursors/default_link.cur"), grab',     item: 'url("img/xp/cursors/default_arrow.cur"), default' },
+  { id: "mao",    name: "mão",     canvas: 'url("img/xp/cursors/default_link.cur"), pointer',  item: 'url("img/xp/cursors/default_link.cur"), pointer' },
+  { id: "cruz",   name: "cruz",    canvas: 'url("img/xp/cursors/cross.cur"), crosshair',       item: 'url("img/xp/cursors/cross.cur"), crosshair' },
+  { id: "mover",  name: "mover",   canvas: 'url("img/xp/cursors/default_move.cur"), move',     item: 'url("img/xp/cursors/default_move.cur"), move' },
+  { id: "texto",  name: "texto",   canvas: 'url("img/xp/cursors/default_ibeam.cur"), text',    item: 'url("img/xp/cursors/default_ibeam.cur"), text' },
+  { id: "espera", name: "espera",  canvas: 'url("img/xp/cursors/default_wait.cur"), wait',     item: 'url("img/xp/cursors/default_wait.cur"), wait' }
 ];
 
 var ajustes = {
@@ -6049,8 +6095,8 @@ function toggleSettings(force) {
   // O painel agora é uma janela do XP: minimizar, maximizar e fechar
   var bar = panel.querySelector(".win-bar");
   if (bar) {
-    var maxBtn = bar.querySelector(".win-btn--max");
-    var minBtn = bar.querySelector(".win-btn--min");
+    var maxBtn = bar.querySelector(".win-max");
+    var minBtn = bar.querySelector(".win-min");
     if (maxBtn) maxBtn.style.display = open ? "" : "none";
     if (minBtn) minBtn.style.display = open ? "" : "none";
   }
@@ -6352,9 +6398,49 @@ function onItemClick(colIndex, key, el) {
   syncRender();
 }
 
+// ------------------------------------------------- memória do caminho
+// Guarda o item aberto e o filtro, para recarregar a página no mesmo lugar.
+function deskSavePath() {
+  try {
+    localStorage.setItem("matesu.path", JSON.stringify({
+      path: path,
+      filter: filterMode
+    }));
+  } catch (e) {}
+}
+
+function deskRestorePath() {
+  try {
+    var raw = localStorage.getItem("matesu.path");
+    if (raw) {
+      var saved = JSON.parse(raw);
+      if (saved && Array.isArray(saved.path)) {
+        var node = tree;
+        var clean = [];
+        for (var i = 0; i < saved.path.length; i++) {
+          if (!node || typeof node !== "object" || !(saved.path[i] in node)) break;
+          clean.push(saved.path[i]);
+          node = node[saved.path[i]];
+        }
+        path = clean;
+        var flt = saved.filter;
+        if (flt && flt !== "all" && tree[flt]) filterMode = flt;
+        else if (!flt || flt === "all") filterMode = "all";
+        if (filterMode !== "all" && path[0] !== filterMode) filterMode = "all";
+      }
+    }
+  } catch (e) {}
+  if (filterSelect) filterSelect.value = filterMode;
+  deskPathReady = true;
+}
+
 // Atualização com animação de saída ao fechar colunas
 function syncRender() {
   assignThumbs();
+
+  // O caminho aberto é o "lugar" da página: recarregar volta pra ele.
+  // Busca é estado transitório, então não sobrescreve o que foi guardado.
+  if (deskPathReady && !searchQuery) deskSavePath();
 
   // A rota do mapa acompanha o caminho aberto na navegação
   mapRender();
@@ -6874,6 +6960,7 @@ function showDetail(node, nodePath) {
   if (!node) {
     if (panelOpenPath === null) return;
     panelOpenPath = null;
+    panelScroll.classList.remove("panel-swap");
     detailPanel.classList.remove("open");
     detailPanel.setAttribute("inert", "");
     // O conteúdo sai depois da transição, para não cortar a animação
@@ -6885,8 +6972,10 @@ function showDetail(node, nodePath) {
 
   var key = nodePath.join(" > ");
   if (panelOpenPath === key && detailPanel.classList.contains("open")) return;
+  var hadOpen = detailPanel.classList.contains("open");
   panelOpenPath = key;
 
+  panelScroll.classList.remove("panel-swap");
   panelScroll.innerHTML = "";
 
   var crumb = document.createElement("div");
@@ -6899,6 +6988,13 @@ function showDetail(node, nodePath) {
   detailPanel.classList.add("open");
   detailPanel.removeAttribute("inert");
   panelScroll.scrollTop = 0;
+
+  // Item trocado com a coluna já aberta: o miolo entra num passo curto.
+  // Na primeira abertura a própria coluna já faz a animação de largura.
+  if (hadOpen) {
+    void panelScroll.offsetWidth;
+    panelScroll.classList.add("panel-swap");
+  }
 
   // O palco encolheu: o scroll se reajusta ao novo limite
   requestAnimationFrame(function() {
@@ -7330,19 +7426,18 @@ function mapContoursInto(group, cols, rows, w, h, relief) {
   group.appendChild(frag);
 }
 
-// Só as curvas de nível: o relevo topográfico de fundo
+// O relevo topográfico: as curvas de nível são desenhadas no espaço do
+// mundo (o tamanho da folha), dentro da câmera. Assim o relevo anda
+// junto com o pan e o zoom, como o papel de verdade sob o diagrama.
 function mapBuildTerrain() {
-  if (!mapPaperRect) mapPaperRect = document.querySelector("#map-camera .map-paper-fill");
-  if (!mapPaperRect) return;
+  if (!mapContours || !mapSvg) return;
   mapBuilt = true;
-  mapPaperRect.setAttribute("width", String(mapPaperW));
-  mapPaperRect.setAttribute("height", String(mapPaperH));
   if (mapTerrainSize && mapTerrainSize[0] === mapPaperW && mapTerrainSize[1] === mapPaperH) return;
   mapTerrainSize = [mapPaperW, mapPaperH];
 
-  MAP_COLS = Math.round(mapPaperW / 24);
-  MAP_ROWS = Math.round(mapPaperH / 24);
-  mapContoursInto(mapContours, MAP_COLS, MAP_ROWS, mapPaperW, mapPaperH, mapRelief);
+  var cols = Math.max(24, Math.round(mapPaperW / 24));
+  var rows = Math.max(20, Math.round(mapPaperH / 24));
+  mapContoursInto(mapContours, cols, rows, mapPaperW, mapPaperH, mapRelief);
 }
 
 // ------------------------------------------------- núcleo do mapa
@@ -7560,7 +7655,6 @@ var mapContours = document.getElementById("map-contours");
 var mapRoute = document.getElementById("map-route");
 var mapRouteActive = document.getElementById("map-route-active");
 var mapLinks = document.getElementById("map-links");
-var mapInterchanges = document.getElementById("map-interchanges");
 var mapMarks = document.getElementById("map-marks");
 
 // Tamanho da folha: único valor, usado por câmera, relevo e rect de papel.
@@ -7635,6 +7729,21 @@ function mapBaseScale(vw, vh) {
   return Math.max(vw / mapPaperW, vh / mapPaperH);
 }
 
+// A câmera anda junto: salva com debounce para o drag não martelar o
+// localStorage. Recarregar a página devolve o mesmo enquadramento.
+var mapCamTimer = null;
+function mapSaveCam() {
+  if (mapCamTimer) return;
+  mapCamTimer = setTimeout(function() {
+    mapCamTimer = null;
+    try {
+      localStorage.setItem("matesu.mapcam", JSON.stringify({
+        cx: Math.round(mapCam.cx), cy: Math.round(mapCam.cy), z: mapCam.z
+      }));
+    } catch (e) {}
+  }, 400);
+}
+
 // A câmera passeia horizontalmente para além da folha com folga, mas
 // encontra um limite duro: não é infinito. Como o grid é CSS contínuo,
 // nunca aparece borda vazia — só mais carta para explorar. No eixo Y
@@ -7663,24 +7772,15 @@ function mapApplyCam() {
   var ty = vh / 2 - mapCam.cy * s;
   mapCamera.setAttribute("transform", "translate(" + tx.toFixed(2) + " " + ty.toFixed(2) + ") scale(" + s.toFixed(5) + ")");
 
-  if (!mapLastScale || Math.abs(s - mapLastScale) / mapLastScale > 0.002) {
+  // Câmera persistida: recarregar a página volta para o mesmo lugar
+  mapSaveCam();
+
+  if (!mapLastScale || s !== mapLastScale) {
     mapLastScale = s;
     var inv = (1 / s).toFixed(5);
     for (var i = 0; i < mapInners.length; i++) {
       mapInners[i].setAttribute("transform", "scale(" + inv + ")");
     }
-  }
-  // O rótulo se afasta do ponto na medida em que o ponto cresce na tela
-  for (var j = 0; j < mapLabels.length; j++) {
-    var it = mapLabels[j].item;
-    var box = mapLabelBox(it, it.dotR, s);
-    mapLabels[j].label.setAttribute("x", String(box.x));
-    mapLabels[j].label.setAttribute("y", String(box.y));
-    mapLabels[j].label.setAttribute("text-anchor", box.anchor);
-  }
-  // A raiz tem o badge circular no próprio centro, então o número não se desloca
-  for (var b = 0; b < mapBadges.length; b++) {
-    mapBadges[b].el.setAttribute("transform", "translate(0 0)");
   }
 
   var z = mapCam.z;
@@ -7692,11 +7792,11 @@ function mapApplyCam() {
 }
 
 // ------------------------------------------------- desenho das marcas
-function mapLabelBox(it, dotR, s) {
-  // O rótulo vive num grupo contra-escalado (1/s): x/y e o respiro vêm em
-  // pixels de tela, não em unidades da folha.
-  var dotScreenR = Math.max(dotR * s, 7);
-  var off = dotScreenR + (it.isRoot ? 15 : 10);
+// O rótulo vive num grupo contra-escalado (1/s): x/y e o respiro vêm em
+// pixels de tela CONSTANTES. Nada depende do zoom, então o zoom não
+// bagunça mais a posição de cada etiqueta individual.
+function mapLabelBox(it) {
+  var off = it.isRoot ? 26 : it.level === 1 ? 20 : 16;
   var att = off + 7;
   switch (it.slot) {
     case "right": return { x: off, y: 0, anchor: "start" };
@@ -7810,22 +7910,8 @@ function mapRenderScene() {
     mapLinks.appendChild(lfrag);
   }
 
-  // Baldeações: onde o expresso cinza cruza uma linha colorida, a
-  // estação vira um retângulo branco de contorno preto (padrão Metrô).
-  if (mapInterchanges) {
-    var ifrag = document.createDocumentFragment();
-    rootItems.forEach(function(r) {
-      var box = mapSvgEl("rect", "map-interchange");
-      box.setAttribute("x", String(mapNum(r.x - 15)));
-      box.setAttribute("y", String(mapNum(r.y - 15)));
-      box.setAttribute("width", "30");
-      box.setAttribute("height", "30");
-      box.setAttribute("rx", "3");
-      ifrag.appendChild(box);
-    });
-    mapInterchanges.innerHTML = "";
-    mapInterchanges.appendChild(ifrag);
-  }
+  // Sem baldeação: nenhuma estação é marcada como intercâmbio. A rede
+  // se liga inteira pelas linhas coloridas e pela malha de integração.
 
   // As linhas coloridas: cada estação recebe o seu trecho até o pai,
   // dobrado em ângulo reto ou 45°. Trechos de irmãos que correm na
@@ -7852,6 +7938,50 @@ function mapRenderScene() {
   mapRoute.innerHTML = "";
   mapRoute.appendChild(frag);
 
+  // Malha de integração: as linhas se ligam umas às outras. Cada
+  // estação procura as estações mais próximas de outras linhas e ganha
+  // um trecho extra; com isso o diagrama vira uma rede contínua, e
+  // não cinco ilhas soltas. Nada disso é baldeação: é só ligação.
+  if (mapLinks && mapLayout.items.length) {
+    var stations = mapLayout.items.filter(function(it) {
+      return it.level >= 1 && isFinite(it.x) && isFinite(it.y);
+    });
+    var lfrag2 = document.createDocumentFragment();
+    var used = {};
+    var added = 0;
+    var MAX_LINKS = 42;
+    var MAX_RADIUS = 720;
+    var PER_STATION = 2;
+    var picked = {};
+    for (var si = 0; si < stations.length && added < MAX_LINKS; si++) {
+      var sa = stations[si];
+      var cands = [];
+      for (var sj = 0; sj < stations.length; sj++) {
+        var sb = stations[sj];
+        if (sa.cluster === sb.cluster) continue;
+        var dx = sa.x - sb.x;
+        var dy = sa.y - sb.y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < MAX_RADIUS) cands.push({ item: sb, d: d });
+      }
+      cands.sort(function(a, b) { return a.d - b.d; });
+      var made = 0;
+      for (var ci = 0; ci < cands.length && made < PER_STATION; ci++) {
+        var best = cands[ci].item;
+        var pairKey = [sa.path.join(">"), best.path.join(">")].sort().join("~~");
+        if (used[pairKey]) continue;
+        used[pairKey] = true;
+        var mesh = mapSvgEl("path", "map-route map-link line-" + (best.lineNo || 1));
+        mesh.setAttribute("d", mapSegPath(sa, best));
+        lfrag2.appendChild(mesh);
+        added++;
+        made++;
+      }
+      picked[sa.path.join(">")] = made;
+    }
+    mapLinks.appendChild(lfrag2);
+  }
+
   // Marcas
   var mfrag = document.createDocumentFragment();
   mapInners = [];
@@ -7873,21 +8003,20 @@ function mapRenderScene() {
       title.textContent = it.isNews ? (it.node.title || it.key) : it.key;
       g.appendChild(title);
 
-      g.appendChild(mapSvgEl("circle", "map-mark-halo"));
-      g.appendChild(mapSvgEl("circle", "map-mark-dot"));
-
+      // Tudo que tem tamanho em tela vive no grupo contra-escalado:
+      // bolinha, badge e rótulo mantêm o corpo em qualquer zoom.
       var inner = mapSvgEl("g", "map-mark-in");
       g.appendChild(inner);
       mapInners.push(inner);
 
+      inner.appendChild(mapSvgEl("circle", "map-mark-dot"));
+      // miolo branco: dá o desenho de "parada" e recebe a cor no clique
+      inner.appendChild(mapSvgEl("circle", "map-mark-core"));
+
       var tag = mapSvgEl("g", "map-mark-tag");
       inner.appendChild(tag);
 
-      var box = mapLabelBox(
-        it,
-        it.dotR,
-        mapBaseScale(mapSvg.clientWidth || 1, mapSvg.clientHeight || 1) * mapCam.z
-      );
+      var box = mapLabelBox(it);
       var label = mapSvgEl("text", "map-mark-label");
       label.setAttribute("x", String(box.x));
       label.setAttribute("y", String(box.y));
@@ -7993,15 +8122,21 @@ function mapRender() {
     mapSig = sig;
     mapLayout = mapBuildLayout(tree, roots, news);
     if (!mapCamReady) {
-      var firstRoot = null;
-      for (var fi = 0; fi < mapLayout.items.length; fi++) {
-        if (mapLayout.items[fi].level === 0) { firstRoot = mapLayout.items[fi]; break; }
+      var saved = null;
+      try { saved = JSON.parse(localStorage.getItem("matesu.mapcam") || "null"); } catch (e) {}
+      if (saved && isFinite(saved.cx) && isFinite(saved.cy) && isFinite(saved.z)) {
+        mapCam = { cx: saved.cx, cy: saved.cy, z: saved.z };
+      } else {
+        var firstRoot = null;
+        for (var fi = 0; fi < mapLayout.items.length; fi++) {
+          if (mapLayout.items[fi].level === 0) { firstRoot = mapLayout.items[fi]; break; }
+        }
+        mapCam = {
+          cx: firstRoot ? firstRoot.x : mapPaperW / 2,
+          cy: mapPaperH / 2,
+          z: MAP_ZOOM_MIN
+        };
       }
-      mapCam = {
-        cx: firstRoot ? firstRoot.x : mapPaperW / 2,
-        cy: mapPaperH / 2,
-        z: MAP_ZOOM_MIN
-      };
     }
     mapRenderScene();
     mapBuildTerrain();
@@ -8054,13 +8189,19 @@ function mapPointerPos(e) {
   };
 }
 
-// Abrir uma marca: o item final vai para a coluna fixa da direita
+// Abrir uma marca: preenche a bolinha e leva o item para a sidebar.
+// A câmera só corre atrás da estação se ela estiver fora da tela.
 function mapOpenMark(g) {
+  var wasSelected = g.classList.contains("selected");
+  var marks = mapMarks.children;
+  for (var k = 0; k < marks.length; k++) {
+    marks[k].classList.remove("selected");
+  }
+  if (!wasSelected) g.classList.add("selected");
+
   var idx = parseInt(g.getAttribute("data-idx"), 10);
-  if (isNaN(idx)) return;
   var it = mapMarkList[idx];
-  if (!it) return;
-  playClick("open");
+  if (!it || !it.path) return;
   deskEnsureOpen();
   path = it.path.slice();
   clearSearch();
@@ -8216,6 +8357,13 @@ if (grabber) {
       setMapHeight(mapHeight > 8 ? 0 : Math.round(window.innerHeight * 0.46));
     }
   }
+
+  // Duplo clique vai ao máximo da folha, como uma janela maximizada
+  grabber.addEventListener("dblclick", function(e) {
+    e.preventDefault();
+    var max = mapMaxHeight();
+    setMapHeight(mapHeight > max - 24 ? Math.round(window.innerHeight * 0.46) : max);
+  });
 
   grabber.addEventListener("pointerup", endGrab);
   grabber.addEventListener("pointercancel", endGrab);
@@ -8555,60 +8703,357 @@ function deskSavePositions() {
     var out = {};
     var icons = deskIconsEl.querySelectorAll(".desk-icon");
     for (var i = 0; i < icons.length; i++) {
+      var body = icons[i]._deskBody;
       out[icons[i].id] = {
         left: parseFloat(icons[i].style.left) || 0,
-        top: parseFloat(icons[i].style.top) || 0
+        top: parseFloat(icons[i].style.top) || 0,
+        a: body ? +(body.a % 360).toFixed(2) : 0
       };
     }
     localStorage.setItem("matesu_deskpos", JSON.stringify(out));
   } catch (e) {}
 }
 
-// Distribui os ícones na grade, usando a posição salva quando existe.
+// ------------------------------------------------- física dos ícones
+// A mesa é um plano com gravidade. Cada ícone cai do alto, quica,
+// esbarra nos vizinhos e descansa em cima da barra de tarefas, que faz
+// as vezes de piso. Arrastar arremessa o ícone com inércia; clicar
+// gira; a roda do mouse empurra para a frente ou para trás.
+var DESK_G = 2700;          // gravidade, px/s²
+var DESK_BOUNCE = 0.62;     // quique no piso
+var DESK_WALL = 0.58;       // quique nas paredes
+var DESK_STEP = 1 / 120;    // passo fixo da simulação
+
+var deskBodies = [];
+var deskPhysRaf = null;
+var deskPhysLast = 0;
+var deskPhysAcc = 0;
+var deskPhysBooted = false;
+
+function deskPhysClamp(v, lo, hi) {
+  return v < lo ? lo : (v > hi ? hi : v);
+}
+
+function deskPhysSize() {
+  return {
+    w: (deskIconsEl && deskIconsEl.clientWidth) || window.innerWidth,
+    h: (deskIconsEl && deskIconsEl.clientHeight) || (window.innerHeight - 34)
+  };
+}
+
+function deskBodyFor(el) {
+  return el && el._deskBody ? el._deskBody : null;
+}
+
+// Distribui os ícones. Na primeira vez todos nascem acima da tela e caem;
+// ao redimensionar, os corpos só são acomodados dentro da nova mesa.
 function deskLayoutIcons() {
   if (!deskIconsEl) return;
+
+  if (deskPhysBooted) {
+    deskPhysReflow();
+    return;
+  }
+  deskPhysBooted = true;
+
   var icons = deskIconsEl.querySelectorAll(".desk-icon");
   var saved = deskLoadPositions();
-  var slots = deskGridSlots();
-  var taken = {};
+  var size = deskPhysSize();
+  var W = size.w;
 
-  // Primeiro, quem tem posição salva continua no lugar
-  var pending = [];
+  deskBodies = [];
+
   for (var i = 0; i < icons.length; i++) {
     var el = icons[i];
+    var w = el.offsetWidth || 76;
+    var h = el.offsetHeight || 76;
     var pos = saved[el.id];
+    var savedAngle = pos && typeof pos.a === "number";
+    var sx;
+
     if (pos && typeof pos.left === "number") {
-      el.style.left = pos.left + "px";
-      el.style.top = pos.top + "px";
-      taken[Math.round(pos.left) + ":" + Math.round(pos.top)] = true;
+      sx = pos.left;
     } else {
-      pending.push(el);
+      // primeira carga: chuva de ícones espalhada pela largura
+      var frac = icons.length > 1 ? (i + 0.5) / icons.length : 0.5;
+      sx = DESK_PAD_X + frac * Math.max(1, W - w - DESK_PAD_X * 2);
+      sx += (Math.random() * 2 - 1) * 18;
+    }
+    sx = deskPhysClamp(sx, 0, Math.max(0, W - w));
+
+    var body = {
+      el: el,
+      w: w,
+      h: h,
+      x: sx,
+      y: -h - 30 - Math.random() * 80,
+      vx: (Math.random() * 2 - 1) * 70,
+      vy: 40 + Math.random() * 80,
+      a: savedAngle ? pos.a : (Math.random() * 2 - 1) * 16,
+      va: savedAngle ? 0 : (Math.random() * 2 - 1) * 90,
+      fromSave: !!savedAngle,
+      z: (Math.random() * 2 - 1) * 0.7,
+      vz: 0,
+      restZ: (Math.random() * 2 - 1) * 0.45,
+      held: false,
+      asleep: false,
+      sleepT: 0,
+      grounded: false,
+      delay: i * 0.07 + Math.random() * 0.08
+    };
+
+    el._deskBody = body;
+    deskBodies.push(body);
+    deskPhysPaint(body);
+  }
+
+  deskPhysEnsure();
+}
+
+function deskPhysReflow() {
+  var size = deskPhysSize();
+  var W = size.w;
+  var H = size.h;
+
+  for (var i = 0; i < deskBodies.length; i++) {
+    var b = deskBodies[i];
+    b.w = b.el.offsetWidth || b.w;
+    b.h = b.el.offsetHeight || b.h;
+    b.x = deskPhysClamp(b.x, 0, Math.max(0, W - b.w));
+    var floor = Math.max(0, H - b.h);
+    b.y = Math.min(b.y, floor);
+    // a mesa mudou de tamanho: acorda a física, sem teleportar ninguém
+    // para o piso nem mexer no ângulo em que o ícone estava
+    b.asleep = false;
+    b.sleepT = 0;
+    b.grounded = false;
+  }
+
+  deskPhysPaintAll();
+  deskPhysEnsure();
+}
+
+function deskPhysEnsure() {
+  if (deskPhysRaf != null || !deskIconsEl || !deskBodies.length) return;
+  deskPhysLast = window.performance && performance.now ? performance.now() : Date.now();
+  deskPhysAcc = 0;
+  deskPhysRaf = window.requestAnimationFrame(deskPhysFrame);
+}
+
+function deskPhysFrame(now) {
+  deskPhysRaf = null;
+  var dt = (now - deskPhysLast) / 1000;
+  deskPhysLast = now;
+  if (dt < 0) dt = 0;
+  if (dt > 0.1) dt = 0.1; // voltou de outra aba: não explode
+  deskPhysAcc += dt;
+
+  var guard = 0;
+  while (deskPhysAcc >= DESK_STEP && guard < 12) {
+    deskPhysStep(DESK_STEP);
+    deskPhysAcc -= DESK_STEP;
+    guard++;
+  }
+  if (guard >= 12) deskPhysAcc = 0;
+
+  deskPhysPaintAll();
+
+  var awake = false;
+  for (var i = 0; i < deskBodies.length; i++) {
+    if (!deskBodies[i].asleep) { awake = true; break; }
+  }
+  if (awake) deskPhysRaf = window.requestAnimationFrame(deskPhysFrame);
+}
+
+function deskPhysStep(dt) {
+  var size = deskPhysSize();
+  var W = size.w;
+  var H = size.h;
+
+  for (var i = 0; i < deskBodies.length; i++) {
+    var b = deskBodies[i];
+    if (b.asleep) continue;
+
+    if (b.delay > 0) {
+      b.delay -= dt;
+      if (b.delay > 0) continue;
+    }
+
+    if (b.held) { b.sleepT = 0; continue; }
+
+    b.vy += DESK_G * dt;
+
+    // profundidade: mola macia de volta ao repouso
+    b.vz += (b.restZ - b.z) * 34 * dt;
+    b.vz *= Math.pow(0.012, dt);
+
+    b.x += b.vx * dt;
+    b.y += b.vy * dt;
+    b.a += b.va * dt;
+    b.z += b.vz * dt;
+
+    if (b.x < 0) {
+      b.x = 0;
+      if (b.vx < 0) b.vx = -b.vx * DESK_WALL;
+      b.va += 16;
+    } else if (b.x > W - b.w) {
+      b.x = Math.max(0, W - b.w);
+      if (b.vx > 0) b.vx = -b.vx * DESK_WALL;
+      b.va -= 16;
+    }
+
+    if (b.z < -1) {
+      b.z = -1;
+      if (b.vz < 0) b.vz = -b.vz * 0.35;
+    } else if (b.z > 1) {
+      b.z = 1;
+      if (b.vz > 0) b.vz = -b.vz * 0.35;
+    }
+
+    b.grounded = false;
+    var floor = H - b.h;
+    if (b.y >= floor) {
+      b.y = floor;
+      if (b.vy > 28) {
+        b.vy = -b.vy * DESK_BOUNCE;
+        if (!b.fromSave) b.va += (Math.random() * 2 - 1) * 130;
+        if (Math.random() < 0.3) b.vz += (Math.random() * 2 - 1) * 1.4;
+      } else {
+        b.vy = 0;
+        b.grounded = true;
+      }
+    }
+
+    // no chão: a mesa freia o deslize aos poucos e o giro morre onde parou
+    if (b.grounded) {
+      b.vx *= Math.pow(0.18, dt);
+      b.va *= Math.pow(0.08, dt);
+
+      if (Math.abs(b.vx) < 6 && Math.abs(b.vy) < 8 &&
+          Math.abs(b.va) < 10 && Math.abs(b.vz) < 0.08 &&
+          Math.abs(b.z - b.restZ) < 0.03) {
+        b.sleepT += dt;
+        if (b.sleepT > 0.5) {
+          b.vx = 0;
+          b.vy = 0;
+          b.va = 0;
+          b.vz = 0;
+          b.z = b.restZ;
+          b.asleep = true;
+          deskSavePositions();
+        }
+      } else {
+        b.sleepT = 0;
+      }
+    } else {
+      b.sleepT = 0;
     }
   }
 
-  // Depois, os novos ocupam a primeira vaga livre da grade
-  for (var j = 0; j < pending.length; j++) {
-    var slot = 0;
-    var limit = slots.cols * slots.rows;
-    while (slot < limit) {
-      var r = deskSlotRect(slot);
-      var key = Math.round(r.left) + ":" + Math.round(r.top);
-      if (!taken[key]) break;
-      slot++;
+  deskPhysCollide(W, H);
+}
+
+// Colisão retangular simples: separa o par pelo eixo de menor
+// penetração e troca um pouco de velocidade. Dá para seis ícones.
+function deskPhysCollide(W, H) {
+  for (var i = 0; i < deskBodies.length; i++) {
+    var a = deskBodies[i];
+    for (var k = i + 1; k < deskBodies.length; k++) {
+      var b = deskBodies[k];
+      if (a.asleep && b.asleep) continue;
+      if (a.delay > 0 || b.delay > 0) continue;
+
+      var dx = (a.x + a.w / 2) - (b.x + b.w / 2);
+      var dy = (a.y + a.h / 2) - (b.y + b.h / 2);
+      var ox = (a.w + b.w) / 2 - Math.abs(dx);
+      var oy = (a.h + b.h) / 2 - Math.abs(dy);
+      if (ox <= 0 || oy <= 0) continue;
+
+      // Na mesa os ícones não empilham: a separação é sempre no eixo
+      // horizontal, então quem cai em cima de outro escorrega para o lado.
+      var nx = dx < 0 ? -1 : (dx > 0 ? 1 : (Math.random() < 0.5 ? -1 : 1));
+      var pen = ox;
+
+
+      var push = Math.min(pen / 2, 3);
+      a.x += nx * push;
+      b.x -= nx * push;
+
+      var vn = (a.vx - b.vx) * nx;
+      if (vn < 0) {
+        var imp = -(1 + 0.55) * vn / 2;
+        a.vx += imp * nx;
+        b.vx -= imp * nx;
+        // impacto dá um giro de brinde
+        if (!a.fromSave) a.va += (Math.random() * 2 - 1) * Math.min(70, Math.abs(vn) * 0.08);
+        if (!b.fromSave) b.va += (Math.random() * 2 - 1) * Math.min(70, Math.abs(vn) * 0.08);
+      }
+
+      a.x = deskPhysClamp(a.x, 0, Math.max(0, W - a.w));
+      b.x = deskPhysClamp(b.x, 0, Math.max(0, W - b.w));
+      var fa = H - a.h;
+      var fb = H - b.h;
+      if (a.y > fa) a.y = fa;
+      if (b.y > fb) b.y = fb;
+
+      if (pen > 0.8) {
+        if (a.asleep && Math.abs(b.vx) + Math.abs(b.vy) > 36) {
+          a.asleep = false;
+          a.sleepT = 0;
+        }
+        if (b.asleep && Math.abs(a.vx) + Math.abs(a.vy) > 36) {
+          b.asleep = false;
+          b.sleepT = 0;
+        }
+      }
     }
-    pending[j].style.left = r.left + "px";
-    pending[j].style.top = r.top + "px";
-    taken[Math.round(r.left) + ":" + Math.round(r.top)] = true;
   }
 }
 
-// Encaixa o ícone na grade mais próxima, como o XP fazia ao soltar.
-function deskSnapIcon(el, left, top) {
-  var slots = deskGridSlots();
-  var col = Math.max(0, Math.min(slots.cols - 1, Math.round((left - DESK_PAD_X) / DESK_GRID_X)));
-  var row = Math.max(0, Math.min(slots.rows - 1, Math.round((top - DESK_PAD_Y) / DESK_GRID_Y)));
-  var r = deskSlotRect(col * slots.rows + row);
-  return r;
+function deskPhysPaint(b) {
+  if (!b || !b.el) return;
+  var s = 0.9 + (b.z + 1) * 0.075; // 0.90 .. 1.05
+  var zi = Math.round(30 + b.z * 12);
+  if (b.held) zi = 80;
+  b.el.style.left = b.x.toFixed(2) + "px";
+  b.el.style.top = b.y.toFixed(2) + "px";
+  // profundidade no botão inteiro; o giro só no desenho, para o rótulo
+  // continuar de pé e legível
+  b.el.style.transform = "scale(" + s.toFixed(3) + ")";
+  b.el.style.zIndex = String(zi);
+  b.el.style.opacity = b.held ? "1" : String(0.88 + ((b.z + 1) / 2) * 0.12);
+  var art = b.el.querySelector(".desk-icon-art img");
+  if (art) art.style.transform = "rotate(" + b.a.toFixed(2) + "deg)";
+}
+
+function deskPhysPaintAll() {
+  for (var i = 0; i < deskBodies.length; i++) deskPhysPaint(deskBodies[i]);
+}
+
+// Clique: um giro e um pulinho aleatórios.
+function deskIconSpin(el) {
+  var b = deskBodyFor(el);
+  if (!b) return;
+  var dir = Math.random() < 0.5 ? -1 : 1;
+  // gira em torno do próprio centro e muda de profundidade: fica
+  // divertido sem tirar o ícone de baixo do ponteiro (o duplo clique
+  // continua abrindo a janela)
+  b.va += dir * (420 + Math.random() * 780);
+  b.vz += (Math.random() * 2 - 1) * 1.7;
+  b.asleep = false;
+  b.sleepT = 0;
+  deskPhysEnsure();
+}
+
+// Roda do mouse: empurra o ícone para a frente ou para trás.
+function deskIconDepth(el, dir) {
+  var b = deskBodyFor(el);
+  if (!b || !dir) return;
+  b.restZ = deskPhysClamp(b.restZ + dir * 0.3, -1, 1);
+  b.vz += dir * 2.4;
+  b.asleep = false;
+  b.sleepT = 0;
+  deskPhysEnsure();
 }
 
 // ------------------------------------------------- arrastar os ícones
@@ -8619,12 +9064,22 @@ var deskIconSuppressClick = false;
 function deskIconPointerDown(e) {
   if (e.button !== 0) return;
   var icon = e.currentTarget;
+  var body = deskBodyFor(icon);
+  if (!body) return;
+
+  var rect = deskIconsEl.getBoundingClientRect();
+  var grabX = e.clientX - rect.left - body.x;
+  var grabY = e.clientY - rect.top - body.y;
   var startX = e.clientX;
   var startY = e.clientY;
-  var origLeft = parseFloat(icon.style.left) || 0;
-  var origTop = parseFloat(icon.style.top) || 0;
+  var lastT = window.performance && performance.now ? performance.now() : Date.now();
   var moved = false;
   var pid = e.pointerId;
+
+  body.held = true;
+  body.asleep = false;
+  body.sleepT = 0;
+  deskPhysEnsure();
 
   try { icon.setPointerCapture(pid); } catch (err) {}
 
@@ -8638,30 +9093,46 @@ function deskIconPointerDown(e) {
       icon.classList.add("dragging");
       deskIconDrag = icon;
       deskSelectIcons([icon]);
+      lastT = window.performance && performance.now ? performance.now() : Date.now();
     }
-    // limitar ao viewport (taskbar = 34px)
-    var maxX = window.innerWidth - 24;
-    var maxY = window.innerHeight - 34 - 24;
-    var nx = Math.max(0, Math.min(maxX, origLeft + dx));
-    var ny = Math.max(0, Math.min(maxY, origTop + dy));
-    icon.style.left = nx + "px";
-    icon.style.top = ny + "px";
+
+    var now = window.performance && performance.now ? performance.now() : Date.now();
+    var step = Math.max(0.006, (now - lastT) / 1000);
+    lastT = now;
+
+    var nx = deskPhysClamp(ev.clientX - rect.left - grabX, 0, Math.max(0, rect.width - body.w));
+    var ny = deskPhysClamp(ev.clientY - rect.top - grabY, 0, Math.max(0, rect.height - body.h));
+
+    body.vx = deskPhysClamp((nx - body.x) / step, -2600, 2600);
+    body.vy = deskPhysClamp((ny - body.y) / step, -2600, 2600);
+    body.x = nx;
+    body.y = ny;
+    deskPhysPaint(body);
   }
 
   function up(ev) {
     if (ev.pointerId !== pid) return;
     icon.removeEventListener("pointermove", move);
     icon.removeEventListener("pointerup", up);
+    icon.removeEventListener("pointercancel", up);
     try { icon.releasePointerCapture(pid); } catch (err) {}
-    if (!moved) return;
+    body.held = false;
+    body.asleep = false;
+    body.sleepT = 0;
+
+    if (!moved) {
+      body.vx = 0;
+      body.vy = 0;
+      deskPhysEnsure();
+      return;
+    }
+
     icon.classList.remove("dragging");
     deskIconDrag = null;
-    // encaixar na grade mais próxima, coluna-principal
-    var r = deskSnapIcon(icon, parseFloat(icon.style.left), parseFloat(icon.style.top));
-    icon.style.left = r.left + "px";
-    icon.style.top = r.top + "px";
     deskSavePositions();
     playClick("open");
+    deskPhysEnsure();
+
     // suprimir o click que vem logo depois do arrasto
     deskIconSuppressClick = true;
     requestAnimationFrame(function() {
@@ -8671,6 +9142,7 @@ function deskIconPointerDown(e) {
 
   icon.addEventListener("pointermove", move);
   icon.addEventListener("pointerup", up);
+  icon.addEventListener("pointercancel", up);
 }
 
 // ------------------------------------------------- seleção de ícones
@@ -9228,7 +9700,7 @@ function xpToggleMaximize(win) {
   if (!win) return;
   win.maximized = !win.maximized;
   win.el.classList.toggle("maximized", win.maximized);
-  var bMax = win.el.querySelector(".win-btn--max");
+  var bMax = win.el.querySelector(".win-max");
   if (bMax) bMax.setAttribute("aria-label", win.maximized ? "restaurar" : "maximizar");
   xpPlay(win.maximized ? "minimize" : "restore", 0.4);
   if (win.onResize) setTimeout(win.onResize, 40);
@@ -10370,9 +10842,8 @@ function xpOpenMusic() {
 function xpWireDesktop() {
   var icons = {
     "icon-portfolio": function() {
-      // portfólio: abre o app e o meu computador
-      if (deskState !== "app") openApp();
-      xpOpenMyComputer();
+      // portfólio abre só a janela grande, sem o Meu Computador junto
+      openApp();
     },
     "icon-sobre": function() {
       if (deskState === "intro") return;
@@ -10415,12 +10886,19 @@ function xpWireDesktop() {
         } else {
           deskSelectIcons([icon]);
         }
+        deskIconSpin(icon);
         playClick("select");
       });
 
       icon.addEventListener("pointerdown", function(e) {
         deskIconPointerDown(e);
       });
+
+      // roda do mouse: manda o ícone para a frente ou para trás
+      icon.addEventListener("wheel", function(e) {
+        e.preventDefault();
+        deskIconDepth(icon, e.deltaY < 0 ? 1 : -1);
+      }, { passive: false });
 
       // menu de contexto do XP no ícone
       icon.addEventListener("contextmenu", function(e) {
@@ -11016,20 +11494,17 @@ if (taskApp) taskApp.addEventListener("click", function() {
   else openApp();
 });
 
-if (iconPortfolio) iconPortfolio.addEventListener("dblclick", function() {
-  playClick("dblclick");
-  openApp();
-});
-
 if (iconSobre) iconSobre.addEventListener("dblclick", function() {
   if (deskState === "intro") return;
   playClick("dblclick");
   showIntro(false);
 });
 
-// Entrar rolando: no cartão, qualquer rolagem abre a janela
+// Entrar rolando: no cartão, qualquer rolagem abre a janela. Rolagem
+// em cima de um ícone da mesa é física de profundidade, não entrada.
 document.addEventListener("wheel", function(e) {
   if (deskState !== "intro") return;
+  if (e.target.closest && e.target.closest(".desk-icon")) return;
   e.preventDefault();
   openApp();
 }, { passive: false, capture: true });
@@ -11058,6 +11533,7 @@ function deskEnsureOpen() {
   if (deskState !== "app") openApp();
 }
 
+deskRestorePath();
 syncRender();
 </script>
 </body>

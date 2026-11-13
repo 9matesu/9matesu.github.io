@@ -1,924 +1,954 @@
 [
-  {
-    "title": "carnagarage",
-    "artist": "Matesu & NVNSX",
-    "year": 2025,
-    "genres": [
-      "UK Garage",
-      "Speed Garage"
-    ],
-    "slug": "carnagarage",
-    "sourceFolder": "Matesu & NVNSX - carnagarage (2025) [UK Garage, Speed Garage]",
-    "tracks": [
-      {
-        "title": "Duquesa, Tasha & Tracie - Disk P (UKG Flip)",
-        "path": "audio/carnagarage/duquesa-tasha-tracie-disk-p-matesu-nvnsx-ukg-flip.wav",
-        "source": "Duquesa, Tasha & Tracie - Disk P (Matesu & NVNSX UKG Flip)",
-        "ext": ".wav",
-        "size": 44452844
-      },
-      {
-        "title": "Kyan - É os D (UKG Flip)",
-        "path": "audio/carnagarage/kyan-e-os-d-matesu-nvnsx-ukg-flip.wav",
-        "source": "Kyan - É os D (Matesu & NVNSX UKG Flip)",
-        "ext": ".wav",
-        "size": 47628044
-      },
-      {
-        "title": "Veigh, MC Negão Original - Os Mlk É Ruim (UKG Flip)",
-        "path": "audio/carnagarage/veigh-mc-negao-original-os-mlk-e-ruim-matesu-nvnsx-ukg-flip.wav",
-        "source": "Veigh, MC Negão Original - Os Mlk É Ruim (Matesu & NVNSX UKG Flip)",
-        "ext": ".wav",
-        "size": 47628044
-      }
-    ]
-  },
-  {
-    "title": "Qa",
-    "artist": "Matesu",
-    "year": 2023,
-    "genres": [
-      "Jungle",
-      "Grime",
-      "Dubstep"
-    ],
-    "slug": "qa",
-    "sourceFolder": "Matesu - Qa (2023) [Jungle, Grime, Dubstep]",
-    "tracks": [
-      {
-        "title": "Genese",
-        "path": "audio/qa/mp3-matesu-qa-01-genese.mp3",
-        "source": "MP3/Matesu - Qa - 01 Genese",
-        "ext": ".mp3",
-        "size": 8534766
-      },
-      {
-        "title": "Soca",
-        "path": "audio/qa/mp3-matesu-qa-02-soca.mp3",
-        "source": "MP3/Matesu - Qa - 02 Soca",
-        "ext": ".mp3",
-        "size": 8022859
-      },
-      {
-        "title": "Moda Paris",
-        "path": "audio/qa/mp3-matesu-qa-03-moda-paris.mp3",
-        "source": "MP3/Matesu - Qa - 03 Moda Paris",
-        "ext": ".mp3",
-        "size": 8922818
-      },
-      {
-        "title": "Sem Modos",
-        "path": "audio/qa/mp3-matesu-qa-04-sem-modos.mp3",
-        "source": "MP3/Matesu - Qa - 04 Sem Modos",
-        "ext": ".mp3",
-        "size": 7619571
-      },
-      {
-        "title": "Sem Modos - Instrumental",
-        "path": "audio/qa/mp3-matesu-qa-05-sem-modos-instrumental.mp3",
-        "source": "MP3/Matesu - Qa - 05 Sem Modos - Instrumental",
-        "ext": ".mp3",
-        "size": 7619601
-      },
-      {
-        "title": "Ballroom",
-        "path": "audio/qa/mp3-matesu-qa-06-ballroom.mp3",
-        "source": "MP3/Matesu - Qa - 06 Ballroom",
-        "ext": ".mp3",
-        "size": 6325739
-      },
-      {
-        "title": "Refluxo",
-        "path": "audio/qa/mp3-matesu-qa-07-refluxo.mp3",
-        "source": "MP3/Matesu - Qa - 07 Refluxo",
-        "ext": ".mp3",
-        "size": 6667759
-      },
-      {
-        "title": "Isotopo",
-        "path": "audio/qa/mp3-matesu-qa-08-isotopo.mp3",
-        "source": "MP3/Matesu - Qa - 08 Isotopo",
-        "ext": ".mp3",
-        "size": 11220749
-      }
-    ]
-  },
-  {
-    "title": "Rarer Demons",
-    "artist": "Matesu",
-    "year": 2022,
-    "genres": [
-      "Drum and Bass",
-      "Jungle"
-    ],
-    "slug": "rarer-demons",
-    "sourceFolder": "Matesu - Rarer Demons (2022) [Drum and Bass, Jungle]",
-    "tracks": [
-      {
-        "title": "Yamaha FM",
-        "path": "audio/rarer-demons/1-matesu-yamaha-fm.wav",
-        "source": "1. Matesu - Yamaha FM",
-        "ext": ".wav",
-        "size": 71741108
-      },
-      {
-        "title": "Copacabana",
-        "path": "audio/rarer-demons/2-matesu-copacabana.wav",
-        "source": "2. Matesu - Copacabana",
-        "ext": ".wav",
-        "size": 71009066
-      },
-      {
-        "title": "de_inferno",
-        "path": "audio/rarer-demons/3-matesu-de-inferno.wav",
-        "source": "3. Matesu - de_inferno",
-        "ext": ".wav",
-        "size": 60368048
-      },
-      {
-        "title": "9vinho",
-        "path": "audio/rarer-demons/4-matesu-9vinho.wav",
-        "source": "4. Matesu - 9vinho",
-        "ext": ".wav",
-        "size": 59875244
-      }
-    ]
-  },
-  {
-    "title": "K-Drill Repack",
-    "artist": "Matesu",
-    "year": 2022,
-    "genres": [
-      "UK Drill"
-    ],
-    "slug": "k-drill-repack",
-    "sourceFolder": "Matesu - K-Drill Repack (2022) [UK Drill]",
-    "tracks": [
-      {
-        "title": "EVERGLOW - LA DI DA",
-        "path": "audio/k-drill-repack/everglow-la-di-da-matesu-uk-drill-remix.wav",
-        "source": "EVERGLOW - LA DI DA (Matesu UK Drill Remix)",
-        "ext": ".wav",
-        "size": 60395462
-      },
-      {
-        "title": "MAMAMOO - Hip",
-        "path": "audio/k-drill-repack/mamamoo-hip-matesu-uk-drill-remix.wav",
-        "source": "MAMAMOO - Hip (Matesu UK Drill Remix)",
-        "ext": ".wav",
-        "size": 52844444
-      }
-    ]
-  },
-  {
-    "title": "virtualsoundscape.net",
-    "artist": "Matesu",
-    "year": 2021,
-    "genres": [
-      "Grime",
-      "Dubstep",
-      "Breaks"
-    ],
-    "slug": "virtualsoundscapenet",
-    "sourceFolder": "Matesu - virtualsoundscape.net (2021) [Grime, Dubstep, Breaks]",
-    "tracks": [
-      {
-        "title": "Sprinting",
-        "path": "audio/virtualsoundscapenet/1-sprinting.wav",
-        "source": "1. Sprinting",
-        "ext": ".wav",
-        "size": 52617644
-      },
-      {
-        "title": "Corrosive",
-        "path": "audio/virtualsoundscapenet/2-corrosive.wav",
-        "source": "2. Corrosive",
-        "ext": ".wav",
-        "size": 48116540
-      },
-      {
-        "title": "Transparente",
-        "path": "audio/virtualsoundscapenet/3-transparente.wav",
-        "source": "3. Transparente",
-        "ext": ".wav",
-        "size": 47174444
-      },
-      {
-        "title": "Soundsystem",
-        "path": "audio/virtualsoundscapenet/4-soundsystem.wav",
-        "source": "4. Soundsystem",
-        "ext": ".wav",
-        "size": 52164044
-      }
-    ]
-  },
-  {
-    "title": "Overtones",
-    "artist": "Matesu",
-    "year": 2021,
-    "genres": [
-      "Future Garage"
-    ],
-    "slug": "overtones",
-    "sourceFolder": "Matesu - Overtones (2021) [Future Garage]",
-    "tracks": [
-      {
-        "title": "Overtones",
-        "path": "audio/overtones/matesu-overtones.wav",
-        "source": "Matesu - Overtones",
-        "ext": ".wav",
-        "size": 61689644
-      }
-    ]
-  },
-  {
-    "title": "No Format",
-    "artist": "Matesu",
-    "year": 2021,
-    "genres": [
-      "Grime",
-      "Electronic"
-    ],
-    "slug": "no-format",
-    "sourceFolder": "Matesu - No Format (2021) [Grime, Electronic]",
-    "tracks": [
-      {
-        "title": "U Got Me",
-        "path": "audio/no-format/1-u-got-me.wav",
-        "source": "1. U Got Me",
-        "ext": ".wav",
-        "size": 55036844
-      },
-      {
-        "title": "'04 Dub",
-        "path": "audio/no-format/2-04-dub.wav",
-        "source": "2. '04 Dub",
-        "ext": ".wav",
-        "size": 54222692
-      },
-      {
-        "title": "Disjointed",
-        "path": "audio/no-format/3-disjointed.wav",
-        "source": "3. Disjointed",
-        "ext": ".wav",
-        "size": 45360044
-      },
-      {
-        "title": "Ethos",
-        "path": "audio/no-format/4-ethos.wav",
-        "source": "4. Ethos",
-        "ext": ".wav",
-        "size": 56246444
-      },
-      {
-        "title": "Neoclassical",
-        "path": "audio/no-format/5-neoclassical.wav",
-        "source": "5. Neoclassical",
-        "ext": ".wav",
-        "size": 66282344
-      },
-      {
-        "title": "Generatif",
-        "path": "audio/no-format/6-generatif.wav",
-        "source": "6. Generatif",
-        "ext": ".wav",
-        "size": 70648244
-      },
-      {
-        "title": "your.scent",
-        "path": "audio/no-format/7-yourscent.wav",
-        "source": "7 your.scent",
-        "ext": ".wav",
-        "size": 96114212
-      }
-    ]
-  },
-  {
-    "title": "International Flux",
-    "artist": "Matesu",
-    "year": 2021,
-    "genres": [
-      "Jungle"
-    ],
-    "slug": "international-flux",
-    "sourceFolder": "Matesu - International Flux (2021) [Jungle]",
-    "tracks": [
-      {
-        "title": "Caspian Network",
-        "path": "audio/international-flux/1-matesu-caspian-network.wav",
-        "source": "1. Matesu - Caspian Network",
-        "ext": ".wav",
-        "size": 86025812
-      },
-      {
-        "title": "Salang Tunnel Event",
-        "path": "audio/international-flux/2-matesu-salang-tunnel-event.wav",
-        "source": "2. Matesu - Salang Tunnel Event",
-        "ext": ".wav",
-        "size": 87928664
-      },
-      {
-        "title": "Ashgabat Branch",
-        "path": "audio/international-flux/3-matesu-ashgabat-branch.wav",
-        "source": "3. Matesu - Ashgabat Branch",
-        "ext": ".wav",
-        "size": 82181696
-      },
-      {
-        "title": "Karakum's Foreign Field",
-        "path": "audio/international-flux/4-matesu-karakums-foreign-field.wav",
-        "source": "4. Matesu - Karakum's Foreign Field",
-        "ext": ".wav",
-        "size": 116548562
-      },
-      {
-        "title": "Lost In Tashkent",
-        "path": "audio/international-flux/5-matesu-lost-in-tashkent.wav",
-        "source": "5. Matesu - Lost In Tashkent",
-        "ext": ".wav",
-        "size": 75912872
-      },
-      {
-        "title": "Semi-Arid Situation",
-        "path": "audio/international-flux/6-matesu-semi-arid-situation.wav",
-        "source": "6. Matesu - Semi-Arid Situation",
-        "ext": ".wav",
-        "size": 85428044
-      },
-      {
-        "title": "The New Silk Road",
-        "path": "audio/international-flux/7-matesu-the-new-silk-road.wav",
-        "source": "7. Matesu - The New Silk Road",
-        "ext": ".wav",
-        "size": 90534308
-      },
-      {
-        "title": "Eurasian Steppes",
-        "path": "audio/international-flux/8-matesu-eurasian-steppes.wav",
-        "source": "8. Matesu - Eurasian Steppes",
-        "ext": ".wav",
-        "size": 87784988
-      },
-      {
-        "title": "Shipping From Shenzhen",
-        "path": "audio/international-flux/9-matesu-shipping-from-shenzhen.wav",
-        "source": "9. Matesu - Shipping From Shenzhen",
-        "ext": ".wav",
-        "size": 94517630
-      },
-      {
-        "title": "En Route",
-        "path": "audio/international-flux/10-matesu-en-route.wav",
-        "source": "10. Matesu - En Route",
-        "ext": ".wav",
-        "size": 73216424
-      }
-    ]
-  },
-  {
-    "title": "Half Life",
-    "artist": "Matesu",
-    "year": 2021,
-    "genres": [
-      "Grime"
-    ],
-    "slug": "half-life",
-    "sourceFolder": "Matesu - Half Life (2021) [Grime]",
-    "tracks": [
-      {
-        "title": "Half Life",
-        "path": "audio/half-life/matesu-half-life.wav",
-        "source": "Matesu - Half Life",
-        "ext": ".wav",
-        "size": 70761644
-      }
-    ]
-  },
-  {
-    "title": "Altered State",
-    "artist": "Matesu",
-    "year": 2021,
-    "genres": [
-      "Grime",
-      "Dubstep"
-    ],
-    "slug": "altered-state",
-    "sourceFolder": "Matesu - Altered State (2021) [Grime, Dubstep]",
-    "tracks": [
-      {
-        "title": "Deep Sleep Mode",
-        "path": "audio/altered-state/1-matesu-deep-sleep-mode.wav",
-        "source": "1. Matesu - Deep Sleep Mode",
-        "ext": ".wav",
-        "size": 78214328
-      },
-      {
-        "title": "Waking Mode",
-        "path": "audio/altered-state/2-matesu-waking-mode.wav",
-        "source": "2. Matesu - Waking Mode",
-        "ext": ".wav",
-        "size": 47174444
-      }
-    ]
-  },
-  {
-    "title": "Worldwide Stream",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Jungle"
-    ],
-    "slug": "worldwide-stream",
-    "sourceFolder": "Matesu - Worldwide Stream (2020) [Jungle]",
-    "tracks": [
-      {
-        "title": "Peshawar",
-        "path": "audio/worldwide-stream/1-peshawar.wav",
-        "source": "1. Peshawar",
-        "ext": ".wav",
-        "size": 83675906
-      },
-      {
-        "title": "The Kabul Connection",
-        "path": "audio/worldwide-stream/2-the-kabul-connection.wav",
-        "source": "2. The Kabul Connection",
-        "ext": ".wav",
-        "size": 91643546
-      },
-      {
-        "title": "Mount Fuji",
-        "path": "audio/worldwide-stream/3-mount-fuji.wav",
-        "source": "3. Mount Fuji",
-        "ext": ".wav",
-        "size": 106701536
-      },
-      {
-        "title": "Empty Streets of Tehran",
-        "path": "audio/worldwide-stream/4-empty-streets-of-tehran.wav",
-        "source": "4. Empty Streets of Tehran",
-        "ext": ".wav",
-        "size": 96003152
-      },
-      {
-        "title": "Cambodia's Illegal Racing Scene",
-        "path": "audio/worldwide-stream/5-cambodias-illegal-racing-scene.wav",
-        "source": "5. Cambodia's Illegal Racing Scene",
-        "ext": ".wav",
-        "size": 81752324
-      },
-      {
-        "title": "Khyber Pass",
-        "path": "audio/worldwide-stream/6-khyber-pass.wav",
-        "source": "6. Khyber Pass",
-        "ext": ".wav",
-        "size": 75978044
-      },
-      {
-        "title": "Oxide Pipeline",
-        "path": "audio/worldwide-stream/7-oxide-pipeline.wav",
-        "source": "7. Oxide Pipeline",
-        "ext": ".wav",
-        "size": 67153700
-      },
-      {
-        "title": "Kandahar Highway",
-        "path": "audio/worldwide-stream/8-kandahar-highway.wav",
-        "source": "8. Kandahar Highway",
-        "ext": ".wav",
-        "size": 88098080
-      },
-      {
-        "title": "Yokohama Travel Party",
-        "path": "audio/worldwide-stream/9-yokohama-travel-party.wav",
-        "source": "9. Yokohama Travel Party",
-        "ext": ".wav",
-        "size": 86395022
-      }
-    ]
-  },
-  {
-    "title": "Tenacity",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Grime",
-      "Electronic"
-    ],
-    "slug": "tenacity",
-    "sourceFolder": "Matesu - Tenacity (2020) [Grime, Electronic]",
-    "tracks": [
-      {
-        "title": "Fratura",
-        "path": "audio/tenacity/1-fratura.wav",
-        "source": "1. Fratura",
-        "ext": ".wav",
-        "size": 37308644
-      },
-      {
-        "title": "Neurose",
-        "path": "audio/tenacity/2-neurose.wav",
-        "source": "2. Neurose",
-        "ext": ".wav",
-        "size": 43964354
-      },
-      {
-        "title": "Atentado",
-        "path": "audio/tenacity/3-atentado.wav",
-        "source": "3. Atentado",
-        "ext": ".wav",
-        "size": 51256844
-      },
-      {
-        "title": "Incomodo",
-        "path": "audio/tenacity/4-incomodo.wav",
-        "source": "4. Incomodo",
-        "ext": ".wav",
-        "size": 74426732
-      },
-      {
-        "title": "Sônico",
-        "path": "audio/tenacity/5-sonico.wav",
-        "source": "5. Sônico",
-        "ext": ".wav",
-        "size": 56246444
-      }
-    ]
-  },
-  {
-    "title": "Set of Tools Vol.1",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Grime",
-      "Dubstep"
-    ],
-    "slug": "set-of-tools-vol1",
-    "sourceFolder": "Matesu - Set of Tools Vol.1 (2020) [Grime, Dubstep]",
-    "tracks": [
-      {
-        "title": "DVD",
-        "path": "audio/set-of-tools-vol1/matesu-dvd.wav",
-        "source": "Matesu - DVD",
-        "ext": ".wav",
-        "size": 69402026
-      },
-      {
-        "title": "Rewind",
-        "path": "audio/set-of-tools-vol1/matesu-rewind.wav",
-        "source": "Matesu - Rewind",
-        "ext": ".wav",
-        "size": 94488364
-      },
-      {
-        "title": "Warehouse",
-        "path": "audio/set-of-tools-vol1/matesu-warehouse.wav",
-        "source": "Matesu - Warehouse",
-        "ext": ".wav",
-        "size": 87546160
-      }
-    ]
-  },
-  {
-    "title": "Resolutions",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Drum and Bass"
-    ],
-    "slug": "resolutions",
-    "sourceFolder": "Matesu - Resolutions (2020) [Drum and Bass]",
-    "tracks": [
-      {
-        "title": "Resolutions",
-        "path": "audio/resolutions/matesu-resolutions-original-mix.wav",
-        "source": "Matesu - Resolutions (Original Mix)",
-        "ext": ".wav",
-        "size": 78624044
-      }
-    ]
-  },
-  {
-    "title": "Rare Demons Minitapes Deluxe",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Jungle"
-    ],
-    "slug": "rare-demons-minitapes-deluxe",
-    "sourceFolder": "Matesu - Rare Demons Minitapes Deluxe (2020) [Jungle]",
-    "tracks": [
-      {
-        "title": "Honda Asimo 2000",
-        "path": "audio/rare-demons-minitapes-deluxe/1-matesu-honda-asimo-2000.wav",
-        "source": "1. Matesu - Honda Asimo 2000",
-        "ext": ".wav",
-        "size": 61519544
-      },
-      {
-        "title": "Selva Concrete",
-        "path": "audio/rare-demons-minitapes-deluxe/2-matesu-selva-concrete.wav",
-        "source": "2. Matesu - Selva Concrete",
-        "ext": ".wav",
-        "size": 28224044
-      },
-      {
-        "title": "de_train",
-        "path": "audio/rare-demons-minitapes-deluxe/3-matesu-de-train.wav",
-        "source": "3. Matesu - de_train",
-        "ext": ".wav",
-        "size": 62756942
-      },
-      {
-        "title": "Femto",
-        "path": "audio/rare-demons-minitapes-deluxe/4-matesu-femto.wav",
-        "source": "4. Matesu - Femto",
-        "ext": ".wav",
-        "size": 55474808
-      },
-      {
-        "title": "Mulekes Raro Soundsystem",
-        "path": "audio/rare-demons-minitapes-deluxe/5-matesu-mulekes-raro-soundsystem.wav",
-        "source": "5. Matesu - Mulekes Raro Soundsystem",
-        "ext": ".wav",
-        "size": 32854824
-      },
-      {
-        "title": "228mm Nails [caótico-industrial arc]",
-        "path": "audio/rare-demons-minitapes-deluxe/6-matesu-228mm-nails-caotico-industrial-arc.wav",
-        "source": "6. Matesu - 228mm Nails [caótico-industrial arc]",
-        "ext": ".wav",
-        "size": 22522796
-      },
-      {
-        "title": "untitled eclipse",
-        "path": "audio/rare-demons-minitapes-deluxe/7-matesu-untitled-eclipse.wav",
-        "source": "7. Matesu - untitled eclipse",
-        "ext": ".wav",
-        "size": 34007652
-      }
-    ]
-  },
-  {
-    "title": "Panelada",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Grime"
-    ],
-    "slug": "panelada",
-    "sourceFolder": "Matesu - Panelada (2020) [Grime]",
-    "tracks": [
-      {
-        "title": "Panelada",
-        "path": "audio/panelada/matesu-panelada.wav",
-        "source": "Matesu - Panelada",
-        "ext": ".wav",
-        "size": 43795910
-      }
-    ]
-  },
-  {
-    "title": "Leftover Selected Works I",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Electronic"
-    ],
-    "slug": "leftover-selected-works-i",
-    "sourceFolder": "Matesu - Leftover Selected Works I (2020) [Electronic]",
-    "tracks": [
-      {
-        "title": "189000dB",
-        "path": "audio/leftover-selected-works-i/1-189000db.wav",
-        "source": "1. 189000dB",
-        "ext": ".wav",
-        "size": 29536790
-      },
-      {
-        "title": "SHA-256",
-        "path": "audio/leftover-selected-works-i/2-sha-256.wav",
-        "source": "2. SHA-256",
-        "ext": ".wav",
-        "size": 39079432
-      },
-      {
-        "title": "Paris",
-        "path": "audio/leftover-selected-works-i/3-paris.wav",
-        "source": "3. Paris",
-        "ext": ".wav",
-        "size": 42688844
-      },
-      {
-        "title": "Help Me I Drank The Acid Water",
-        "path": "audio/leftover-selected-works-i/4-help-me-i-drank-the-acid-water.wav",
-        "source": "4. Help Me I Drank The Acid Water",
-        "ext": ".wav",
-        "size": 74976780
-      },
-      {
-        "title": "In Tropicos",
-        "path": "audio/leftover-selected-works-i/5-in-tropicos.wav",
-        "source": "5. In Tropicos",
-        "ext": ".wav",
-        "size": 41684724
-      },
-      {
-        "title": "iloveyou.vbs",
-        "path": "audio/leftover-selected-works-i/6-iloveyouvbs.wav",
-        "source": "6. iloveyou.vbs",
-        "ext": ".wav",
-        "size": 57229084
-      },
-      {
-        "title": "tylenol",
-        "path": "audio/leftover-selected-works-i/7-tylenol.wav",
-        "source": "7. tylenol",
-        "ext": ".wav",
-        "size": 45158444
-      },
-      {
-        "title": "for the pain",
-        "path": "audio/leftover-selected-works-i/8-for-the-pain.wav",
-        "source": "8. for the pain",
-        "ext": ".wav",
-        "size": 53760044
-      },
-      {
-        "title": "IX",
-        "path": "audio/leftover-selected-works-i/9-ix.wav",
-        "source": "9. IX",
-        "ext": ".wav",
-        "size": 33868844
-      },
-      {
-        "title": "Bad Vision",
-        "path": "audio/leftover-selected-works-i/10-bad-vision.wav",
-        "source": "10. Bad Vision",
-        "ext": ".wav",
-        "size": 54025838
-      },
-      {
-        "title": "Fragmented [deleted]",
-        "path": "audio/leftover-selected-works-i/11-fragmented-deleted.wav",
-        "source": "11. Fragmented [deleted]",
-        "ext": ".wav",
-        "size": 66627192
-      }
-    ]
-  },
-  {
-    "title": "Ekranoplan",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "UK Garage"
-    ],
-    "slug": "ekranoplan",
-    "sourceFolder": "Matesu - Ekranoplan (2020) [UK Garage]",
-    "tracks": [
-      {
-        "title": "Ekranoplan",
-        "path": "audio/ekranoplan/matesu-ekranoplan.wav",
-        "source": "Matesu - Ekranoplan",
-        "ext": ".wav",
-        "size": 85864610
-      }
-    ]
-  },
-  {
-    "title": "Digital Disk",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Grime",
-      "Dubstep"
-    ],
-    "slug": "digital-disk",
-    "sourceFolder": "Matesu - Digital Disk (2020) [Grime, Dubstep]",
-    "tracks": [
-      {
-        "title": "BEAT THAT",
-        "path": "audio/digital-disk/1-matesu-beat-that.wav",
-        "source": "1. Matesu - BEAT THAT",
-        "ext": ".wav",
-        "size": 56639798
-      },
-      {
-        "title": "DIGITAL",
-        "path": "audio/digital-disk/2-matesu-digital.wav",
-        "source": "2. Matesu - DIGITAL",
-        "ext": ".wav",
-        "size": 36675134
-      },
-      {
-        "title": "HYSTERESIS",
-        "path": "audio/digital-disk/3-matesu-hysteresis.wav",
-        "source": "3. Matesu - HYSTERESIS",
-        "ext": ".wav",
-        "size": 45985700
-      },
-      {
-        "title": "CHAMAS",
-        "path": "audio/digital-disk/4-matesu-chamas.wav",
-        "source": "4. Matesu - CHAMAS",
-        "ext": ".wav",
-        "size": 50159006
-      },
-      {
-        "title": "TUBE",
-        "path": "audio/digital-disk/5-matesu-tube.wav",
-        "source": "5. Matesu - TUBE",
-        "ext": ".wav",
-        "size": 51710444
-      }
-    ]
-  },
-  {
-    "title": "Boladona Flip",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Grime"
-    ],
-    "slug": "boladona-flip",
-    "sourceFolder": "Matesu - Boladona Flip (2020) [Grime]",
-    "tracks": [
-      {
-        "title": "Boladona Flip",
-        "path": "audio/boladona-flip/matesu-boladona-flip.wav",
-        "source": "Matesu - Boladona Flip",
-        "ext": ".wav",
-        "size": 36636968
-      }
-    ]
-  },
-  {
-    "title": "Almost Dusk",
-    "artist": "Matesu",
-    "year": 2020,
-    "genres": [
-      "Ambient Jungle"
-    ],
-    "slug": "almost-dusk",
-    "sourceFolder": "Matesu - Almost Dusk (2020) [Ambient Jungle]",
-    "tracks": [
-      {
-        "title": "Almost Dusk",
-        "path": "audio/almost-dusk/matesu-almost-dusk.wav",
-        "source": "Matesu - Almost Dusk",
-        "ext": ".wav",
-        "size": 103672238
-      }
-    ]
-  },
-  {
-    "title": "Cachorrada (Jersey Club Edit)",
-    "artist": "Matesu",
-    "year": 2019,
-    "genres": [
-      "Jersey Club"
-    ],
-    "slug": "cachorrada-jersey-club-edit",
-    "sourceFolder": "Matesu - Cachorrada (Jersey Club Edit) (2019) [Jersey Club]",
-    "tracks": [
-      {
-        "title": "Cachorrada",
-        "path": "audio/cachorrada-jersey-club-edit/cachorrada-matesu-jersey-club-remix.wav",
-        "source": "Cachorrada (Matesu Jersey Club Remix)",
-        "ext": ".wav",
-        "size": 31100576
-      }
-    ]
-  },
-  {
-    "title": "Unreleased",
-    "artist": "Matesu",
-    "year": null,
-    "genres": [],
-    "slug": "unreleased",
-    "sourceFolder": "Unreleased",
-    "tracks": [
-      {
-        "title": "EPROM - Hope",
-        "path": "audio/unreleased/eprom-hope-matesu-edit.wav",
-        "source": "EPROM - Hope (Matesu Edit)",
-        "ext": ".wav",
-        "size": 47872292
-      },
-      {
-        "title": "Copao",
-        "path": "audio/unreleased/matesu-copao.mp3",
-        "source": "Matesu - Copao",
-        "ext": ".mp3",
-        "size": 5769996
-      },
-      {
-        "title": "Vai Amor",
-        "path": "audio/unreleased/matesu-vai-amor.mp3",
-        "source": "Matesu - Vai Amor",
-        "ext": ".mp3",
-        "size": 14335999
-      }
-    ]
-  }
+    {
+        "title":  "carnagarage",
+        "artist":  "Matesu \u0026 NVNSX",
+        "year":  2025,
+        "genres":  [
+                       "UK Garage",
+                       "Speed Garage"
+                   ],
+        "slug":  "carnagarage",
+        "sourceFolder":  "Matesu \u0026 NVNSX - carnagarage (2025) [UK Garage, Speed Garage]",
+        "tracks":  [
+                       {
+                           "title":  "Duquesa, Tasha \u0026 Tracie - Disk P (UKG Flip)",
+                           "path":  "audio/carnagarage/duquesa-tasha-tracie-disk-p-matesu-nvnsx-ukg-flip.wav",
+                           "source":  "Duquesa, Tasha \u0026 Tracie - Disk P (Matesu \u0026 NVNSX UKG Flip)",
+                           "ext":  ".wav",
+                           "size":  44452844
+                       },
+                       {
+                           "title":  "Kyan - É os D (UKG Flip)",
+                           "path":  "audio/carnagarage/kyan-e-os-d-matesu-nvnsx-ukg-flip.wav",
+                           "source":  "Kyan - É os D (Matesu \u0026 NVNSX UKG Flip)",
+                           "ext":  ".wav",
+                           "size":  47628044
+                       },
+                       {
+                           "title":  "Veigh, MC Negão Original - Os Mlk É Ruim (UKG Flip)",
+                           "path":  "audio/carnagarage/veigh-mc-negao-original-os-mlk-e-ruim-matesu-nvnsx-ukg-flip.wav",
+                           "source":  "Veigh, MC Negão Original - Os Mlk É Ruim (Matesu \u0026 NVNSX UKG Flip)",
+                           "ext":  ".wav",
+                           "size":  47628044
+                       }
+                   ]
+    },
+    {
+        "title":  "Qa",
+        "artist":  "Matesu",
+        "year":  2023,
+        "genres":  [
+                       "Jungle",
+                       "Grime",
+                       "Dubstep"
+                   ],
+        "slug":  "qa",
+        "sourceFolder":  "Matesu - Qa (2023) [Jungle, Grime, Dubstep]",
+        "tracks":  [
+                       {
+                           "title":  "Genese",
+                           "path":  "audio/qa/mp3-matesu-qa-01-genese.mp3",
+                           "source":  "MP3/Matesu - Qa - 01 Genese",
+                           "ext":  ".mp3",
+                           "size":  8534766
+                       },
+                       {
+                           "title":  "Soca",
+                           "path":  "audio/qa/mp3-matesu-qa-02-soca.mp3",
+                           "source":  "MP3/Matesu - Qa - 02 Soca",
+                           "ext":  ".mp3",
+                           "size":  8022859
+                       },
+                       {
+                           "title":  "Moda Paris",
+                           "path":  "audio/qa/mp3-matesu-qa-03-moda-paris.mp3",
+                           "source":  "MP3/Matesu - Qa - 03 Moda Paris",
+                           "ext":  ".mp3",
+                           "size":  8922818
+                       },
+                       {
+                           "title":  "Sem Modos",
+                           "path":  "audio/qa/mp3-matesu-qa-04-sem-modos.mp3",
+                           "source":  "MP3/Matesu - Qa - 04 Sem Modos",
+                           "ext":  ".mp3",
+                           "size":  7619571
+                       },
+                       {
+                           "title":  "Sem Modos - Instrumental",
+                           "path":  "audio/qa/mp3-matesu-qa-05-sem-modos-instrumental.mp3",
+                           "source":  "MP3/Matesu - Qa - 05 Sem Modos - Instrumental",
+                           "ext":  ".mp3",
+                           "size":  7619601
+                       },
+                       {
+                           "title":  "Ballroom",
+                           "path":  "audio/qa/mp3-matesu-qa-06-ballroom.mp3",
+                           "source":  "MP3/Matesu - Qa - 06 Ballroom",
+                           "ext":  ".mp3",
+                           "size":  6325739
+                       },
+                       {
+                           "title":  "Refluxo",
+                           "path":  "audio/qa/mp3-matesu-qa-07-refluxo.mp3",
+                           "source":  "MP3/Matesu - Qa - 07 Refluxo",
+                           "ext":  ".mp3",
+                           "size":  6667759
+                       },
+                       {
+                           "title":  "Isotopo",
+                           "path":  "audio/qa/mp3-matesu-qa-08-isotopo.mp3",
+                           "source":  "MP3/Matesu - Qa - 08 Isotopo",
+                           "ext":  ".mp3",
+                           "size":  11220749
+                       }
+                   ]
+    },
+    {
+        "title":  "Rarer Demons",
+        "artist":  "Matesu",
+        "year":  2022,
+        "genres":  [
+                       "Drum and Bass",
+                       "Jungle"
+                   ],
+        "slug":  "rarer-demons",
+        "sourceFolder":  "Matesu - Rarer Demons (2022) [Drum and Bass, Jungle]",
+        "tracks":  [
+                       {
+                           "title":  "Yamaha FM",
+                           "path":  "audio/rarer-demons/1-matesu-yamaha-fm.wav",
+                           "source":  "1. Matesu - Yamaha FM",
+                           "ext":  ".wav",
+                           "size":  71741108
+                       },
+                       {
+                           "title":  "Copacabana",
+                           "path":  "audio/rarer-demons/2-matesu-copacabana.wav",
+                           "source":  "2. Matesu - Copacabana",
+                           "ext":  ".wav",
+                           "size":  71009066
+                       },
+                       {
+                           "title":  "de_inferno",
+                           "path":  "audio/rarer-demons/3-matesu-de-inferno.wav",
+                           "source":  "3. Matesu - de_inferno",
+                           "ext":  ".wav",
+                           "size":  60368048
+                       },
+                       {
+                           "title":  "9vinho",
+                           "path":  "audio/rarer-demons/4-matesu-9vinho.wav",
+                           "source":  "4. Matesu - 9vinho",
+                           "ext":  ".wav",
+                           "size":  59875244
+                       }
+                   ]
+    },
+    {
+        "title":  "K-Drill Repack",
+        "artist":  "Matesu",
+        "year":  2022,
+        "genres":  [
+                       "UK Drill"
+                   ],
+        "slug":  "k-drill-repack",
+        "sourceFolder":  "Matesu - K-Drill Repack (2022) [UK Drill]",
+        "tracks":  [
+                       {
+                           "title":  "EVERGLOW - LA DI DA",
+                           "path":  "audio/k-drill-repack/everglow-la-di-da-matesu-uk-drill-remix.wav",
+                           "source":  "EVERGLOW - LA DI DA (Matesu UK Drill Remix)",
+                           "ext":  ".wav",
+                           "size":  60395462
+                       },
+                       {
+                           "title":  "MAMAMOO - Hip",
+                           "path":  "audio/k-drill-repack/mamamoo-hip-matesu-uk-drill-remix.wav",
+                           "source":  "MAMAMOO - Hip (Matesu UK Drill Remix)",
+                           "ext":  ".wav",
+                           "size":  52844444
+                       }
+                   ]
+    },
+    {
+        "title":  "virtualsoundscape.net",
+        "artist":  "Matesu",
+        "year":  2021,
+        "genres":  [
+                       "Grime",
+                       "Dubstep",
+                       "Breaks"
+                   ],
+        "slug":  "virtualsoundscapenet",
+        "sourceFolder":  "Matesu - virtualsoundscape.net (2021) [Grime, Dubstep, Breaks]",
+        "tracks":  [
+                       {
+                           "title":  "Sprinting",
+                           "path":  "audio/virtualsoundscapenet/1-sprinting.wav",
+                           "source":  "1. Sprinting",
+                           "ext":  ".wav",
+                           "size":  52617644
+                       },
+                       {
+                           "title":  "Corrosive",
+                           "path":  "audio/virtualsoundscapenet/2-corrosive.wav",
+                           "source":  "2. Corrosive",
+                           "ext":  ".wav",
+                           "size":  48116540
+                       },
+                       {
+                           "title":  "Transparente",
+                           "path":  "audio/virtualsoundscapenet/3-transparente.wav",
+                           "source":  "3. Transparente",
+                           "ext":  ".wav",
+                           "size":  47174444
+                       },
+                       {
+                           "title":  "Soundsystem",
+                           "path":  "audio/virtualsoundscapenet/4-soundsystem.wav",
+                           "source":  "4. Soundsystem",
+                           "ext":  ".wav",
+                           "size":  52164044
+                       }
+                   ]
+    },
+    {
+        "title":  "Overtones",
+        "artist":  "Matesu",
+        "year":  2021,
+        "genres":  [
+                       "Future Garage"
+                   ],
+        "slug":  "overtones",
+        "sourceFolder":  "Matesu - Overtones (2021) [Future Garage]",
+        "tracks":  [
+                       {
+                           "title":  "Overtones",
+                           "path":  "audio/overtones/matesu-overtones.wav",
+                           "source":  "Matesu - Overtones",
+                           "ext":  ".wav",
+                           "size":  61689644
+                       }
+                   ]
+    },
+    {
+        "title":  "No Format",
+        "artist":  "Matesu",
+        "year":  2021,
+        "genres":  [
+                       "Grime",
+                       "Electronic"
+                   ],
+        "slug":  "no-format",
+        "sourceFolder":  "Matesu - No Format (2021) [Grime, Electronic]",
+        "tracks":  [
+                       {
+                           "title":  "U Got Me",
+                           "path":  "audio/no-format/1-u-got-me.wav",
+                           "source":  "1. U Got Me",
+                           "ext":  ".wav",
+                           "size":  55036844
+                       },
+                       {
+                           "title":  "\u002704 Dub",
+                           "path":  "audio/no-format/2-04-dub.wav",
+                           "source":  "2. \u002704 Dub",
+                           "ext":  ".wav",
+                           "size":  54222692
+                       },
+                       {
+                           "title":  "Disjointed",
+                           "path":  "audio/no-format/3-disjointed.wav",
+                           "source":  "3. Disjointed",
+                           "ext":  ".wav",
+                           "size":  45360044
+                       },
+                       {
+                           "title":  "Ethos",
+                           "path":  "audio/no-format/4-ethos.wav",
+                           "source":  "4. Ethos",
+                           "ext":  ".wav",
+                           "size":  56246444
+                       },
+                       {
+                           "title":  "Neoclassical",
+                           "path":  "audio/no-format/5-neoclassical.wav",
+                           "source":  "5. Neoclassical",
+                           "ext":  ".wav",
+                           "size":  66282344
+                       },
+                       {
+                           "title":  "Generatif",
+                           "path":  "audio/no-format/6-generatif.wav",
+                           "source":  "6. Generatif",
+                           "ext":  ".wav",
+                           "size":  70648244
+                       },
+                       {
+                           "title":  "your.scent",
+                           "path":  "audio/no-format/7-yourscent.wav",
+                           "source":  "7 your.scent",
+                           "ext":  ".wav",
+                           "size":  96114212
+                       }
+                   ]
+    },
+    {
+        "title":  "International Flux",
+        "artist":  "Matesu",
+        "year":  2021,
+        "genres":  [
+                       "Jungle"
+                   ],
+        "slug":  "international-flux",
+        "sourceFolder":  "Matesu - International Flux (2021) [Jungle]",
+        "tracks":  [
+                       {
+                           "title":  "Caspian Network",
+                           "path":  "audio/international-flux/1-matesu-caspian-network.wav",
+                           "source":  "1. Matesu - Caspian Network",
+                           "ext":  ".wav",
+                           "size":  86025812
+                       },
+                       {
+                           "title":  "Salang Tunnel Event",
+                           "path":  "audio/international-flux/2-matesu-salang-tunnel-event.wav",
+                           "source":  "2. Matesu - Salang Tunnel Event",
+                           "ext":  ".wav",
+                           "size":  87928664
+                       },
+                       {
+                           "title":  "Ashgabat Branch",
+                           "path":  "audio/international-flux/3-matesu-ashgabat-branch.wav",
+                           "source":  "3. Matesu - Ashgabat Branch",
+                           "ext":  ".wav",
+                           "size":  82181696
+                       },
+                       {
+                           "title":  "Karakum\u0027s Foreign Field",
+                           "path":  "audio/international-flux/4-matesu-karakums-foreign-field.wav",
+                           "source":  "4. Matesu - Karakum\u0027s Foreign Field",
+                           "ext":  ".wav",
+                           "size":  116548562
+                       },
+                       {
+                           "title":  "Lost In Tashkent",
+                           "path":  "audio/international-flux/5-matesu-lost-in-tashkent.wav",
+                           "source":  "5. Matesu - Lost In Tashkent",
+                           "ext":  ".wav",
+                           "size":  75912872
+                       },
+                       {
+                           "title":  "Semi-Arid Situation",
+                           "path":  "audio/international-flux/6-matesu-semi-arid-situation.wav",
+                           "source":  "6. Matesu - Semi-Arid Situation",
+                           "ext":  ".wav",
+                           "size":  85428044
+                       },
+                       {
+                           "title":  "The New Silk Road",
+                           "path":  "audio/international-flux/7-matesu-the-new-silk-road.wav",
+                           "source":  "7. Matesu - The New Silk Road",
+                           "ext":  ".wav",
+                           "size":  90534308
+                       },
+                       {
+                           "title":  "Eurasian Steppes",
+                           "path":  "audio/international-flux/8-matesu-eurasian-steppes.wav",
+                           "source":  "8. Matesu - Eurasian Steppes",
+                           "ext":  ".wav",
+                           "size":  87784988
+                       },
+                       {
+                           "title":  "Shipping From Shenzhen",
+                           "path":  "audio/international-flux/9-matesu-shipping-from-shenzhen.wav",
+                           "source":  "9. Matesu - Shipping From Shenzhen",
+                           "ext":  ".wav",
+                           "size":  94517630
+                       },
+                       {
+                           "title":  "En Route",
+                           "path":  "audio/international-flux/10-matesu-en-route.wav",
+                           "source":  "10. Matesu - En Route",
+                           "ext":  ".wav",
+                           "size":  73216424
+                       }
+                   ]
+    },
+    {
+        "title":  "Half Life",
+        "artist":  "Matesu",
+        "year":  2021,
+        "genres":  [
+                       "Grime"
+                   ],
+        "slug":  "half-life",
+        "sourceFolder":  "Matesu - Half Life (2021) [Grime]",
+        "tracks":  [
+                       {
+                           "title":  "Half Life",
+                           "path":  "audio/half-life/matesu-half-life.mp3",
+                           "source":  "Matesu - Half Life",
+                           "ext":  ".mp3",
+                           "size":  10698780
+                       }
+                   ]
+    },
+    {
+        "title":  "Altered State",
+        "artist":  "Matesu",
+        "year":  2021,
+        "genres":  [
+                       "Grime",
+                       "Dubstep"
+                   ],
+        "slug":  "altered-state",
+        "sourceFolder":  "Matesu - Altered State (2021) [Grime, Dubstep]",
+        "tracks":  [
+                       {
+                           "title":  "Deep Sleep Mode",
+                           "path":  "audio/altered-state/1-matesu-deep-sleep-mode.wav",
+                           "source":  "1. Matesu - Deep Sleep Mode",
+                           "ext":  ".wav",
+                           "size":  78214328
+                       },
+                       {
+                           "title":  "Waking Mode",
+                           "path":  "audio/altered-state/2-matesu-waking-mode.wav",
+                           "source":  "2. Matesu - Waking Mode",
+                           "ext":  ".wav",
+                           "size":  47174444
+                       }
+                   ]
+    },
+    {
+        "title":  "Worldwide Stream",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Jungle"
+                   ],
+        "slug":  "worldwide-stream",
+        "sourceFolder":  "Matesu - Worldwide Stream (2020) [Jungle]",
+        "tracks":  [
+                       {
+                           "title":  "Peshawar",
+                           "path":  "audio/worldwide-stream/1-peshawar.wav",
+                           "source":  "1. Peshawar",
+                           "ext":  ".wav",
+                           "size":  83675906
+                       },
+                       {
+                           "title":  "The Kabul Connection",
+                           "path":  "audio/worldwide-stream/2-the-kabul-connection.wav",
+                           "source":  "2. The Kabul Connection",
+                           "ext":  ".wav",
+                           "size":  91643546
+                       },
+                       {
+                           "title":  "Mount Fuji",
+                           "path":  "audio/worldwide-stream/3-mount-fuji.wav",
+                           "source":  "3. Mount Fuji",
+                           "ext":  ".wav",
+                           "size":  106701536
+                       },
+                       {
+                           "title":  "Empty Streets of Tehran",
+                           "path":  "audio/worldwide-stream/4-empty-streets-of-tehran.wav",
+                           "source":  "4. Empty Streets of Tehran",
+                           "ext":  ".wav",
+                           "size":  96003152
+                       },
+                       {
+                           "title":  "Cambodia\u0027s Illegal Racing Scene",
+                           "path":  "audio/worldwide-stream/5-cambodias-illegal-racing-scene.wav",
+                           "source":  "5. Cambodia\u0027s Illegal Racing Scene",
+                           "ext":  ".wav",
+                           "size":  81752324
+                       },
+                       {
+                           "title":  "Khyber Pass",
+                           "path":  "audio/worldwide-stream/6-khyber-pass.wav",
+                           "source":  "6. Khyber Pass",
+                           "ext":  ".wav",
+                           "size":  75978044
+                       },
+                       {
+                           "title":  "Oxide Pipeline",
+                           "path":  "audio/worldwide-stream/7-oxide-pipeline.wav",
+                           "source":  "7. Oxide Pipeline",
+                           "ext":  ".wav",
+                           "size":  67153700
+                       },
+                       {
+                           "title":  "Kandahar Highway",
+                           "path":  "audio/worldwide-stream/8-kandahar-highway.wav",
+                           "source":  "8. Kandahar Highway",
+                           "ext":  ".wav",
+                           "size":  88098080
+                       },
+                       {
+                           "title":  "Yokohama Travel Party",
+                           "path":  "audio/worldwide-stream/9-yokohama-travel-party.wav",
+                           "source":  "9. Yokohama Travel Party",
+                           "ext":  ".wav",
+                           "size":  86395022
+                       }
+                   ]
+    },
+    {
+        "title":  "Tenacity",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Grime",
+                       "Electronic"
+                   ],
+        "slug":  "tenacity",
+        "sourceFolder":  "Matesu - Tenacity (2020) [Grime, Electronic]",
+        "tracks":  [
+                       {
+                           "title":  "Fratura",
+                           "path":  "audio/tenacity/1-fratura.wav",
+                           "source":  "1. Fratura",
+                           "ext":  ".wav",
+                           "size":  37308644
+                       },
+                       {
+                           "title":  "Neurose",
+                           "path":  "audio/tenacity/2-neurose.wav",
+                           "source":  "2. Neurose",
+                           "ext":  ".wav",
+                           "size":  43964354
+                       },
+                       {
+                           "title":  "Atentado",
+                           "path":  "audio/tenacity/3-atentado.wav",
+                           "source":  "3. Atentado",
+                           "ext":  ".wav",
+                           "size":  51256844
+                       },
+                       {
+                           "title":  "Incomodo",
+                           "path":  "audio/tenacity/4-incomodo.wav",
+                           "source":  "4. Incomodo",
+                           "ext":  ".wav",
+                           "size":  74426732
+                       },
+                       {
+                           "title":  "Sônico",
+                           "path":  "audio/tenacity/5-sonico.wav",
+                           "source":  "5. Sônico",
+                           "ext":  ".wav",
+                           "size":  56246444
+                       }
+                   ]
+    },
+    {
+        "title":  "Set of Tools Vol.1",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Grime",
+                       "Dubstep"
+                   ],
+        "slug":  "set-of-tools-vol1",
+        "sourceFolder":  "Matesu - Set of Tools Vol.1 (2020) [Grime, Dubstep]",
+        "tracks":  [
+                       {
+                           "title":  "DVD",
+                           "path":  "audio/set-of-tools-vol1/matesu-dvd.wav",
+                           "source":  "Matesu - DVD",
+                           "ext":  ".wav",
+                           "size":  69402026
+                       },
+                       {
+                           "title":  "Rewind",
+                           "path":  "audio/set-of-tools-vol1/matesu-rewind.wav",
+                           "source":  "Matesu - Rewind",
+                           "ext":  ".wav",
+                           "size":  94488364
+                       },
+                       {
+                           "title":  "Warehouse",
+                           "path":  "audio/set-of-tools-vol1/matesu-warehouse.wav",
+                           "source":  "Matesu - Warehouse",
+                           "ext":  ".wav",
+                           "size":  87546160
+                       }
+                   ]
+    },
+    {
+        "title":  "Resolutions",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Drum and Bass"
+                   ],
+        "slug":  "resolutions",
+        "sourceFolder":  "Matesu - Resolutions (2020) [Drum and Bass]",
+        "tracks":  [
+                       {
+                           "title":  "Resolutions",
+                           "path":  "audio/resolutions/matesu-resolutions-original-mix.wav",
+                           "source":  "Matesu - Resolutions (Original Mix)",
+                           "ext":  ".wav",
+                           "size":  78624044
+                       }
+                   ]
+    },
+    {
+        "title":  "Rare Demons Minitapes Deluxe",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Jungle"
+                   ],
+        "slug":  "rare-demons-minitapes-deluxe",
+        "sourceFolder":  "Matesu - Rare Demons Minitapes Deluxe (2020) [Jungle]",
+        "tracks":  [
+                       {
+                           "title":  "Honda Asimo 2000",
+                           "path":  "audio/rare-demons-minitapes-deluxe/1-matesu-honda-asimo-2000.wav",
+                           "source":  "1. Matesu - Honda Asimo 2000",
+                           "ext":  ".wav",
+                           "size":  61519544
+                       },
+                       {
+                           "title":  "Selva Concrete",
+                           "path":  "audio/rare-demons-minitapes-deluxe/2-matesu-selva-concrete.wav",
+                           "source":  "2. Matesu - Selva Concrete",
+                           "ext":  ".wav",
+                           "size":  28224044
+                       },
+                       {
+                           "title":  "de_train",
+                           "path":  "audio/rare-demons-minitapes-deluxe/3-matesu-de-train.wav",
+                           "source":  "3. Matesu - de_train",
+                           "ext":  ".wav",
+                           "size":  62756942
+                       },
+                       {
+                           "title":  "Femto",
+                           "path":  "audio/rare-demons-minitapes-deluxe/4-matesu-femto.wav",
+                           "source":  "4. Matesu - Femto",
+                           "ext":  ".wav",
+                           "size":  55474808
+                       },
+                       {
+                           "title":  "Mulekes Raro Soundsystem",
+                           "path":  "audio/rare-demons-minitapes-deluxe/5-matesu-mulekes-raro-soundsystem.wav",
+                           "source":  "5. Matesu - Mulekes Raro Soundsystem",
+                           "ext":  ".wav",
+                           "size":  32854824
+                       },
+                       {
+                           "title":  "228mm Nails [caótico-industrial arc]",
+                           "path":  "audio/rare-demons-minitapes-deluxe/6-matesu-228mm-nails-caotico-industrial-arc.wav",
+                           "source":  "6. Matesu - 228mm Nails [caótico-industrial arc]",
+                           "ext":  ".wav",
+                           "size":  22522796
+                       },
+                       {
+                           "title":  "untitled eclipse",
+                           "path":  "audio/rare-demons-minitapes-deluxe/7-matesu-untitled-eclipse.wav",
+                           "source":  "7. Matesu - untitled eclipse",
+                           "ext":  ".wav",
+                           "size":  34007652
+                       }
+                   ]
+    },
+    {
+        "title":  "Panelada",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Grime"
+                   ],
+        "slug":  "panelada",
+        "sourceFolder":  "Matesu - Panelada (2020) [Grime]",
+        "tracks":  [
+                       {
+                           "title":  "Panelada",
+                           "path":  "audio/panelada/matesu-panelada.mp3",
+                           "source":  "Matesu - Panelada",
+                           "ext":  ".mp3",
+                           "size":  6619498
+                       }
+                   ]
+    },
+    {
+        "title":  "Leftover Selected Works I",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Electronic"
+                   ],
+        "slug":  "leftover-selected-works-i",
+        "sourceFolder":  "Matesu - Leftover Selected Works I (2020) [Electronic]",
+        "tracks":  [
+                       {
+                           "title":  "189000dB",
+                           "path":  "audio/leftover-selected-works-i/1-189000db.wav",
+                           "source":  "1. 189000dB",
+                           "ext":  ".wav",
+                           "size":  29536790
+                       },
+                       {
+                           "title":  "SHA-256",
+                           "path":  "audio/leftover-selected-works-i/2-sha-256.wav",
+                           "source":  "2. SHA-256",
+                           "ext":  ".wav",
+                           "size":  39079432
+                       },
+                       {
+                           "title":  "Paris",
+                           "path":  "audio/leftover-selected-works-i/3-paris.wav",
+                           "source":  "3. Paris",
+                           "ext":  ".wav",
+                           "size":  42688844
+                       },
+                       {
+                           "title":  "Help Me I Drank The Acid Water",
+                           "path":  "audio/leftover-selected-works-i/4-help-me-i-drank-the-acid-water.wav",
+                           "source":  "4. Help Me I Drank The Acid Water",
+                           "ext":  ".wav",
+                           "size":  74976780
+                       },
+                       {
+                           "title":  "In Tropicos",
+                           "path":  "audio/leftover-selected-works-i/5-in-tropicos.wav",
+                           "source":  "5. In Tropicos",
+                           "ext":  ".wav",
+                           "size":  41684724
+                       },
+                       {
+                           "title":  "iloveyou.vbs",
+                           "path":  "audio/leftover-selected-works-i/6-iloveyouvbs.wav",
+                           "source":  "6. iloveyou.vbs",
+                           "ext":  ".wav",
+                           "size":  57229084
+                       },
+                       {
+                           "title":  "tylenol",
+                           "path":  "audio/leftover-selected-works-i/7-tylenol.wav",
+                           "source":  "7. tylenol",
+                           "ext":  ".wav",
+                           "size":  45158444
+                       },
+                       {
+                           "title":  "for the pain",
+                           "path":  "audio/leftover-selected-works-i/8-for-the-pain.wav",
+                           "source":  "8. for the pain",
+                           "ext":  ".wav",
+                           "size":  53760044
+                       },
+                       {
+                           "title":  "IX",
+                           "path":  "audio/leftover-selected-works-i/9-ix.wav",
+                           "source":  "9. IX",
+                           "ext":  ".wav",
+                           "size":  33868844
+                       },
+                       {
+                           "title":  "Bad Vision",
+                           "path":  "audio/leftover-selected-works-i/10-bad-vision.wav",
+                           "source":  "10. Bad Vision",
+                           "ext":  ".wav",
+                           "size":  54025838
+                       },
+                       {
+                           "title":  "Fragmented [deleted]",
+                           "path":  "audio/leftover-selected-works-i/11-fragmented-deleted.wav",
+                           "source":  "11. Fragmented [deleted]",
+                           "ext":  ".wav",
+                           "size":  66627192
+                       }
+                   ]
+    },
+    {
+        "title":  "Ekranoplan",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "UK Garage"
+                   ],
+        "slug":  "ekranoplan",
+        "sourceFolder":  "Matesu - Ekranoplan (2020) [UK Garage]",
+        "tracks":  [
+                       {
+                           "title":  "Ekranoplan",
+                           "path":  "audio/ekranoplan/matesu-ekranoplan.wav",
+                           "source":  "Matesu - Ekranoplan",
+                           "ext":  ".wav",
+                           "size":  85864610
+                       }
+                   ]
+    },
+    {
+        "title":  "Digital Disk",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Grime",
+                       "Dubstep"
+                   ],
+        "slug":  "digital-disk",
+        "sourceFolder":  "Matesu - Digital Disk (2020) [Grime, Dubstep]",
+        "tracks":  [
+                       {
+                           "title":  "BEAT THAT",
+                           "path":  "audio/digital-disk/1-matesu-beat-that.wav",
+                           "source":  "1. Matesu - BEAT THAT",
+                           "ext":  ".wav",
+                           "size":  56639798
+                       },
+                       {
+                           "title":  "DIGITAL",
+                           "path":  "audio/digital-disk/2-matesu-digital.wav",
+                           "source":  "2. Matesu - DIGITAL",
+                           "ext":  ".wav",
+                           "size":  36675134
+                       },
+                       {
+                           "title":  "HYSTERESIS",
+                           "path":  "audio/digital-disk/3-matesu-hysteresis.wav",
+                           "source":  "3. Matesu - HYSTERESIS",
+                           "ext":  ".wav",
+                           "size":  45985700
+                       },
+                       {
+                           "title":  "CHAMAS",
+                           "path":  "audio/digital-disk/4-matesu-chamas.wav",
+                           "source":  "4. Matesu - CHAMAS",
+                           "ext":  ".wav",
+                           "size":  50159006
+                       },
+                       {
+                           "title":  "TUBE",
+                           "path":  "audio/digital-disk/5-matesu-tube.wav",
+                           "source":  "5. Matesu - TUBE",
+                           "ext":  ".wav",
+                           "size":  51710444
+                       }
+                   ]
+    },
+    {
+        "title":  "Boladona Flip",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Grime"
+                   ],
+        "slug":  "boladona-flip",
+        "sourceFolder":  "Matesu - Boladona Flip (2020) [Grime]",
+        "tracks":  [
+                       {
+                           "title":  "Boladona Flip",
+                           "path":  "audio/boladona-flip/matesu-boladona-flip.wav",
+                           "source":  "Matesu - Boladona Flip",
+                           "ext":  ".wav",
+                           "size":  36636968
+                       }
+                   ]
+    },
+    {
+        "title":  "Almost Dusk",
+        "artist":  "Matesu",
+        "year":  2020,
+        "genres":  [
+                       "Ambient Jungle"
+                   ],
+        "slug":  "almost-dusk",
+        "sourceFolder":  "Matesu - Almost Dusk (2020) [Ambient Jungle]",
+        "tracks":  [
+                       {
+                           "title":  "Almost Dusk",
+                           "path":  "audio/almost-dusk/matesu-almost-dusk.wav",
+                           "source":  "Matesu - Almost Dusk",
+                           "ext":  ".wav",
+                           "size":  103672238
+                       }
+                   ]
+    },
+    {
+        "title":  "Cachorrada (Jersey Club Edit)",
+        "artist":  "Matesu",
+        "year":  2019,
+        "genres":  [
+                       "Jersey Club"
+                   ],
+        "slug":  "cachorrada-jersey-club-edit",
+        "sourceFolder":  "Matesu - Cachorrada (Jersey Club Edit) (2019) [Jersey Club]",
+        "tracks":  [
+                       {
+                           "title":  "Cachorrada",
+                           "path":  "audio/cachorrada-jersey-club-edit/cachorrada-matesu-jersey-club-remix.mp3",
+                           "source":  "Cachorrada (Matesu Jersey Club Remix)",
+                           "ext":  ".mp3",
+                           "size":  7054176
+                       }
+                   ]
+    },
+    {
+        "title":  "Unreleased",
+        "artist":  "Matesu",
+        "year":  null,
+        "genres":  [
+
+                   ],
+        "slug":  "unreleased",
+        "sourceFolder":  "Unreleased",
+        "tracks":  [
+                       {
+                           "title":  "EPROM - Hope",
+                           "path":  "audio/unreleased/eprom-hope-matesu-edit.wav",
+                           "source":  "EPROM - Hope (Matesu Edit)",
+                           "ext":  ".wav",
+                           "size":  47872292
+                       },
+                       {
+                           "title":  "Copao",
+                           "path":  "audio/unreleased/matesu-copao.mp3",
+                           "source":  "Matesu - Copao",
+                           "ext":  ".mp3",
+                           "size":  5769996
+                       },
+                       {
+                           "title":  "Vai Amor",
+                           "path":  "audio/unreleased/matesu-vai-amor.mp3",
+                           "source":  "Matesu - Vai Amor",
+                           "ext":  ".mp3",
+                           "size":  14335999
+                       },
+                       {
+                           "title":  "9vinho",
+                           "path":  "audio/unreleased/matesu-9vinho.mp3",
+                           "source":  "Matesu - 9vinho",
+                           "ext":  ".mp3",
+                           "size":  5769996
+                       },
+                       {
+                           "title":  "Atentado",
+                           "path":  "audio/unreleased/matesu-atentado.mp3",
+                           "source":  "Matesu - Atentado",
+                           "ext":  ".mp3",
+                           "size":  7750078
+                       },
+                       {
+                           "title":  "Transparente",
+                           "path":  "audio/unreleased/matesu-transparente.mp3",
+                           "source":  "Matesu - Transparente",
+                           "ext":  ".mp3",
+                           "size":  7129408
+                       },
+                       {
+                           "title":  "\u002704 Dub",
+                           "path":  "audio/unreleased/matesu-04-dub.mp3",
+                           "source":  "Matesu - \u002704 Dub",
+                           "ext":  ".mp3",
+                           "size":  8147139
+                       }
+                   ]
+    }
 ]
