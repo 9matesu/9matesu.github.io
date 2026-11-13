@@ -52,9 +52,15 @@ html, body {
   --map-ink-2: rgba(245, 245, 247, 0.72);
   --map-ink-3: rgba(245, 245, 247, 0.52);
   --map-ink-4: rgba(245, 245, 247, 0.34);
-  --map-grid: rgba(245, 245, 247, 0.22);
+  --map-grid: rgba(245, 245, 247, 0.15);
   --map-accent: #f5f5f7;
   --map-shade: #080808;
+  /* Cores oficiais do Metrô de São Paulo */
+  --metro-1: #0055A5;
+  --metro-2: #008542;
+  --metro-3: #EE3124;
+  --metro-4: #FED304;
+  --metro-5: #9B3894;
 }
 
 #viewport {
@@ -196,6 +202,8 @@ html, body {
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
+  width: 100%;
+  max-width: 176px;
 }
 
 .bio-text a {
@@ -238,6 +246,12 @@ html, body {
 .bio-text b {
   color: var(--text-bright);
   font-weight: 500;
+}
+
+/* Marcações (@) ficam sem o fio embaixo: são nomes, não links de leitura */
+.bio-text a.mention,
+.bio-text a.mention:hover {
+  border-bottom-color: transparent;
 }
 
 .bio-links {
@@ -801,63 +815,65 @@ html, body {
 }
 
 .map-grain {
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
+  display: none;
+}
+
+.map-caption {
+  display: none !important;
 }
 
 .map-contour {
   fill: none;
-  stroke: var(--map-ink-4);
-  stroke-width: 0.7;
+  stroke: rgba(245, 245, 247, 0.28);
+  stroke-width: 0.75px;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-  opacity: 0.55;
+  opacity: 0.45;
 }
 
 .map-contour.major {
-  stroke: var(--map-ink-3);
-  stroke-width: 1.1;
+  stroke: rgba(245, 245, 247, 0.45);
+  stroke-width: 1.15px;
   opacity: 0.6;
 }
 
-/* ------------------------------------------------- rotas da árvore
-   Cada ramo é uma linha de metrô em preto e branco: a espessura revela
-   a hierarquia, a cor não muda. */
+/* ------------------------------------------------- rotas do metrô (estilo Metrô de SP)
+   Linhas grossas, cores vivas por linha, junções arredondadas. */
 .map-route {
   fill: none;
-  stroke: var(--map-accent);
-  stroke-width: 3.2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  stroke-width: 7px;
   vector-effect: non-scaling-stroke;
   transition: stroke-width 0.18s ease, opacity 0.18s ease;
 }
 
 .map-route.main {
-  stroke-width: 4;
+  stroke-width: 8px;
+  stroke: #777777;
 }
 
 .map-route.trunk {
-  stroke-width: 5;
+  stroke-width: 8px;
 }
 
 .map-route.branch {
-  stroke-width: 3.2;
+  stroke-width: 6px;
 }
 
 .map-route.active {
-  stroke-width: 5.5;
+  stroke-width: 11px;
+  filter: drop-shadow(0 0 6px currentColor);
 }
 
-/* O trem passando sai de cena: a linha fica lisa e contínua. */
-.map-flow {
-  display: none;
-}
+/* Cores por linha — Metrô SP */
+.map-route.line-1 { stroke: var(--metro-1); }
+.map-route.line-2 { stroke: var(--metro-2); }
+.map-route.line-3 { stroke: var(--metro-3); }
+.map-route.line-4 { stroke: var(--metro-4); }
+.map-route.line-5 { stroke: var(--metro-5); }
 
-/* ------------------------------------------------- marcas: os itens
-   Os pontos acompanham o zoom, as etiquetas não: o nome continua do
-   mesmo tamanho na tela e sempre se sobrepõe ao relevo. */
+/* ------------------------------------------------- marcas: estações do metrô */
 .map-mark {
   cursor: pointer;
 }
@@ -867,154 +883,158 @@ html, body {
 }
 
 .map-mark-dot {
-  fill: var(--map-paper);
-  stroke: var(--map-ink);
-  stroke-width: 3;
-  r: 12;
+  fill: #ffffff;
+  stroke: #333333;
+  stroke-width: 3.5px;
+  r: 9;
   transition: r 0.16s ease, fill 0.16s ease, stroke 0.16s ease;
 }
 
 .map-mark-halo {
   fill: none;
-  stroke: var(--map-ink);
-  stroke-width: 1.6;
-  r: 24;
+  stroke: #ffffff;
+  stroke-width: 2px;
+  r: 16;
   opacity: 0;
   transition: opacity 0.16s ease;
 }
 
-.map-mark.l2 .map-mark-dot {
-  r: 16;
-  stroke-width: 3.4;
-}
+/* Cores das estações por linha */
+.map-mark.line-1 .map-mark-dot { stroke: var(--metro-1); }
+.map-mark.line-2 .map-mark-dot { stroke: var(--metro-2); }
+.map-mark.line-3 .map-mark-dot { stroke: var(--metro-3); }
+.map-mark.line-4 .map-mark-dot { stroke: var(--metro-4); }
+.map-mark.line-5 .map-mark-dot { stroke: var(--metro-5); }
 
-.map-mark.l2 .map-mark-halo {
-  r: 30;
+.map-mark.l2 .map-mark-dot {
+  r: 10;
+  stroke-width: 3.5px;
 }
 
 .map-mark.l1 .map-mark-dot {
-  r: 22;
-  stroke-width: 4;
+  r: 12;
+  stroke-width: 4px;
 }
 
-.map-mark.l1 .map-mark-halo {
-  r: 38;
-}
-
-/* As raízes são os marcos da carta */
+/* Terminais (raízes) — o próprio badge circular do Metrô SP atua como estação */
 .map-mark.root .map-mark-dot {
-  r: 34;
-  stroke-width: 5.5;
-  stroke: var(--map-accent);
+  display: none;
 }
 
 .map-mark.root .map-mark-halo {
-  r: 54;
-  stroke-width: 2;
+  r: 22;
+  stroke-width: 2px;
 }
 
 .map-mark:hover .map-mark-dot {
-  r: 16;
-}
-
-.map-mark.l2:hover .map-mark-dot {
-  r: 21;
-}
-
-.map-mark.l1:hover .map-mark-dot {
-  r: 28;
-}
-
-.map-mark.root:hover .map-mark-dot {
-  r: 42;
+  r: 12;
 }
 
 .map-mark:hover .map-mark-halo,
 .map-mark:focus .map-mark-halo {
-  opacity: 0.45;
+  opacity: 0.35;
 }
 
-/* As folhas são as estações terminais: ponto de contorno amarelo */
+/* Folhas (estações terminais de ponta) */
 .map-mark.leaf .map-mark-dot {
-  stroke: var(--map-accent);
+  r: 8;
+  stroke-width: 3px;
 }
 
 .map-mark.active .map-mark-dot {
-  fill: var(--map-ink);
+  fill: #ffffff;
 }
 
 .map-mark.current .map-mark-dot {
-  fill: var(--map-accent);
-  stroke: var(--map-accent);
+  fill: #ffffff;
+  stroke-width: 5px;
 }
 
 .map-mark.current .map-mark-halo {
-  stroke: var(--map-accent);
-  opacity: 0.85;
+  opacity: 0.6;
 }
 
-/* A novidade é um ponto cheio amarelo com o nome em caixa */
+/* Novidades */
 .map-mark.novidade .map-mark-dot {
-  fill: var(--map-accent);
-  stroke: var(--map-accent);
+  fill: #FED304;
+  stroke: #EE3124;
 }
 
 .map-mark-box {
-  fill: var(--map-paper);
-  stroke: var(--map-ink);
+  fill: #141414;
+  stroke: #ffffff;
   stroke-width: 1;
-  rx: 2;
+  rx: 3;
 }
 
 .map-mark-label {
-  fill: var(--map-ink);
+  fill: #ffffff;
   font-family: var(--font-base);
   font-size: 13px;
-  letter-spacing: -0.005em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   paint-order: stroke;
-  stroke: var(--map-paper);
-  stroke-width: 3.5;
+  stroke: #141414;
+  stroke-width: 4px;
   stroke-linejoin: round;
 }
 
 .map-mark.l2 .map-mark-label {
-  font-size: 12.5px;
-  fill: var(--map-ink-2);
+  font-size: 12px;
+  fill: #e0e0e0;
 }
 
 .map-mark.l3 .map-mark-label {
-  font-size: 11.5px;
-  fill: var(--map-ink-2);
+  font-size: 11px;
+  fill: #c0c0c0;
 }
 
 .map-mark.l1 .map-mark-label {
   font-size: 14px;
+  font-weight: 600;
 }
 
 .map-mark.root .map-mark-label {
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.map-mark.leaf .map-mark-label {
+  font-size: 12px;
+  font-weight: 500;
+  fill: rgba(255, 255, 255, 0.88);
 }
 
 .map-mark.novidade .map-mark-label {
   font-size: 12px;
-  fill: var(--map-ink);
+  fill: #ffffff;
 }
 
-/* O número da linha: placa cheia sobre a raiz, como nas placas de metrô */
+/* Badges estilo Metrô SP — círculos coloridos com número branco */
 .map-badge-rect {
-  fill: var(--map-accent);
-  stroke: var(--map-paper);
-  stroke-width: 1;
+  rx: 13;
+  stroke: #ffffff;
+  stroke-width: 2px;
 }
+
+.map-mark.line-1 .map-badge-rect { fill: var(--metro-1); }
+.map-mark.line-2 .map-badge-rect { fill: var(--metro-2); }
+.map-mark.line-3 .map-badge-rect { fill: var(--metro-3); }
+.map-mark.line-4 .map-badge-rect { fill: var(--metro-4); }
+.map-mark.line-5 .map-badge-rect { fill: var(--metro-5); }
 
 .map-badge-num {
-  fill: var(--map-paper);
+  fill: #ffffff;
   font-family: var(--font-base);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+/* Linha 4 Amarela: texto preto no Metrô de SP */
+.map-mark.line-4 .map-badge-num {
+  fill: #111111;
 }
 
 .map-mark.active .map-mark-label {
@@ -3367,11 +3387,12 @@ body.xp-resizing * {
    e o verde da Luna. */
 .start-btn {
   height: 32px;
-  padding: 0 16px 0 7px;
+  padding: 0 18px;
   margin-right: 4px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 0;
   border: 1px solid #1d5b06;
   border-left: 0;
   border-radius: 0 10px 10px 0;
@@ -4384,7 +4405,7 @@ body.xp-resizing * {
         olá! aqui é onde organizo meus projetos & serviços. mas antes, sou matesu, <b>produtor musical</b>, <b>designer gráfico</b>, <b>desenvolvedor</b>, <b>fotógrafo</b>, <b>engenheiro de mixagem</b>, <b>dj</b>, <b>diretor criativo</b>, <b>social media</b> [...]. amo criar e explorar inúmeras formas de arte.
       </div>
       <div class="bio-text">
-        desde 2015 mantenho projetos entre setores audiovisuais diversos e trabalho com o <a href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo criado por <a href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e eu.
+        desde 2015 mantenho projetos entre setores audiovisuais diversos e trabalho com o <a class="mention" href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo criado por <a class="mention" href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e eu.
       </div>
       <div class="bio-text">
         opero entre todo o espectro eletrônico e além. sempre aberto a novos desafios e elaborações.
@@ -4406,9 +4427,8 @@ body.xp-resizing * {
           <span>instagram</span>
         </a>
         <a href="https://matesu.bandcamp.com" target="_blank" rel="noopener" title="bandcamp">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <path d="M1.7 11.3 L8 2.6 L14.3 11.3" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M4.2 8.8 h7.6" stroke-linecap="round"></path>
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M0.9 12.4 5.8 3.6h9.3l-4.9 8.8z" fill="currentColor" stroke="none"></path>
           </svg>
           <span>bandcamp</span>
         </a>
@@ -4487,9 +4507,9 @@ body.xp-resizing * {
       <main id="stage"></main>
     </div>
 
-    <!-- Mapa do site: carta topográfica com todos os itens pré-mapeados -->
-    <section id="map-sheet" aria-label="mapa topográfico do site">
-      <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa topográfico com todos os itens do site">
+    <!-- Mapa do site: diagrama estilo Metrô de SP com linhas coloridas -->
+    <section id="map-sheet" aria-label="mapa metropolitano do site">
+      <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa metropolitano com todas as estações">
         <defs>
           <filter id="map-noise-filter" x="0" y="0" width="100%" height="100%">
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence>
@@ -4505,7 +4525,6 @@ body.xp-resizing * {
         </g>
         <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
       </svg>
-      <span class="map-caption" aria-hidden="true">mapa do site: arraste, role para ampliar</span>
     </section>
 
 
@@ -4704,7 +4723,6 @@ body.xp-resizing * {
   <!-- Barra de tarefas -->
   <div id="taskbar">
     <button id="start-btn" class="start-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="start-menu">
-      <span class="xp-flag" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span class="start-label">iniciar</span>
     </button>
 
@@ -5232,9 +5250,10 @@ function xpPlay(name, vol) {
     xpSoundCache[name] = audio;
   }
   try {
-    audio.currentTime = 0;
-    audio.volume = vol == null ? 0.5 : vol;
-    var playing = audio.play();
+    // ponytail: cloneNode evita truncar som em cliques rápidos
+    var clone = audio.cloneNode();
+    clone.volume = vol == null ? 0.5 : vol;
+    var playing = clone.play();
     if (playing && playing.catch) playing.catch(function() {});
   } catch (e) {}
 }
@@ -5262,41 +5281,9 @@ function playOpenSound() {
   xpPlay(XP_CLICK_SOUND, 0.5);
 }
 
-// O som de inicialização é do site: toca uma vez ao entrar, não ao abrir
-// o portfólio. Se o navegador bloquear antes de um gesto, a chamada é
-// repetida no primeiro clique/tecla.
-function xpStartup() {
-  if (xpStartupPlayed || xpMuted) return;
-  var audio = xpSoundCache.startup;
-  if (!audio) {
-    audio = new Audio("sfx/startup.wav");
-    audio.preload = "auto";
-    xpSoundCache.startup = audio;
-  }
-  try {
-    audio.currentTime = 0;
-    audio.volume = 0.42;
-    var playing = audio.play();
-    if (playing && playing.then) {
-      playing.then(function() { xpStartupPlayed = true; }).catch(function() {});
-    } else {
-      xpStartupPlayed = true;
-    }
-  } catch (e) {}
-}
-
-function xpStartupOnEntry() {
-  setTimeout(xpStartup, 300);
-  function retry() {
-    xpStartup();
-    if (xpStartupPlayed) {
-      document.removeEventListener("pointerdown", retry, true);
-      document.removeEventListener("keydown", retry, true);
-    }
-  }
-  document.addEventListener("pointerdown", retry, true);
-  document.addEventListener("keydown", retry, true);
-}
+// ponytail: startup sound removido — sem som de boot
+function xpStartup() {}
+function xpStartupOnEntry() {}
 
 // Popula a discografia a partir de discography.json
 // O arquivo é o SSOT: lançamentos, participações, ficha técnica, faixas e
@@ -7227,7 +7214,7 @@ function mapContoursInto(group, cols, rows, w, h, relief) {
   group.appendChild(frag);
 }
 
-// Só as curvas de nível: o resto do relevo sai para não brigar com os itens
+// Só as curvas de nível: o relevo topográfico de fundo
 function mapBuildTerrain() {
   if (!mapPaperRect) mapPaperRect = document.querySelector("#map-camera .map-paper-fill");
   if (!mapPaperRect) return;
@@ -7239,7 +7226,6 @@ function mapBuildTerrain() {
 
   MAP_COLS = Math.round(mapPaperW / 24);
   MAP_ROWS = Math.round(mapPaperH / 24);
-
   mapContoursInto(mapContours, MAP_COLS, MAP_ROWS, mapPaperW, mapPaperH, mapRelief);
 }
 
@@ -7256,195 +7242,190 @@ function mapRootKeys() {
   return sortKeys(keys, 0);
 }
 
-// Distância entre estações da mesma fila e entre as filas
-var MAP_STEP = 96;
-var MAP_GROUP_GAP = 44;
-var MAP_ROW_H = 200;
-var MAP_DIST_GAP = 300;
-var MAP_MARGIN = 170;
-
-function mapLeafCount(node) {
-  if (!node || typeof node !== "object") return 0;
-  if (isLeaf(node)) return 1;
-  var n = 0;
-  var keys = Object.keys(node);
-  for (var i = 0; i < keys.length; i++) {
-    var c = node[keys[i]];
-    if (c && typeof c === "object") n += mapLeafCount(c);
-  }
-  return n;
-}
-
-// Árvore do distrito: cada nó sabe o nível, os filhos e o peso em folhas
-function mapClusterTree(rootKey, rootNode) {
-  var root = { key: rootKey, node: rootNode, level: 0, kids: [], path: [rootKey], parent: null, leaves: 0 };
-  (function walk(n) {
-    n.leaves = mapLeafCount(n.node);
-    if (isLeaf(n.node)) return;
-    var keys = Object.keys(n.node);
-    for (var i = 0; i < keys.length; i++) {
-      var k = keys[i];
-      var c = n.node[k];
-      if (!c || typeof c !== "object") continue;
-      var child = {
-        key: k, node: c, level: n.level + 1, kids: [],
-        path: n.path.concat([k]), parent: n, leaves: 0
-      };
-      n.kids.push(child);
-      walk(child);
-    }
-  })(root);
-  return root;
-}
-
-// Mede a extensão do distrito inteiro e a profundidade maior
-function mapDistrictSize(root) {
-  var out = { cursor: 0, depth: 0 };
-
-  function walk(n, depth) {
-    n.level = depth;
-    if (depth > out.depth) out.depth = depth;
-    if (!n.kids.length) {
-      n.x = out.cursor;
-      out.cursor += MAP_STEP;
-      return;
-    }
-    for (var i = 0; i < n.kids.length; i++) walk(n.kids[i], depth + 1);
-    n.x = (n.kids[0].x + n.kids[n.kids.length - 1].x) / 2;
-    out.cursor += MAP_GROUP_GAP;
-  }
-
-  walk(root, 0);
-  return out;
-}
-
-// Espalha as estações de uma fila para que nunca fiquem mais perto que
-// MAP_STEP: só empurra para a direita, de modo que cada distrito ocupa
-// o espaço que já é seu
-function mapSpreadRow(stations, minX) {
-  stations.sort(function(a, b) { return a.x - b.x; });
-  var x = stations.length ? stations[0].x : 0;
-  for (var i = 0; i < stations.length; i++) {
-    var want = Math.max(stations[i].x, x);
-    if (i > 0 && want - x < MAP_STEP) want = x + MAP_STEP;
-    stations[i].x = want;
-    x = want;
-  }
-}
-
-// ------------------------------------------------- montagem completa
-// Devolve a lista de marcas da carta, já com posição e rótulo. Os
-// distritos ficam enfileirados no meio da folha, todos na mesma linha.
+// ------------------------------------------------- montagem completa (Metrô de SP)
+// Distribuição por quadrantes e ângulos octilineares (45°), sem sobreposição de linhas
 function mapBuildLayout(tree, roots, newsPaths) {
   var items = [];
   var clusters = [];
   var newsSet = {};
   (newsPaths || []).forEach(function(p) { newsSet[p.join(" > ")] = true; });
 
-  var districts = [];
-  roots.forEach(function(rootKey) {
-    var node = tree[rootKey];
-    if (!node || typeof node !== "object") return;
-    var root = mapClusterTree(rootKey, node);
-    var size = mapDistrictSize(root);
-    districts.push({ key: rootKey, root: root, size: size, no: districts.length + 1 });
-  });
+  mapPaperW = 3500;
+  mapPaperH = 3000;
+  if (!mapPaperDims || mapPaperDims[0] !== mapPaperW || mapPaperDims[1] !== mapPaperH) {
+    mapPaperDims = [mapPaperW, mapPaperH];
+  }
+  var CX = 1800, CY = 1200;
 
-  // Espalha os distritos: as estações de cada fila nunca ficam mais
-  // perto que MAP_STEP, e os pais voltam para o meio dos filhos
-  function spreadDistrict(d) {
-    var rows = {};
-    (function rowsWalk(n) {
-      var r = rows[n.level] = rows[n.level] || [];
-      r.push(n);
-      if (n.kids) n.kids.forEach(rowsWalk);
-    })(d.root);
+  var posMap = {};
 
-    for (var L = d.size.depth; L >= 0; L--) {
-      if (rows[L]) mapSpreadRow(rows[L]);
-      if (L > 0 && rows[L - 1]) {
-        rows[L - 1].forEach(function(n) {
-          if (!n.kids.length) return;
-          n.x = (n.kids[0].x + n.kids[n.kids.length - 1].x) / 2;
+  // 1. Linha 1 - Azul (design) - Quadrante Noroeste (Top-Left)
+  if (tree['design']) {
+    posMap['design'] = { x: 1400, y: 800, slot: 'up', lineNo: 1, cluster: 'design' };
+    var subs = Object.keys(tree['design']);
+    var startY = 700;
+    subs.forEach(function(subKey, idx) {
+      var subPath = 'design > ' + subKey;
+      var sy = startY - idx * 160;
+      posMap[subPath] = { x: 1200, y: sy, slot: 'up', lineNo: 1, cluster: 'design' };
+      var subNode = tree['design'][subKey];
+      if (subNode && typeof subNode === 'object' && !isLeaf(subNode)) {
+        var leaves = Object.keys(subNode);
+        leaves.forEach(function(lk, lidx) {
+          var lp = subPath + ' > ' + lk;
+          var lx = 1040 - lidx * 140;
+          posMap[lp] = { x: lx, y: sy, slot: (lidx % 2 === 0 ? 'down' : 'up'), lineNo: 1, cluster: 'design' };
+          var lNode = subNode[lk];
+          if (lNode && typeof lNode === 'object' && !isLeaf(lNode)) {
+            var subLeaves = Object.keys(lNode);
+            subLeaves.forEach(function(slk, slidx) {
+              posMap[lp + ' > ' + slk] = { x: lx - 60, y: sy + (slidx === 0 ? -50 : 50), slot: (slidx === 0 ? 'up' : 'down'), lineNo: 1, cluster: 'design' };
+            });
+          }
         });
       }
-    }
-
-    var minX = null, maxX = null;
-    (function bounds(n) {
-      if (minX === null || n.x < minX) minX = n.x;
-      if (maxX === null || n.x > maxX) maxX = n.x;
-      if (n.kids) n.kids.forEach(bounds);
-    })(d.root);
-    d.minX = minX;
-    d.width = maxX - minX + MAP_MARGIN;
+    });
   }
 
-  districts.forEach(spreadDistrict);
+  // 2. Linha 3 - Vermelha (cultura) - Quadrante Nordeste Alto (Top-Right)
+  if (tree['cultura']) {
+    posMap['cultura'] = { x: 2150, y: 700, slot: 'right', lineNo: 3, cluster: 'cultura' };
+    var ckeys = Object.keys(tree['cultura']);
+    ckeys.forEach(function(ck, cidx) {
+      var cp = 'cultura > ' + ck;
+      var cy = 550 - cidx * 150;
+      posMap[cp] = { x: 2400, y: cy, slot: 'up', lineNo: 3, cluster: 'cultura' };
+      var cNode = tree['cultura'][ck];
+      if (cNode && typeof cNode === 'object' && !isLeaf(cNode)) {
+        Object.keys(cNode).forEach(function(sck, scidx) {
+          posMap[cp + ' > ' + sck] = { x: 2580 + scidx * 160, y: cy, slot: 'down', lineNo: 3, cluster: 'cultura' };
+        });
+      }
+    });
+  }
 
-  // A folha é medida da árvore inteira, sempre: o filtro muda as larguras
-  // e a folha se reacerta junto
-  var w = 0;
-  Object.keys(tree).forEach(function(rootKey, idx) {
-    var node = tree[rootKey];
-    if (!node || typeof node !== "object") return;
-    var probeRoot = mapClusterTree(rootKey, node);
-    var probe = { key: rootKey, root: probeRoot, size: mapDistrictSize(probeRoot) };
-    spreadDistrict(probe);
-    w += probe.width;
-    if (idx) w += MAP_DIST_GAP;
-  });
-  w += MAP_MARGIN * 2;
-  var wOld = mapPaperW;
-  mapPaperW = Math.max(1, Math.round(w));
-  mapPaperH = Math.max(1, Math.round(MAP_ROW_H * 3 + MAP_MARGIN * 2));
-  if (wOld !== mapPaperW) mapPaperDims = [mapPaperW, mapPaperH];
-
-  var total = 0;
-  districts.forEach(function(d, i) { total += d.width; if (i) total += MAP_DIST_GAP; });
-  var cx = Math.max(MAP_MARGIN, (mapPaperW - total) / 2);
-  var baseY = MAP_MARGIN;
-
-  districts.forEach(function(d) {
-    var minX = d.minX;
-    var baseX = cx;
-    cx = baseX + d.width + MAP_DIST_GAP;
-
-    var stack = [{ n: d.root }];
-    while (stack.length) {
-      var frame = stack.pop();
-      var n = frame.n;
-      for (var i = 0; i < n.kids.length; i++) stack.push({ n: n.kids[i] });
-
-      var slot = mapSlotOf(n);
-      var item = {
-        key: n.key,
-        path: n.path,
-        level: n.level,
-        rowY: baseY + n.level * MAP_ROW_H,
-        node: n.node,
-        isRoot: n.level === 0,
-        isLeaf: !!isLeaf(n.node),
-        isNews: !!newsSet[n.path.join(" > ")],
-        x: baseX + (n.x - minX),
-        y: baseY + n.level * MAP_ROW_H,
-        slot: slot,
-        dotR: MAP_DOT_R[n.level] || MAP_DOT_R[3],
-        cluster: d.key,
-        lineNo: d.no,
-        parent: n.parent ? {
-          key: n.parent.key,
-          path: n.parent.path,
-          level: n.parent.level,
-          isRoot: n.parent.level === 0,
-          x: baseX + (n.parent.x - minX),
-          y: baseY + n.parent.level * MAP_ROW_H
-        } : null
-      };
-      n.item = item;
-      items.push(item);
+  // 3. Linha 2 - Verde (música) - Quadrante Leste / Sudeste (Mid & Lower Right)
+  if (tree['música']) {
+    posMap['música'] = { x: 2200, y: 1200, slot: 'up', lineNo: 2, cluster: 'música' };
+    var m = tree['música'];
+    if (m['sobre mim']) {
+      posMap['música > sobre mim'] = { x: 2450, y: 1080, slot: 'up', lineNo: 2, cluster: 'música' };
     }
-    clusters.push({ key: d.key, x: baseX - minX, y: baseY, r: 0, items: items.filter(function(it) { return it.cluster === d.key; }) });
+    if (m['diretrizes técnicas']) {
+      posMap['música > diretrizes técnicas'] = { x: 2450, y: 1220, slot: 'up', lineNo: 2, cluster: 'música' };
+      var dkeys = Object.keys(m['diretrizes técnicas']);
+      dkeys.forEach(function(dk, didx) {
+        posMap['música > diretrizes técnicas > ' + dk] = { x: 2650 + didx * 150, y: 1220, slot: (didx % 2 === 0 ? 'down' : 'up'), lineNo: 2, cluster: 'música' };
+      });
+    }
+    if (m['participações']) {
+      posMap['música > participações'] = { x: 2450, y: 1400, slot: 'right', lineNo: 2, cluster: 'música' };
+      var partYears = Object.keys(m['participações']);
+      var py = 1520;
+      partYears.forEach(function(yk) {
+        var yp = 'música > participações > ' + yk;
+        posMap[yp] = { x: 2450, y: py, slot: 'left', lineNo: 2, cluster: 'música' };
+        var tracks = m['participações'][yk];
+        if (tracks && typeof tracks === 'object') {
+          Object.keys(tracks).forEach(function(tk, tidx) {
+            posMap[yp + ' > ' + tk] = { x: 2650 + tidx * 160, y: py, slot: 'up', lineNo: 2, cluster: 'música' };
+          });
+        }
+        py += 120;
+      });
+    }
+    if (m['lançamentos']) {
+      var lyStart = 2180;
+      posMap['música > lançamentos'] = { x: 2450, y: lyStart, slot: 'right', lineNo: 2, cluster: 'música' };
+      var years = Object.keys(m['lançamentos']);
+      var ly = lyStart + 120;
+      years.forEach(function(yk) {
+        var yp = 'música > lançamentos > ' + yk;
+        posMap[yp] = { x: 2450, y: ly, slot: 'left', lineNo: 2, cluster: 'música' };
+        var albums = m['lançamentos'][yk];
+        if (albums && typeof albums === 'object') {
+          Object.keys(albums).forEach(function(ak, aidx) {
+            posMap[yp + ' > ' + ak] = { x: 2650 + aidx * 160, y: ly, slot: 'down', lineNo: 2, cluster: 'música' };
+          });
+        }
+        ly += 120;
+      });
+    }
+  }
+
+  // 4. Linha 5 - Lilás (matesuposting) - Quadrante Sul Puro (Down)
+  if (tree['matesuposting']) {
+    posMap['matesuposting'] = { x: 1800, y: 1550, slot: 'right', lineNo: 5, cluster: 'matesuposting' };
+    var mpkeys = Object.keys(tree['matesuposting']);
+    mpkeys.forEach(function(mpk, mpidx) {
+      posMap['matesuposting > ' + mpk] = { x: 1800, y: 1750 + mpidx * 150, slot: 'right', lineNo: 5, cluster: 'matesuposting' };
+    });
+  }
+
+  // 5. Linha 4 - Amarela (desenvolvimento) - Quadrante Sudoeste (Bottom-Left)
+  if (tree['desenvolvimento']) {
+    posMap['desenvolvimento'] = { x: 1400, y: 1600, slot: 'left', lineNo: 4, cluster: 'desenvolvimento' };
+    var dkeys = Object.keys(tree['desenvolvimento']);
+    dkeys.forEach(function(dk, didx) {
+      var dp = 'desenvolvimento > ' + dk;
+      var dy = 1750 + didx * 160;
+      posMap[dp] = { x: 1200, y: dy, slot: 'up', lineNo: 4, cluster: 'desenvolvimento' };
+      var dNode = tree['desenvolvimento'][dk];
+      if (dNode && typeof dNode === 'object' && !isLeaf(dNode)) {
+        Object.keys(dNode).forEach(function(sdk, sdidx) {
+          posMap[dp + ' > ' + sdk] = { x: 1040 - sdidx * 160, y: dy, slot: 'down', lineNo: 4, cluster: 'desenvolvimento' };
+        });
+      }
+    });
+  }
+
+  // Montar items com hierarchy
+  function buildItem(p, parentItem) {
+    var key = p[p.length - 1];
+    var kStr = p.join(" > ");
+    var pos = posMap[kStr] || { x: 1800, y: 1200, slot: 'up', lineNo: 1, cluster: p[0] };
+    var node = resolve(p);
+    var it = {
+      key: key,
+      path: p,
+      level: p.length - 1,
+      node: node,
+      isRoot: p.length === 1,
+      isLeaf: !!isLeaf(node),
+      isNews: !!newsSet[kStr],
+      x: pos.x,
+      y: pos.y,
+      slot: pos.slot,
+      dotR: MAP_DOT_R[p.length - 1] || 12,
+      cluster: pos.cluster,
+      lineNo: pos.lineNo,
+      parent: parentItem ? {
+        key: parentItem.key,
+        path: parentItem.path,
+        level: parentItem.level,
+        isRoot: parentItem.isRoot,
+        lineNo: parentItem.lineNo,
+        x: parentItem.x,
+        y: parentItem.y
+      } : null
+    };
+    items.push(it);
+    if (node && typeof node === 'object' && !isLeaf(node)) {
+      Object.keys(node).forEach(function(childKey) {
+        buildItem(p.concat([childKey]), it);
+      });
+    }
+  }
+
+  roots.forEach(function(rk) {
+    buildItem([rk], null);
+  });
+
+  roots.forEach(function(rk) {
+    clusters.push({
+      key: rk,
+      items: items.filter(function(it) { return it.cluster === rk; })
+    });
   });
 
   return { items: items, clusters: clusters };
@@ -7452,13 +7433,6 @@ function mapBuildLayout(tree, roots, newsPaths) {
 
 // Raio de tela de cada nível, em unidades da folha
 var MAP_DOT_R = [26, 20, 16, 12];
-
-// Direção do rótulo: raiz escreve ao lado; nas filas, alterna cima/baixo
-function mapSlotOf(n) {
-  if (n.level === 0) return "right";
-  var idx = Math.round(n.x / MAP_STEP);
-  return idx % 2 === 0 ? "up" : "down";
-}
 
 // ------------------------------------------------- desenho da carta
 var mapSheet = document.getElementById("map-sheet");
@@ -7562,19 +7536,18 @@ function mapApplyCam() {
     for (var i = 0; i < mapInners.length; i++) {
       mapInners[i].setAttribute("transform", "scale(" + inv + ")");
     }
-    // O rótulo se afasta do ponto na medida em que o ponto cresce na tela
-    for (var j = 0; j < mapLabels.length; j++) {
-      var it = mapLabels[j].item;
-      var box = mapLabelBox(it, it.dotR * s);
-      mapLabels[j].label.setAttribute("x", String(box.x));
-      mapLabels[j].label.setAttribute("y", String(box.y));
-    }
-    // O número da linha fica logo acima da estação-raiz
-    for (var b = 0; b < mapBadges.length; b++) {
-      var bit = mapBadges[b].item;
-      var off = Math.min(bit.dotR * s, 26) + 26;
-      mapBadges[b].el.setAttribute("transform", "translate(0 " + (-off).toFixed(1) + ")");
-    }
+  }
+  // O rótulo se afasta do ponto na medida em que o ponto cresce na tela
+  for (var j = 0; j < mapLabels.length; j++) {
+    var it = mapLabels[j].item;
+    var box = mapLabelBox(it, it.dotR, s);
+    mapLabels[j].label.setAttribute("x", String(box.x));
+    mapLabels[j].label.setAttribute("y", String(box.y));
+    mapLabels[j].label.setAttribute("text-anchor", box.anchor);
+  }
+  // A raiz tem o badge circular no próprio centro, então o número não se desloca
+  for (var b = 0; b < mapBadges.length; b++) {
+    mapBadges[b].el.setAttribute("transform", "translate(0 0)");
   }
 
   var z = mapCam.z;
@@ -7586,77 +7559,122 @@ function mapApplyCam() {
 }
 
 // ------------------------------------------------- desenho das marcas
-function mapLabelBox(it, rpx) {
-  var off = Math.max(13, rpx + 7);
+function mapLabelBox(it, dotR, s) {
+  // O rótulo vive num grupo contra-escalado (1/s): x/y e o respiro vêm em
+  // pixels de tela, não em unidades da folha.
+  var dotScreenR = Math.max(dotR * s, 7);
+  var off = dotScreenR + (it.isRoot ? 15 : 10);
+  var att = off + 7;
   switch (it.slot) {
     case "right": return { x: off, y: 0, anchor: "start" };
     case "left": return { x: -off, y: 0, anchor: "end" };
-    case "down": return { x: 0, y: off + 5, anchor: "middle" };
-    default: return { x: 0, y: -(off + 5), anchor: "middle" };
+    case "down": return { x: 0, y: att + 4, anchor: "middle" };
+    default: return { x: 0, y: -att, anchor: "middle" };
   }
 }
 
-// O ramo: uma linha grossa e contínua. O pai desce reto até a fila dos
-// filhos e a barra horizontal atravessa a fila inteira, passando pelos
-// pontos. Nada de "Y" ou diagonais: é metrô, não fluxograma.
-function mapBranchPath(parent, kids) {
-  var rowY = kids[0].y;
-  var x1 = parent.x, x2 = parent.x;
-  kids.forEach(function(k) {
-    if (k.x < x1) x1 = k.x;
-    if (k.x > x2) x2 = k.x;
-  });
-
-  // filho único logo abaixo: cano reto
-  if (x2 - x1 < 0.5) {
-    return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
-      "V" + mapNum(rowY);
+// O trecho entre duas estações, sempre em ângulos retos ou de 45° —
+// a gramática do diagrama do Metrô de SP. Se os eixos diferem, a
+// diagonal cobre o menor dos deslocamentos e o resto vai reto.
+function mapOctoPath(a, b) {
+  var dx = b.x - a.x;
+  var dy = b.y - a.y;
+  var adx = Math.abs(dx);
+  var ady = Math.abs(dy);
+  var sx = dx < 0 ? -1 : 1;
+  var sy = dy < 0 ? -1 : 1;
+  var pts = [[a.x, a.y]];
+  if (adx > ady) {
+    if (ady > 0) pts.push([a.x + sx * ady, b.y]);
+  } else if (ady > adx) {
+    if (adx > 0) pts.push([b.x, a.y + sy * adx]);
   }
+  pts.push([b.x, b.y]);
+  return pts;
+}
 
-  // tronco vertical do pai até a fila + barra horizontal contínua
-  return "M" + mapNum(parent.x) + " " + mapNum(parent.y) +
-    "V" + mapNum(rowY) +
-    "M" + mapNum(x1) + " " + mapNum(rowY) +
-    "H" + mapNum(x2);
+// Polylinha com quinas cortadas: cada vértice interno ganha um arco
+// curto, do jeito que o metrô dobra o cano na esquina.
+function mapRoundPath(pts, r) {
+  if (!pts || pts.length < 2) return "";
+  var d = "M" + mapNum(pts[0][0]) + " " + mapNum(pts[0][1]);
+  var last = pts[0];
+  for (var i = 1; i < pts.length - 1; i++) {
+    var p0 = pts[i - 1];
+    var p1 = pts[i];
+    var p2 = pts[i + 1];
+    if (p1[0] === last[0] && p1[1] === last[1]) continue;
+    var l1 = Math.sqrt((p1[0] - p0[0]) * (p1[0] - p0[0]) + (p1[1] - p0[1]) * (p1[1] - p0[1]));
+    var l2 = Math.sqrt((p2[0] - p1[0]) * (p2[0] - p1[0]) + (p2[1] - p1[1]) * (p2[1] - p1[1]));
+    var cut = Math.min(r, l1 * 0.5, l2 * 0.5);
+    if (cut < 1) {
+      d += "L" + mapNum(p1[0]) + " " + mapNum(p1[1]);
+      last = p1;
+      continue;
+    }
+    var e1 = [p1[0] + (p0[0] - p1[0]) / l1 * cut, p1[1] + (p0[1] - p1[1]) / l1 * cut];
+    var e2 = [p1[0] + (p2[0] - p1[0]) / l2 * cut, p1[1] + (p2[1] - p1[1]) / l2 * cut];
+    if (e1[0] !== last[0] || e1[1] !== last[1]) {
+      d += "L" + mapNum(e1[0]) + " " + mapNum(e1[1]);
+    }
+    d += "Q" + mapNum(p1[0]) + " " + mapNum(p1[1]) + " " + mapNum(e2[0]) + " " + mapNum(e2[1]);
+    last = e2;
+  }
+  var fin = pts[pts.length - 1];
+  if (fin[0] !== last[0] || fin[1] !== last[1]) {
+    d += "L" + mapNum(fin[0]) + " " + mapNum(fin[1]);
+  }
+  return d;
+}
+
+// Raio do cotovelo, em unidades da folha
+var MAP_ELBOW = 26;
+
+// O cano pai → estação, já dobrado e arredondado
+function mapSegPath(parent, child) {
+  return mapRoundPath(mapOctoPath(parent, child), MAP_ELBOW);
 }
 
 function mapRenderScene() {
   if (!mapRoute || !mapMarks || !mapLayout) return;
 
-  // Linhas: cada pai é um trilho que atravessa as estações dos filhos
-  var byKey = {};
-  mapLayout.items.forEach(function(it) {
-    if (it.parent) {
-      var key = it.parent.path.join(">");
-      if (!byKey[key]) byKey[key] = { parent: it.parent, kids: [] };
-      byKey[key].kids.push(it);
-    }
-  });
-
   var frag = document.createDocumentFragment();
 
-  // A linha principal: atravessa a fila das raízes de ponta a ponta e
-  // emenda os distritos uns nos outros
+  // A linha principal: um expresso cinza que visita as raízes em ordem,
+  // emendando os distritos uns nos outros por dentro do papel.
   var rootItems = mapLayout.items.filter(function(it) { return it.level === 0; });
   if (rootItems.length > 1) {
-    var x1 = rootItems[0].x, x2 = rootItems[0].x;
-    rootItems.forEach(function(it) {
-      if (it.x < x1) x1 = it.x;
-      if (it.x > x2) x2 = it.x;
-    });
+    var pts = [[rootItems[0].x, rootItems[0].y]];
+    for (var ri = 1; ri < rootItems.length; ri++) {
+      var prev = { x: pts[pts.length - 1][0], y: pts[pts.length - 1][1] };
+      pts = pts.concat(mapOctoPath(prev, rootItems[ri]).slice(1));
+    }
     var main = mapSvgEl("path", "map-route main");
-    var mainD = "M" + mapNum(x1) + " " + mapNum(rootItems[0].y) + "H" + mapNum(x2);
-    main.setAttribute("d", mainD);
+    main.setAttribute("d", mapRoundPath(pts, MAP_ELBOW));
     frag.appendChild(main);
   }
 
-  Object.keys(byKey).forEach(function(key) {
-    var g = byKey[key];
+  // As linhas coloridas: cada estação recebe o seu trecho até o pai,
+  // dobrado em ângulo reto ou 45°. Trechos de irmãos que correm na
+  // mesma rampa se cobrem e viram um cano só, como num diagrama real.
+  var kidsByParent = {};
+  mapLayout.items.forEach(function(it) {
+    if (!it.parent) return;
+    var key = it.parent.path.join(">");
+    if (!kidsByParent[key]) kidsByParent[key] = { parent: it.parent, kids: [] };
+    kidsByParent[key].kids.push(it);
+  });
+
+  Object.keys(kidsByParent).forEach(function(key) {
+    var g = kidsByParent[key];
     g.kids.sort(function(a, b) { return a.x - b.x; });
-    var cls = "map-route" + (g.parent.level === 0 ? " trunk" : g.parent.level >= 2 ? " branch" : "");
-    var p = mapSvgEl("path", cls);
-    p.setAttribute("d", mapBranchPath(g.parent, g.kids));
-    frag.appendChild(p);
+    var lineCls = " line-" + (g.parent.lineNo || 1);
+    var cls = "map-route" + lineCls + (g.parent.level === 0 ? " trunk" : g.parent.level >= 2 ? " branch" : "");
+    for (var i = 0; i < g.kids.length; i++) {
+      var p = mapSvgEl("path", cls);
+      p.setAttribute("d", mapSegPath(g.parent, g.kids[i]));
+      frag.appendChild(p);
+    }
   });
   mapRoute.innerHTML = "";
   mapRoute.appendChild(frag);
@@ -7668,7 +7686,8 @@ function mapRenderScene() {
   mapBadges = [];
   mapLayout.clusters.forEach(function(c) {
     c.items.forEach(function(it, idx) {
-      var cls = "map-mark l" + it.level +
+      var lineCls = " line-" + (it.lineNo || 1);
+      var cls = "map-mark" + lineCls + " l" + it.level +
         (it.isRoot ? " root" : it.isLeaf ? " leaf" : " branch") +
         (it.isNews ? " novidade" : "");
       var g = mapSvgEl("g", cls);
@@ -7691,18 +7710,22 @@ function mapRenderScene() {
       var tag = mapSvgEl("g", "map-mark-tag");
       inner.appendChild(tag);
 
-      var box = mapLabelBox(it, it.dotR);
+      var box = mapLabelBox(
+        it,
+        it.dotR,
+        mapBaseScale(mapSvg.clientWidth || 1, mapSvg.clientHeight || 1) * mapCam.z
+      );
       var label = mapSvgEl("text", "map-mark-label");
       label.setAttribute("x", String(box.x));
       label.setAttribute("y", String(box.y));
       if (box.anchor !== "start") label.setAttribute("text-anchor", box.anchor);
-      if (box.anchor === "middle") label.setAttribute("dominant-baseline", "middle");
+      label.setAttribute("dominant-baseline", "middle");
       label.textContent = it.isNews ? (it.node.title || it.key) : it.key;
       tag.appendChild(label);
 
       mapLabels.push({ label: label, tag: tag, item: it, boxed: it.isNews });
 
-      // A raiz ganha o número da linha, como nas placas de metrô
+      // A raiz ganha o número da linha, em círculo como nas placas do Metrô de SP
       if (it.isRoot) {
         var badge = mapSvgEl("g", "map-badge");
         var badgeRect = mapSvgEl("rect", "map-badge-rect");
@@ -7710,7 +7733,7 @@ function mapRenderScene() {
         badgeRect.setAttribute("y", "-13");
         badgeRect.setAttribute("width", "26");
         badgeRect.setAttribute("height", "26");
-        badgeRect.setAttribute("rx", "3");
+        badgeRect.setAttribute("rx", "13");
         badge.appendChild(badgeRect);
         var badgeNum = mapSvgEl("text", "map-badge-num");
         badgeNum.setAttribute("text-anchor", "middle");
@@ -7755,18 +7778,10 @@ function mapUpdateActive() {
 
   var frag = document.createDocumentFragment();
   for (var i = 0; i < path.length; i++) {
-    var target = path.slice(0, i + 1);
-    var it = mapFindItem(target);
-    var parentIt = it && it.parent;
-    if (!it || !parentIt) continue;
-    var kids = [];
-    var pk = it.parent.path.join(">");
-    mapLayout.items.forEach(function(c) {
-      if (c.parent && c.parent.path.join(">") === pk) kids.push(c);
-    });
-    var p = mapSvgEl("path", "map-route active");
-    kids.unshift(it);
-    p.setAttribute("d", mapBranchPath(it.parent, kids));
+    var it = mapFindItem(path.slice(0, i + 1));
+    if (!it || !it.parent) continue;
+    var p = mapSvgEl("path", "map-route active line-" + (it.lineNo || 1));
+    p.setAttribute("d", mapSegPath(it.parent, it));
     frag.appendChild(p);
   }
   mapRouteActive.innerHTML = "";
@@ -8342,8 +8357,10 @@ function deskGridSlots() {
 }
 
 function deskSlotRect(slot) {
-  var col = slot % deskGridSlots().cols;
-  var row = Math.floor(slot / deskGridSlots().cols);
+  var slots = deskGridSlots();
+  // coluna-principal: desce primeiro, depois vai para a direita (como XP)
+  var row = slot % slots.rows;
+  var col = Math.floor(slot / slots.rows);
   return {
     left: DESK_PAD_X + col * DESK_GRID_X,
     top: DESK_PAD_Y + row * DESK_GRID_Y
@@ -8417,12 +8434,14 @@ function deskSnapIcon(el, left, top) {
   var slots = deskGridSlots();
   var col = Math.max(0, Math.min(slots.cols - 1, Math.round((left - DESK_PAD_X) / DESK_GRID_X)));
   var row = Math.max(0, Math.min(slots.rows - 1, Math.round((top - DESK_PAD_Y) / DESK_GRID_Y)));
-  var r = deskSlotRect(row * slots.cols + col);
+  var r = deskSlotRect(col * slots.rows + row);
   return r;
 }
 
 // ------------------------------------------------- arrastar os ícones
 var deskIconDrag = null;
+
+var deskIconSuppressClick = false;
 
 function deskIconPointerDown(e) {
   if (e.button !== 0) return;
@@ -8432,8 +8451,12 @@ function deskIconPointerDown(e) {
   var origLeft = parseFloat(icon.style.left) || 0;
   var origTop = parseFloat(icon.style.top) || 0;
   var moved = false;
+  var pid = e.pointerId;
+
+  try { icon.setPointerCapture(pid); } catch (err) {}
 
   function move(ev) {
+    if (ev.pointerId !== pid) return;
     var dx = ev.clientX - startX;
     var dy = ev.clientY - startY;
     if (!moved) {
@@ -8443,25 +8466,38 @@ function deskIconPointerDown(e) {
       deskIconDrag = icon;
       deskSelectIcons([icon]);
     }
-    icon.style.left = (origLeft + dx) + "px";
-    icon.style.top = (origTop + dy) + "px";
+    // limitar ao viewport (taskbar = 34px)
+    var maxX = window.innerWidth - 24;
+    var maxY = window.innerHeight - 34 - 24;
+    var nx = Math.max(0, Math.min(maxX, origLeft + dx));
+    var ny = Math.max(0, Math.min(maxY, origTop + dy));
+    icon.style.left = nx + "px";
+    icon.style.top = ny + "px";
   }
 
   function up(ev) {
-    document.removeEventListener("pointermove", move);
-    document.removeEventListener("pointerup", up);
+    if (ev.pointerId !== pid) return;
+    icon.removeEventListener("pointermove", move);
+    icon.removeEventListener("pointerup", up);
+    try { icon.releasePointerCapture(pid); } catch (err) {}
     if (!moved) return;
     icon.classList.remove("dragging");
     deskIconDrag = null;
+    // encaixar na grade mais próxima, coluna-principal
     var r = deskSnapIcon(icon, parseFloat(icon.style.left), parseFloat(icon.style.top));
     icon.style.left = r.left + "px";
     icon.style.top = r.top + "px";
     deskSavePositions();
     playClick("open");
+    // suprimir o click que vem logo depois do arrasto
+    deskIconSuppressClick = true;
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { deskIconSuppressClick = false; });
+    });
   }
 
-  document.addEventListener("pointermove", move);
-  document.addEventListener("pointerup", up);
+  icon.addEventListener("pointermove", move);
+  icon.addEventListener("pointerup", up);
 }
 
 // ------------------------------------------------- seleção de ícones
@@ -10193,6 +10229,7 @@ function xpWireDesktop() {
 
       // clique simples seleciona e faz o estalo do XP
       icon.addEventListener("click", function(e) {
+        if (deskIconSuppressClick) return;
         e.stopPropagation();
         var now = Date.now();
         var isDouble = now - lastClick < 420;
