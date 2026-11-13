@@ -4299,7 +4299,17 @@ body.xp-resizing * {
   }
   .topbar-controls {
     width: 100%;
-    gap: 12px;
+    gap: 6px;
+    justify-content: space-between;
+  }
+  .topbar-controls .control {
+    flex: 1;
+  }
+  .topbar-controls .control .select-wrap {
+    width: 100%;
+  }
+  .topbar-controls .control .select-wrap select {
+    width: 100%;
   }
   #app-window #map-sheet {
     height: 38%;

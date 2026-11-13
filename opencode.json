@@ -20,6 +20,15 @@
         }
       }
     },
+    "crowllm": {
+      "name": "CrowLLM",
+      "npm": "@ai-sdk/openai-compatible",
+      "api": "https://crowllm.com/v1",
+      "options": {
+        "apiKey": "sk-0VJywqU0F39SmxUln0aJGV8GqQB6GSZ8KmD7bXVe1jGQWiEv",
+        "baseURL": "https://crowllm.com/v1"
+      }
+    },
     "ollama": {
       "name": "Ollama",
       "api": "http://localhost:11434"
