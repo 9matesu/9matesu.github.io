@@ -47,20 +47,90 @@ html, body {
   --bg-glass-strong: rgba(20, 20, 20, 0.88);
   --header-h: 52px;
   --map-h: 46vh;
-  --map-paper: #141414;
-  --map-ink: #f5f5f7;
-  --map-ink-2: rgba(245, 245, 247, 0.72);
-  --map-ink-3: rgba(245, 245, 247, 0.52);
-  --map-ink-4: rgba(245, 245, 247, 0.34);
-  --map-grid: rgba(245, 245, 247, 0.15);
-  --map-accent: #f5f5f7;
-  --map-shade: #080808;
-  /* Cores oficiais do Metrô de São Paulo */
-  --metro-1: #0055A5;
-  --metro-2: #008542;
-  --metro-3: #EE3124;
-  --metro-4: #FED304;
-  --metro-5: #9B3894;
+
+  /* A carta do metrô tem paleta PRÓPRIA e fixa: papel branco, tinta
+     preta, grid cinza. applyPalette() mexe só no restante do site —
+     se ele tocasse aqui, o branco seria revertido pro tema no boot. */
+  --map-paper: #ffffff;
+  --map-ink: #111111;
+  --map-ink-2: rgba(17, 17, 17, 0.72);
+  --map-ink-3: rgba(17, 17, 17, 0.52);
+  --map-ink-4: rgba(17, 17, 17, 0.34);
+  --map-grid: #dfe4e9;
+  --map-accent: #111111;
+  --map-shade: #f4f6f8;
+
+  /* Cores das linhas. O desenho usa --metro-1..5 (por lineNo);
+     os apelidos semânticos alimentam a legenda. */
+  --metro-express: #8a8f98;
+  --metro-1: #e63946;  /* design */
+  --metro-2: #1d6fb8;  /* música */
+  --metro-3: #e08a1e;  /* cultura */
+  --metro-4: #2a9d8f;  /* desenvolvimento */
+  --metro-5: #8757c9;  /* matesuposting */
+  --metro-design: var(--metro-1);
+  --metro-musica: var(--metro-2);
+  --metro-cultura: var(--metro-3);
+  --metro-dev: var(--metro-4);
+  --metro-social: var(--metro-5);
+
+  /* Cursores originais do Windows XP (pacote windows-xp-1). São os
+     arquivos .cur/.ani de verdade, extraídos em img/xp/cursors/. */
+  --cur-arrow:    url("img/xp/cursors/default_arrow.cur") 0 0, default;
+  --cur-hand:     url("img/xp/cursors/default_link.cur") 0 0, pointer;
+  --cur-grab:     url("img/xp/cursors/default_link.cur") 0 0, grab;
+  --cur-grabbing: url("img/xp/cursors/default_move.cur") 0 0, move;
+  --cur-move:     url("img/xp/cursors/default_move.cur") 0 0, move;
+  --cur-cross:    url("img/xp/cursors/cross.cur") 0 0, crosshair;
+  --cur-text:     url("img/xp/cursors/default_ibeam.cur") 0 0, text;
+  --cur-wait:     url("img/xp/cursors/default_wait.cur") 0 0, wait;
+  --cur-busy:     url("img/xp/cursors/default_busy.cur") 0 0, progress;
+  --cur-no:       url("img/xp/cursors/default_no.cur") 0 0, not-allowed;
+  --cur-help:     url("img/xp/cursors/default_helpsel.cur") 0 0, help;
+  --cur-ns:       url("img/xp/cursors/default_size4.cur") 0 0, ns-resize;
+  --cur-ew:       url("img/xp/cursors/default_size3.cur") 0 0, ew-resize;
+  --cur-nwse:     url("img/xp/cursors/default_size2.cur") 0 0, nwse-resize;
+  --cur-nesw:     url("img/xp/cursors/default_size1.cur") 0 0, nesw-resize;
+}
+
+/* A seta XP vale para a mesa inteira e para o chrome (botões, menus,
+   janelas). Sem !important: onde o seletor é mais específico — o painel
+   de ajustes (#stage .item / --cursor-item) e as estações do mapa
+   (.map-mark / --cur-hand) — a escolha correta prevalece. */
+body { cursor: var(--cur-arrow, default); }
+a, button, select, [role="button"], .desk-icon, .win-btn,
+.xp-file, .theme-swatch, .control, .gear-btn, .panel-close, .search-clear,
+.start-item, .start-txt {
+  cursor: var(--cur-arrow, pointer);
+}
+
+/* Legenda tipográfica das linhas, sobre a carta */
+.map-legend {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  background: var(--map-paper);
+  border: 1px solid var(--map-ink);
+  padding: 9px 11px;
+  font-family: var(--font-base);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--map-ink);
+  pointer-events: none;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
+}
+.map-legend-item { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
+.map-legend-item:first-child { margin-top: 0; }
+.map-legend-item:last-child { margin-bottom: 0; }
+.legend-swatch { width: 14px; height: 5px; flex-shrink: 0; }
+
+/* Estação de baldeação: retângulo branco onde o expresso cruza a linha */
+.map-interchange {
+  fill: var(--map-paper);
+  stroke: var(--map-ink);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
 }
 
 #viewport {
@@ -775,7 +845,13 @@ html, body {
   min-height: 0;
   flex-shrink: 0;
   overflow: hidden;
-  background: var(--map-paper, #141414);
+  /* Papel branco com grid de carta. O grid fica AQUI (não no :root),
+     num único bloco, para nenhum `background:` posterior zerar a imagem. */
+  background-color: var(--map-paper);
+  background-image:
+    linear-gradient(var(--map-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--map-grid) 1px, transparent 1px);
+  background-size: 40px 40px;
   border-top: 1px solid var(--border-subtle);
   user-select: none;
   contain: paint;
@@ -787,8 +863,14 @@ html, body {
   width: 100%;
   height: 100%;
   display: block;
-  cursor: var(--cursor-canvas, grab);
+  /* mão aberta do XP para agarrar a folha */
+  cursor: var(--cur-grab, grab);
   touch-action: none;
+}
+
+#map-canvas.grabbing {
+  /* mão fechada / move do XP enquanto arrasta */
+  cursor: var(--cur-grabbing, grabbing);
 }
 
 .map-caption {
@@ -806,12 +888,11 @@ html, body {
   opacity: 0.85;
 }
 
-#map-canvas.grabbing {
-  cursor: grabbing;
-}
-
 .map-paper-fill {
-  fill: var(--map-paper);
+  /* O papel é transparente: quem desenha o fundo branco + grid é o
+     #map-sheet (CSS), que cobre a viewport inteira. Assim o grid é
+     contínuo mesmo quando a câmera passeia além da folha. */
+  fill: none;
 }
 
 .map-grain {
@@ -824,17 +905,17 @@ html, body {
 
 .map-contour {
   fill: none;
-  stroke: rgba(245, 245, 247, 0.28);
+  stroke: rgba(17, 17, 17, 0.09);
   stroke-width: 0.75px;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-  opacity: 0.45;
+  opacity: 0.6;
 }
 
 .map-contour.major {
-  stroke: rgba(245, 245, 247, 0.45);
+  stroke: rgba(17, 17, 17, 0.16);
   stroke-width: 1.15px;
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 /* ------------------------------------------------- rotas do metrô (estilo Metrô de SP)
@@ -850,7 +931,7 @@ html, body {
 
 .map-route.main {
   stroke-width: 8px;
-  stroke: #777777;
+  stroke: var(--metro-express);
 }
 
 .map-route.trunk {
@@ -873,9 +954,19 @@ html, body {
 .map-route.line-4 { stroke: var(--metro-4); }
 .map-route.line-5 { stroke: var(--metro-5); }
 
+/* Cinturão: ligações entre distritos, mais finas e tracejadas para
+   não competir com as linhas-tronco. Cada uma herda a cor da linha
+   que recebe a conexão. */
+.map-route.map-link {
+  stroke-width: 3px;
+  stroke-dasharray: 2 10;
+  stroke-linecap: round;
+  opacity: 0.8;
+}
+
 /* ------------------------------------------------- marcas: estações do metrô */
 .map-mark {
-  cursor: pointer;
+  cursor: var(--cur-hand, pointer);
 }
 
 .map-mark:focus {
@@ -892,7 +983,7 @@ html, body {
 
 .map-mark-halo {
   fill: none;
-  stroke: #ffffff;
+  stroke: var(--map-ink);
   stroke-width: 2px;
   r: 16;
   opacity: 0;
@@ -961,32 +1052,33 @@ html, body {
 }
 
 .map-mark-box {
-  fill: #141414;
-  stroke: #ffffff;
+  fill: var(--map-paper);
+  stroke: var(--map-ink);
   stroke-width: 1;
   rx: 3;
 }
 
 .map-mark-label {
-  fill: #ffffff;
+  fill: var(--map-ink);
   font-family: var(--font-base);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
   paint-order: stroke;
-  stroke: #141414;
+  /* halo de papel branco atrás da tinta preta: legível sobre as linhas */
+  stroke: var(--map-paper);
   stroke-width: 4px;
   stroke-linejoin: round;
 }
 
 .map-mark.l2 .map-mark-label {
   font-size: 12px;
-  fill: #e0e0e0;
+  fill: var(--map-ink-2);
 }
 
 .map-mark.l3 .map-mark-label {
   font-size: 11px;
-  fill: #c0c0c0;
+  fill: var(--map-ink-3);
 }
 
 .map-mark.l1 .map-mark-label {
@@ -1003,18 +1095,18 @@ html, body {
 .map-mark.leaf .map-mark-label {
   font-size: 12px;
   font-weight: 500;
-  fill: rgba(255, 255, 255, 0.88);
+  fill: var(--map-ink-2);
 }
 
 .map-mark.novidade .map-mark-label {
   font-size: 12px;
-  fill: #ffffff;
+  fill: var(--map-ink);
 }
 
 /* Badges estilo Metrô SP — círculos coloridos com número branco */
 .map-badge-rect {
   rx: 13;
-  stroke: #ffffff;
+  stroke: var(--map-paper);
   stroke-width: 2px;
 }
 
@@ -4315,8 +4407,13 @@ body.xp-resizing * {
     height: 38%;
     min-height: 140px;
   }
-  .map-caption {
-    display: none;
+  .map-legend {
+    top: 8px;
+    right: 8px;
+    bottom: auto;
+    left: auto;
+    font-size: 9px;
+    padding: 6px 8px;
   }
 }
 </style>
@@ -4519,6 +4616,13 @@ body.xp-resizing * {
 
     <!-- Mapa do site: diagrama estilo Metrô de SP com linhas coloridas -->
     <section id="map-sheet" aria-label="mapa metropolitano do site">
+      <div class="map-legend">
+        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-design)"></div> Design</div>
+        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-musica)"></div> Música</div>
+        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-cultura)"></div> Cultura</div>
+        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-dev)"></div> Dev</div>
+        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-express)"></div> Expresso</div>
+      </div>
       <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa metropolitano com todas as estações">
         <defs>
           <filter id="map-noise-filter" x="0" y="0" width="100%" height="100%">
@@ -4527,10 +4631,12 @@ body.xp-resizing * {
           </filter>
         </defs>
         <g id="map-camera">
-          <rect class="map-paper-fill" x="0" y="0" width="4160" height="1800"></rect>
+          <rect class="map-paper-fill" x="0" y="0" width="3600" height="3000"></rect>
           <g id="map-contours"></g>
           <g id="map-route"></g>
+          <g id="map-links"></g>
           <g id="map-route-active"></g>
+          <g id="map-interchanges"></g>
           <g id="map-marks"></g>
         </g>
         <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
@@ -5541,13 +5647,15 @@ var FONTS = [
   { id: "courier", name: "courier", stack: '"Courier New", Courier, monospace' }
 ];
 
+// Cursores do XP de verdade: cada opção aponta para os .cur extraídos.
+// "canvas" é a mão sobre a carta; "item" é a seta/link sobre os clicáveis.
 var CURSORS = [
-  { id: "padrao", name: "padrão", canvas: "grab", item: "pointer" },
-  { id: "mao", name: "mão", canvas: "pointer", item: "pointer" },
-  { id: "cruz", name: "cruz", canvas: "crosshair", item: "crosshair" },
-  { id: "mover", name: "mover", canvas: "grab", item: "grab" },
-  { id: "texto", name: "texto", canvas: "text", item: "text" },
-  { id: "espera", name: "espera", canvas: "wait", item: "wait" }
+  { id: "padrao", name: "padrão",  canvas: 'url("img/xp/cursors/default_link.cur") 0 0, grab',     item: 'url("img/xp/cursors/default_arrow.cur") 0 0, default' },
+  { id: "mao",    name: "mão",     canvas: 'url("img/xp/cursors/default_link.cur") 0 0, pointer',  item: 'url("img/xp/cursors/default_link.cur") 0 0, pointer' },
+  { id: "cruz",   name: "cruz",    canvas: 'url("img/xp/cursors/cross.cur") 0 0, crosshair',       item: 'url("img/xp/cursors/cross.cur") 0 0, crosshair' },
+  { id: "mover",  name: "mover",   canvas: 'url("img/xp/cursors/default_move.cur") 0 0, move',     item: 'url("img/xp/cursors/default_move.cur") 0 0, move' },
+  { id: "texto",  name: "texto",   canvas: 'url("img/xp/cursors/default_ibeam.cur") 0 0, text',    item: 'url("img/xp/cursors/default_ibeam.cur") 0 0, text' },
+  { id: "espera", name: "espera",  canvas: 'url("img/xp/cursors/default_wait.cur") 0 0, wait',     item: 'url("img/xp/cursors/default_wait.cur") 0 0, wait' }
 ];
 
 var ajustes = {
@@ -5638,16 +5746,14 @@ function applyPalette() {
   root.setProperty("--bg-glass", withAlpha(bg, light ? 0.74 : 0.42));
   root.setProperty("--bg-glass-strong", withAlpha(bg, light ? 0.86 : 0.62));
 
-  // A carta do hero é o próprio tema em preto e branco
-  root.setProperty("--map-paper", bg);
-  root.setProperty("--map-ink", fg);
-  root.setProperty("--map-ink-2", mixColors(fg, bg, 0.8));
-  root.setProperty("--map-ink-3", mixColors(fg, bg, 0.46));
-  root.setProperty("--map-ink-4", mixColors(fg, bg, 0.34));
-  root.setProperty("--map-grid", mixColors(fg, bg, 0.2));
-  root.setProperty("--map-shade", mixColors(bg, "#000000", 0.5));
-  // Tudo em preto e branco: a linha do metrô fica na tinta do tema
-  root.setProperty("--map-accent", fg);
+  // A carta do metrô NÃO segue o tema do site: papel branco, tinta
+  // preta e grid cinza são fixos, definidos no :root. Limpamos qualquer
+  // valor inline que um boot anterior possa ter gravado, para o mapa
+  // nunca escurecer quando o usuário troca de tema.
+  ["--map-paper", "--map-ink", "--map-ink-2", "--map-ink-3", "--map-ink-4",
+   "--map-grid", "--map-shade", "--map-accent"].forEach(function(v) {
+    root.removeProperty(v);
+  });
 
   document.body.classList.toggle("light", light);
 
@@ -7260,12 +7366,13 @@ function mapBuildLayout(tree, roots, newsPaths) {
   var newsSet = {};
   (newsPaths || []).forEach(function(p) { newsSet[p.join(" > ")] = true; });
 
-  mapPaperW = 3500;
-  mapPaperH = 3000;
+  // A folha é dimensionada uma única vez, no topo do motor (mapPaperW/H).
+  // Aqui só sincronizamos o cache do relevo — nada de mudar o tamanho,
+  // senão a câmera e o papel passam a discordar em pleno pan.
   if (!mapPaperDims || mapPaperDims[0] !== mapPaperW || mapPaperDims[1] !== mapPaperH) {
     mapPaperDims = [mapPaperW, mapPaperH];
   }
-  var CX = 1800, CY = 1200;
+  var CX = mapPaperW / 2, CY = mapPaperH / 2;
 
   var posMap = {};
 
@@ -7452,11 +7559,21 @@ var mapPaperRect = document.querySelector("#map-camera .map-paper-fill");
 var mapContours = document.getElementById("map-contours");
 var mapRoute = document.getElementById("map-route");
 var mapRouteActive = document.getElementById("map-route-active");
+var mapLinks = document.getElementById("map-links");
+var mapInterchanges = document.getElementById("map-interchanges");
 var mapMarks = document.getElementById("map-marks");
 
-// Tamanho da folha: medido da árvore inteira e congelado
-var mapPaperW = 4160;
-var mapPaperH = 1800;
+// Tamanho da folha: único valor, usado por câmera, relevo e rect de papel.
+// Larga o bastante para o passeio horizontal; o grid de fundo é CSS e
+// contínuo, então ir além da folha nunca mostra um vazio sem carta.
+var mapPaperW = 3600;
+var mapPaperH = 3000;
+
+// Até onde a câmera pode sair da folha antes do limite duro.
+// Horizontal generoso ("explorar pra direita e esquerda"), vertical
+// contido. Livre, mas não infinito: a câmera sempre para nessas bordas.
+var MAP_PAN_X = 2400;
+var MAP_PAN_Y = 900;
 
 var mapPaperDims = [];
 var mapNewsPathsCache = [];
@@ -7518,15 +7635,21 @@ function mapBaseScale(vw, vh) {
   return Math.max(vw / mapPaperW, vh / mapPaperH);
 }
 
-// A câmera só anda dentro do papel: o relevo cobre a viewport inteira
-// em qualquer zoom, sem mapa infinito e sem borda vazia.
+// A câmera passeia horizontalmente para além da folha com folga, mas
+// encontra um limite duro: não é infinito. Como o grid é CSS contínuo,
+// nunca aparece borda vazia — só mais carta para explorar. No eixo Y
+// o passeio é contido para o diagrama não se perder de vista.
 function mapClampCam(vw, vh, s) {
   var hw = vw / 2 / s;
   var hh = vh / 2 / s;
-  if (hw * 2 >= mapPaperW) mapCam.cx = mapPaperW / 2;
-  else mapCam.cx = Math.max(hw, Math.min(mapPaperW - hw, mapCam.cx));
-  if (hh * 2 >= mapPaperH) mapCam.cy = mapPaperH / 2;
-  else mapCam.cy = Math.max(hh, Math.min(mapPaperH - hh, mapCam.cy));
+  var minX = -MAP_PAN_X + hw;
+  var maxX = mapPaperW + MAP_PAN_X - hw;
+  if (minX > maxX) mapCam.cx = mapPaperW / 2;
+  else mapCam.cx = Math.max(minX, Math.min(maxX, mapCam.cx));
+  var minY = -MAP_PAN_Y + hh;
+  var maxY = mapPaperH + MAP_PAN_Y - hh;
+  if (minY > maxY) mapCam.cy = mapPaperH / 2;
+  else mapCam.cy = Math.max(minY, Math.min(maxY, mapCam.cy));
 }
 
 // Contra-escala: as etiquetas mantêm o corpo na tela, os pontos seguem o zoom
@@ -7662,6 +7785,46 @@ function mapRenderScene() {
     var main = mapSvgEl("path", "map-route main");
     main.setAttribute("d", mapRoundPath(pts, MAP_ELBOW));
     frag.appendChild(main);
+  }
+
+  // Cinturão: além do expresso, as linhas coloridas se ligam umas às
+  // outras por fora, formando uma malha em vez de cinco ilhas. Cada
+  // ligação é octilinear e entra na cor de quem a recebe.
+  if (mapLinks) {
+    var lfrag = document.createDocumentFragment();
+    for (var li = 0; li < rootItems.length - 1; li++) {
+      var a = rootItems[li];
+      var b = rootItems[li + 1];
+      var beltY = Math.min(a.y, b.y) - 120;
+      var via = [
+        [a.x, a.y],
+        [a.x, beltY],
+        [b.x, beltY],
+        [b.x, b.y]
+      ];
+      var link = mapSvgEl("path", "map-route map-link line-" + (b.lineNo || 1));
+      link.setAttribute("d", mapRoundPath(via, MAP_ELBOW));
+      lfrag.appendChild(link);
+    }
+    mapLinks.innerHTML = "";
+    mapLinks.appendChild(lfrag);
+  }
+
+  // Baldeações: onde o expresso cinza cruza uma linha colorida, a
+  // estação vira um retângulo branco de contorno preto (padrão Metrô).
+  if (mapInterchanges) {
+    var ifrag = document.createDocumentFragment();
+    rootItems.forEach(function(r) {
+      var box = mapSvgEl("rect", "map-interchange");
+      box.setAttribute("x", String(mapNum(r.x - 15)));
+      box.setAttribute("y", String(mapNum(r.y - 15)));
+      box.setAttribute("width", "30");
+      box.setAttribute("height", "30");
+      box.setAttribute("rx", "3");
+      ifrag.appendChild(box);
+    });
+    mapInterchanges.innerHTML = "";
+    mapInterchanges.appendChild(ifrag);
   }
 
   // As linhas coloridas: cada estação recebe o seu trecho até o pai,
