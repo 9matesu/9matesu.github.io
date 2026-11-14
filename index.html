@@ -62,7 +62,6 @@ html, body {
 
   /* Cores das linhas. O desenho usa --metro-1..5 (por lineNo);
      os apelidos semânticos alimentam a legenda. */
-  --metro-express: #8a8f98;
   --metro-1: #e63946;  /* design */
   --metro-2: #1d6fb8;  /* música */
   --metro-3: #e08a1e;  /* cultura */
@@ -140,7 +139,7 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   width: 250px;
   min-width: 250px;
   height: 100vh;
-  padding: 24px 20px 24px 28px;
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -184,6 +183,7 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 .bio-top {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 12px;
 }
 
@@ -267,6 +267,8 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   hyphens: auto;
   width: 100%;
   max-width: 176px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .bio-text a {
@@ -324,6 +326,7 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   font-size: 12px;
   letter-spacing: -0.015em;
   margin-top: 6px;
+  width: 176px;
   border-top: 1px solid var(--border-subtle);
   padding-top: 8px;
 }
@@ -931,11 +934,6 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   transition: stroke-width 0.18s ease, opacity 0.18s ease;
 }
 
-.map-route.main {
-  stroke-width: 8px;
-  stroke: var(--metro-express);
-}
-
 .map-route.trunk {
   stroke-width: 8px;
 }
@@ -955,14 +953,12 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 .map-route.line-4 { stroke: var(--metro-4); }
 .map-route.line-5 { stroke: var(--metro-5); }
 
-/* Cinturão: ligações entre distritos, mais finas e tracejadas para
-   não competir com as linhas-tronco. Cada uma herda a cor da linha
-   que recebe a conexão. */
+/* Ligações entre distritos: mais finas que as linhas-tronco, contínuas
+   (sem tracejado), herdam a cor da linha que recebe a conexão. */
 .map-route.map-link {
   stroke-width: 3px;
-  stroke-dasharray: 2 10;
-  stroke-linecap: round;
-  opacity: 0.8;
+  stroke-linecap: butt;
+  opacity: 0.55;
 }
 
 /* ------------------------------------------------- marcas: estações do metrô
@@ -1014,6 +1010,12 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 .map-mark.leaf .map-mark-dot {
   r: 8;
 }
+
+/* Longe, as estações viram pontos finos: a rede lê como linha, não como bloco */
+#map-canvas[data-zoom="far"] .map-mark.l1 .map-mark-dot { r: 9; }
+#map-canvas[data-zoom="far"] .map-mark.l2 .map-mark-dot { r: 7; }
+#map-canvas[data-zoom="far"] .map-mark.leaf .map-mark-dot { r: 5; }
+#map-canvas[data-zoom="far"] .map-mark-core { r: 2; }
 
 /* Novidades: amarelo do Metrô */
 .map-mark.novidade {
@@ -1099,11 +1101,14 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   letter-spacing: 0;
 }
 
-/* Zoom: longe só os marcos, perto todos os nomes. Quem está escondido
-   aparece no hover e no foco do teclado. */
+/* Zoom: longe só as raízes; aproximando, entra um nível de cada vez.
+   Quem está escondido aparece no hover e no foco do teclado. */
+#map-canvas[data-zoom="far"] .map-mark.l1 .map-mark-tag,
 #map-canvas[data-zoom="far"] .map-mark.l2 .map-mark-tag,
 #map-canvas[data-zoom="far"] .map-mark.l3 .map-mark-tag,
-#map-canvas[data-zoom="mid"] .map-mark.l3 .map-mark-tag {
+#map-canvas[data-zoom="mid"] .map-mark.l2 .map-mark-tag,
+#map-canvas[data-zoom="mid"] .map-mark.l3 .map-mark-tag,
+#map-canvas[data-zoom="near"] .map-mark.l3 .map-mark-tag {
   opacity: 0;
 }
 
@@ -2701,33 +2706,6 @@ body:not(.light) .ink-dark {
   background: #aebdd0;
 }
 
-.wmp-tabs {
-  flex-shrink: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 1px;
-  height: 28px;
-  padding: 0 5px;
-  background: linear-gradient(180deg, #eef3fa 0%, #d9e2ee 55%, #c1cee1 100%);
-  border-bottom: 1px solid #687f9e;
-  overflow: hidden;
-}
-
-.wmp-tab {
-  height: 24px;
-  padding: 0 9px;
-  border: 1px solid transparent;
-  border-bottom: 0;
-  border-radius: 4px 4px 0 0;
-  background: transparent;
-  color: #1b3a63;
-  font-family: var(--font-xp);
-  font-size: 10px;
-  font-weight: 700;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
 .wmp-tab:hover {
   background: rgba(255, 255, 255, 0.5);
 }
@@ -2737,24 +2715,6 @@ body:not(.light) .ink-dark {
   background: linear-gradient(180deg, #ffffff 0%, #eef3fa 55%, #dfe8f4 100%);
   box-shadow: inset 0 1px 0 #fff;
   color: #14355f;
-}
-
-.wmp-tab.pink {
-  color: #b23a86;
-}
-
-.wmp-tab.link {
-  margin-left: auto;
-  padding-right: 2px;
-  border: 0;
-  background: none;
-  color: #24456f;
-  font-weight: 400;
-}
-
-.wmp-tab.link:hover {
-  text-decoration: underline;
-  background: none;
 }
 
 /* -------------------------------------------------------------- ferramentas */
@@ -3510,31 +3470,50 @@ body:not(.light) .ink-dark {
   color: #fff;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
-.wmp-viz-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 28px;
+/* Visualizador chapado: canvas real, barras solidas, sem gradiente */
+.wmp-viz-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.wmp-viz-mini {
+  height: 34px;
   margin: 8px 0 10px;
 }
-.wmp-viz-bar {
-  width: 5px;
-  background: linear-gradient(180deg, #ff4d4d 0%, #ffe04d 30%, #52e352 70%, #20b020 100%);
-  border-radius: 1px 1px 0 0;
-  height: 4px;
-  transition: height 0.12s ease;
+.wmp-viz-stage {
+  height: 240px;
+  border: 1px solid #2b4f84;
+  border-radius: 3px;
+  background: #08152b;
+  overflow: hidden;
 }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(1) { animation: wmpViz 0.6s infinite ease-in-out alternate; }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(2) { animation: wmpViz 0.45s 0.1s infinite ease-in-out alternate; }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(3) { animation: wmpViz 0.7s 0.2s infinite ease-in-out alternate; }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(4) { animation: wmpViz 0.5s 0.05s infinite ease-in-out alternate; }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(5) { animation: wmpViz 0.8s 0.15s infinite ease-in-out alternate; }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(6) { animation: wmpViz 0.55s 0.25s infinite ease-in-out alternate; }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(7) { animation: wmpViz 0.65s 0.12s infinite ease-in-out alternate; }
-.wmp-viz-bars.playing .wmp-viz-bar:nth-child(8) { animation: wmpViz 0.4s 0.18s infinite ease-in-out alternate; }
-@keyframes wmpViz {
-  0% { height: 4px; }
-  100% { height: 26px; }
+.wmp-live-box {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 460px;
+}
+.wmp-live-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.wmp-live-url {
+  flex: 1;
+  height: 24px;
+  background: #0d1e3a;
+  color: #fff;
+  border: 1px solid #4874b0;
+  padding: 0 6px;
+  font-family: var(--font-xp);
+  font-size: 10px;
+  border-radius: 2px;
+}
+.wmp-live-status {
+  font-size: 10px;
+  color: #9ec2ed;
+  min-height: 14px;
 }
 .wmp-now-meta-title {
   font-size: 14px;
@@ -3595,122 +3574,6 @@ body:not(.light) .ink-dark {
   font-weight: 700;
 }
 
-/* --- Media Guide (Release Grid) --- */
-.wmp-guide-filters {
-  display: flex;
-  gap: 5px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-.wmp-chip-btn {
-  padding: 3px 9px;
-  border: 1px solid #3c6194;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #244675, #142e54);
-  color: #d8e8fc;
-  font-family: var(--font-xp);
-  font-size: 10px;
-  cursor: pointer;
-}
-.wmp-chip-btn:hover {
-  background: #335d96;
-  color: #fff;
-}
-.wmp-chip-btn.active {
-  background: linear-gradient(180deg, #f7fbff, #c8daf2);
-  border-color: #658cbf;
-  color: #12345e;
-  font-weight: 700;
-}
-.wmp-guide-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 10px;
-}
-.wmp-guide-card {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  background: #19335a;
-  border: 1px solid #2d558c;
-  border-radius: 3px;
-  transition: transform 0.1s ease, background 0.1s ease;
-  cursor: pointer;
-}
-.wmp-guide-card:hover {
-  background: #23477d;
-  border-color: #5587cb;
-  transform: translateY(-2px);
-}
-.wmp-card-top {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 6px;
-}
-.wmp-card-cover {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-  border: 1px solid #4a74aa;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 15px;
-  color: #fff;
-  border-radius: 2px;
-}
-.wmp-card-info {
-  min-width: 0;
-  flex: 1;
-}
-.wmp-card-title {
-  font-weight: 700;
-  font-size: 11px;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.wmp-card-meta {
-  font-size: 9px;
-  color: #9ec2ea;
-}
-.wmp-card-genres {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  margin-top: 4px;
-}
-.wmp-genre-badge {
-  font-size: 8px;
-  padding: 1px 4px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 2px;
-  color: #cbe0fa;
-}
-
-/* --- Copy from CD (Rip) --- */
-.wmp-cd-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  padding: 6px 10px;
-  background: #1b3864;
-  border: 1px solid #365e96;
-  border-radius: 3px;
-}
-.wmp-select {
-  height: 22px;
-  background: #0d1e3a;
-  color: #fff;
-  border: 1px solid #4874b0;
-  padding: 0 4px;
-  font-family: var(--font-xp);
-  font-size: 10px;
-  border-radius: 2px;
-}
 .wmp-btn-action {
   height: 22px;
   padding: 0 10px;
@@ -3730,93 +3593,6 @@ body:not(.light) .ink-dark {
   opacity: 0.5;
   cursor: default;
 }
-.wmp-prog-wrap {
-  width: 100%;
-  height: 12px;
-  background: #09152a;
-  border: 1px solid #31588f;
-  border-radius: 2px;
-  overflow: hidden;
-  margin-top: 6px;
-}
-.wmp-prog-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(180deg, #5bf55b 0%, #21a821 100%);
-  transition: width 0.2s ease;
-}
-
-/* --- Radio Tuner --- */
-.wmp-radio-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.wmp-radio-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: #17325b;
-  border: 1px solid #2f5a94;
-  border-radius: 3px;
-}
-.wmp-radio-item:hover {
-  background: #1e4175;
-}
-.wmp-station-name {
-  font-weight: 700;
-  font-size: 12px;
-  color: #fff;
-}
-.wmp-station-genre {
-  font-size: 10px;
-  color: #9ec2ec;
-}
-.wmp-badge-air {
-  display: inline-block;
-  padding: 2px 6px;
-  background: #258c25;
-  color: #fff;
-  font-size: 8px;
-  font-weight: 700;
-  border-radius: 2px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-/* --- Copy to Device --- */
-.wmp-device-layout {
-  display: flex;
-  gap: 12px;
-}
-.wmp-device-pane {
-  flex: 1;
-  background: #0f2244;
-  border: 1px solid #2b5087;
-  border-radius: 3px;
-  padding: 10px;
-}
-
-/* --- Premium Services --- */
-.wmp-prem-card {
-  background: linear-gradient(135deg, #1b3562, #0d1e3d);
-  border: 1px solid #3c659e;
-  border-radius: 4px;
-  padding: 12px;
-  margin-bottom: 10px;
-}
-.wmp-badge-wait {
-  display: inline-block;
-  padding: 2px 6px;
-  background: #8e5812;
-  color: #ffe4a0;
-  font-size: 9px;
-  font-weight: 700;
-  border-radius: 2px;
-  text-transform: uppercase;
-}
-
 /* --- Skin Chooser --- */
 .wmp-skin-list {
   display: grid;
@@ -5301,7 +5077,6 @@ body.xp-resizing * {
 
 @media (prefers-reduced-motion: reduce) {
   .window,
-  .map-route.main,
   .intro-hint,
   #stage .col .item,
   #app-window.enter-anim #sidebar .bio-top > *,
@@ -5380,9 +5155,6 @@ body.xp-resizing * {
   }
   .wmp-nav-btn small {
     display: none;
-  }
-  .wmp-tab {
-    padding: 0 6px;
   }
   .wmp-list-head,
   .xp-wmp-track {
@@ -5497,18 +5269,6 @@ body.xp-resizing * {
     <button class="desk-icon" id="icon-sobre" type="button" aria-label="abrir sobre">
       <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/UserAccounts-48.png" alt=""></span>
       <span class="desk-icon-label">sobre</span>
-    </button>
-    <button class="desk-icon" id="icon-docs" type="button" aria-label="abrir documentos">
-      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/MyDocuments-48.png" alt=""></span>
-      <span class="desk-icon-label">documentos</span>
-    </button>
-    <button class="desk-icon" id="icon-music" type="button" aria-label="abrir música">
-      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/MyMusic-48.png" alt=""></span>
-      <span class="desk-icon-label">música</span>
-    </button>
-    <button class="desk-icon" id="icon-pictures" type="button" aria-label="abrir imagens">
-      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/MyPictures-48.png" alt=""></span>
-      <span class="desk-icon-label">imagens</span>
     </button>
     <button class="desk-icon" id="icon-player" type="button" aria-label="abrir media player">
       <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/WindowsMediaPlayer10-48.png" alt=""></span>
@@ -5690,7 +5450,7 @@ body.xp-resizing * {
         <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-musica)"></div> Música</div>
         <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-cultura)"></div> Cultura</div>
         <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-dev)"></div> Dev</div>
-        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-express)"></div> Expresso</div>
+        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-social)"></div> Posting</div>
       </div>
       <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa metropolitano com todas as estações">
         <defs>
@@ -5843,10 +5603,6 @@ body.xp-resizing * {
       <div class="start-col start-col--places">
         <p class="start-group-label">pastas</p>
 
-        <button class="start-item" type="button" role="menuitem" data-start="docs">
-          <img class="start-ico start-ico--sm" src="img/xp/MyDocuments.png" alt="">
-          <span class="start-txt"><b>meus documentos</b></span>
-        </button>
         <div class="start-row">
           <button class="start-item" type="button" role="menuitem" aria-haspopup="true" aria-expanded="false">
             <img class="start-ico start-ico--sm" src="img/xp/RecentDocuments.png" alt="">
@@ -5922,9 +5678,6 @@ body.xp-resizing * {
     <div class="quick-launch" role="toolbar" aria-label="acesso rápido">
       <button class="ql-btn" type="button" data-ql="computer" title="Meu Computador" aria-label="Meu Computador">
         <img src="img/xp/Computer-32.png" alt="">
-      </button>
-      <button class="ql-btn" type="button" data-ql="docs" title="Documentos" aria-label="Documentos">
-        <img src="img/xp/Documents-32.png" alt="">
       </button>
       <button class="ql-btn" type="button" data-ql="player" title="Windows Media Player" aria-label="Windows Media Player">
         <img src="img/xp/WindowsMediaPlayer10-32.png" alt="">
@@ -8674,25 +8427,28 @@ function mapBuildLayout(tree, roots, newsPaths) {
 
   // 1. Linha 1 - Azul (design) - Quadrante Noroeste (Top-Left)
   if (tree['design']) {
-    posMap['design'] = { x: 1400, y: 800, slot: 'up', lineNo: 1, cluster: 'design' };
+    posMap['design'] = { x: 1400, y: 800, slot: 'down', lineNo: 1, cluster: 'design' };
     var subs = Object.keys(tree['design']);
     var startY = 700;
     subs.forEach(function(subKey, idx) {
       var subPath = 'design > ' + subKey;
       var sy = startY - idx * 160;
-      posMap[subPath] = { x: 1200, y: sy, slot: 'up', lineNo: 1, cluster: 'design' };
+      posMap[subPath] = { x: 1200, y: sy, slot: 'left', lineNo: 1, cluster: 'design' };
       var subNode = tree['design'][subKey];
       if (subNode && typeof subNode === 'object' && !isLeaf(subNode)) {
         var leaves = Object.keys(subNode);
         leaves.forEach(function(lk, lidx) {
           var lp = subPath + ' > ' + lk;
-          var lx = 1040 - lidx * 140;
-          posMap[lp] = { x: lx, y: sy, slot: (lidx % 2 === 0 ? 'down' : 'up'), lineNo: 1, cluster: 'design' };
+          // Cada ramo desce em passo próprio: as fileiras nunca formam
+          // colunas alinhadas de estação (aquilo lia como planilha).
+          var lx = 1050 - lidx * 145 - (idx % 2) * 45;
+          var lyy = sy + (lidx % 2 === 0 ? -26 : 26) + (idx % 3) * 8;
+          posMap[lp] = { x: lx, y: lyy, slot: (lidx % 2 === 0 ? 'down' : 'up'), lineNo: 1, cluster: 'design' };
           var lNode = subNode[lk];
           if (lNode && typeof lNode === 'object' && !isLeaf(lNode)) {
             var subLeaves = Object.keys(lNode);
             subLeaves.forEach(function(slk, slidx) {
-              posMap[lp + ' > ' + slk] = { x: lx - 60, y: sy + (slidx === 0 ? -50 : 50), slot: (slidx === 0 ? 'up' : 'down'), lineNo: 1, cluster: 'design' };
+              posMap[lp + ' > ' + slk] = { x: lx - 70, y: lyy + (slidx === 0 ? -46 : 46), slot: (slidx === 0 ? 'up' : 'down'), lineNo: 1, cluster: 'design' };
             });
           }
         });
@@ -8719,7 +8475,7 @@ function mapBuildLayout(tree, roots, newsPaths) {
 
   // 3. Linha 2 - Verde (música) - Quadrante Leste / Sudeste (Mid & Lower Right)
   if (tree['música']) {
-    posMap['música'] = { x: 2200, y: 1200, slot: 'up', lineNo: 2, cluster: 'música' };
+    posMap['música'] = { x: 2200, y: 1200, slot: 'left', lineNo: 2, cluster: 'música' };
     var m = tree['música'];
     if (m['sobre mim']) {
       posMap['música > sobre mim'] = { x: 2450, y: 1080, slot: 'up', lineNo: 2, cluster: 'música' };
@@ -8732,36 +8488,42 @@ function mapBuildLayout(tree, roots, newsPaths) {
       });
     }
     if (m['participações']) {
-      posMap['música > participações'] = { x: 2450, y: 1400, slot: 'right', lineNo: 2, cluster: 'música' };
+      // O tronco dos anos desce em zigue-zague de 45°: cada ano avança ou
+      // recua na horizontal, então as faixas nunca formam colunas alinhadas.
+      posMap['música > participações'] = { x: 2330, y: 1380, slot: 'right', lineNo: 2, cluster: 'música' };
       var partYears = Object.keys(m['participações']);
-      var py = 1520;
-      partYears.forEach(function(yk) {
+      var py = 1470;
+      partYears.forEach(function(yk, pidx) {
         var yp = 'música > participações > ' + yk;
-        posMap[yp] = { x: 2450, y: py, slot: 'left', lineNo: 2, cluster: 'música' };
+        var px = 2330 + (pidx % 2 ? 110 : 0);
+        posMap[yp] = { x: px, y: py, slot: 'left', lineNo: 2, cluster: 'música' };
         var tracks = m['participações'][yk];
         if (tracks && typeof tracks === 'object') {
           Object.keys(tracks).forEach(function(tk, tidx) {
-            posMap[yp + ' > ' + tk] = { x: 2650 + tidx * 160, y: py, slot: 'up', lineNo: 2, cluster: 'música' };
+            posMap[yp + ' > ' + tk] = { x: px + 190 + tidx * 122, y: py + tidx * 20, slot: (tidx % 2 === 0 ? 'up' : 'down'), lineNo: 2, cluster: 'música' };
           });
         }
-        py += 120;
+        py += 126;
       });
     }
     if (m['lançamentos']) {
-      var lyStart = 2180;
-      posMap['música > lançamentos'] = { x: 2450, y: lyStart, slot: 'right', lineNo: 2, cluster: 'música' };
+      // Mesmo desenho, mas deslocado: as faixas dos dois grupos nunca
+      // coincidem em altura, e as capas nunca caem nas mesmas colunas.
+      var lxStart = 3260;
+      posMap['música > lançamentos'] = { x: lxStart, y: 1420, slot: 'right', lineNo: 2, cluster: 'música' };
       var years = Object.keys(m['lançamentos']);
-      var ly = lyStart + 120;
-      years.forEach(function(yk) {
+      var ly = 1500;
+      years.forEach(function(yk, yidx) {
         var yp = 'música > lançamentos > ' + yk;
-        posMap[yp] = { x: 2450, y: ly, slot: 'left', lineNo: 2, cluster: 'música' };
+        var lx = lxStart + (yidx % 2 ? 110 : 0);
+        posMap[yp] = { x: lx, y: ly, slot: 'left', lineNo: 2, cluster: 'música' };
         var albums = m['lançamentos'][yk];
         if (albums && typeof albums === 'object') {
           Object.keys(albums).forEach(function(ak, aidx) {
-            posMap[yp + ' > ' + ak] = { x: 2650 + aidx * 160, y: ly, slot: 'down', lineNo: 2, cluster: 'música' };
+            posMap[yp + ' > ' + ak] = { x: lx + 175 + aidx * 118, y: ly - aidx * 18, slot: (aidx % 2 === 0 ? 'down' : 'up'), lineNo: 2, cluster: 'música' };
           });
         }
-        ly += 120;
+        ly += 140;
       });
     }
   }
@@ -8878,7 +8640,7 @@ var mapTerrainSize = null;
 var MAP_ZOOM_MID = 1.9;
 var MAP_ZOOM_NEAR = 3.1;
 var MAP_ZOOM_DETAIL = 5.2;
-var MAP_ZOOM_MIN = 1;   // a folha inteira cobrindo a viewport
+var MAP_ZOOM_MIN = 0.4; // a folha inteira cobrindo a viewport (com folga p/ enquadrar)
 var MAP_ZOOM_MAX = 9;
 
 var mapCam = { cx: 0, cy: 0, z: MAP_ZOOM_MIN };
@@ -8892,6 +8654,10 @@ var mapSig = "";
 var mapPan = null;
 var mapBuilt = false;
 var mapCamReady = false;
+var mapCamUser = false;   // o visitante já enquadrou o mapa com as próprias mãos
+var mapFitItems = 0;
+var mapFitViewW = 0;
+var mapFitViewH = 0;
 var mapLastScale = 0;
 var mapInners = [];
 var mapLabels = [];
@@ -8938,7 +8704,7 @@ function mapSaveCam() {
   mapCamTimer = setTimeout(function() {
     mapCamTimer = null;
     try {
-      localStorage.setItem("matesu.mapcam", JSON.stringify({
+      localStorage.setItem("matesu.mapcam.v2", JSON.stringify({
         cx: Math.round(mapCam.cx), cy: Math.round(mapCam.cy), z: mapCam.z
       }));
     } catch (e) {}
@@ -8967,13 +8733,18 @@ function mapApplyCam() {
   if (!mapCamera || !mapSvg) return;
   var vw = mapSvg.clientWidth || 1;
   var vh = mapSvg.clientHeight || 1;
+  if (mapLayout && (Math.abs(vw - mapFitViewW) > 40 || Math.abs(vh - mapFitViewH) > 40)) {
+    mapFitViewW = vw;
+    mapFitViewH = vh;
+    mapFitCam();
+  }
   var s = mapBaseScale(vw, vh) * mapCam.z;
   mapClampCam(vw, vh, s);
   var tx = vw / 2 - mapCam.cx * s;
   var ty = vh / 2 - mapCam.cy * s;
   mapCamera.setAttribute("transform", "translate(" + tx.toFixed(2) + " " + ty.toFixed(2) + ") scale(" + s.toFixed(5) + ")");
 
-  // Câmera persistida: recarregar a página volta para o mesmo lugar
+  // Câmera persistida: o save é debounced, então o pan não martela o storage.
   mapSaveCam();
 
   if (!mapLastScale || s !== mapLastScale) {
@@ -9007,24 +8778,21 @@ function mapLabelBox(it) {
   }
 }
 
-// O trecho entre duas estações, sempre em ângulos retos ou de 45° —
-// a gramática do diagrama do Metrô de SP. Se os eixos diferem, a
-// diagonal cobre o menor dos deslocamentos e o resto vai reto.
+// O trecho entre duas estações: uma diagonal de 45° e um trecho reto,
+// como as linhas do Metrô de SP dobram no meio do mapa. Nunca curves
+// arbitrárias: só 0°, 45° ou 90°.
 function mapOctoPath(a, b) {
   var dx = b.x - a.x;
   var dy = b.y - a.y;
   var adx = Math.abs(dx);
   var ady = Math.abs(dy);
+  if (!adx || !ady || adx === ady) return [[a.x, a.y], [b.x, b.y]];
   var sx = dx < 0 ? -1 : 1;
   var sy = dy < 0 ? -1 : 1;
-  var pts = [[a.x, a.y]];
   if (adx > ady) {
-    if (ady > 0) pts.push([a.x + sx * ady, b.y]);
-  } else if (ady > adx) {
-    if (adx > 0) pts.push([b.x, a.y + sy * adx]);
+    return [[a.x, a.y], [a.x + sx * ady, b.y], [b.x, b.y]];
   }
-  pts.push([b.x, b.y]);
-  return pts;
+  return [[a.x, a.y], [b.x, a.y + sy * adx], [b.x, b.y]];
 }
 
 // Polylinha com quinas cortadas: cada vértice interno ganha um arco
@@ -9074,48 +8842,8 @@ function mapRenderScene() {
 
   var frag = document.createDocumentFragment();
 
-  // A linha principal: um expresso cinza que visita as raízes em ordem,
-  // emendando os distritos uns nos outros por dentro do papel.
-  var rootItems = mapLayout.items.filter(function(it) { return it.level === 0; });
-  if (rootItems.length > 1) {
-    var pts = [[rootItems[0].x, rootItems[0].y]];
-    for (var ri = 1; ri < rootItems.length; ri++) {
-      var prev = { x: pts[pts.length - 1][0], y: pts[pts.length - 1][1] };
-      pts = pts.concat(mapOctoPath(prev, rootItems[ri]).slice(1));
-    }
-    var main = mapSvgEl("path", "map-route main");
-    main.setAttribute("d", mapRoundPath(pts, MAP_ELBOW));
-    frag.appendChild(main);
-  }
-
-  // Cinturão: além do expresso, as linhas coloridas se ligam umas às
-  // outras por fora, formando uma malha em vez de cinco ilhas. Cada
-  // ligação é octilinear e entra na cor de quem a recebe.
-  if (mapLinks) {
-    var lfrag = document.createDocumentFragment();
-    for (var li = 0; li < rootItems.length - 1; li++) {
-      var a = rootItems[li];
-      var b = rootItems[li + 1];
-      var beltY = Math.min(a.y, b.y) - 120;
-      var via = [
-        [a.x, a.y],
-        [a.x, beltY],
-        [b.x, beltY],
-        [b.x, b.y]
-      ];
-      var link = mapSvgEl("path", "map-route map-link line-" + (b.lineNo || 1));
-      link.setAttribute("d", mapRoundPath(via, MAP_ELBOW));
-      lfrag.appendChild(link);
-    }
-    mapLinks.innerHTML = "";
-    mapLinks.appendChild(lfrag);
-  }
-
-  // Sem baldeação: nenhuma estação é marcada como intercâmbio. A rede
-  // se liga inteira pelas linhas coloridas e pela malha de integração.
-
   // As linhas coloridas: cada estação recebe o seu trecho até o pai,
-  // dobrado em ângulo reto ou 45°. Trechos de irmãos que correm na
+  // dobrado só em ângulos retos. Trechos de irmãos que correm na
   // mesma rampa se cobrem e viram um cano só, como num diagrama real.
   var kidsByParent = {};
   mapLayout.items.forEach(function(it) {
@@ -9139,48 +8867,34 @@ function mapRenderScene() {
   mapRoute.innerHTML = "";
   mapRoute.appendChild(frag);
 
-  // Malha de integração: as linhas se ligam umas às outras. Cada
-  // estação procura as estações mais próximas de outras linhas e ganha
-  // um trecho extra; com isso o diagrama vira uma rede contínua, e
-  // não cinco ilhas soltas. Nada disso é baldeação: é só ligação.
-  if (mapLinks && mapLayout.items.length) {
-    var stations = mapLayout.items.filter(function(it) {
-      return it.level >= 1 && isFinite(it.x) && isFinite(it.y);
+  // Ligação entre sistemas: uma única linha de integração liga as raízes
+  // numa corrente, sem atravessar os ramos. Traço contínuo, na cor de
+  // quem chega — não é uma linha à parte, é o mesmo mapa.
+  if (mapLinks) {
+    var rootsChain = mapLayout.items.filter(function(it) {
+      return it.level === 0 && isFinite(it.x) && isFinite(it.y);
     });
-    var lfrag2 = document.createDocumentFragment();
-    var used = {};
-    var added = 0;
-    var MAX_LINKS = 42;
-    var MAX_RADIUS = 720;
-    var PER_STATION = 2;
-    var picked = {};
-    for (var si = 0; si < stations.length && added < MAX_LINKS; si++) {
-      var sa = stations[si];
-      var cands = [];
-      for (var sj = 0; sj < stations.length; sj++) {
-        var sb = stations[sj];
-        if (sa.cluster === sb.cluster) continue;
-        var dx = sa.x - sb.x;
-        var dy = sa.y - sb.y;
-        var d = Math.sqrt(dx * dx + dy * dy);
-        if (d < MAX_RADIUS) cands.push({ item: sb, d: d });
-      }
-      cands.sort(function(a, b) { return a.d - b.d; });
-      var made = 0;
-      for (var ci = 0; ci < cands.length && made < PER_STATION; ci++) {
-        var best = cands[ci].item;
-        var pairKey = [sa.path.join(">"), best.path.join(">")].sort().join("~~");
-        if (used[pairKey]) continue;
-        used[pairKey] = true;
-        var mesh = mapSvgEl("path", "map-route map-link line-" + (best.lineNo || 1));
-        mesh.setAttribute("d", mapSegPath(sa, best));
-        lfrag2.appendChild(mesh);
-        added++;
-        made++;
-      }
-      picked[sa.path.join(">")] = made;
+    // Ordena em volta do centro do desenho: as ligações correm pela borda
+    // do mapa em vez de atravessar as linhas por dentro.
+    if (rootsChain.length > 2) {
+      var ax = 0, ay = 0;
+      rootsChain.forEach(function(it) { ax += it.x; ay += it.y; });
+      ax /= rootsChain.length;
+      ay /= rootsChain.length;
+      rootsChain.sort(function(a, b) {
+        return Math.atan2(a.y - ay, a.x - ax) - Math.atan2(b.y - ay, b.x - ax);
+      });
     }
-    mapLinks.appendChild(lfrag2);
+    var rfrag = document.createDocumentFragment();
+    for (var rj = 0; rj < rootsChain.length - 1; rj++) {
+      var ra = rootsChain[rj];
+      var rb = rootsChain[rj + 1];
+      var rlink = mapSvgEl("path", "map-route map-link line-" + (rb.lineNo || 1));
+      rlink.setAttribute("d", mapSegPath(ra, rb));
+      rfrag.appendChild(rlink);
+    }
+    mapLinks.innerHTML = "";
+    mapLinks.appendChild(rfrag);
   }
 
   // Marcas
@@ -9313,6 +9027,38 @@ function mapFindItem(targetPath) {
   return null;
 }
 
+// Enquadramento: a câmera abre com o desenho inteiro no quadro e uma
+// folga para os rótulos. Nada de nascer cortando um canto do mapa.
+function mapContentBox(pad) {
+  var b = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+  mapLayout.items.forEach(function(it) {
+    if (!isFinite(it.x) || !isFinite(it.y)) return;
+    var r = (it.dotR || 12) + pad;
+    if (it.x - r < b.minX) b.minX = it.x - r;
+    if (it.y - r < b.minY) b.minY = it.y - r;
+    if (it.x + r > b.maxX) b.maxX = it.x + r;
+    if (it.y + r > b.maxY) b.maxY = it.y + r;
+  });
+  return b;
+}
+
+function mapFitCam() {
+  if (!mapLayout || !mapLayout.items.length) return;
+  var vw = mapSvg ? mapSvg.clientWidth : 0;
+  var vh = mapSvg ? mapSvg.clientHeight : 0;
+  if (!vw || !vh) { vw = mapPaperW; vh = mapPaperH; }
+  var b = mapContentBox(150);
+  var base = mapBaseScale(vw, vh);
+  var zx = vw / Math.max(1, (b.maxX - b.minX) * base);
+  var zy = vh / Math.max(1, (b.maxY - b.minY) * base);
+  var z = Math.min(zx, zy);
+  mapCam = {
+    cx: (b.minX + b.maxX) / 2,
+    cy: (b.minY + b.maxY) / 2,
+    z: Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, z * 0.94))
+  };
+}
+
 // Desenha a rota e as marcas do caminho atual
 function mapRender() {
   if (!mapRoute || !mapMarks) return;
@@ -9324,21 +9070,19 @@ function mapRender() {
     mapLayout = mapBuildLayout(tree, roots, news);
     if (!mapCamReady) {
       var saved = null;
-      try { saved = JSON.parse(localStorage.getItem("matesu.mapcam") || "null"); } catch (e) {}
+      try { saved = JSON.parse(localStorage.getItem("matesu.mapcam.v2") || "null"); } catch (e) {}
       if (saved && isFinite(saved.cx) && isFinite(saved.cy) && isFinite(saved.z)) {
         mapCam = { cx: saved.cx, cy: saved.cy, z: saved.z };
+        mapCamUser = true;
       } else {
-        var firstRoot = null;
-        for (var fi = 0; fi < mapLayout.items.length; fi++) {
-          if (mapLayout.items[fi].level === 0) { firstRoot = mapLayout.items[fi]; break; }
-        }
-        mapCam = {
-          cx: firstRoot ? firstRoot.x : mapPaperW / 2,
-          cy: mapPaperH / 2,
-          z: MAP_ZOOM_MIN
-        };
+        mapFitCam();
       }
+    } else if (!mapCamUser && mapLayout.items.length !== mapFitItems) {
+      // a árvore cresceu (ou mudou) depois do primeiro desenho: reenquadra,
+      // desde que o visitante ainda não tenha enquadrado o mapa por conta própria
+      mapFitCam();
     }
+    mapFitItems = mapLayout.items.length;
     mapRenderScene();
     mapBuildTerrain();
     mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, !mapCamReady);
@@ -9423,30 +9167,50 @@ function mapFocusItem(it) {
 }
 
 if (mapSvg) {
-  // arrastar anda pela folha, sem sair dela
+  // arrastar anda pela folha, sem sair dela. O move é coalescido num
+  // requestAnimationFrame: um pan por frame, sem engasgo.
+  var mapPanRaf = 0;
+  var mapPanNext = null;
+
+  function mapPanFrame() {
+    mapPanRaf = 0;
+    if (!mapPanNext) return;
+    var rect = mapSvg.getBoundingClientRect();
+    var s = mapBaseScale(rect.width, rect.height) * mapCam.z;
+    mapCam.cx = mapPan.cx - (mapPanNext.clientX - mapPan.x) / s;
+    mapCam.cy = mapPan.cy - (mapPanNext.clientY - mapPan.y) / s;
+    mapPanNext = null;
+    mapApplyCam();
+  }
+
+  function mapPanEnd() {
+    if (!mapPan) return;
+    mapPan = null;
+    mapPanNext = null;
+    if (mapPanRaf) { cancelAnimationFrame(mapPanRaf); mapPanRaf = 0; }
+    mapSvg.classList.remove("grabbing");
+    mapSaveCam();
+  }
+
   mapSvg.addEventListener("pointerdown", function(e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     if (e.target.closest && e.target.closest(".map-mark")) return;
     mapPan = { x: e.clientX, y: e.clientY, cx: mapCam.cx, cy: mapCam.cy };
+    mapCamUser = true;
     mapSvg.classList.add("grabbing");
     try { mapSvg.setPointerCapture(e.pointerId); } catch(err) {}
     e.preventDefault();
   });
 
-  window.addEventListener("pointermove", function(e) {
+  mapSvg.addEventListener("pointermove", function(e) {
     if (!mapPan) return;
-    var rect = mapSvg.getBoundingClientRect();
-    var s = mapBaseScale(rect.width, rect.height) * mapCam.z;
-    mapCam.cx = mapPan.cx - (e.clientX - mapPan.x) / s;
-    mapCam.cy = mapPan.cy - (e.clientY - mapPan.y) / s;
-    mapApplyCam();
+    mapPanNext = e;
+    if (!mapPanRaf) mapPanRaf = requestAnimationFrame(mapPanFrame);
   });
 
-  window.addEventListener("pointerup", function() {
-    if (!mapPan) return;
-    mapPan = null;
-    mapSvg.classList.remove("grabbing");
-  });
+  mapSvg.addEventListener("pointerup", mapPanEnd);
+  mapSvg.addEventListener("pointercancel", mapPanEnd);
+  mapSvg.addEventListener("lostpointercapture", mapPanEnd);
 
   // a roda aproxima e afasta, sempre presa na folha
   mapSvg.addEventListener("wheel", function(e) {
@@ -9454,6 +9218,7 @@ if (mapSvg) {
     var before = mapPointerPos(e);
     var z = Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, mapCam.z * (e.deltaY < 0 ? 1.12 : 1 / 1.12)));
     if (z === mapCam.z) return;
+    mapCamUser = true;
     mapCam.z = z;
     var after = mapPointerPos(e);
     mapCam.cx += before.x - after.x;
@@ -9461,10 +9226,12 @@ if (mapSvg) {
     mapApplyCam();
   }, { passive: false });
 
-  // dois cliques reenquadram a folha inteira
+  // dois cliques reenquadram o desenho inteiro
   mapSvg.addEventListener("dblclick", function(e) {
     if (e.target.closest && e.target.closest(".map-mark")) return;
-    mapGoTo({ cx: mapPaperW / 2, cy: mapPaperH / 2, z: MAP_ZOOM_MIN }, true);
+    mapCamUser = false;
+    mapFitCam();
+    mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, true);
   });
 }
 
@@ -11388,6 +11155,7 @@ var wmpState = {
   covers: {},         // capas do sidecar
   folder: null,       // ano selecionado
   track: null,        // faixa em reprodução
+  live: false,        // tocando stream "ao vivo"
   audio: null,
   win: null,          // janela aberta
   query: "",          // busca atual
@@ -11522,14 +11290,10 @@ function xpOpenPlayer() {
       nav.setAttribute("aria-label", "modos do player");
 
       var navSpecs = [
-        ["now", "Now Playing", "agora tocando"],
-        ["guide", "Media Guide", "guia de midia"],
-        ["cd", "Copy from CD", "copiar"],
-        ["library", "Media Library", "biblioteca"],
-        ["radio", "Radio Tuner", "radio"],
-        ["device", "Copy to Device", "dispositivo"],
-        ["premium", "Premium Services", "premium"],
-        ["skin", "Skin Chooser", "skins"]
+        ["now", "Player", "agora tocando"],
+        ["skin", "Temas", "skins"],
+        ["viz", "Visualizador", "barras"],
+        ["live", "Ao vivo", "stream"]
       ];
 
       var navButtons = {};
@@ -11538,7 +11302,6 @@ function xpOpenPlayer() {
         b.type = "button";
         b.appendChild(document.createTextNode(spec[1]));
         b.appendChild(wmpEl("small", null, spec[2]));
-        if (spec[0] === "library") b.classList.add("active");
         b.addEventListener("click", function() {
           wmpGo(win, spec[0]);
         });
@@ -11547,43 +11310,6 @@ function xpOpenPlayer() {
       });
 
       var main = wmpEl("div", "wmp-main");
-
-      var tabs = wmpEl("div", "wmp-tabs");
-      var tabSpecs = ["Playlists", "Queue-It-Up", "Search", "Add"];
-      var tabButtons = {};
-      tabSpecs.forEach(function(label) {
-        var t = wmpEl("button", "wmp-tab", label);
-        t.type = "button";
-        if (label === "Playlists") t.classList.add("active");
-        if (label === "Queue-It-Up") t.classList.add("pink");
-        t.addEventListener("click", function() {
-          for (var k in tabButtons) tabButtons[k].classList.remove("active");
-          t.classList.add("active");
-          if (label === "Search") {
-            wmpGo(win, "library");
-            win.wmp.search.focus();
-            win.wmp.search.select();
-          } else if (label === "Playlists") {
-            wmpGo(win, "playlists");
-          } else if (label === "Queue-It-Up") {
-            wmpGo(win, "queue");
-          } else if (label === "Add") {
-            wmpGo(win, "add");
-          }
-        });
-        tabButtons[label] = t;
-        tabs.appendChild(t);
-      });
-
-      var albumInfo = wmpEl("button", "wmp-tab link", "View Album Info");
-      albumInfo.type = "button";
-      albumInfo.addEventListener("click", function() {
-        for (var k in tabButtons) tabButtons[k].classList.remove("active");
-        albumInfo.classList.add("active");
-        wmpGo(win, "album");
-      });
-      tabs.appendChild(albumInfo);
-      main.appendChild(tabs);
 
       var toolbar = wmpEl("div", "wmp-toolbar");
 
@@ -11630,7 +11356,7 @@ function xpOpenPlayer() {
       toolbar.appendChild(search);
 
       var chip = wmpEl("div", "wmp-view");
-      chip.appendChild(document.createTextNode("Now Playing"));
+      chip.appendChild(document.createTextNode("Biblioteca"));
       var chipSvg = document.createElement("span");
       chipSvg.innerHTML = wmpChevronSvg();
       chip.appendChild(chipSvg);
@@ -11741,8 +11467,6 @@ function xpOpenPlayer() {
       win.wmp = {
         nav: nav,
         navButtons: navButtons,
-        tabs: tabs,
-        tabButtons: tabButtons,
         side: side,
         list: list,
         listHead: listHead,
@@ -12017,16 +11741,9 @@ function wmpGo(win, mode) {
   panel.innerHTML = "";
 
   if (mode === "now") wmpRenderNowPlaying(win);
-  else if (mode === "guide") wmpRenderMediaGuide(win);
-  else if (mode === "cd") wmpRenderCDCopy(win);
-  else if (mode === "radio") wmpRenderRadio(win);
-  else if (mode === "device") wmpRenderDevice(win);
-  else if (mode === "premium") wmpRenderPremium(win);
   else if (mode === "skin") wmpRenderSkins(win);
-  else if (mode === "playlists") wmpRenderPlaylists(win);
-  else if (mode === "queue") wmpRenderQueue(win);
-  else if (mode === "add") wmpRenderAdd(win);
-  else if (mode === "album") wmpRenderAlbumInfo(win);
+  else if (mode === "viz") wmpRenderViz(win);
+  else if (mode === "live") wmpRenderLive(win);
 }
 
 // ------------------------------------------------- 1. Now Playing
@@ -12047,11 +11764,11 @@ function wmpRenderNowPlaying(win) {
   }
   art.appendChild(bigCover);
 
-  var bars = wmpEl("div", "wmp-viz-bars" + (isPlaying ? " playing" : ""));
-  for (var i = 0; i < 8; i++) {
-    bars.appendChild(wmpEl("div", "wmp-viz-bar"));
-  }
-  art.appendChild(bars);
+  var mini = document.createElement("canvas");
+  mini.className = "wmp-viz-canvas wmp-viz-mini";
+  mini._vizBars = 20;
+  art.appendChild(mini);
+  wmpVizRegister(mini);
 
   var tTitle = wmpEl("div", "wmp-now-meta-title", cur ? cur.track.title : "Nenhuma faixa em reproducao");
   var tSub = wmpEl("div", "wmp-now-meta-sub", cur ? (cur.release.artist + " \u2014 " + cur.release.title + " (" + cur.release.year + ")") : "Escolha uma faixa na fila ou biblioteca");
@@ -12089,350 +11806,195 @@ function wmpRenderNowPlaying(win) {
   p.appendChild(layout);
 }
 
-// ------------------------------------------------- 2. Media Guide
-function wmpRenderMediaGuide(win) {
-  var p = win.wmp.panel;
-  var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Media Guide \u2014 Catalogo de Lancamentos"));
-  var sub = wmpEl("span", "wmp-page-sub", wmpState.releases.length + " lancamentos catalogados");
-  head.appendChild(sub);
-  p.appendChild(head);
+// ------------------------------------------------- visualizador chapado
+// AnalyserNode real sobre o elemento de audio. Uma fonte por elemento:
+// criar MediaElementSource duas vezes no mesmo Audio mata o som.
+var wmpViz = { ctx: null, analyser: null, srcEl: null, raf: 0, canvases: [] };
 
-  var genres = ["Todos", "Jungle", "Grime", "Dubstep", "UK Garage", "Electronic", "Ambient"];
-  var activeGenre = "Todos";
-
-  var filters = wmpEl("div", "wmp-guide-filters");
-  var grid = wmpEl("div", "wmp-guide-grid");
-
-  function renderGrid() {
-    grid.innerHTML = "";
-    var rels = wmpState.releases.filter(function(r) {
-      if (activeGenre === "Todos") return true;
-      var gList = (r.genres || []).join(" ").toLowerCase();
-      return gList.indexOf(activeGenre.toLowerCase()) >= 0;
-    });
-
-    rels.forEach(function(r) {
-      var card = wmpEl("div", "wmp-guide-card");
-      var top = wmpEl("div", "wmp-card-top");
-      var cov = wmpEl("div", "wmp-card-cover");
-      wmpFillCover(cov, r);
-      top.appendChild(cov);
-
-      var info = wmpEl("div", "wmp-card-info");
-      var t = wmpEl("div", "wmp-card-title", r.title);
-      var m = wmpEl("div", "wmp-card-meta", r.artist + " \u00b7 " + r.year);
-      info.appendChild(t);
-      info.appendChild(m);
-      top.appendChild(info);
-      card.appendChild(top);
-
-      var gBox = wmpEl("div", "wmp-card-genres");
-      (r.genres || []).forEach(function(g) {
-        gBox.appendChild(wmpEl("span", "wmp-genre-badge", g));
-      });
-      card.appendChild(gBox);
-
-      var btnBar = wmpEl("div");
-      btnBar.style.marginTop = "8px";
-      btnBar.style.display = "flex";
-      btnBar.style.gap = "4px";
-
-      var bPlay = wmpEl("button", "wmp-btn-action", r.tracks.length ? "Tocar" : "Aguardando");
-      bPlay.type = "button";
-      bPlay.style.fontSize = "9px";
-      bPlay.style.height = "18px";
-      if (!r.tracks.length) bPlay.disabled = true;
-      bPlay.addEventListener("click", function(e) {
-        e.stopPropagation();
-        if (r.tracks.length) wmpPlayTrack(win, r, r.tracks[0]);
-      });
-      btnBar.appendChild(bPlay);
-
-      var bView = wmpEl("button", "wmp-chip-btn", "Ver Faixas");
-      bView.type = "button";
-      bView.style.fontSize = "9px";
-      bView.style.padding = "1px 6px";
-      bView.addEventListener("click", function() {
-        wmpState.folder = String(r.year);
-        wmpGo(win, "library");
-      });
-      btnBar.appendChild(bView);
-
-      card.appendChild(btnBar);
-      grid.appendChild(card);
-    });
+function wmpVizEnsure() {
+  var a = wmpState.audio;
+  if (!a) return null;
+  try {
+    if (!wmpViz.ctx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      wmpViz.ctx = new AC();
+    }
+    if (wmpViz.ctx.state === "suspended") wmpViz.ctx.resume();
+    if (wmpViz.srcEl !== a) {
+      var src = wmpViz.ctx.createMediaElementSource(a);
+      wmpViz.analyser = wmpViz.ctx.createAnalyser();
+      wmpViz.analyser.fftSize = 256;
+      wmpViz.analyser.smoothingTimeConstant = 0.72;
+      src.connect(wmpViz.analyser);
+      wmpViz.analyser.connect(wmpViz.ctx.destination);
+      wmpViz.srcEl = a;
+    }
+    return wmpViz.analyser;
+  } catch (e) {
+    return null;
   }
-
-  genres.forEach(function(g) {
-    var b = wmpEl("button", "wmp-chip-btn" + (g === "Todos" ? " active" : ""), g);
-    b.type = "button";
-    b.addEventListener("click", function() {
-      filters.querySelectorAll(".wmp-chip-btn").forEach(function(x) { x.classList.remove("active"); });
-      b.classList.add("active");
-      activeGenre = g;
-      renderGrid();
-    });
-    filters.appendChild(b);
-  });
-
-  p.appendChild(filters);
-  p.appendChild(grid);
-  renderGrid();
 }
 
-// ------------------------------------------------- 3. Copy from CD
-function wmpRenderCDCopy(win) {
+function wmpVizRegister(canvas) {
+  if (wmpViz.canvases.indexOf(canvas) < 0) wmpViz.canvases.push(canvas);
+  wmpVizEnsure();
+  wmpVizKick();
+}
+
+function wmpVizKick() {
+  if (!wmpViz.raf) wmpViz.raf = requestAnimationFrame(wmpVizFrame);
+}
+
+function wmpVizFrame() {
+  wmpViz.raf = 0;
+  var cvs = wmpViz.canvases.filter(function(c) { return c.isConnected; });
+  wmpViz.canvases = cvs;
+  if (!cvs.length) return;
+
+  var a = wmpState.audio;
+  var playing = !!(a && !a.paused);
+  var data = null;
+  if (playing) {
+    if (wmpVizEnsure() && wmpViz.srcEl === a) {
+      data = new Uint8Array(wmpViz.analyser.frequencyBinCount);
+      try { wmpViz.analyser.getByteFrequencyData(data); } catch (e) { data = null; }
+    }
+  }
+
+  cvs.forEach(function(cv) {
+    var cw = cv.clientWidth, ch = cv.clientHeight;
+    if (!cw || !ch) return;
+    if (cv.width !== cw || cv.height !== ch) { cv.width = cw; cv.height = ch; }
+    var g = cv.getContext("2d");
+    var n = cv._vizBars || 32;
+    var gap = 2;
+    var bw = Math.max(2, Math.floor((cw - gap * (n - 1)) / n));
+    var st = getComputedStyle(cv);
+    var color = st.color && st.color !== "rgba(0, 0, 0, 0)" ? st.color : "#4cc94c";
+    g.clearRect(0, 0, cw, ch);
+    g.fillStyle = color;
+    if (!cv._vizLevel || cv._vizLevel.length !== n) {
+      cv._vizLevel = [];
+      for (var z = 0; z < n; z++) cv._vizLevel.push(0);
+    }
+    for (var i = 0; i < n; i++) {
+      var v = 0;
+      if (data) {
+        // escala log: primeiras barras graves, ultimas agudos
+        var lo = Math.floor(Math.pow(i / n, 1.6) * data.length);
+        var hi = Math.max(lo + 1, Math.floor(Math.pow((i + 1) / n, 1.6) * data.length));
+        var sum = 0;
+        for (var j = lo; j < hi; j++) sum += data[j];
+        v = sum / (hi - lo) / 255;
+      }
+      v = Math.pow(v, 0.8);
+      var lvl = cv._vizLevel;
+      lvl[i] = v > lvl[i] ? v : lvl[i] * 0.86 + v * 0.14;
+      var h = Math.max(2, Math.round(lvl[i] * (ch - 2)));
+      g.fillRect(i * (bw + gap), ch - h, bw, h);
+    }
+  });
+  wmpViz.raf = requestAnimationFrame(wmpVizFrame);
+}
+
+// ------------------------------------------------- Visualizador (view)
+function wmpRenderViz(win) {
   var p = win.wmp.panel;
+  var cur = wmpState.track;
   var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Copy from CD \u2014 Ripear Faixas de CD"));
+  head.appendChild(document.createTextNode("Visualizador \u2014 Barras Chapadas"));
+  head.appendChild(wmpEl("span", "wmp-page-sub", "reativo ao audio de verdade"));
   p.appendChild(head);
 
-  var bar = wmpEl("div", "wmp-cd-bar");
-  bar.appendChild(wmpEl("span", null, "Drive (D:) Audio CD"));
+  var stage = wmpEl("div", "wmp-viz-stage");
+  var cv = document.createElement("canvas");
+  cv.className = "wmp-viz-canvas";
+  cv._vizBars = 48;
+  cv.style.color = "#4cc94c";
+  stage.appendChild(cv);
+  p.appendChild(stage);
+  wmpVizRegister(cv);
 
-  var sel = document.createElement("select");
-  sel.className = "wmp-select";
-  wmpState.releases.forEach(function(r, idx) {
-    var opt = document.createElement("option");
-    opt.value = String(idx);
-    opt.textContent = r.title + " (" + r.year + ") \u2014 " + r.tracks.length + " faixas";
-    sel.appendChild(opt);
-  });
-  bar.appendChild(sel);
+  var meta = wmpEl("div", "wmp-now-meta-sub", cur
+    ? cur.track.title + " \u2014 " + cur.release.title
+    : "toque uma faixa na biblioteca para o visualizador reagir");
+  meta.style.marginTop = "8px";
+  p.appendChild(meta);
+}
 
-  var bRip = wmpEl("button", "wmp-btn-action", "Copiar Musicas (Rip)");
-  bRip.type = "button";
-  bar.appendChild(bRip);
-  p.appendChild(bar);
+// ------------------------------------------------- Ao vivo (view)
+// Sem estacoes inventadas: uma URL de stream real, salva e tocada
+// pelo mesmo pipeline de audio do player.
+function wmpRenderLive(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Ao vivo"));
+  head.appendChild(wmpEl("span", "wmp-page-sub", "radio do matesu \u2014 em breve"));
+  p.appendChild(head);
 
-  var progWrap = wmpEl("div", "wmp-prog-wrap");
-  var progFill = wmpEl("div", "wmp-prog-fill");
-  progWrap.appendChild(progFill);
-  p.appendChild(progWrap);
+  var saved = "";
+  try { saved = localStorage.getItem("matesu.wmp.liveUrl") || ""; } catch (e) {}
 
-  var statusText = wmpEl("div", null, "Pronto para copiar. Escolha o album e clique em Copiar Musicas.");
-  statusText.style.margin = "6px 0 10px";
-  statusText.style.color = "#a5c4ec";
-  p.appendChild(statusText);
+  var box = wmpEl("div", "wmp-live-box");
 
-  var tableWrap = wmpEl("div");
-  p.appendChild(tableWrap);
+  var row = wmpEl("div", "wmp-live-row");
+  var input = document.createElement("input");
+  input.type = "url";
+  input.className = "wmp-live-url";
+  input.placeholder = "cole a URL do stream (mp3/aac/ogg, icecast ou shoutcast)";
+  input.value = saved;
+  row.appendChild(input);
 
-  function renderTable() {
-    tableWrap.innerHTML = "";
-    var rel = wmpState.releases[Number(sel.value) || 0];
-    if (!rel || !rel.tracks.length) {
-      tableWrap.textContent = "Nenhuma faixa presente no CD selecionado.";
+  var bPlay = wmpEl("button", "wmp-btn-action", "Tocar");
+  bPlay.type = "button";
+  row.appendChild(bPlay);
+  var bStop = wmpEl("button", "wmp-btn-action", "Parar");
+  bStop.type = "button";
+  row.appendChild(bStop);
+  box.appendChild(row);
+
+  var status = wmpEl("div", "wmp-live-status", saved ? "" : "o stream ainda nao existe; quando a radio estiver no ar, a URL entra aqui.");
+  box.appendChild(status);
+  p.appendChild(box);
+
+  bPlay.addEventListener("click", function() {
+    var url = input.value.trim();
+    if (!url) {
+      status.textContent = "cole uma URL primeiro.";
       return;
     }
-    rel.tracks.forEach(function(t, i) {
-      var row = wmpEl("div");
-      row.style.display = "flex";
-      row.style.alignItems = "center";
-      row.style.gap = "8px";
-      row.style.padding = "4px 8px";
-      row.style.borderBottom = "1px solid #1a3962";
-      var cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.checked = true;
-      row.appendChild(cb);
-      var num = wmpEl("span", null, (i + 1) + ".");
-      num.style.width = "20px";
-      row.appendChild(num);
-      var title = wmpEl("span", null, t.title);
-      title.style.flex = "1";
-      row.appendChild(title);
-      var stat = wmpEl("span", null, "Pendente");
-      stat.style.color = "#8fb3dc";
-      row.appendChild(stat);
-      tableWrap.appendChild(row);
-    });
-  }
-
-  sel.addEventListener("change", renderTable);
-  renderTable();
-
-  bRip.addEventListener("click", function() {
-    bRip.disabled = true;
-    statusText.textContent = "Copiando faixas para o computador em MP3 320 kbps...";
-    var step = 0;
-    var timer = setInterval(function() {
-      step += 10;
-      progFill.style.width = step + "%";
-      if (step >= 100) {
-        clearInterval(timer);
-        bRip.disabled = false;
-        statusText.textContent = "Copia concluida com sucesso! Faixas integradas a biblioteca.";
-        var stats = tableWrap.querySelectorAll("span:last-child");
-        stats.forEach(function(s) { s.textContent = "Copiado"; s.style.color = "#55ee55"; });
-      }
-    }, 120);
-  });
-}
-
-// ------------------------------------------------- 4. Radio Tuner
-function wmpRenderRadio(win) {
-  var p = win.wmp.panel;
-  var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Radio Tuner \u2014 Estacoes Virtuais do Matesu"));
-  head.appendChild(wmpEl("span", "wmp-page-sub", "Transmissao em 320 kbps"));
-  p.appendChild(head);
-
-  var stations = [
-    { name: "Blackmesa FM", freq: "98.5 FM", genre: "UK Garage / Speed Garage", kw: ["garage", "carnagarage"] },
-    { name: "Sublow 140", freq: "140.0 FM", genre: "Grime / Dubstep", kw: ["grime", "dubstep"] },
-    { name: "Atmospheric Jungle Network", freq: "160.4 FM", genre: "90s Atmospheric Jungle & DnB", kw: ["jungle", "drum and bass"] },
-    { name: "Leftover Ambient Sessions", freq: "88.1 FM", genre: "Ambient / Downtempo / Experimental", kw: ["ambient", "electronic"] },
-    { name: "Matesu 24/7 Shuffle", freq: "107.9 FM", genre: "Toda a Discografia em Sequencia", kw: [] }
-  ];
-
-  var list = wmpEl("div", "wmp-radio-grid");
-  stations.forEach(function(st) {
-    var card = wmpEl("div", "wmp-radio-item");
-
-    var info = wmpEl("div");
-    var top = wmpEl("div");
-    top.style.display = "flex";
-    top.style.alignItems = "center";
-    top.style.gap = "6px";
-    var nm = wmpEl("span", "wmp-station-name", st.name);
-    top.appendChild(nm);
-    var fq = wmpEl("span", null, "[" + st.freq + "]");
-    fq.style.color = "#f6d465";
-    fq.style.fontSize = "10px";
-    top.appendChild(fq);
-    info.appendChild(top);
-
-    var gn = wmpEl("div", "wmp-station-genre", st.genre);
-    info.appendChild(gn);
-    card.appendChild(info);
-
-    var bTune = wmpEl("button", "wmp-btn-action", "Sintonizar");
-    bTune.type = "button";
-    bTune.addEventListener("click", function() {
-      // Procura faixas que batem com a estacao
-      var matches = [];
-      wmpState.releases.forEach(function(r) {
-        var hit = !st.kw.length || st.kw.some(function(k) {
-          return (r.genres || []).join(" ").toLowerCase().indexOf(k) >= 0 || r.title.toLowerCase().indexOf(k) >= 0;
-        });
-        if (hit) {
-          r.tracks.forEach(function(t) { matches.push({ release: r, track: t }); });
-        }
+    try { localStorage.setItem("matesu.wmp.liveUrl", url); } catch (e) {}
+    var a = wmpGetAudio(win);
+    if (!a) return;
+    wmpState.live = true;
+    wmpState.track = null;
+    a.src = url;
+    a.volume = wmpState.volume == null ? 0.8 : wmpState.volume;
+    status.textContent = "conectando...";
+    a.addEventListener("playing", function() {
+      if (wmpState.live) status.textContent = "no ar: " + url;
+    }, { once: true });
+    a.addEventListener("error", function() {
+      if (wmpState.live) status.textContent = "stream indisponivel: " + url;
+    }, { once: true });
+    var pr = a.play();
+    if (pr && pr.catch) {
+      pr.catch(function() {
+        wmpState.live = false;
+        status.textContent = "stream indisponivel: " + url;
       });
-      if (matches.length) {
-        var pick = matches[Math.floor(Math.random() * matches.length)];
-        wmpPlayTrack(win, pick.release, pick.track);
-        showBalloon("radio tuner", "Sintonizado em " + st.name + " (" + st.freq + ")!");
-      }
-    });
-    card.appendChild(bTune);
-    list.appendChild(card);
+    }
+    wmpUpdatePlayButton(win);
   });
 
-  p.appendChild(list);
-}
-
-// ------------------------------------------------- 5. Copy to Device
-function wmpRenderDevice(win) {
-  var p = win.wmp.panel;
-  var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Copy to Device \u2014 Sincronizar com MP3 Player Portatil"));
-  p.appendChild(head);
-
-  var layout = wmpEl("div", "wmp-device-layout");
-
-  // Esquerda: Status do dispositivo
-  var left = wmpEl("div", "wmp-device-pane");
-  left.innerHTML = '<div style="font-weight:700;font-size:12px;color:#fff;margin-bottom:4px;">Dispositivo: Matesu Pocket MP3</div>' +
-    '<div style="color:#9ec2eb;font-size:10px;margin-bottom:8px;">Capacidade: 512 MB Flash USB</div>' +
-    '<div class="wmp-prog-wrap" style="height:14px;"><div class="wmp-prog-fill" style="width:38%;"></div></div>' +
-    '<div style="color:#cce0f5;font-size:9px;margin-top:4px;">194 MB usados \u00b7 318 MB livres</div>';
-  layout.appendChild(left);
-
-  // Direita: Faixas disponíveis para sincronizar
-  var right = wmpEl("div", "wmp-device-pane");
-  var rHead = wmpEl("div");
-  rHead.style.display = "flex";
-  rHead.style.justifyContent = "space-between";
-  rHead.style.alignItems = "center";
-  rHead.style.marginBottom = "8px";
-  rHead.appendChild(wmpEl("b", null, "Faixas para Sincronizar"));
-
-  var bSync = wmpEl("button", "wmp-btn-action", "Sincronizar");
-  bSync.type = "button";
-  rHead.appendChild(bSync);
-  right.appendChild(rHead);
-
-  var list = wmpEl("div");
-  list.style.maxHeight = "180px";
-  list.style.overflow = "auto";
-  var queue = wmpQueue().slice(0, 12);
-  queue.forEach(function(item) {
-    var r = wmpEl("label");
-    r.style.display = "flex";
-    r.style.alignItems = "center";
-    r.style.gap = "6px";
-    r.style.padding = "2px 0";
-    r.style.cursor = "pointer";
-    var chk = document.createElement("input");
-    chk.type = "checkbox";
-    chk.checked = true;
-    r.appendChild(chk);
-    r.appendChild(wmpEl("span", null, item.track.title + " \u2014 " + item.release.title));
-    list.appendChild(r);
-  });
-  right.appendChild(list);
-
-  bSync.addEventListener("click", function() {
-    bSync.disabled = true;
-    bSync.textContent = "Sincronizando...";
-    setTimeout(function() {
-      bSync.disabled = false;
-      bSync.textContent = "Sincronizado!";
-      showBalloon("copy to device", "Todas as faixas selecionadas foram sincronizadas!");
-    }, 1200);
-  });
-
-  layout.appendChild(right);
-  p.appendChild(layout);
-}
-
-// ------------------------------------------------- 6. Premium Services
-function wmpRenderPremium(win) {
-  var p = win.wmp.panel;
-  var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Premium Services \u2014 Proximos Lancamentos (2026)"));
-  head.appendChild(wmpEl("span", "wmp-page-sub", "Catalogo Autoral"));
-  p.appendChild(head);
-
-  var upcomings = wmpState.releases.filter(function(r) { return !r.tracks.length || String(r.year) === "2026"; });
-
-  var intro = wmpEl("div");
-  intro.style.marginBottom = "10px";
-  intro.style.color = "#b0ceee";
-  intro.textContent = "Os albuns abaixo ja fazem parte da estrutura oficial da discografia e estao aguardando o upload dos arquivos:";
-  p.appendChild(intro);
-
-  upcomings.forEach(function(r) {
-    var card = wmpEl("div", "wmp-prem-card");
-    var top = wmpEl("div");
-    top.style.display = "flex";
-    top.style.justifyContent = "space-between";
-    top.style.alignItems = "center";
-    top.appendChild(wmpEl("b", null, r.title + " (" + r.year + ")"));
-    top.appendChild(wmpEl("span", "wmp-badge-wait", "Aguardando Upload"));
-    card.appendChild(top);
-
-    var desc = wmpEl("div");
-    desc.style.color = "#99badf";
-    desc.style.fontSize = "10px";
-    desc.style.marginTop = "4px";
-    desc.textContent = "Generos: " + (r.genres || []).join(", ");
-    card.appendChild(desc);
-
-    p.appendChild(card);
+  bStop.addEventListener("click", function() {
+    wmpState.live = false;
+    var a = wmpState.audio;
+    if (a) { a.pause(); a.removeAttribute("src"); a.load(); }
+    status.textContent = "parado.";
+    wmpUpdatePlayButton(win);
+    wmpUpdateTime(win);
   });
 }
 
@@ -12491,179 +12053,6 @@ function wmpApplySkin(skinId) {
   else if (skinId === "classic") player.classList.add("wmp-skin-classic");
 }
 
-// ------------------------------------------------- 8. Playlists
-function wmpRenderPlaylists(win) {
-  var p = win.wmp.panel;
-  var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Playlists \u2014 Listas de Reproducao"));
-  p.appendChild(head);
-
-  var myPlaylists = [
-    { name: "Meus Favoritos", count: 8 },
-    { name: "Jungle & Breaks Essentials", count: 12 },
-    { name: "Sublow Grime / 140 Session", count: 7 }
-  ];
-
-  var list = wmpEl("div");
-  myPlaylists.forEach(function(pl) {
-    var item = wmpEl("div");
-    item.style.display = "flex";
-    item.style.justifyContent = "space-between";
-    item.style.padding = "8px 12px";
-    item.style.background = "#18325a";
-    item.style.border = "1px solid #2d558b";
-    item.style.borderRadius = "3px";
-    item.style.marginBottom = "6px";
-
-    var left = wmpEl("div");
-    left.appendChild(wmpEl("b", null, pl.name));
-    var cnt = wmpEl("span", null, " (" + pl.count + " faixas)");
-    cnt.style.color = "#99bde4";
-    left.appendChild(cnt);
-    item.appendChild(left);
-
-    var bPlay = wmpEl("button", "wmp-btn-action", "Reproduzir");
-    bPlay.type = "button";
-    bPlay.addEventListener("click", function() {
-      wmpGo(win, "library");
-      wmpStep(win, 1);
-    });
-    item.appendChild(bPlay);
-    list.appendChild(item);
-  });
-
-  p.appendChild(list);
-}
-
-// ------------------------------------------------- 9. Queue-It-Up
-function wmpRenderQueue(win) {
-  var p = win.wmp.panel;
-  var head = wmpEl("div", "wmp-page-title");
-  var q = wmpQueue();
-  head.appendChild(document.createTextNode("Queue-It-Up \u2014 Fila Atual (" + q.length + " faixas)"));
-  p.appendChild(head);
-
-  var list = wmpEl("div");
-  list.style.maxHeight = "280px";
-  list.style.overflow = "auto";
-
-  q.forEach(function(item, idx) {
-    var row = wmpEl("div");
-    row.style.display = "flex";
-    row.style.alignItems = "center";
-    row.style.gap = "8px";
-    row.style.padding = "4px 8px";
-    row.style.borderBottom = "1px solid #1a3962";
-
-    var n = wmpEl("span", null, (idx + 1) + ".");
-    n.style.width = "24px";
-    row.appendChild(n);
-
-    var t = wmpEl("span", null, item.track.title);
-    t.style.flex = "1";
-    row.appendChild(t);
-
-    var a = wmpEl("span", null, item.release.title);
-    a.style.color = "#95b8de";
-    row.appendChild(a);
-
-    var bPlay = wmpEl("button", "wmp-btn-action", "Tocar");
-    bPlay.type = "button";
-    bPlay.style.height = "18px";
-    bPlay.style.fontSize = "9px";
-    bPlay.addEventListener("click", function() {
-      wmpPlayTrack(win, item.release, item.track);
-    });
-    row.appendChild(bPlay);
-
-    list.appendChild(row);
-  });
-
-  p.appendChild(list);
-}
-
-// ------------------------------------------------- 10. Add
-function wmpRenderAdd(win) {
-  var p = win.wmp.panel;
-  var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Add \u2014 Adicionar Itens ao Player"));
-  p.appendChild(head);
-
-  var cur = wmpState.track;
-  var box = wmpEl("div");
-  box.style.display = "flex";
-  box.style.flexDirection = "column";
-  box.style.gap = "8px";
-
-  var bAddCur = wmpEl("button", "wmp-btn-action", cur ? ("Adicionar \u201c" + cur.track.title + "\u201d aos Favoritos") : "Nenhuma faixa selecionada");
-  bAddCur.type = "button";
-  bAddCur.disabled = !cur;
-  bAddCur.addEventListener("click", function() {
-    showBalloon("adicionar", "Faixa adicionada a lista de Favoritos!");
-  });
-  box.appendChild(bAddCur);
-
-  var bReload = wmpEl("button", "wmp-btn-action", "Recarregar Catalogo da Pasta de Trabalho");
-  bReload.type = "button";
-  bReload.addEventListener("click", function() {
-    wmpLoadLibrary();
-    showBalloon("biblioteca", "Catalogo sincronizado com discografia-autoral.json!");
-  });
-  box.appendChild(bReload);
-
-  p.appendChild(box);
-}
-
-// ------------------------------------------------- 11. View Album Info
-function wmpRenderAlbumInfo(win) {
-  var p = win.wmp.panel;
-  var cur = wmpState.track;
-  var rel = cur ? cur.release : (wmpState.releases[0] || null);
-
-  var head = wmpEl("div", "wmp-page-title");
-  head.appendChild(document.createTextNode("Album Info \u2014 " + (rel ? rel.title : "Nenhum")));
-  p.appendChild(head);
-
-  if (!rel) return;
-
-  var top = wmpEl("div");
-  top.style.display = "flex";
-  top.style.gap = "16px";
-  top.style.marginBottom = "14px";
-
-  var cov = wmpEl("div", "wmp-big-cover");
-  cov.style.width = "90px";
-  cov.style.height = "90px";
-  wmpFillCover(cov, rel);
-  top.appendChild(cov);
-
-  var info = wmpEl("div");
-  info.innerHTML = '<div style="font-size:15px;font-weight:700;color:#fff;">' + rel.title + '</div>' +
-    '<div style="font-size:11px;color:#a4c5ee;margin:2px 0 6px;">Artista: ' + rel.artist + ' \u00b7 Ano: ' + rel.year + '</div>' +
-    '<div style="font-size:10px;color:#c6dcfa;">Generos: ' + (rel.genres || []).join(", ") + '</div>' +
-    '<div style="font-size:10px;color:#c6dcfa;">Total de Faixas: ' + rel.tracks.length + '</div>';
-  top.appendChild(info);
-  p.appendChild(top);
-
-  var tList = wmpEl("div");
-  rel.tracks.forEach(function(t, i) {
-    var r = wmpEl("div");
-    r.style.display = "flex";
-    r.style.justifyContent = "space-between";
-    r.style.padding = "4px 8px";
-    r.style.borderBottom = "1px solid #1a3860";
-    r.appendChild(wmpEl("span", null, (i + 1) + ". " + t.title));
-    var b = wmpEl("button", "wmp-btn-action", "Tocar");
-    b.type = "button";
-    b.style.fontSize = "9px";
-    b.style.height = "18px";
-    b.addEventListener("click", function() { wmpPlayTrack(win, rel, t); });
-    r.appendChild(b);
-    tList.appendChild(r);
-  });
-  p.appendChild(tList);
-}
-
 // --------------------------------------------------------------- reproducao
 function wmpSetStatus(win, title, sub) {
   if (!win || !win.wmp) return;
@@ -12682,7 +12071,8 @@ function wmpRenderStatus(win) {
   if (!win || !win.wmp) return;
   if (!wmpState.track) {
     wmpFillCover(win.wmp.cover, null);
-    wmpSetStatus(win, "Song: nada tocando", "escolha uma faixa na biblioteca");
+    wmpSetStatus(win, wmpState.live ? "Song: ao vivo" : "Song: nada tocando",
+      wmpState.live ? "stream" : "escolha uma faixa na biblioteca");
     return;
   }
   var rel = wmpState.track.release;
@@ -12702,39 +12092,44 @@ function wmpApplyTrackMeta(win) {
   if (br) br.textContent = wmpBitrateLabel(track);
 }
 
+function wmpGetAudio(win) {
+  if (wmpState.audio) return wmpState.audio;
+  var audio = new Audio();
+  audio.preload = "metadata";
+  audio.addEventListener("timeupdate", function() { wmpUpdateTime(wmpState.win); });
+  audio.addEventListener("ended", function() { wmpStep(wmpState.win, 1); });
+  audio.addEventListener("loadedmetadata", function() {
+    var t = wmpState.track && wmpState.track.track;
+    if (t) {
+      t._seconds = audio.duration;
+      t.duration = isFinite(audio.duration) ? wmpFormatTime(audio.duration) : t.duration;
+    }
+    wmpApplyTrackMeta(wmpState.win);
+    wmpUpdateTime(wmpState.win);
+  });
+  audio.addEventListener("error", function() {
+    // local faltou: tenta a mesma trilha no Internet Archive antes de desistir
+    var cur = wmpState.track;
+    var remote = cur && cur.track && cur.track.path ? WMP_AUDIO_REMOTE + cur.track.path : null;
+    if (remote && audio.src.indexOf(remote) !== 0) {
+      audio.src = remote;
+      return;
+    }
+    wmpShowError(wmpState.win);
+    wmpUpdatePlayButton(wmpState.win);
+  });
+  wmpState.audio = audio;
+  return audio;
+}
+
 function wmpPlayTrack(win, release, track) {
   var url = wmpAudioUrl(release, track);
   win = win || wmpState.win;
   wmpState.win = win;
   wmpState.track = { release: release, track: track };
+  wmpState.live = false;
 
-  if (!wmpState.audio) {
-    var audio = new Audio();
-    audio.preload = "metadata";
-    audio.addEventListener("timeupdate", function() { wmpUpdateTime(wmpState.win); });
-    audio.addEventListener("ended", function() { wmpStep(wmpState.win, 1); });
-    audio.addEventListener("loadedmetadata", function() {
-      var t = wmpState.track && wmpState.track.track;
-      if (t) {
-        t._seconds = audio.duration;
-        t.duration = isFinite(audio.duration) ? wmpFormatTime(audio.duration) : t.duration;
-      }
-      wmpApplyTrackMeta(wmpState.win);
-      wmpUpdateTime(wmpState.win);
-    });
-    audio.addEventListener("error", function() {
-      // local faltou: tenta a mesma trilha no Internet Archive antes de desistir
-      var cur = wmpState.track;
-      var remote = cur && cur.track && cur.track.path ? WMP_AUDIO_REMOTE + cur.track.path : null;
-      if (remote && audio.src.indexOf(remote) !== 0) {
-        audio.src = remote;
-        return;
-      }
-      wmpShowError(wmpState.win);
-      wmpUpdatePlayButton(wmpState.win);
-    });
-    wmpState.audio = audio;
-  }
+  var audio = wmpGetAudio(win);
 
   wmpState.audio.src = url;
   wmpState.audio.volume = wmpState.volume == null ? 0.8 : wmpState.volume;
@@ -12752,7 +12147,7 @@ function wmpPlayTrack(win, release, track) {
 
 function wmpTogglePlay(win) {
   var a = wmpState.audio;
-  if (!a || !wmpState.track) return;
+  if (!a || (!wmpState.track && !wmpState.live)) return;
   if (a.paused) {
     var p = a.play();
     if (p && p.catch) p.catch(function() { wmpShowError(win); });
@@ -12807,7 +12202,7 @@ function wmpUpdatePlayButton(win) {
   var a = wmpState.audio;
   var b = win && win.wmp ? win.wmp.bPlay : null;
   if (!b) return;
-  var playing = !!(a && !a.paused && wmpState.track);
+  var playing = !!(a && !a.paused && (wmpState.track || wmpState.live));
   b.innerHTML = wmpGlyph(playing ? "pause" : "play");
   b.setAttribute("aria-label", playing ? "pausar" : "reproduzir");
   b.title = playing ? "pausar" : "reproduzir";
@@ -12818,8 +12213,14 @@ function wmpUpdateTime(win) {
   if (!win || !win.wmp) return;
   var t = win.wmp.time;
   if (!t) return;
-  if (!a || !wmpState.track) {
+  if (!a) {
     t.textContent = "0:00 / 0:00";
+    win.wmp.fill.style.width = "0%";
+    win.wmp.knob.style.left = "0%";
+    return;
+  }
+  if (!wmpState.track) {
+    t.textContent = wmpState.live && !a.paused ? "ao vivo" : "0:00 / 0:00";
     win.wmp.fill.style.width = "0%";
     win.wmp.knob.style.left = "0%";
     return;
@@ -12931,19 +12332,10 @@ function xpOpenPortfolioPath(pathArr) {
 
 // ------------------------------------------------- meu computador
 function xpOpenMyComputer() {
-  // as três pastas que o "Meu Computador" reúne
-  var docsNode = { label: "Documentos", entries: xpDocumentsFolder() };
-  var musicNode = { label: "Música", entries: xpMusicFolder() };
-  var picsNode = { label: "Imagens", entries: xpPicturesFolder() };
-
   var root = {
     label: "Meu Computador",
     icon: XP_ICONS.computer,
-    children: [
-      { label: "Documentos", node: docsNode, icon: "img/xp/MyDocuments.png" },
-      { label: "Música", node: musicNode, icon: "img/xp/MyMusic.png" },
-      { label: "Imagens", node: picsNode, icon: "img/xp/MyPictures.png" }
-    ]
+    children: []
   };
 
   var win = xpOpenExplorer({
@@ -12958,180 +12350,7 @@ function xpOpenMyComputer() {
     tree: root
   });
 
-  // abrir Documentos ou Imagens leva para a janela própria
-  win.onFolderOpen = function(entry) {
-    if (entry.name === "Documentos") { xpOpenDocuments(); return true; }
-    if (entry.name === "Imagens") { xpOpenPictures(); return true; }
-    if (entry.name === "Música") { xpOpenMusic(); return true; }
-    return false;
-  };
-
   win.go(root, "Meu Computador");
-  return win;
-}
-
-// ------------------------------------------------- documentos
-function xpDocumentsFolder() {
-  var entries = [];
-  Object.keys(tree).forEach(function(root) {
-    var kids = Object.keys(tree[root] || {}).map(function(k) {
-      var node = tree[root][k];
-      var isFolder = node && typeof node === "object" && !isLeaf(node);
-      return {
-        name: k,
-        type: isFolder ? "folder" : "file",
-        node: isFolder ? node : null,
-        date: node && node.meta ? node.meta : "",
-        typeName: isFolder ? "Pasta de arquivos" : "Documento",
-        path: [root, k]
-      };
-    });
-    entries.push({
-      name: root,
-      type: "folder",
-      node: { label: root, entries: kids },
-      typeName: "Pasta de arquivos",
-      path: [root]
-    });
-  });
-  return entries;
-}
-
-// ------------------------------------------------- imagens
-function xpPicturesFolder() {
-  var entries = [];
-  var seen = {};
-  xpLeafPaths(tree, []).forEach(function(leaf) {
-    var node = leaf.node || {};
-    var imgs = [];
-    if (node.img) imgs.push(node.img);
-    if (node.images) imgs = imgs.concat(node.images);
-    imgs.forEach(function(src) {
-      if (seen[src]) return;
-      seen[src] = true;
-      entries.push({
-        name: src.split("/").pop(),
-        type: "file",
-        typeName: "Imagem",
-        img: src,
-        path: leaf.path
-      });
-    });
-  });
-  return entries;
-}
-
-// ------------------------------------------------- música
-function xpMusicFolder() {
-  var entries = [];
-  var years = {};
-  wmpState.releases.forEach(function(rel) {
-    var y = String(rel.year || "----");
-    years[y] = (years[y] || 0) + 1;
-  });
-  Object.keys(years).sort().reverse().forEach(function(y) {
-    entries.push({
-      name: y,
-      type: "folder",
-      typeName: "Pasta de arquivos",
-      year: y,
-      count: years[y]
-    });
-  });
-  return entries;
-}
-
-// ------------------------------------------------- documentos
-function xpOpenDocuments() {
-  var root = {
-    label: "Documentos",
-    icon: "img/xp/MyDocuments.png",
-    entries: xpDocumentsFolder()
-  };
-
-  var win = xpOpenExplorer({
-    id: "xp-documents",
-    title: "Documentos",
-    icon: "img/xp/MyDocuments.png",
-    width: 560,
-    height: 380,
-    left: 140,
-    top: 64,
-    address: "Documentos",
-    tree: root
-  });
-
-  // duplo clique num item abre o item no portfólio
-  win.onEntryOpen = function(entry) {
-    if (entry.path) xpOpenPortfolioPath(entry.path);
-  };
-
-  win.go(root, "Documentos");
-  return win;
-}
-
-// ------------------------------------------------- imagens
-function xpOpenPictures() {
-  var root = {
-    label: "Imagens",
-    icon: "img/xp/MyPictures.png",
-    entries: xpPicturesFolder()
-  };
-
-  var win = xpOpenExplorer({
-    id: "xp-pictures",
-    title: "Imagens",
-    icon: "img/xp/MyPictures.png",
-    width: 560,
-    height: 380,
-    left: 160,
-    top: 80,
-    address: "Imagens",
-    tree: root
-  });
-
-  win.onEntryOpen = function(entry) {
-    if (entry.path) xpOpenPortfolioPath(entry.path);
-  };
-
-  win.go(root, "Imagens");
-  return win;
-}
-
-// ------------------------------------------------- música
-function xpOpenMusic() {
-  var root = {
-    label: "Música",
-    icon: "img/xp/MyMusic.png",
-    entries: xpMusicFolder()
-  };
-
-  var win = xpOpenExplorer({
-    id: "xp-music",
-    title: "Música",
-    icon: "img/xp/MyMusic.png",
-    width: 480,
-    height: 380,
-    left: 150,
-    top: 72,
-    address: "Música",
-    tree: root
-  });
-
-  // abrir um ano leva para o player, já na pasta daquele ano
-  win.onEntryOpen = function(entry) {
-    if (entry.year) {
-      wmpState.folder = entry.year;
-      var player = xpOpenPlayer();
-      wmpRenderLibrary(player);
-      wmpRenderList(player);
-      xpFocusWindow(player);
-      return true;
-    }
-    return false;
-  };
-
-  win.go(root, "Música");
   return win;
 }
 
@@ -13146,9 +12365,6 @@ function xpWireDesktop() {
       if (deskState === "intro") return;
       showIntro(false);
     },
-    "icon-docs": xpOpenDocuments,
-    "icon-music": xpOpenMusic,
-    "icon-pictures": xpOpenPictures,
     "icon-player": xpOpenPlayer
   };
 
@@ -13308,7 +12524,6 @@ function xpWireQuickLaunch() {
 
   var actions = {
     "computer": function() { xpOpenMyComputer(); },
-    "docs": function() { xpOpenDocuments(); },
     "player": function() { xpOpenPlayer(); },
     "search": function() {
       // a busca do XP abre uma janela de pesquisa
@@ -13702,16 +12917,6 @@ function startMenuRun(item) {
 
   if (action === "portfolio") {
     openApp();
-    return;
-  }
-
-  if (action === "docs") {
-    deskEnsureOpen();
-    path = [];
-    filterMode = "all";
-    if (filterSelect) filterSelect.value = "all";
-    clearSearch();
-    syncRender();
     return;
   }
 
