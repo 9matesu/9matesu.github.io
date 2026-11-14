@@ -924,11 +924,12 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 }
 
 /* ------------------------------------------------- rotas do metrô (estilo Metrô de SP)
-   Linhas grossas, cores vivas por linha, junções arredondadas. */
+   Linhas grossas, cores vivas por linha, junções em ângulo reto. */
 .map-route {
   fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 2;
   stroke-width: 7px;
   vector-effect: non-scaling-stroke;
   transition: stroke-width 0.18s ease, opacity 0.18s ease;
@@ -959,6 +960,16 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   stroke-width: 3px;
   stroke-linecap: butt;
   opacity: 0.55;
+}
+
+/* Filtro: nada some do mapa. O distrito escolhido fica em foco e o resto
+   recua — assim a discografia continua ali quando se olha o design. */
+.map-route.is-dim {
+  opacity: 0.12;
+}
+
+.map-mark.is-dim {
+  opacity: 0.16;
 }
 
 /* ------------------------------------------------- marcas: estações do metrô
@@ -1115,6 +1126,13 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
 .map-mark:hover .map-mark-tag,
 .map-mark:focus .map-mark-tag,
 .map-mark.active .map-mark-tag {
+  opacity: 1;
+}
+
+/* A discografia não pode sumir no enquadramento de fora: os dois portões
+   da linha de música (participações e lançamentos) seguem rotulados mesmo
+   no zoom remoto, como os terminais de uma linha do Metrô de SP. */
+#map-canvas[data-zoom="far"] .map-mark.map-hub .map-mark-tag {
   opacity: 1;
 }
 
@@ -8400,11 +8418,11 @@ function mapBuildTerrain() {
 //  Puro, sem DOM: o navegador desenha, o terminal confere.
 // ================================================================
 
-// As raízes visíveis no mapa seguem o filtro da navegação
+// As raízes visíveis no mapa: sempre todas. O filtro da navegação não
+// apaga um distrito do mapa — ele só apaga o foco dos outros. Sumir com
+// música ao filtrar design escondia justamente a discografia.
 function mapRootKeys() {
-  var keys = Object.keys(tree);
-  if (filterMode !== "all") keys = keys.filter(function(k) { return k === filterMode; });
-  return sortKeys(keys, 0);
+  return sortKeys(Object.keys(tree), 0);
 }
 
 // ------------------------------------------------- montagem completa (Metrô de SP)
@@ -8442,7 +8460,7 @@ function mapBuildLayout(tree, roots, newsPaths) {
           // Cada ramo desce em passo próprio: as fileiras nunca formam
           // colunas alinhadas de estação (aquilo lia como planilha).
           var lx = 1050 - lidx * 145 - (idx % 2) * 45;
-          var lyy = sy + (lidx % 2 === 0 ? -26 : 26) + (idx % 3) * 8;
+          var lyy = sy;
           posMap[lp] = { x: lx, y: lyy, slot: (lidx % 2 === 0 ? 'down' : 'up'), lineNo: 1, cluster: 'design' };
           var lNode = subNode[lk];
           if (lNode && typeof lNode === 'object' && !isLeaf(lNode)) {
@@ -8490,7 +8508,7 @@ function mapBuildLayout(tree, roots, newsPaths) {
     if (m['participações']) {
       // O tronco dos anos desce em zigue-zague de 45°: cada ano avança ou
       // recua na horizontal, então as faixas nunca formam colunas alinhadas.
-      posMap['música > participações'] = { x: 2330, y: 1380, slot: 'right', lineNo: 2, cluster: 'música' };
+      posMap['música > participações'] = { x: 2330, y: 1380, slot: 'left', lineNo: 2, cluster: 'música' };
       var partYears = Object.keys(m['participações']);
       var py = 1470;
       partYears.forEach(function(yk, pidx) {
@@ -8499,8 +8517,11 @@ function mapBuildLayout(tree, roots, newsPaths) {
         posMap[yp] = { x: px, y: py, slot: 'left', lineNo: 2, cluster: 'música' };
         var tracks = m['participações'][yk];
         if (tracks && typeof tracks === 'object') {
+          // O leque de cada ano abre para cima ou para baixo: as faixas
+          // formam uma espinha de peixe, não uma escada de colunas iguais.
+          var pdir = pidx % 2 === 0 ? 1 : -1;
           Object.keys(tracks).forEach(function(tk, tidx) {
-            posMap[yp + ' > ' + tk] = { x: px + 190 + tidx * 122, y: py + tidx * 20, slot: (tidx % 2 === 0 ? 'up' : 'down'), lineNo: 2, cluster: 'música' };
+            posMap[yp + ' > ' + tk] = { x: px + 190 + tidx * 122, y: py + pdir * tidx * 20, slot: (tidx % 2 === 0 ? 'up' : 'down'), lineNo: 2, cluster: 'música' };
           });
         }
         py += 126;
@@ -8510,17 +8531,18 @@ function mapBuildLayout(tree, roots, newsPaths) {
       // Mesmo desenho, mas deslocado: as faixas dos dois grupos nunca
       // coincidem em altura, e as capas nunca caem nas mesmas colunas.
       var lxStart = 3260;
-      posMap['música > lançamentos'] = { x: lxStart, y: 1420, slot: 'right', lineNo: 2, cluster: 'música' };
+      posMap['música > lançamentos'] = { x: lxStart, y: 1200, slot: 'right', lineNo: 2, cluster: 'música' };
       var years = Object.keys(m['lançamentos']);
-      var ly = 1500;
+      var ly = 1300;
       years.forEach(function(yk, yidx) {
         var yp = 'música > lançamentos > ' + yk;
         var lx = lxStart + (yidx % 2 ? 110 : 0);
         posMap[yp] = { x: lx, y: ly, slot: 'left', lineNo: 2, cluster: 'música' };
         var albums = m['lançamentos'][yk];
         if (albums && typeof albums === 'object') {
+          var ldir = yidx % 2 === 0 ? -1 : 1;
           Object.keys(albums).forEach(function(ak, aidx) {
-            posMap[yp + ' > ' + ak] = { x: lx + 175 + aidx * 118, y: ly - aidx * 18, slot: (aidx % 2 === 0 ? 'down' : 'up'), lineNo: 2, cluster: 'música' };
+            posMap[yp + ' > ' + ak] = { x: lx + 175 + aidx * 118, y: ly + ldir * aidx * 18, slot: (aidx % 2 === 0 ? 'down' : 'up'), lineNo: 2, cluster: 'música' };
           });
         }
         ly += 140;
@@ -8530,7 +8552,7 @@ function mapBuildLayout(tree, roots, newsPaths) {
 
   // 4. Linha 5 - Lilás (matesuposting) - Quadrante Sul Puro (Down)
   if (tree['matesuposting']) {
-    posMap['matesuposting'] = { x: 1800, y: 1550, slot: 'right', lineNo: 5, cluster: 'matesuposting' };
+    posMap['matesuposting'] = { x: 1800, y: 1550, slot: 'leftUp', lineNo: 5, cluster: 'matesuposting' };
     var mpkeys = Object.keys(tree['matesuposting']);
     mpkeys.forEach(function(mpk, mpidx) {
       posMap['matesuposting > ' + mpk] = { x: 1800, y: 1750 + mpidx * 150, slot: 'right', lineNo: 5, cluster: 'matesuposting' };
@@ -8568,6 +8590,7 @@ function mapBuildLayout(tree, roots, newsPaths) {
       isRoot: p.length === 1,
       isLeaf: !!isLeaf(node),
       isNews: !!newsSet[kStr],
+      isHub: kStr === "música > participações" || kStr === "música > lançamentos",
       x: pos.x,
       y: pos.y,
       slot: pos.slot,
@@ -8773,6 +8796,9 @@ function mapLabelBox(it) {
   switch (it.slot) {
     case "right": return { x: off, y: 0, anchor: "start" };
     case "left": return { x: -off, y: 0, anchor: "end" };
+    // Rótulo à esquerda e acima: usa o vazio entre dois distritos quando a
+    // etiqueta à direita cairia em cima das linhas do vizinho.
+    case "leftUp": return { x: -off, y: -att, anchor: "end" };
     case "down": return { x: 0, y: att + 4, anchor: "middle" };
     default: return { x: 0, y: -att, anchor: "middle" };
   }
@@ -8829,10 +8855,11 @@ function mapRoundPath(pts, r) {
   return d;
 }
 
-// Raio do cotovelo, em unidades da folha
-var MAP_ELBOW = 26;
+// Raio do arredondamento das esquinas. Zero: o diagrama dobra em ângulo
+// reto e diagonal de 45°, sem curva nenhuma entre os trechos.
+var MAP_ELBOW = 0;
 
-// O cano pai → estação, já dobrado e arredondado
+// O cano pai → estação, já dobrado (sem arredondamento)
 function mapSegPath(parent, child) {
   return mapRoundPath(mapOctoPath(parent, child), MAP_ELBOW);
 }
@@ -8858,6 +8885,7 @@ function mapRenderScene() {
     g.kids.sort(function(a, b) { return a.x - b.x; });
     var lineCls = " line-" + (g.parent.lineNo || 1);
     var cls = "map-route" + lineCls + (g.parent.level === 0 ? " trunk" : g.parent.level >= 2 ? " branch" : "");
+    if (filterMode !== "all" && g.parent.cluster !== filterMode) cls += " is-dim";
     for (var i = 0; i < g.kids.length; i++) {
       var p = mapSvgEl("path", cls);
       p.setAttribute("d", mapSegPath(g.parent, g.kids[i]));
@@ -8907,7 +8935,9 @@ function mapRenderScene() {
       var lineCls = " line-" + (it.lineNo || 1);
       var cls = "map-mark" + lineCls + " l" + it.level +
         (it.isRoot ? " root" : it.isLeaf ? " leaf" : " branch") +
-        (it.isNews ? " novidade" : "");
+        (it.isNews ? " novidade" : "") +
+        (it.isHub ? " map-hub" : "") +
+        (filterMode !== "all" && it.cluster !== filterMode ? " is-dim" : "");
       var g = mapSvgEl("g", cls);
       g.setAttribute("transform", "translate(" + mapNum(it.x) + " " + mapNum(it.y) + ")");
       g.setAttribute("data-idx", String(mapLayout.items.indexOf(it)));
@@ -9064,7 +9094,7 @@ function mapRender() {
   if (!mapRoute || !mapMarks) return;
   var roots = mapRootKeys();
   var news = mapNewsPaths();
-  var sig = mapSignature(roots) + "#" + news.join(";");
+  var sig = mapSignature(roots) + "#" + news.join(";") + "#" + filterMode;
   if (sig !== mapSig) {
     mapSig = sig;
     mapLayout = mapBuildLayout(tree, roots, news);
