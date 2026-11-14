@@ -2473,25 +2473,31 @@ body:not(.light) .ink-dark {
 }
 
 /* ------------------------------------------------- Windows Media Player
-   Janela do player com a biblioteca em pastas por ano e as faixas. */
+   Player no visual do WMP 9: barra de título Luna, coluna azul de navegação, 
+   biblioteca escura, lista de faixas em colunas e transporte prateado. */
 .xp-wmp {
   position: absolute;
   z-index: 22;
   display: none;
   flex-direction: column;
-  min-width: 460px;
-  min-height: 320px;
+  min-width: 560px;
+  min-height: 360px;
   padding: 0 3px 3px;
   border: 1px solid #0831d9;
   border-radius: 8px 8px 3px 3px;
-  background: #0b1c3d;
-  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.55);
+  background: #ece9d8;
+  box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.55);
   font-family: var(--font-xp);
-  color: #fff;
+  font-size: 11px;
+  color: #000;
 }
 
 .xp-wmp.open {
   display: flex;
+}
+
+.xp-wmp.minimized {
+  display: none;
 }
 
 .xp-wmp.maximized {
@@ -2501,22 +2507,27 @@ body:not(.light) .ink-dark {
   height: auto !important;
   right: 2px !important;
   bottom: 36px !important;
+  border-radius: 6px;
 }
 
-/* Moldura clara da janela do player */
+.xp-wmp.maximized .xp-resize {
+  display: none;
+}
+
+/* ---------------------------------------------------------- barra de título */
 .xp-wmp .win-bar {
-  height: 28px;
+  height: 26px;
   flex-shrink: 0;
   width: 100%;
   margin: 0 -3px;
-  padding: 0 4px 0 5px;
-  gap: 4px;
+  padding: 0 4px 0 8px;
+  gap: 5px;
   border-radius: 7px 7px 0 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.14) 9%, rgba(255, 255, 255, 0) 15%),
-    linear-gradient(180deg, #4a90e8 0%, #2f74d4 22%, #1f5cb8 60%, #17489a 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.16) 9%, rgba(255, 255, 255, 0) 16%),
+    linear-gradient(180deg, #0e6ce4 0%, #3d8ef7 5%, #2a7cee 24%, #0f62dc 55%, #0b57cf 83%, #0949b4 97%, #073b98 100%);
   box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.32),
+    inset 1px 0 0 rgba(255, 255, 255, 0.35),
     inset -1px 0 0 rgba(0, 0, 0, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.28);
   cursor: default;
@@ -2525,7 +2536,7 @@ body:not(.light) .ink-dark {
 .xp-wmp .win-title {
   flex: 1 1 auto;
   min-width: 0;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: #fff;
   text-shadow: 1px 1px 1px rgba(0, 20, 80, 0.75);
@@ -2536,8 +2547,8 @@ body:not(.light) .ink-dark {
 }
 
 .xp-wmp .win-icon {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
   object-fit: contain;
   border: 0;
@@ -2560,223 +2571,589 @@ body:not(.light) .ink-dark {
 .xp-wmp-body {
   flex: 1;
   display: flex;
+  flex-direction: column;
   min-height: 0;
-  background: #0b1c3d;
+  border: 1px solid #003399;
+  border-top: 0;
+  border-radius: 0 0 2px 2px;
+  background: #0b1b36;
+  overflow: hidden;
 }
 
-.xp-wmp-side {
-  width: 176px;
+/* ------------------------------------------------------------------ app */
+.wmp-app {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* ------------------------------- faixa azul de navegação (esquerda) */
+.wmp-nav {
+  width: 118px;
   flex-shrink: 0;
   overflow: auto;
-  padding: 8px 6px;
-  background: #12294f;
-  border-right: 1px solid #1d3f74;
+  padding: 4px 0 6px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 22%),
+    linear-gradient(180deg, #5a8fca 0%, #3369aa 38%, #2c5d99 58%, #1c4b86 100%);
+  border-right: 1px solid #163d70;
 }
 
-.xp-wmp-side h3 {
-  margin: 0 0 6px;
-  padding: 0 4px;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #7fa6e0;
+.wmp-nav-btn {
+  display: block;
+  width: 100%;
+  padding: 7px 8px 7px 10px;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-xp);
+  font-size: 11px;
   font-weight: 700;
+  line-height: 1.18;
+  text-align: left;
+  text-shadow: 0 1px 1px rgba(0, 20, 70, 0.6);
+  cursor: pointer;
 }
 
-.xp-wmp-main {
+.wmp-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.wmp-nav-btn.active {
+  background: linear-gradient(180deg, #f7fbff 0%, #dce8f6 48%, #c6d4f6 100%);
+  color: #14355e;
+  text-shadow: 0 1px 0 #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.wmp-nav-btn small {
+  display: block;
+  margin-top: 1px;
+  font-size: 9px;
+  font-weight: 400;
+  color: #e2eeff;
+}
+
+.wmp-nav-btn.active small {
+  color: #325f93;
+}
+
+/* ---------------------------------------------------------- área principal */
+.wmp-main {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  background: #aebdd0;
+}
+
+.wmp-tabs {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 28px;
+  padding: 0 5px;
+  background: linear-gradient(180deg, #eef3fa 0%, #d9e2ee 55%, #c1cee1 100%);
+  border-bottom: 1px solid #687f9e;
   overflow: hidden;
 }
 
-.xp-wmp-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 8px;
-  background: linear-gradient(180deg, #16305c 0%, #0d2044 100%);
-  border-bottom: 1px solid #1d3f74;
-}
-
-.xp-wmp-btn {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 1px solid #35578f;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #2b4a80 0%, #183560 100%);
-  color: #cfe0f7;
+.wmp-tab {
+  height: 24px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  background: transparent;
+  color: #1b3a63;
+  font-family: var(--font-xp);
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
 }
 
-.xp-wmp-btn:hover:not(:disabled) {
-  background: linear-gradient(180deg, #3a62a3 0%, #21477a 100%);
-  color: #fff;
+.wmp-tab:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
-.xp-wmp-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
+.wmp-tab.active {
+  border-color: #7e91ac;
+  background: linear-gradient(180deg, #ffffff 0%, #eef3fa 55%, #dfe8f4 100%);
+  box-shadow: inset 0 1px 0 #fff;
+  color: #14355f;
 }
 
-.xp-wmp-btn svg {
+.wmp-tab.pink {
+  color: #b23a86;
+}
+
+.wmp-tab.link {
+  margin-left: auto;
+  padding-right: 2px;
+  border: 0;
+  background: none;
+  color: #24456f;
+  font-weight: 400;
+}
+
+.wmp-tab.link:hover {
+  text-decoration: underline;
+  background: none;
+}
+
+/* -------------------------------------------------------------- ferramentas */
+.wmp-toolbar {
+  flex-shrink: 0;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 6px;
+  background: linear-gradient(180deg, #fbfdff 0%, #e9eff7 48%, #d4deeb 100%);
+  border-bottom: 1px solid #8195b0;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.wmp-tb-btn {
+  width: 24px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: #20436b;
+  cursor: pointer;
+}
+
+.wmp-tb-btn:hover {
+  border-color: #8fa4bd;
+  background: linear-gradient(180deg, #fff, #dbe6f3);
+}
+
+.wmp-tb-btn:active {
+  border-color: #6f86a4;
+  background: #cddaea;
+}
+
+.wmp-tb-btn svg {
   width: 14px;
   height: 14px;
-  fill: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.xp-wmp-time {
+.wmp-search {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 150px;
+  height: 20px;
+  margin-left: 6px;
+  padding: 0 4px;
+  border: 1px solid #7f9db9;
+  background: #fff;
+  box-shadow: inset 1px 1px 2px rgba(20, 40, 70, 0.18);
+}
+
+.wmp-search svg {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: #607a98;
+  stroke-width: 2;
+}
+
+.wmp-search input {
+  width: 100%;
+  min-width: 0;
+  height: 17px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #15334f;
+  font-family: var(--font-xp);
+  font-size: 10px;
+  outline: none;
+}
+
+.wmp-view {
   margin-left: auto;
-  font-size: 11px;
-  color: #a8c4ea;
-  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 5px 0 7px;
+  border: 1px solid #7f9db9;
+  background: linear-gradient(180deg, #fbfdff, #dce6f2);
+  color: #17385f;
+  font-size: 10px;
+  white-space: nowrap;
 }
 
-.xp-wmp-list {
+.wmp-view svg {
+  width: 9px;
+  height: 9px;
+  fill: #17385f;
+}
+
+/* --------------------------------------------------------- biblioteca/lista */
+.wmp-content {
   flex: 1;
+  display: flex;
   min-height: 0;
+  background: #172b4f;
+}
+
+.xp-wmp-side {
+  width: 162px;
+  flex-shrink: 0;
   overflow: auto;
-  padding: 6px 8px;
+  padding: 3px 0 8px;
+  background: linear-gradient(180deg, #1d3866 0%, #122a51 55%, #0b1d3b 100%);
+  border-right: 1px solid #526c91;
+}
+
+.wmp-side-head {
+  padding: 5px 9px 3px;
+  color: #9fc2ec;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
 .xp-wmp-folder {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 5px;
   width: 100%;
-  padding: 5px 6px;
-  border: 0;
-  border-radius: 3px;
-  background: none;
-  color: #dce9fb;
-  font: inherit;
-  font-size: 12px;
+  padding: 3px 7px 3px 9px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #e6effc;
+  font-family: var(--font-xp);
+  font-size: 11px;
   text-align: left;
-  cursor: pointer;
+  cursor: default;
 }
 
 .xp-wmp-folder:hover {
-  background: #1d3f74;
-}
-
-.xp-wmp-folder.active {
-  background: #2f63b5;
+  background: rgba(84, 139, 205, 0.28);
   color: #fff;
 }
 
+.xp-wmp-folder.active {
+  border-color: #6d9bd4;
+  background: linear-gradient(180deg, #417fc5 0%, #245ea6 55%, #1b4c8c 100%);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
 .xp-wmp-folder img {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
   object-fit: contain;
 }
 
 .xp-wmp-folder .xp-wmp-count {
   margin-left: auto;
-  font-size: 10px;
-  color: #8fb0dc;
+  padding-left: 4px;
+  color: #a9c6e9;
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
 }
 
 .xp-wmp-folder.active .xp-wmp-count {
-  color: #d6e6fb;
+  color: #e6f1ff;
+}
+
+.wmp-list-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #1b2e54;
+}
+
+.wmp-list-head,
+.xp-wmp-track {
+  display: grid;
+  grid-template-columns: 22px 16px minmax(88px, 1.7fr) minmax(58px, 1fr) minmax(74px, 1.3fr) minmax(50px, 0.9fr) 46px 50px 18px;
+  align-items: center;
+}
+
+.wmp-list-head {
+  flex-shrink: 0;
+  height: 22px;
+  padding: 0 3px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #5f718c;
+  background: linear-gradient(180deg, #f7f9fc 0%, #ced8e5 45%, #aebdcf 55%, #c8d2e0 100%);
+  color: #122b4b;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.wmp-list-head span {
+  min-width: 0;
+  padding: 0 4px;
+  border-right: 1px solid rgba(57, 78, 106, 0.22);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wmp-list-head span:last-child {
+  border-right: 0;
+}
+
+.wmp-list-head .wmp-h-num {
+  text-align: right;
+}
+
+.xp-wmp-list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: #1b2e54;
+}
+
+.xp-wmp-list::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+.xp-wmp-list::-webkit-scrollbar-track {
+  background: #17294a;
+}
+
+.xp-wmp-list::-webkit-scrollbar-thumb {
+  border: 2px solid #17294a;
+  background: linear-gradient(90deg, #e9eff7, #b7c5d8);
+}
+
+.wmp-group {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 7px;
+  border-top: 1px solid #6f95c9;
+  border-bottom: 1px solid #081a36;
+  background: linear-gradient(180deg, #3b669e 0%, #274d82 48%, #173662 100%);
+  color: #eef5ff;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.wmp-group-cover {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #5d84b7;
+  background: #0d1d38;
+}
+
+.wmp-group-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wmp-group-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wmp-group-meta {
+  color: #bcd2ee;
+  font-size: 10px;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wmp-group-count {
+  margin-left: auto;
+  color: #bcd2ee;
+  font-size: 9px;
+  font-weight: 400;
 }
 
 .xp-wmp-track {
-  display: flex;
-  align-items: center;
-  gap: 7px;
   width: 100%;
-  padding: 4px 6px 4px 26px;
+  height: 19px;
+  padding: 0 3px;
   border: 0;
-  border-radius: 3px;
-  background: none;
-  color: #c6d8f0;
-  font: inherit;
-  font-size: 12px;
+  border-radius: 0;
+  background: #1b2e54;
+  color: #dbe7f7;
+  font-family: var(--font-xp);
+  font-size: 11px;
   text-align: left;
-  cursor: pointer;
+  cursor: default;
+}
+
+.xp-wmp-track.alt {
+  background: #182a4d;
 }
 
 .xp-wmp-track:hover {
-  background: #16305c;
+  background: #294f85;
   color: #fff;
 }
 
 .xp-wmp-track.playing {
-  background: #2f63b5;
+  background: linear-gradient(180deg, #4a8cde 0%, #236bc3 48%, #1753a3 100%);
   color: #fff;
   font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
 }
 
-.xp-wmp-track .xp-wmp-n {
-  width: 16px;
-  flex-shrink: 0;
-  text-align: right;
-  color: #7fa6e0;
+.xp-wmp-track > span,
+.xp-wmp-track > a {
+  min-width: 0;
+  padding: 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xp-wmp-track .wmp-num {
+  padding: 0 2px;
+  color: #9fb6d4;
   font-size: 10px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
-.xp-wmp-track.playing .xp-wmp-n {
+.xp-wmp-track.playing .wmp-num {
   color: #fff;
 }
 
-.xp-wmp-track .xp-wmp-dur {
-  margin-left: auto;
+.wmp-ico {
+  display: grid;
+  place-items: center;
+}
+
+.wmp-ico img {
+  width: 13px;
+  height: 13px;
+  display: block;
+  object-fit: contain;
+}
+
+.wmp-ico svg {
+  width: 11px;
+  height: 11px;
+  fill: #f5e07a;
+}
+
+.xp-wmp-track.playing .wmp-ico svg {
+  fill: #fff4a8;
+}
+
+.xp-wmp-track .wmp-album,
+.xp-wmp-track .wmp-artist,
+.xp-wmp-track .wmp-genre {
+  color: #aebfd8;
+}
+
+.xp-wmp-track.playing .wmp-album,
+.xp-wmp-track.playing .wmp-artist,
+.xp-wmp-track.playing .wmp-genre {
+  color: #e4efff;
+}
+
+.xp-wmp-track .wmp-len,
+.xp-wmp-track .wmp-br {
+  color: #aebfd8;
   font-size: 10px;
-  color: #8fb0dc;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.xp-wmp-track.playing .wmp-len,
+.xp-wmp-track.playing .wmp-br {
+  color: #fff;
+}
+
+.xp-wmp-track .wmp-dl-cell {
+  display: grid;
+  place-items: center;
+  padding: 0;
 }
 
 /* Botão de baixar de cada faixa */
 .xp-wmp-dl {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  margin-left: 4px;
+  width: 15px;
+  height: 15px;
   display: grid;
   place-items: center;
   border-radius: 2px;
-  color: #9dbfe8;
+  color: #b8cdea;
 }
 
 .xp-wmp-dl:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .xp-wmp-dl svg {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   display: block;
 }
 
-.xp-wmp-track.playing .xp-wmp-dur {
-  color: #d6e6fb;
+.xp-wmp-empty {
+  padding: 16px 12px;
+  color: #a9c0df;
+  font-size: 11px;
+  line-height: 1.6;
 }
 
-/* Faixa de transporte no rodapé do player */
-.xp-wmp-now {
+/* --------------------------------------------------------- barra de status */
+.xp-wmp-status {
   flex-shrink: 0;
+  min-height: 24px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-top: 1px solid #1d3f74;
-  background: linear-gradient(180deg, #0d2044 0%, #08152e 100%);
+  gap: 6px;
+  padding: 2px 7px;
+  border-top: 1px solid #f5ffdf;
+  border-bottom: 1px solid #4f831a;
+  background: linear-gradient(180deg, #e7f9bd 0%, #b9e777 18%, #8fd043 55%, #6cae25 100%);
+  color: #17310a;
 }
 
 .xp-wmp-cover {
-  width: 46px;
-  height: 46px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  border: 1px solid #35578f;
-  background: #050d1c;
   overflow: hidden;
+  border: 1px solid #4e7f1b;
+  background: #f7ffe9;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
 }
 
 .xp-wmp-cover img {
@@ -2785,64 +3162,216 @@ body:not(.light) .ink-dark {
   object-fit: cover;
 }
 
+.wmp-cover-ph {
+  color: #37670c;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.wmp-cover-letter {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+
 .xp-wmp-meta {
   min-width: 0;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
 }
 
 .xp-wmp-meta b {
-  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
-  color: #fff;
+  font-size: 11px;
+  color: #142d06;
 }
 
 .xp-wmp-meta span {
-  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 9px;
+  color: #315813;
+}
+
+.wmp-status-right {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding-left: 10px;
+  color: #22460e;
   font-size: 10px;
-  color: #8fb0dc;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* ------------------------------------------------------- barra de progresso */
+.wmp-seekrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 2px;
+  background: linear-gradient(180deg, #f1f5fa 0%, #d7e0eb 55%, #c3cedd 100%);
+  border-top: 1px solid #fff;
 }
 
 .xp-wmp-seek {
+  position: relative;
   flex: 1;
   min-width: 80px;
-  height: 10px;
-  position: relative;
-  border: 1px solid #35578f;
-  background: #050d1c;
+  height: 7px;
+  border: 1px solid #425a74;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #0a1524, #2a3f57);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.65);
   cursor: pointer;
 }
 
 .xp-wmp-seek-fill {
   position: absolute;
-  inset: 0 auto 0 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
   width: 0;
-  background: linear-gradient(180deg, #6fa8ff 0%, #2f63b5 100%);
+  border-radius: 1px;
+  background: linear-gradient(180deg, #d9ff8e 0%, #83cf38 45%, #4c9710 100%);
+  box-shadow: 0 0 3px rgba(122, 210, 46, 0.55);
 }
 
 .xp-wmp-seek-knob {
   position: absolute;
   top: 50%;
   left: 0;
-  width: 9px;
-  height: 9px;
-  margin-left: -4px;
-  border-radius: 50%;
-  background: #dbe9ff;
-  border: 1px solid #35578f;
+  width: 7px;
+  height: 13px;
+  margin-left: -3px;
   transform: translateY(-50%);
+  border: 1px solid #3e5a78;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #ffffff, #c9d8ea 50%, #8da6c1 100%);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 }
 
-.xp-wmp-empty {
-  padding: 18px 10px;
-  color: #8fb0dc;
-  font-size: 12px;
-  line-height: 1.6;
+.xp-wmp-time {
+  flex-shrink: 0;
+  min-width: 54px;
+  color: #18324f;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 0 #fff;
+}
+
+/* --------------------------------------------------------------- transporte */
+.xp-wmp-now {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 12px 8px;
+  background: linear-gradient(180deg, #eef2f8 0%, #cdd7e3 68%, #e8edf4 100%);
+}
+
+.xp-wmp-btn {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #526d8d;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 24%, #ffffff 0%, #e7eef8 30%, #b9c9dd 70%, #829bb8 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55), 0 1px 2px rgba(0, 20, 50, 0.25);
+  color: #1e4d85;
+  cursor: pointer;
+}
+
+.xp-wmp-btn:hover:not(:disabled) {
+  background: radial-gradient(circle at 38% 24%, #ffffff 0%, #dceaff 28%, #9dc7e8 66%, #4b83c9 100%);
+  color: #0b3f86;
+}
+
+.xp-wmp-btn:active:not(:disabled) {
+  background: radial-gradient(circle at 38% 24%, #c8dcf7 0%, #90b3dc 65%, #668fb9 100%);
+  box-shadow: inset 0 1px 3px rgba(0, 20, 60, 0.45);
+}
+
+.xp-wmp-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.xp-wmp-btn svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  display: block;
+}
+
+.xp-wmp-btn.wmp-play {
+  width: 30px;
+  height: 30px;
+  border-color: #3d5f86;
+}
+
+.xp-wmp-btn.wmp-play svg {
+  width: 13px;
+  height: 13px;
+}
+
+.wmp-vol {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding-left: 8px;
+  color: #1f4068;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.wmp-vol svg {
+  width: 13px;
+  height: 11px;
+  fill: none;
+  stroke: #1f4068;
+  stroke-width: 1.2;
+}
+
+.wmp-vol input {
+  width: 72px;
+  height: 12px;
+  margin: 0;
+  accent-color: #2f74d4;
+  cursor: pointer;
+}
+
+.wmp-brand {
+  flex-shrink: 0;
+  width: 30px;
+  height: 24px;
+  margin-left: 2px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #355d8d;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #f5a623 0 30%, #2d6fc4 30% 62%, #0a327a 62% 100%);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
 }
 
 /* Botão de baixar do release */
@@ -4321,14 +4850,36 @@ body.xp-resizing * {
     min-height: 0;
   }
   .xp-wmp-side {
-    width: 124px;
+    width: 112px;
+  }
+  .wmp-nav {
+    width: 94px;
+  }
+  .wmp-nav-btn {
+    padding: 6px 5px;
+    font-size: 10px;
+  }
+  .wmp-nav-btn small {
+    display: none;
+  }
+  .wmp-tab {
+    padding: 0 6px;
+  }
+  .wmp-list-head,
+  .xp-wmp-track {
+    grid-template-columns: 20px 15px minmax(60px, 1.6fr) minmax(44px, 1fr) 44px 44px 16px;
+  }
+  .wmp-list-head > span:nth-child(5),
+  .wmp-list-head > span:nth-child(6),
+  .xp-wmp-track > span:nth-child(5),
+  .xp-wmp-track > span:nth-child(6) {
+    display: none;
   }
   .xp-wmp-now {
-    flex-wrap: wrap;
+    padding: 2px 8px 8px;
   }
-  .xp-wmp-seek {
-    order: 3;
-    flex-basis: 100%;
+  .wmp-vol input {
+    width: 52px;
   }
   #intro-card {
     width: calc(100vw - 16px);
@@ -10087,6 +10638,9 @@ var wmpState = {
   folder: null,       // ano selecionado
   track: null,        // faixa em reprodução
   audio: null,
+  win: null,          // janela aberta
+  query: "",          // busca atual
+  volume: 0.8,
   seeking: false
 };
 
@@ -10125,6 +10679,72 @@ function wmpFormatTime(sec) {
 }
 
 // ------------------------------------------------- construir o player
+function wmpEl(tag, cls, text) {
+  var el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (text != null) el.textContent = text;
+  return el;
+}
+
+function wmpSvg(inner) {
+  return '<svg viewBox="0 0 16 16" aria-hidden="true">' + inner + "</svg>";
+}
+
+function wmpGlyph(kind) {
+  if (kind === "prev") return wmpSvg('<path d="M4 3h2v10H4zM13 3v10L6 8z"/>');
+  if (kind === "next") return wmpSvg('<path d="M10 3h2v10h-2zM3 3l7 5-7 5z"/>');
+  if (kind === "pause") return wmpSvg('<path d="M5 3h2v10H5zM9 3h2v10H9z"/>');
+  if (kind === "stop") return wmpSvg('<path d="M4 4h8v8H4z"/>');
+  return wmpSvg('<path d="M4 3l9 5-9 5z"/>');
+}
+
+function wmpToolbarIcon(kind) {
+  if (kind === "back") {
+    return '<svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5"/></svg>';
+  }
+  if (kind === "home") {
+    return '<svg viewBox="0 0 16 16"><path d="M2.5 7.5L8 3l5.5 4.5M4 6.5V13h8V6.5"/></svg>';
+  }
+  return '<svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.2"/><path d="M10.2 10.2L14 14"/></svg>';
+}
+
+function wmpChevronSvg() {
+  return '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4z"/></svg>';
+}
+
+function wmpNoteSvg() {
+  return wmpSvg('<path d="M6 12.2V4.4l6-1.2v7.4"/><circle cx="4.4" cy="12.4" r="1.7"/><circle cx="10.4" cy="11.2" r="1.7"/>');
+}
+
+function wmpHue(text) {
+  var h = 0;
+  var s = String(text || "wmp");
+  for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360;
+  return h;
+}
+
+function wmpFillCover(box, release) {
+  box.innerHTML = "";
+  if (!release) {
+    box.classList.add("wmp-cover-ph");
+    box.textContent = "WMP";
+    return;
+  }
+  box.classList.remove("wmp-cover-ph");
+  var cover = wmpState.covers[release.title];
+  if (cover && cover.local) {
+    var img = document.createElement("img");
+    img.src = cover.local;
+    img.alt = "";
+    box.appendChild(img);
+    return;
+  }
+  var letter = wmpEl("span", "wmp-cover-letter", String(release.title || "?").charAt(0).toUpperCase());
+  var hue = wmpHue(release.title);
+  letter.style.background = "linear-gradient(135deg, hsl(" + hue + " 58% 52%), hsl(" + ((hue + 38) % 360) + " 64% 30%))";
+  box.appendChild(letter);
+}
+
 function xpOpenPlayer() {
   var existing = document.getElementById("xp-player");
   if (existing) {
@@ -10138,106 +10758,290 @@ function xpOpenPlayer() {
     kind: "wmp",
     title: "Windows Media Player",
     icon: "img/xp/WindowsMediaPlayer10.png",
-    width: 620,
-    height: 430,
-    left: 150,
-    top: 60,
+    width: 800,
+    height: 500,
+    left: 70,
+    top: 40,
     build: function(win, body) {
-      // lateral com as pastas por ano
-      var side = document.createElement("div");
-      side.className = "xp-wmp-side";
-      side.innerHTML = "<h3>biblioteca</h3>";
-      body.appendChild(side);
+      body.innerHTML = "";
 
-      // área principal
-      var main = document.createElement("div");
-      main.className = "xp-wmp-main";
+      var app = wmpEl("div", "wmp-app");
+      var nav = wmpEl("nav", "wmp-nav");
+      nav.setAttribute("aria-label", "modos do player");
 
-      // barra de controles
-      var toolbar = document.createElement("div");
-      toolbar.className = "xp-wmp-toolbar";
+      var navSpecs = [
+        ["now", "Now Playing", "agora tocando"],
+        ["guide", "Media Guide", "guia de midia"],
+        ["cd", "Copy from CD", "copiar"],
+        ["library", "Media Library", "biblioteca"],
+        ["radio", "Radio Tuner", "radio"],
+        ["device", "Copy to Device", "dispositivo"],
+        ["premium", "Premium Services", "premium"],
+        ["skin", "Skin Chooser", "skins"]
+      ];
 
-      function mkBtn(label, path, disabled) {
-        var b = document.createElement("button");
+      var navButtons = {};
+      navSpecs.forEach(function(spec) {
+        var b = wmpEl("button", "wmp-nav-btn");
         b.type = "button";
-        b.className = "xp-wmp-btn";
-        b.setAttribute("aria-label", label);
+        b.appendChild(document.createTextNode(spec[1]));
+        b.appendChild(wmpEl("small", null, spec[2]));
+        if (spec[0] === "library") b.classList.add("active");
+        b.addEventListener("click", function() {
+          if (spec[0] === "library") {
+            for (var k in navButtons) navButtons[k].classList.remove("active");
+            b.classList.add("active");
+            wmpState.folder = null;
+            wmpState.query = "";
+            win.wmp.search.value = "";
+            wmpRenderLibrary(win);
+            wmpRenderList(win);
+            playClick("select");
+          } else if (spec[0] === "now") {
+            showBalloon("windows media player", "A sequencia toca pelo botao play, na lista da biblioteca.");
+          } else {
+            showBalloon("windows media player", "Este modo nao esta incluido no player do portfolio.");
+          }
+        });
+        navButtons[spec[0]] = b;
+        nav.appendChild(b);
+      });
+
+      var main = wmpEl("div", "wmp-main");
+
+      var tabs = wmpEl("div", "wmp-tabs");
+      var tabSpecs = ["Playlists", "Queue-It-Up", "Search", "Add"];
+      var tabButtons = {};
+      tabSpecs.forEach(function(label) {
+        var t = wmpEl("button", "wmp-tab", label);
+        t.type = "button";
+        if (label === "Playlists") t.classList.add("active");
+        if (label === "Queue-It-Up") t.classList.add("pink");
+        t.addEventListener("click", function() {
+          for (var k in tabButtons) tabButtons[k].classList.remove("active");
+          t.classList.add("active");
+          if (label === "Search") {
+            win.wmp.search.focus();
+            win.wmp.search.select();
+          } else if (label === "Playlists") {
+            wmpState.folder = null;
+            wmpState.query = "";
+            win.wmp.search.value = "";
+            wmpRenderLibrary(win);
+            wmpRenderList(win);
+          } else if (label === "Queue-It-Up") {
+            showBalloon("queue-it-up", "As faixas visiveis tocam em sequencia.");
+          } else {
+            showBalloon("adicionar", "A biblioteca ja reune os lancamentos do catalogo.");
+          }
+        });
+        tabButtons[label] = t;
+        tabs.appendChild(t);
+      });
+
+      var albumInfo = wmpEl("button", "wmp-tab link", "View Album Info");
+      albumInfo.type = "button";
+      albumInfo.addEventListener("click", function() {
+        var current = wmpState.track;
+        if (!current) {
+          showBalloon("album", "Escolha uma faixa para ver o lancamento.");
+          return;
+        }
+        var rel = current.release;
+        var genres = (rel.genres || []).join(", ");
+        showBalloon("album", rel.title + " - " + rel.artist + " - " + rel.year + (genres ? " - " + genres : ""));
+      });
+      tabs.appendChild(albumInfo);
+      main.appendChild(tabs);
+
+      var toolbar = wmpEl("div", "wmp-toolbar");
+
+      function toolbarButton(kind, label) {
+        var b = wmpEl("button", "wmp-tb-btn");
+        b.type = "button";
         b.title = label;
-        if (disabled) b.disabled = true;
-        var ns = "http://www.w3.org/2000/svg";
-        var svg = document.createElementNS(ns, "svg");
-        svg.setAttribute("viewBox", "0 0 16 16");
-        var p = document.createElementNS(ns, "path");
-        p.setAttribute("d", path);
-        svg.appendChild(p);
-        b.appendChild(svg);
-        toolbar.appendChild(b);
+        b.setAttribute("aria-label", label);
+        b.innerHTML = wmpToolbarIcon(kind);
         return b;
       }
 
-      var bPrev = mkBtn("anterior", "M4 3h2v10H4zM13 3v10L6 8z");
-      var bPlay = mkBtn("reproduzir", "M4 3l9 5-9 5z");
-      var bNext = mkBtn("próxima", "M10 3h2v10h-2zM3 3l7 5-7 5z");
-      var bStop = mkBtn("parar", "M4 4h8v8H4z");
+      var bBack = toolbarButton("back", "ver todas as faixas");
+      bBack.addEventListener("click", function() {
+        wmpState.folder = null;
+        wmpState.query = "";
+        win.wmp.search.value = "";
+        wmpRenderLibrary(win);
+        wmpRenderList(win);
+      });
+      toolbar.appendChild(bBack);
 
-      var time = document.createElement("span");
-      time.className = "xp-wmp-time";
-      time.textContent = "0:00 / 0:00";
-      toolbar.appendChild(time);
+      var bHome = toolbarButton("home", "inicio da biblioteca");
+      bHome.addEventListener("click", function() {
+        wmpState.folder = null;
+        wmpState.query = "";
+        win.wmp.search.value = "";
+        wmpRenderLibrary(win);
+        wmpRenderList(win);
+      });
+      toolbar.appendChild(bHome);
 
+      var search = wmpEl("label", "wmp-search");
+      search.innerHTML = wmpToolbarIcon("search");
+      var input = document.createElement("input");
+      input.type = "search";
+      input.placeholder = "pesquisar faixas";
+      input.setAttribute("aria-label", "pesquisar faixas");
+      input.addEventListener("input", function() {
+        wmpState.query = input.value;
+        wmpRenderList(win);
+      });
+      search.appendChild(input);
+      toolbar.appendChild(search);
+
+      var chip = wmpEl("div", "wmp-view");
+      chip.appendChild(document.createTextNode("Now Playing"));
+      var chipSvg = document.createElement("span");
+      chipSvg.innerHTML = wmpChevronSvg();
+      chip.appendChild(chipSvg);
+      toolbar.appendChild(chip);
       main.appendChild(toolbar);
 
-      // lista
-      var list = document.createElement("div");
-      list.className = "xp-wmp-list";
-      main.appendChild(list);
+      var content = wmpEl("div", "wmp-content");
+      var side = wmpEl("aside", "xp-wmp-side");
+      side.setAttribute("aria-label", "biblioteca por ano");
+      content.appendChild(side);
 
-      // faixa de transporte
-      var now = document.createElement("div");
-      now.className = "xp-wmp-now";
+      var listWrap = wmpEl("div", "wmp-list-wrap");
+      var listHead = wmpEl("div", "wmp-list-head");
+      listHead.setAttribute("aria-hidden", "true");
+      ["#", "", "Titulo", "Artista", "Album", "Genero", "Tempo", "Bit rate", ""].forEach(function(label, i) {
+        var cell = wmpEl("span", i === 0 || i === 6 || i === 7 ? "wmp-h-num" : null, label);
+        listHead.appendChild(cell);
+      });
+      listWrap.appendChild(listHead);
 
-      var cover = document.createElement("div");
-      cover.className = "xp-wmp-cover";
-      now.appendChild(cover);
+      var list = wmpEl("div", "xp-wmp-list");
+      list.setAttribute("role", "list");
+      listWrap.appendChild(list);
+      content.appendChild(listWrap);
+      main.appendChild(content);
 
-      var meta = document.createElement("div");
-      meta.className = "xp-wmp-meta";
-      meta.innerHTML = "<b>nada tocando</b><span>escolha uma faixa na biblioteca</span>";
-      now.appendChild(meta);
+      app.appendChild(nav);
+      app.appendChild(main);
+      body.appendChild(app);
 
-      var seek = document.createElement("div");
-      seek.className = "xp-wmp-seek";
+      var status = wmpEl("div", "xp-wmp-status");
+      var cover = wmpEl("div", "xp-wmp-cover");
+      status.appendChild(cover);
+      var meta = wmpEl("div", "xp-wmp-meta");
+      var song = wmpEl("b", null, "Song: nada tocando");
+      var det = wmpEl("span", null, "escolha uma faixa na biblioteca");
+      meta.appendChild(song);
+      meta.appendChild(det);
+      status.appendChild(meta);
+      var statusRight = wmpEl("span", "wmp-status-right", "Item(s): 0");
+      status.appendChild(statusRight);
+      body.appendChild(status);
+
+      var seekrow = wmpEl("div", "wmp-seekrow");
+      var seek = wmpEl("div", "xp-wmp-seek");
       seek.setAttribute("role", "slider");
-      seek.setAttribute("aria-label", "posição da faixa");
-      var fill = document.createElement("div");
-      fill.className = "xp-wmp-seek-fill";
-      var knob = document.createElement("div");
-      knob.className = "xp-wmp-seek-knob";
+      seek.setAttribute("aria-label", "posicao da faixa");
+      var fill = wmpEl("div", "xp-wmp-seek-fill");
+      var knob = wmpEl("div", "xp-wmp-seek-knob");
       seek.appendChild(fill);
       seek.appendChild(knob);
-      now.appendChild(seek);
+      seekrow.appendChild(seek);
+      var time = wmpEl("span", "xp-wmp-time", "0:00 / 0:00");
+      seekrow.appendChild(time);
+      body.appendChild(seekrow);
 
-      main.appendChild(now);
-      body.appendChild(main);
+      var now = wmpEl("div", "xp-wmp-now");
+      var bPrev = wmpEl("button", "xp-wmp-btn");
+      bPrev.type = "button";
+      bPrev.title = "anterior";
+      bPrev.setAttribute("aria-label", "anterior");
+      bPrev.innerHTML = wmpGlyph("prev");
+      now.appendChild(bPrev);
 
-      win.wmp = { side: side, list: list, time: time, cover: cover, meta: meta, seek: seek, fill: fill, knob: knob };
-      win.wmp.bPlay = bPlay;
-      win.wmp.bPrev = bPrev;
-      win.wmp.bNext = bNext;
-      win.wmp.bStop = bStop;
+      var bPlay = wmpEl("button", "xp-wmp-btn wmp-play");
+      bPlay.type = "button";
+      bPlay.title = "reproduzir";
+      bPlay.setAttribute("aria-label", "reproduzir");
+      bPlay.innerHTML = wmpGlyph("play");
+      now.appendChild(bPlay);
+
+      var bNext = wmpEl("button", "xp-wmp-btn");
+      bNext.type = "button";
+      bNext.title = "proxima";
+      bNext.setAttribute("aria-label", "proxima");
+      bNext.innerHTML = wmpGlyph("next");
+      now.appendChild(bNext);
+
+      var bStop = wmpEl("button", "xp-wmp-btn");
+      bStop.type = "button";
+      bStop.title = "parar";
+      bStop.setAttribute("aria-label", "parar");
+      bStop.innerHTML = wmpGlyph("stop");
+      now.appendChild(bStop);
+
+      var vol = wmpEl("label", "wmp-vol");
+      vol.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11 5.5c1.2 1.4 1.2 3.6 0 5"/></svg>';
+      var volInput = document.createElement("input");
+      volInput.type = "range";
+      volInput.min = "0";
+      volInput.max = "100";
+      volInput.value = String(Math.round((wmpState.volume == null ? 0.8 : wmpState.volume) * 100));
+      volInput.setAttribute("aria-label", "volume");
+      volInput.addEventListener("input", function() {
+        wmpState.volume = Number(volInput.value) / 100;
+        if (wmpState.audio) wmpState.audio.volume = wmpState.volume;
+      });
+      vol.appendChild(volInput);
+      now.appendChild(vol);
+
+      var brand = wmpEl("span", "wmp-brand", "WMP");
+      now.appendChild(brand);
+      body.appendChild(now);
+
+      win.wmp = {
+        nav: nav,
+        navButtons: navButtons,
+        tabs: tabs,
+        tabButtons: tabButtons,
+        side: side,
+        list: list,
+        listHead: listHead,
+        cover: cover,
+        meta: meta,
+        song: song,
+        det: det,
+        statusRight: statusRight,
+        seek: seek,
+        fill: fill,
+        knob: knob,
+        time: time,
+        search: input,
+        bPlay: bPlay,
+        bPrev: bPrev,
+        bNext: bNext,
+        bStop: bStop
+      };
+
+      wmpState.win = win;
 
       bPlay.addEventListener("click", function() { wmpTogglePlay(win); });
       bStop.addEventListener("click", function() { wmpStop(win); });
       bPrev.addEventListener("click", function() { wmpStep(win, -1); });
       bNext.addEventListener("click", function() { wmpStep(win, 1); });
 
-      // arrastar na barra de busca
       function seekTo(e) {
-        var a = win.wmp.audio;
+        var a = wmpState.audio;
         if (!a || !isFinite(a.duration) || !a.duration) return;
         var r = seek.getBoundingClientRect();
         var ratio = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
         a.currentTime = ratio * a.duration;
+        wmpUpdateTime(win);
       }
       seek.addEventListener("pointerdown", function(e) {
         wmpState.seeking = true;
@@ -10248,146 +11052,156 @@ function xpOpenPlayer() {
         if (wmpState.seeking) seekTo(e);
       });
       seek.addEventListener("pointerup", function() { wmpState.seeking = false; });
+      seek.addEventListener("pointercancel", function() { wmpState.seeking = false; });
+
+      wmpRenderLibrary(win);
+      wmpRenderList(win);
+      wmpRenderStatus(win);
+      wmpUpdatePlayButton(win);
+      wmpUpdateTime(win);
     }
   });
 
-  wmpRenderLibrary(win);
-  wmpRenderList(win);
   return win;
 }
 
-// ------------------------------------------------- biblioteca lateral
+// --------------------------------------------------------------- biblioteca
 function wmpRenderLibrary(win) {
+  if (!win || !win.wmp) return;
   var side = win.wmp.side;
-  side.innerHTML = "<h3>biblioteca</h3>";
+  side.innerHTML = "";
 
-  // pasta raiz
-  var all = document.createElement("button");
-  all.type = "button";
-  all.className = "xp-wmp-folder" + (wmpState.folder === null ? " active" : "");
-  var allIcon = document.createElement("img");
-  allIcon.src = XP_ICONS.music;
-  allIcon.alt = "";
-  all.appendChild(allIcon);
-  var allLabel = document.createElement("span");
-  allLabel.textContent = "todos os lançamentos";
-  all.appendChild(allLabel);
-  var allCount = document.createElement("span");
-  allCount.className = "xp-wmp-count";
-  allCount.textContent = String(wmpState.releases.length);
-  all.appendChild(allCount);
-  all.addEventListener("click", function() {
-    wmpState.folder = null;
-    wmpRenderLibrary(win);
-    wmpRenderList(win);
-  });
-  side.appendChild(all);
+  function folderButton(label, iconSrc, folderValue, count) {
+    var b = wmpEl("button", "xp-wmp-folder");
+    b.type = "button";
+    if (wmpState.folder === folderValue) b.classList.add("active");
+    var ico = document.createElement("img");
+    ico.src = iconSrc;
+    ico.alt = "";
+    b.appendChild(ico);
+    b.appendChild(wmpEl("span", null, label));
+    b.appendChild(wmpEl("span", "xp-wmp-count", String(count)));
+    b.addEventListener("click", function() {
+      wmpState.folder = folderValue;
+      wmpRenderLibrary(win);
+      wmpRenderList(win);
+      playClick("select");
+    });
+    side.appendChild(b);
+  }
 
-  // pastas por ano
+  side.appendChild(wmpEl("div", "wmp-side-head", "Media Library"));
+
+  var total = 0;
+  wmpState.releases.forEach(function(r) { total += r.tracks.length; });
+  folderButton("All Music", XP_ICONS.music, null, total);
+
   var years = {};
   wmpState.releases.forEach(function(r) {
     var y = String(r.year || "----");
-    years[y] = (years[y] || 0) + 1;
+    if (!years[y]) years[y] = 0;
+    years[y] += r.tracks.length;
   });
-
   Object.keys(years).sort().reverse().forEach(function(y) {
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "xp-wmp-folder" + (wmpState.folder === y ? " active" : "");
-    var ico = document.createElement("img");
-    ico.src = XP_ICONS.folder;
-    ico.alt = "";
-    btn.appendChild(ico);
-    var label = document.createElement("span");
-    label.textContent = y;
-    btn.appendChild(label);
-    var count = document.createElement("span");
-    count.className = "xp-wmp-count";
-    count.textContent = String(years[y]);
-    btn.appendChild(count);
-    btn.addEventListener("click", function() {
-      wmpState.folder = y;
-      wmpRenderLibrary(win);
-      wmpRenderList(win);
-    });
-    side.appendChild(btn);
+    folderButton(y, XP_ICONS.folderClosed, y, years[y]);
   });
 }
 
-// ------------------------------------------------- lista de faixas
-function wmpRenderList(win) {
-  var list = win.wmp.list;
-  list.innerHTML = "";
+// ------------------------------------------------------------ lista de faixas
+function wmpTrackMatches(rel, track, query) {
+  if (!query) return true;
+  var hay = [
+    track.title,
+    rel.title,
+    rel.artist,
+    rel.year,
+    (rel.genres || []).join(" "),
+    track.genre || ""
+  ].join(" ").toLowerCase();
+  return hay.indexOf(query) >= 0;
+}
 
-  var items = wmpState.releases.filter(function(r) {
+function wmpVisibleReleases() {
+  return wmpState.releases.filter(function(r) {
     if (wmpState.folder === null) return true;
     return String(r.year) === wmpState.folder;
   });
+}
 
-  if (!items.length) {
-    var empty = document.createElement("div");
-    empty.className = "xp-wmp-empty";
-    empty.textContent = "nenhum lançamento nesta pasta.";
-    list.appendChild(empty);
-    return;
-  }
+function wmpQueue() {
+  var q = String(wmpState.query || "").toLowerCase();
+  var out = [];
+  wmpVisibleReleases().forEach(function(rel) {
+    rel.tracks.forEach(function(track) {
+      if (wmpTrackMatches(rel, track, q)) out.push({ release: rel, track: track });
+    });
+  });
+  return out;
+}
 
-  items.forEach(function(rel) {
-    var cover = wmpState.covers[rel.title];
-    var coverImg = cover && cover.local ? cover.local : null;
+function wmpBitrateLabel(track) {
+  if (!track || !track._seconds || !track.size) return "\u2014";
+  var kbps = Math.round((track.size * 8) / track._seconds / 1000);
+  return kbps > 0 ? kbps + " kbps" : "\u2014";
+}
 
-    // cabeçalho do release
-    var head = document.createElement("button");
-    head.type = "button";
-    head.className = "xp-wmp-folder";
-    var ico = document.createElement("img");
-    ico.src = coverImg || XP_ICONS.music;
-    ico.alt = "";
-    head.appendChild(ico);
-    var hLabel = document.createElement("span");
-    hLabel.textContent = rel.title + " · " + rel.artist;
-    head.appendChild(hLabel);
-    var hCount = document.createElement("span");
-    hCount.className = "xp-wmp-count";
-    hCount.textContent = rel.tracks.length + (rel.tracks.length === 1 ? " faixa" : " faixas");
-    head.appendChild(hCount);
+function wmpRenderList(win) {
+  if (!win || !win.wmp) return;
+  var list = win.wmp.list;
+  var keepScroll = list.scrollTop;
+  list.innerHTML = "";
+
+  var q = String(wmpState.query || "").toLowerCase();
+  var releases = wmpVisibleReleases();
+  var count = 0;
+
+  releases.forEach(function(rel) {
+    var tracks = rel.tracks.filter(function(track) {
+      return wmpTrackMatches(rel, track, q);
+    });
+    if (!tracks.length) return;
+
+    var head = wmpEl("div", "wmp-group");
+    var grpCover = wmpEl("span", "wmp-group-cover");
+    wmpFillCover(grpCover, rel);
+    head.appendChild(grpCover);
+    head.appendChild(wmpEl("span", "wmp-group-title", rel.title));
+    head.appendChild(wmpEl("span", "wmp-group-meta", rel.artist + " \u00b7 " + rel.year));
+    head.appendChild(wmpEl("span", "wmp-group-count", tracks.length + (tracks.length === 1 ? " faixa" : " faixas")));
     list.appendChild(head);
 
-    // faixas
-    rel.tracks.forEach(function(track, i) {
-      var row = document.createElement("button");
+    tracks.forEach(function(track, i) {
+      var playing = !!(wmpState.track &&
+        wmpState.track.release === rel &&
+        wmpState.track.track === track);
+
+      var row = wmpEl("button", "xp-wmp-track" + (count % 2 ? " alt" : "") + (playing ? " playing" : ""));
       row.type = "button";
-      row.className = "xp-wmp-track";
-      if (wmpState.track && wmpState.track.release === rel && wmpState.track.track === track) {
-        row.classList.add("playing");
+      row.setAttribute("role", "listitem");
+      row.setAttribute("aria-label", "tocar " + track.title);
+      row.title = track.title + " \u2014 " + rel.artist;
+
+      row.appendChild(wmpEl("span", "wmp-num", String(i + 1)));
+
+      var ico = wmpEl("span", "wmp-ico");
+      if (playing) {
+        ico.innerHTML = wmpNoteSvg();
+      } else {
+        var ti = document.createElement("img");
+        ti.src = WMP_TRACK_ICON;
+        ti.alt = "";
+        ico.appendChild(ti);
       }
+      row.appendChild(ico);
 
-      var n = document.createElement("span");
-      n.className = "xp-wmp-n";
-      n.textContent = String(i + 1);
-      row.appendChild(n);
+      row.appendChild(wmpEl("span", "wmp-title", track.title));
+      row.appendChild(wmpEl("span", "wmp-artist", rel.artist || "\u2014"));
+      row.appendChild(wmpEl("span", "wmp-album", rel.title));
+      row.appendChild(wmpEl("span", "wmp-genre", (rel.genres && rel.genres[0]) || "\u2014"));
+      row.appendChild(wmpEl("span", "wmp-len", track.duration || "\u2014"));
+      row.appendChild(wmpEl("span", "wmp-br", wmpBitrateLabel(track)));
 
-      var tIcon = document.createElement("img");
-      tIcon.src = WMP_TRACK_ICON;
-      tIcon.alt = "";
-      tIcon.style.width = "14px";
-      tIcon.style.height = "14px";
-      tIcon.style.flexShrink = "0";
-      row.appendChild(tIcon);
-
-      var name = document.createElement("span");
-      name.textContent = track.title;
-      name.style.overflow = "hidden";
-      name.style.textOverflow = "ellipsis";
-      name.style.whiteSpace = "nowrap";
-      row.appendChild(name);
-
-      var dur = document.createElement("span");
-      dur.className = "xp-wmp-dur";
-      dur.textContent = track.duration || "";
-      row.appendChild(dur);
-
-      // download da faixa (quando o host estiver plugado no path)
+      var dlCell = wmpEl("span", "wmp-dl-cell");
       var dlUrl = wmpDownloadUrl(rel, track);
       if (dlUrl) {
         var dlA = document.createElement("a");
@@ -10398,8 +11212,9 @@ function wmpRenderList(win) {
         dlA.setAttribute("aria-label", "baixar " + track.title);
         dlA.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8M4.5 7L8 10.5 11.5 7M3 13h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         dlA.addEventListener("click", function(e) { e.stopPropagation(); });
-        row.appendChild(dlA);
+        dlCell.appendChild(dlA);
       }
+      row.appendChild(dlCell);
 
       row.addEventListener("click", function() {
         wmpPlayTrack(win, rel, track);
@@ -10419,59 +11234,96 @@ function wmpRenderList(win) {
       });
 
       list.appendChild(row);
+      count++;
     });
   });
-}
 
-// ------------------------------------------------- reprodução
-function wmpPlayTrack(win, release, track) {
-  var url = wmpAudioUrl(release, track);
-
-  if (!wmpState.audio) {
-    wmpState.audio = new Audio();
-    wmpState.audio.addEventListener("timeupdate", function() { wmpUpdateTime(win); });
-    wmpState.audio.addEventListener("ended", function() { wmpStep(win, 1); });
-    wmpState.audio.addEventListener("loadedmetadata", function() { wmpUpdateTime(win); });
-    wmpState.audio.addEventListener("error", function() {
-      var m = win.wmp.meta;
-      if (m) {
-        m.innerHTML = "<b>áudio não encontrado</b><span>coloque o arquivo em " + url + " ou use o botão baixar</span>";
-      }
-    });
+  if (!count) {
+    var empty = wmpEl("div", "xp-wmp-empty");
+    empty.textContent = q
+      ? "nenhuma faixa encontrada para \u201c" + wmpState.query + "\u201d."
+      : "nenhum lancamento nesta pasta.";
+    list.appendChild(empty);
   }
 
+  list.scrollTop = keepScroll;
+  win.wmp.statusRight.textContent = "Item(s): " + count;
+}
+
+// --------------------------------------------------------------- reproducao
+function wmpSetStatus(win, title, sub) {
+  if (!win || !win.wmp) return;
+  win.wmp.song.textContent = title;
+  win.wmp.det.textContent = sub;
+}
+
+function wmpShowError(win) {
+  var cur = wmpState.track;
+  if (!win || !cur) return;
+  var url = wmpAudioUrl(cur.release, cur.track);
+  wmpSetStatus(win, "Song: " + cur.track.title, "audio indisponivel neste host \u2014 " + url);
+}
+
+function wmpRenderStatus(win) {
+  if (!win || !win.wmp) return;
+  if (!wmpState.track) {
+    wmpFillCover(win.wmp.cover, null);
+    wmpSetStatus(win, "Song: nada tocando", "escolha uma faixa na biblioteca");
+    return;
+  }
+  var rel = wmpState.track.release;
+  var track = wmpState.track.track;
+  wmpFillCover(win.wmp.cover, rel);
+  wmpSetStatus(win, "Song: " + track.title, rel.title + " \u00b7 " + rel.artist);
+}
+
+function wmpApplyTrackMeta(win) {
+  var track = wmpState.track && wmpState.track.track;
+  if (!track || !win || !win.wmp) return;
+  var row = win.wmp.list.querySelector(".xp-wmp-track.playing");
+  if (!row) return;
+  var len = row.querySelector(".wmp-len");
+  if (len) len.textContent = track.duration || "\u2014";
+  var br = row.querySelector(".wmp-br");
+  if (br) br.textContent = wmpBitrateLabel(track);
+}
+
+function wmpPlayTrack(win, release, track) {
+  var url = wmpAudioUrl(release, track);
+  win = win || wmpState.win;
+  wmpState.win = win;
   wmpState.track = { release: release, track: track };
+
+  if (!wmpState.audio) {
+    var audio = new Audio();
+    audio.preload = "metadata";
+    audio.addEventListener("timeupdate", function() { wmpUpdateTime(wmpState.win); });
+    audio.addEventListener("ended", function() { wmpStep(wmpState.win, 1); });
+    audio.addEventListener("loadedmetadata", function() {
+      var t = wmpState.track && wmpState.track.track;
+      if (t) {
+        t._seconds = audio.duration;
+        t.duration = isFinite(audio.duration) ? wmpFormatTime(audio.duration) : t.duration;
+      }
+      wmpApplyTrackMeta(wmpState.win);
+      wmpUpdateTime(wmpState.win);
+    });
+    audio.addEventListener("error", function() {
+      wmpShowError(wmpState.win);
+      wmpUpdatePlayButton(wmpState.win);
+    });
+    wmpState.audio = audio;
+  }
+
   wmpState.audio.src = url;
-  wmpState.audio.volume = 0.8;
+  wmpState.audio.volume = wmpState.volume == null ? 0.8 : wmpState.volume;
 
   var play = wmpState.audio.play();
   if (play && play.catch) {
-    play.catch(function() {
-      var m = win.wmp.meta;
-      if (m) {
-        m.innerHTML = "<b>não foi possível tocar aqui</b><span>o arquivo fica em " + url + ". use o botão baixar.</span>";
-      }
-    });
+    play.catch(function() { wmpShowError(win); wmpUpdatePlayButton(win); });
   }
 
-  // capa e metadados
-  var cover = wmpState.covers[release.title];
-  win.wmp.cover.innerHTML = "";
-  if (cover && cover.local) {
-    var img = document.createElement("img");
-    img.src = cover.local;
-    img.alt = "";
-    win.wmp.cover.appendChild(img);
-  }
-
-  win.wmp.meta.innerHTML = "";
-  var b = document.createElement("b");
-  b.textContent = track.title;
-  var s = document.createElement("span");
-  s.textContent = release.title + " · " + release.artist;
-  win.wmp.meta.appendChild(b);
-  win.wmp.meta.appendChild(s);
-
+  wmpRenderStatus(win);
   wmpRenderList(win);
   wmpUpdatePlayButton(win);
   wmpUpdateTime(win);
@@ -10482,7 +11334,7 @@ function wmpTogglePlay(win) {
   if (!a || !wmpState.track) return;
   if (a.paused) {
     var p = a.play();
-    if (p && p.catch) p.catch(function() {});
+    if (p && p.catch) p.catch(function() { wmpShowError(win); });
   } else {
     a.pause();
   }
@@ -10500,27 +11352,49 @@ function wmpStop(win) {
 
 function wmpStep(win, dir) {
   if (!wmpState.track) return;
-  var rel = wmpState.track.release;
-  var tracks = rel.tracks;
-  var idx = tracks.indexOf(wmpState.track.track);
-  var next = idx + dir;
-  if (next < 0 || next >= tracks.length) {
+  win = win || wmpState.win;
+  var queue = wmpQueue();
+  var idx = -1;
+  for (var i = 0; i < queue.length; i++) {
+    if (queue[i].release === wmpState.track.release && queue[i].track === wmpState.track.track) {
+      idx = i;
+      break;
+    }
+  }
+
+  if (idx < 0) {
+    var tracks = wmpState.track.release.tracks;
+    var current = tracks.indexOf(wmpState.track.track);
+    var next = current + dir;
+    if (next >= 0 && next < tracks.length) {
+      wmpPlayTrack(win, wmpState.track.release, tracks[next]);
+    } else {
+      wmpStop(win);
+    }
+    return;
+  }
+
+  var target = idx + dir;
+  if (target < 0 || target >= queue.length) {
     wmpStop(win);
     return;
   }
-  wmpPlayTrack(win, rel, tracks[next]);
+  wmpPlayTrack(win, queue[target].release, queue[target].track);
 }
 
 function wmpUpdatePlayButton(win) {
   var a = wmpState.audio;
-  var b = win.wmp.bPlay;
-  if (!b || !a) return;
-  b.setAttribute("aria-label", a && !a.paused ? "pausar" : "reproduzir");
-  b.title = a && !a.paused ? "pausar" : "reproduzir";
+  var b = win && win.wmp ? win.wmp.bPlay : null;
+  if (!b) return;
+  var playing = !!(a && !a.paused && wmpState.track);
+  b.innerHTML = wmpGlyph(playing ? "pause" : "play");
+  b.setAttribute("aria-label", playing ? "pausar" : "reproduzir");
+  b.title = playing ? "pausar" : "reproduzir";
 }
 
 function wmpUpdateTime(win) {
   var a = wmpState.audio;
+  if (!win || !win.wmp) return;
   var t = win.wmp.time;
   if (!t) return;
   if (!a || !wmpState.track) {
@@ -10537,6 +11411,7 @@ function wmpUpdateTime(win) {
     win.wmp.fill.style.width = (ratio * 100) + "%";
     win.wmp.knob.style.left = (ratio * 100) + "%";
   }
+  wmpUpdatePlayButton(win);
 }
 
 // ------------------------------------------------- carregar a discografia
@@ -10573,6 +11448,7 @@ function wmpLoadLibrary() {
         if (found) {
           wmpRenderLibrary(found);
           wmpRenderList(found);
+          wmpRenderStatus(found);
         }
       }
     })
