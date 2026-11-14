@@ -2275,12 +2275,62 @@ body:not(.light) .ink-dark {
 }
 
 .xp-explorer-tree {
-  width: 168px;
+  width: 178px;
   flex-shrink: 0;
-  padding: 6px 4px;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid #d4d0c8;
   background: #fff;
+  min-height: 0;
+}
+
+.xp-tree-head {
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 6px;
+  border-bottom: 1px solid #0f3ba0;
+  background: linear-gradient(180deg, #225ad9 0%, #164ac0 100%);
+  color: #fff;
+  font-family: var(--font-xp);
+  font-size: 11px;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(0, 20, 70, 0.6);
+  user-select: none;
+}
+
+.xp-tree-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.xp-tree-close {
+  width: 13px;
+  height: 13px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #e06c55, #c03820);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.xp-tree-close:hover {
+  background: linear-gradient(180deg, #f07d67, #d44026);
+}
+
+.xp-tree-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 4px;
 }
 
 .xp-tree-node {
@@ -2344,7 +2394,9 @@ body:not(.light) .ink-dark {
 
 /* Cabeçalho da lista em colunas */
 .xp-list-head {
+  height: 20px;
   display: flex;
+  align-items: center;
   flex-shrink: 0;
   border-bottom: 1px solid #d4d0c8;
   background: linear-gradient(180deg, #fff 0%, #f0eee4 100%);
@@ -3374,6 +3426,473 @@ body:not(.light) .ink-dark {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
 }
 
+/* ------------------------------------------------ WMP 9 Páginas Interativas */
+.wmp-view-panel {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px 14px;
+  background: #14284d;
+  color: #e6f0fa;
+  font-family: var(--font-xp);
+  font-size: 11px;
+}
+
+.wmp-view-panel::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+.wmp-view-panel::-webkit-scrollbar-track {
+  background: #102140;
+}
+.wmp-view-panel::-webkit-scrollbar-thumb {
+  border: 2px solid #102140;
+  background: linear-gradient(90deg, #e9eff7, #b7c5d8);
+}
+
+.wmp-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #2e4d7a;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.wmp-page-sub {
+  font-size: 10px;
+  font-weight: 400;
+  color: #a4c2e6;
+}
+
+/* --- Now Playing View --- */
+.wmp-now-layout {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+}
+.wmp-now-artpane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: radial-gradient(circle at center, #1e3d6e 0%, #0d1e3a 75%, #071224 100%);
+  border: 1px solid #284c80;
+  border-radius: 4px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+.wmp-big-cover {
+  width: 130px;
+  height: 130px;
+  border: 2px solid #5880b9;
+  border-radius: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #09152b;
+  margin-bottom: 12px;
+}
+.wmp-big-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wmp-big-letter {
+  font-size: 56px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+.wmp-viz-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 28px;
+  margin: 8px 0 10px;
+}
+.wmp-viz-bar {
+  width: 5px;
+  background: linear-gradient(180deg, #ff4d4d 0%, #ffe04d 30%, #52e352 70%, #20b020 100%);
+  border-radius: 1px 1px 0 0;
+  height: 4px;
+  transition: height 0.12s ease;
+}
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(1) { animation: wmpViz 0.6s infinite ease-in-out alternate; }
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(2) { animation: wmpViz 0.45s 0.1s infinite ease-in-out alternate; }
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(3) { animation: wmpViz 0.7s 0.2s infinite ease-in-out alternate; }
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(4) { animation: wmpViz 0.5s 0.05s infinite ease-in-out alternate; }
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(5) { animation: wmpViz 0.8s 0.15s infinite ease-in-out alternate; }
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(6) { animation: wmpViz 0.55s 0.25s infinite ease-in-out alternate; }
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(7) { animation: wmpViz 0.65s 0.12s infinite ease-in-out alternate; }
+.wmp-viz-bars.playing .wmp-viz-bar:nth-child(8) { animation: wmpViz 0.4s 0.18s infinite ease-in-out alternate; }
+@keyframes wmpViz {
+  0% { height: 4px; }
+  100% { height: 26px; }
+}
+.wmp-now-meta-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.wmp-now-meta-sub {
+  font-size: 11px;
+  color: #9ec2ed;
+}
+
+.wmp-now-queuepane {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: #0d1e3a;
+  border: 1px solid #2b4f84;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.wmp-q-head {
+  padding: 5px 8px;
+  background: linear-gradient(180deg, #2b548b 0%, #1a3964 100%);
+  font-weight: 700;
+  font-size: 10px;
+  color: #fff;
+  border-bottom: 1px solid #142a4a;
+}
+.wmp-q-list {
+  flex: 1;
+  overflow: auto;
+  padding: 2px 0;
+}
+.wmp-q-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 3px 8px;
+  background: none;
+  border: 0;
+  color: #cddff5;
+  font-family: var(--font-xp);
+  font-size: 10px;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.wmp-q-item:hover {
+  background: #24487b;
+  color: #fff;
+}
+.wmp-q-item.active {
+  background: linear-gradient(180deg, #3f7ec4, #21599c);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* --- Media Guide (Release Grid) --- */
+.wmp-guide-filters {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.wmp-chip-btn {
+  padding: 3px 9px;
+  border: 1px solid #3c6194;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #244675, #142e54);
+  color: #d8e8fc;
+  font-family: var(--font-xp);
+  font-size: 10px;
+  cursor: pointer;
+}
+.wmp-chip-btn:hover {
+  background: #335d96;
+  color: #fff;
+}
+.wmp-chip-btn.active {
+  background: linear-gradient(180deg, #f7fbff, #c8daf2);
+  border-color: #658cbf;
+  color: #12345e;
+  font-weight: 700;
+}
+.wmp-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+}
+.wmp-guide-card {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background: #19335a;
+  border: 1px solid #2d558c;
+  border-radius: 3px;
+  transition: transform 0.1s ease, background 0.1s ease;
+  cursor: pointer;
+}
+.wmp-guide-card:hover {
+  background: #23477d;
+  border-color: #5587cb;
+  transform: translateY(-2px);
+}
+.wmp-card-top {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.wmp-card-cover {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid #4a74aa;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  border-radius: 2px;
+}
+.wmp-card-info {
+  min-width: 0;
+  flex: 1;
+}
+.wmp-card-title {
+  font-weight: 700;
+  font-size: 11px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wmp-card-meta {
+  font-size: 9px;
+  color: #9ec2ea;
+}
+.wmp-card-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 4px;
+}
+.wmp-genre-badge {
+  font-size: 8px;
+  padding: 1px 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  color: #cbe0fa;
+}
+
+/* --- Copy from CD (Rip) --- */
+.wmp-cd-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  background: #1b3864;
+  border: 1px solid #365e96;
+  border-radius: 3px;
+}
+.wmp-select {
+  height: 22px;
+  background: #0d1e3a;
+  color: #fff;
+  border: 1px solid #4874b0;
+  padding: 0 4px;
+  font-family: var(--font-xp);
+  font-size: 10px;
+  border-radius: 2px;
+}
+.wmp-btn-action {
+  height: 22px;
+  padding: 0 10px;
+  background: linear-gradient(180deg, #3f7fc4 0%, #20599c 100%);
+  color: #fff;
+  border: 1px solid #5a91d4;
+  border-radius: 2px;
+  font-family: var(--font-xp);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.wmp-btn-action:hover:not(:disabled) {
+  background: linear-gradient(180deg, #5193dc 0%, #2c6eb8 100%);
+}
+.wmp-btn-action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.wmp-prog-wrap {
+  width: 100%;
+  height: 12px;
+  background: #09152a;
+  border: 1px solid #31588f;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.wmp-prog-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(180deg, #5bf55b 0%, #21a821 100%);
+  transition: width 0.2s ease;
+}
+
+/* --- Radio Tuner --- */
+.wmp-radio-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.wmp-radio-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #17325b;
+  border: 1px solid #2f5a94;
+  border-radius: 3px;
+}
+.wmp-radio-item:hover {
+  background: #1e4175;
+}
+.wmp-station-name {
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+}
+.wmp-station-genre {
+  font-size: 10px;
+  color: #9ec2ec;
+}
+.wmp-badge-air {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #258c25;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* --- Copy to Device --- */
+.wmp-device-layout {
+  display: flex;
+  gap: 12px;
+}
+.wmp-device-pane {
+  flex: 1;
+  background: #0f2244;
+  border: 1px solid #2b5087;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+/* --- Premium Services --- */
+.wmp-prem-card {
+  background: linear-gradient(135deg, #1b3562, #0d1e3d);
+  border: 1px solid #3c659e;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.wmp-badge-wait {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #8e5812;
+  color: #ffe4a0;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+/* --- Skin Chooser --- */
+.wmp-skin-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.wmp-skin-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: #162f56;
+  border: 2px solid #2f5c99;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.wmp-skin-card:hover {
+  border-color: #5d93dc;
+}
+.wmp-skin-card.active {
+  border-color: #6fb6ff;
+  background: #1e3f73;
+}
+.wmp-skin-thumb {
+  height: 60px;
+  border-radius: 2px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.wmp-skin-thumb.luna {
+  background: linear-gradient(180deg, #0e6ce4 0%, #073b98 60%, #ece9d8 60%, #ece9d8 100%);
+}
+.wmp-skin-thumb.royale {
+  background: linear-gradient(180deg, #1f4f8b 0%, #153257 60%, #000 60%, #1c2b3e 100%);
+}
+.wmp-skin-thumb.zune {
+  background: linear-gradient(180deg, #2a2a2a 0%, #111111 60%, #f16422 60%, #202020 100%);
+}
+.wmp-skin-thumb.classic {
+  background: linear-gradient(180deg, #0a246a 0%, #a6caf0 60%, #d4d0c8 60%, #d4d0c8 100%);
+}
+
+/* Skin Styles applied to #xp-player */
+.xp-wmp.wmp-skin-royale .win-bar {
+  background: linear-gradient(180deg, #2b619d, #14355a) !important;
+}
+.xp-wmp.wmp-skin-royale .wmp-nav {
+  background: linear-gradient(180deg, #375782, #182e4a) !important;
+}
+
+.xp-wmp.wmp-skin-zune {
+  background: #1a1a1a !important;
+  border-color: #f16422 !important;
+}
+.xp-wmp.wmp-skin-zune .win-bar {
+  background: linear-gradient(180deg, #2b2b2b, #111111) !important;
+}
+.xp-wmp.wmp-skin-zune .wmp-nav {
+  background: #1c1c1c !important;
+  border-right-color: #333 !important;
+}
+.xp-wmp.wmp-skin-zune .xp-wmp-status {
+  background: linear-gradient(180deg, #ff7b36, #cf4608) !important;
+  color: #fff !important;
+  border-color: #f16422 !important;
+}
+
+.xp-wmp.wmp-skin-classic {
+  background: #d4d0c8 !important;
+  border-color: #808080 !important;
+  border-radius: 0 !important;
+}
+.xp-wmp.wmp-skin-classic .win-bar {
+  background: linear-gradient(90deg, #0a246a, #a6caf0) !important;
+  border-radius: 0 !important;
+}
 /* Botão de baixar do release */
 .xp-dl {
   display: inline-flex;
@@ -3719,7 +4238,7 @@ body.xp-resizing * {
   min-width: 0;
   z-index: 25;
   border-left: 1px solid transparent;
-  box-shadow: -22px 0 44px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
   transform: translateX(100%);
   opacity: 0;
   visibility: hidden;
@@ -5419,11 +5938,7 @@ body.xp-resizing * {
       </button>
     </div>
 
-    <div class="task-buttons" id="task-buttons">
-      <button id="task-app" class="task-item" type="button">
-        <span class="task-icon" aria-hidden="true"><img src="img/xp/Explorer-32.png" alt=""></span><span class="task-label">matesu: portfólio</span>
-      </button>
-    </div>
+    <div class="task-buttons" id="task-buttons"></div>
 
     <div class="tray">
       <button id="tray-sound" class="tray-sound" type="button" aria-label="silenciar sons do sistema" aria-pressed="true">
@@ -5985,12 +6500,147 @@ function playClick(action) {
     xpPlay(XP_CLICK_SOUND, 0.5);
     return;
   }
-  xpPlay(XP_CLICK_SOUND, 0.35);
+  // cliques simples e selecoes comuns nao tocam; so faz estalo quando abre de fato
 }
 
 // O clique simples e seco. O duplo clique abre e tem som proprio.
 function playOpenSound() {
   xpPlay(XP_CLICK_SOUND, 0.5);
+}
+
+// ------------------------------------------------- impacto dos ícones
+// Impacto seco e grave: corpo de ruído curto filtrado no grave (o "toc" da
+// mesa) + senoide descendente rápida (o peso) + cauda curtíssima de
+// reverberação sintetizada.
+var deskImpactCtx = null;
+var deskImpactNoise = null;
+var deskImpactVerbBuf = null;
+var deskImpactVerbNode = null;
+var deskImpactOn = false;
+var deskImpactQuiet = false;
+var deskImpactLast = 0;
+
+function deskImpactArm() {
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
+  try {
+    if (!deskImpactCtx) deskImpactCtx = new AC();
+    if (deskImpactCtx.state === "suspended") deskImpactCtx.resume();
+  } catch (e) {
+    return;
+  }
+  deskImpactOn = true;
+}
+
+// Impulso de ruído curto, já filtrado grave: o corpo do estalo.
+function deskImpactBuffer(ctx) {
+  if (deskImpactNoise) return deskImpactNoise;
+  var len = Math.floor(ctx.sampleRate * 0.08);
+  var buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  var data = buf.getChannelData(0);
+  var lp = 0;
+  for (var i = 0; i < len; i++) {
+    var env = Math.pow(1 - i / len, 5.0);
+    lp += (Math.random() * 2 - 1 - lp) * 0.08;
+    data[i] = lp * env;
+  }
+  deskImpactNoise = buf;
+  return buf;
+}
+
+// Cauda de reverb curta e sutil para dar espessura de sala ao impacto.
+function deskImpactVerbBuffer(ctx) {
+  if (deskImpactVerbBuf) return deskImpactVerbBuf;
+  var len = Math.floor(ctx.sampleRate * 0.22);
+  var buf = ctx.createBuffer(2, len, ctx.sampleRate);
+  for (var c = 0; c < 2; c++) {
+    var d = buf.getChannelData(c);
+    for (var i = 0; i < len; i++) {
+      var tail = Math.pow(1 - i / len, 3.2);
+      d[i] = (Math.random() * 2 - 1) * tail * 0.45;
+    }
+  }
+  deskImpactVerbBuf = buf;
+  return buf;
+}
+
+function deskImpactVerbBus(ctx) {
+  if (deskImpactVerbNode) return deskImpactVerbNode;
+  try {
+    var conv = ctx.createConvolver();
+    conv.buffer = deskImpactVerbBuffer(ctx);
+    var wet = ctx.createGain();
+    wet.gain.value = 0.16;
+    conv.connect(wet);
+    wet.connect(ctx.destination);
+    deskImpactVerbNode = { input: conv, send: 0.25 };
+  } catch (e) {
+    deskImpactVerbNode = { input: ctx.destination, send: 0 };
+  }
+  return deskImpactVerbNode;
+}
+
+// body pode ser um corpo da física; usa id para limitar a repetição no mesmo ícone.
+function deskImpactSound(body, speed, kind) {
+  if (!deskImpactOn || deskImpactQuiet || xpMuted) return;
+  if (!deskImpactCtx) deskImpactArm();
+  var ctx = deskImpactCtx;
+  if (!ctx || ctx.state !== "running") return;
+
+  var force = Math.min(1, Math.max(0.1, Number(speed || 0) / 720));
+  if (force < 0.11) return;
+  var now = window.performance && performance.now ? performance.now() : Date.now();
+  var key = body && body.el ? body.el.id : "desk";
+  if (!deskImpactSound[key]) deskImpactSound[key] = 0;
+  if (now - deskImpactSound[key] < 40) return;
+  deskImpactSound[key] = now;
+  if (now - deskImpactLast < 10) return;
+  deskImpactLast = now;
+
+  var when = ctx.currentTime + 0.001;
+  var out = ctx.createGain();
+  out.gain.setValueAtTime(0, when);
+  // Volume baixo / contido como solicitado
+  out.gain.linearRampToValueAtTime(0.24 * force + 0.03, when + 0.003);
+  out.gain.exponentialRampToValueAtTime(0.0001, when + 0.12);
+  out.connect(ctx.destination);
+
+  var verb = deskImpactVerbBus(ctx);
+  if (verb && verb.input && verb.send > 0) {
+    var send = ctx.createGain();
+    send.gain.value = verb.send;
+    out.connect(send);
+    send.connect(verb.input);
+  }
+
+  // Peso grave: onda descendente de 135Hz para 36Hz
+  var thump = ctx.createOscillator();
+  thump.type = "sine";
+  thump.frequency.setValueAtTime(135 - force * 35, when);
+  thump.frequency.exponentialRampToValueAtTime(36, when + 0.08);
+  var tg = ctx.createGain();
+  tg.gain.setValueAtTime(0.0001, when);
+  tg.gain.exponentialRampToValueAtTime(0.9, when + 0.005);
+  tg.gain.exponentialRampToValueAtTime(0.0001, when + 0.13);
+  thump.connect(tg);
+  tg.connect(out);
+  thump.start(when);
+  thump.stop(when + 0.14);
+
+  // Corpo seco: ruído passa-baixa curto sem agudo
+  var src = ctx.createBufferSource();
+  src.buffer = deskImpactBuffer(ctx);
+  var lp = ctx.createBiquadFilter();
+  lp.type = "lowpass";
+  lp.frequency.value = 520 + force * 380;
+  lp.Q.value = 0.85;
+  var srcGain = ctx.createGain();
+  srcGain.gain.value = 0.65;
+  src.connect(lp);
+  lp.connect(srcGain);
+  srcGain.connect(out);
+  src.start(when);
+  src.stop(when + 0.08);
 }
 
 // ponytail: startup sound removido — sem som de boot
@@ -9029,9 +9679,38 @@ function deskStagger() {
   }
 }
 
+function updatePortfolioTask(state) {
+  var host = document.getElementById("task-buttons");
+  if (!host) return;
+  var btn = document.getElementById("task-app");
+
+  if (state === "app" || state === "min") {
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.id = "task-app";
+      btn.type = "button";
+      btn.className = "task-item";
+      btn.innerHTML = '<span class="task-icon" aria-hidden="true"><img src="img/xp/Explorer-32.png" alt=""></span><span class="task-label">matesu: portf\u00f3lio</span>';
+      btn.addEventListener("click", function() {
+        if (deskState === "app") minimizeApp();
+        else openApp();
+      });
+      host.appendChild(btn);
+      taskApp = btn;
+    }
+    btn.classList.toggle("active", state === "app");
+  } else {
+    if (btn && btn.parentNode) {
+      btn.parentNode.removeChild(btn);
+      taskApp = null;
+    }
+  }
+}
+
 function deskSet(state) {
   deskState = state;
   if (deskEl) deskEl.className = "desk--" + state;
+  updatePortfolioTask(state);
   if (state === "app" && appWindow) {
     appWindow.style.transform = "";
     appWindow.style.opacity = "";
@@ -9063,6 +9742,7 @@ function openApp() {
 
     deskState = "app";
     deskEl.className = "desk--app";
+    updatePortfolioTask("app");
     appWindow.classList.add("enter-anim");
     deskStagger();
     mapResize();
@@ -9120,7 +9800,7 @@ function minimizeApp() {
 }
 
 function closeApp() {
-  if (deskState !== "app" || !iconPortfolio) return;
+  if ((deskState !== "app" && deskState !== "min") || !iconPortfolio) return;
   appWindow.classList.remove("maximized");
   if (winMax) winMax.setAttribute("aria-label", "maximizar");
   playClick("close");
@@ -9430,7 +10110,13 @@ function deskPhysStep(dt) {
       if (b.delay > 0) continue;
     }
 
-    if (b.held) { b.sleepT = 0; continue; }
+    if (b.held) {
+      // arrastado: a gravidade continua puxando, o ponteiro só guia.
+      // Solta pra cima e o ícone voa; solta e ele cai de novo.
+      b.vy += DESK_G * dt * 0.5;
+      b.sleepT = 0;
+      continue;
+    }
 
     b.vy += DESK_G * dt;
 
@@ -9445,11 +10131,17 @@ function deskPhysStep(dt) {
 
     if (b.x < 0) {
       b.x = 0;
-      if (b.vx < 0) b.vx = -b.vx * DESK_WALL;
+      if (b.vx < 0) {
+        deskImpactSound(b, Math.abs(b.vx), "click");
+        b.vx = -b.vx * DESK_WALL;
+      }
       b.va += 16;
     } else if (b.x > W - b.w) {
       b.x = Math.max(0, W - b.w);
-      if (b.vx > 0) b.vx = -b.vx * DESK_WALL;
+      if (b.vx > 0) {
+        deskImpactSound(b, Math.abs(b.vx), "click");
+        b.vx = -b.vx * DESK_WALL;
+      }
       b.va -= 16;
     }
 
@@ -9461,11 +10153,21 @@ function deskPhysStep(dt) {
       if (b.vz > 0) b.vz = -b.vz * 0.35;
     }
 
+    if (b.y < 0) {
+      b.y = 0;
+      if (b.vy < 0) {
+        deskImpactSound(b, Math.abs(b.vy), "click");
+        b.vy = -b.vy * DESK_WALL;
+        if (!b.fromSave) b.va += (Math.random() * 2 - 1) * 60;
+      }
+    }
+
     b.grounded = false;
     var floor = H - b.h;
     if (b.y >= floor) {
       b.y = floor;
       if (b.vy > 28) {
+        deskImpactSound(b, b.vy, "click");
         b.vy = -b.vy * DESK_BOUNCE;
         if (!b.fromSave) b.va += (Math.random() * 2 - 1) * 130;
         if (Math.random() < 0.3) b.vz += (Math.random() * 2 - 1) * 1.4;
@@ -9480,11 +10182,11 @@ function deskPhysStep(dt) {
       b.vx *= Math.pow(0.18, dt);
       b.va *= Math.pow(0.08, dt);
 
-      if (Math.abs(b.vx) < 6 && Math.abs(b.vy) < 8 &&
-          Math.abs(b.va) < 10 && Math.abs(b.vz) < 0.08 &&
+      if (Math.abs(b.vx) < 8 && Math.abs(b.vy) < 10 &&
+          Math.abs(b.va) < 25 && Math.abs(b.vz) < 0.08 &&
           Math.abs(b.z - b.restZ) < 0.03) {
         b.sleepT += dt;
-        if (b.sleepT > 0.5) {
+        if (b.sleepT > 0.35) {
           b.vx = 0;
           b.vy = 0;
           b.va = 0;
@@ -9531,13 +10233,17 @@ function deskPhysCollide(W, H) {
       b.x -= nx * push;
 
       var vn = (a.vx - b.vx) * nx;
-      if (vn < 0) {
+      if (vn < -24) {
+        deskImpactSound(a, Math.abs(vn), "click");
         var imp = -(1 + 0.55) * vn / 2;
         a.vx += imp * nx;
         b.vx -= imp * nx;
         // impacto dá um giro de brinde
         if (!a.fromSave) a.va += (Math.random() * 2 - 1) * Math.min(70, Math.abs(vn) * 0.08);
         if (!b.fromSave) b.va += (Math.random() * 2 - 1) * Math.min(70, Math.abs(vn) * 0.08);
+      } else if (vn < 0) {
+        a.vx *= 0.5;
+        b.vx *= 0.5;
       }
 
       a.x = deskPhysClamp(a.x, 0, Math.max(0, W - a.w));
@@ -9607,9 +10313,8 @@ function deskIconDepth(el, dir) {
   deskPhysEnsure();
 }
 
-// ------------------------------------------------- arrastar os ícones
+// ------------------------------------------------- arrastar os icones (ragdoll e arremesso)
 var deskIconDrag = null;
-
 var deskIconSuppressClick = false;
 
 function deskIconPointerDown(e) {
@@ -9623,13 +10328,22 @@ function deskIconPointerDown(e) {
   var grabY = e.clientY - rect.top - body.y;
   var startX = e.clientX;
   var startY = e.clientY;
-  var lastT = window.performance && performance.now ? performance.now() : Date.now();
   var moved = false;
   var pid = e.pointerId;
+
+  // Historico de velocidades recentes para arremesso limpo
+  var lastX = e.clientX;
+  var lastY = e.clientY;
+  var lastT = window.performance && performance.now ? performance.now() : Date.now();
+  var flingVx = 0;
+  var flingVy = 0;
 
   body.held = true;
   body.asleep = false;
   body.sleepT = 0;
+  body.vx = 0;
+  body.vy = 0;
+  body.va = 0;
   deskPhysEnsure();
 
   try { icon.setPointerCapture(pid); } catch (err) {}
@@ -9638,26 +10352,37 @@ function deskIconPointerDown(e) {
     if (ev.pointerId !== pid) return;
     var dx = ev.clientX - startX;
     var dy = ev.clientY - startY;
+
     if (!moved) {
-      if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+      if (Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
       moved = true;
       icon.classList.add("dragging");
       deskIconDrag = icon;
       deskSelectIcons([icon]);
-      lastT = window.performance && performance.now ? performance.now() : Date.now();
     }
 
     var now = window.performance && performance.now ? performance.now() : Date.now();
-    var step = Math.max(0.006, (now - lastT) / 1000);
+    var dt = Math.max(0.005, (now - lastT) / 1000);
+
+    // Calculo da velocidade do arrasto para arremesso
+    var curVx = (ev.clientX - lastX) / dt;
+    var curVy = (ev.clientY - lastY) / dt;
+    flingVx = flingVx * 0.35 + curVx * 0.65;
+    flingVy = flingVy * 0.35 + curVy * 0.65;
+
+    lastX = ev.clientX;
+    lastY = ev.clientY;
     lastT = now;
 
-    var nx = deskPhysClamp(ev.clientX - rect.left - grabX, 0, Math.max(0, rect.width - body.w));
-    var ny = deskPhysClamp(ev.clientY - rect.top - grabY, 0, Math.max(0, rect.height - body.h));
+    // Posicionamento livre e responsivo
+    var nx = deskPhysClamp(ev.clientX - rect.left - grabX, -body.w * 0.3, Math.max(0, rect.width - body.w * 0.7));
+    var ny = deskPhysClamp(ev.clientY - rect.top - grabY, -body.h * 0.3, Math.max(0, rect.height - body.h * 0.5));
 
-    body.vx = deskPhysClamp((nx - body.x) / step, -2600, 2600);
-    body.vy = deskPhysClamp((ny - body.y) / step, -2600, 2600);
     body.x = nx;
     body.y = ny;
+    // Ragdoll: inclina dinamicamente com o movimento horizontal
+    body.a = deskPhysClamp(flingVx * 0.045, -35, 35);
+
     deskPhysPaint(body);
   }
 
@@ -9667,24 +10392,29 @@ function deskIconPointerDown(e) {
     icon.removeEventListener("pointerup", up);
     icon.removeEventListener("pointercancel", up);
     try { icon.releasePointerCapture(pid); } catch (err) {}
+
     body.held = false;
     body.asleep = false;
     body.sleepT = 0;
 
     if (!moved) {
-      body.vx = 0;
-      body.vy = 0;
       deskPhysEnsure();
       return;
     }
 
     icon.classList.remove("dragging");
     deskIconDrag = null;
+
+    // Arremesso: fisica pura com inercia e giro proporcional ao arremesso
+    var boost = 1.18;
+    body.vx = deskPhysClamp(flingVx * boost, -2800, 2800);
+    body.vy = deskPhysClamp(flingVy * boost, -2800, 2800);
+    body.va = deskPhysClamp(flingVx * 0.22 + (Math.random() * 2 - 1) * 70, -600, 600);
+
     deskSavePositions();
-    playClick("open");
     deskPhysEnsure();
 
-    // suprimir o click que vem logo depois do arrasto
+    // Suprimir clique acidental apos arrastar
     deskIconSuppressClick = true;
     requestAnimationFrame(function() {
       requestAnimationFrame(function() { deskIconSuppressClick = false; });
@@ -10037,7 +10767,6 @@ function xpCreateWindow(spec) {
   if (taskHost) taskHost.appendChild(taskBtn);
 
   taskBtn.addEventListener("click", function() {
-    playClick("select");
     if (win.minimized) {
       xpFocusWindow(win);
     } else if (win.el.style.zIndex == xpWindowZ) {
@@ -10370,6 +11099,28 @@ function xpOpenExplorer(spec) {
 
       var treeBox = document.createElement("div");
       treeBox.className = "xp-explorer-tree";
+
+      var treeHead = document.createElement("div");
+      treeHead.className = "xp-tree-head";
+      var treeTitle = document.createElement("span");
+      treeTitle.className = "xp-tree-title";
+      treeTitle.textContent = "Pastas";
+      var treeClose = document.createElement("button");
+      treeClose.type = "button";
+      treeClose.className = "xp-tree-close";
+      treeClose.textContent = "\u00d7";
+      treeClose.setAttribute("aria-label", "fechar pastas");
+      treeClose.addEventListener("click", function() {
+        treeBox.style.display = treeBox.style.display === "none" ? "" : "none";
+      });
+      treeHead.appendChild(treeTitle);
+      treeHead.appendChild(treeClose);
+      treeBox.appendChild(treeHead);
+
+      var treeScroll = document.createElement("div");
+      treeScroll.className = "xp-tree-scroll";
+      treeBox.appendChild(treeScroll);
+
       var listBox = document.createElement("div");
       listBox.className = "xp-explorer-list";
 
@@ -10394,7 +11145,8 @@ function xpOpenExplorer(spec) {
       win.nav = {
         history: [],
         index: -1,
-        treeBox: treeBox,
+        treeBox: treeScroll,
+        treeContainer: treeBox,
         listScroll: listScroll,
         addrInput: addrInput,
         search: search,
@@ -10495,12 +11247,11 @@ function xpOpenExplorer(spec) {
       type.textContent = entry.typeName || (entry.type === "folder" ? "Pasta de arquivos" : "Arquivo");
       row.appendChild(type);
 
-      // clique simples so seleciona, com o estalo do XP
+      // clique simples so seleciona, sem estalo
       row.addEventListener("click", function() {
         var siblings = win.nav.listScroll.querySelectorAll(".xp-file");
         for (var i = 0; i < siblings.length; i++) siblings[i].classList.remove("selected");
         row.classList.add("selected");
-        playClick("select");
       });
 
       // duplo clique abre a pasta ou o item
@@ -10647,10 +11398,11 @@ var wmpState = {
 // Ícone de MP3 para as faixas
 var WMP_TRACK_ICON = "img/xp/WindowsMediaPlayer10.png";
 
-// Base dos áudios. Quando o host externo estiver pronto, basta pôr a URL
-// aqui (ex.: "https://cdn.exemplo.com/matesu/"): o catálogo já guarda o
-// caminho relativo de cada faixa em track.path.
+// Base dos áudios. O catálogo guarda o caminho relativo de cada faixa em
+// track.path; se o arquivo local faltar (404), o player tenta a mesma
+// trilha no Internet Archive antes de avisar que o áudio não está no host.
 var WMP_AUDIO_BASE = "";
+var WMP_AUDIO_REMOTE = "https://archive.org/download/matesu-discografia/";
 
 function wmpAudioUrl(release, track) {
   if (track && track.path) return WMP_AUDIO_BASE + track.path;
@@ -10788,20 +11540,7 @@ function xpOpenPlayer() {
         b.appendChild(wmpEl("small", null, spec[2]));
         if (spec[0] === "library") b.classList.add("active");
         b.addEventListener("click", function() {
-          if (spec[0] === "library") {
-            for (var k in navButtons) navButtons[k].classList.remove("active");
-            b.classList.add("active");
-            wmpState.folder = null;
-            wmpState.query = "";
-            win.wmp.search.value = "";
-            wmpRenderLibrary(win);
-            wmpRenderList(win);
-            playClick("select");
-          } else if (spec[0] === "now") {
-            showBalloon("windows media player", "A sequencia toca pelo botao play, na lista da biblioteca.");
-          } else {
-            showBalloon("windows media player", "Este modo nao esta incluido no player do portfolio.");
-          }
+          wmpGo(win, spec[0]);
         });
         navButtons[spec[0]] = b;
         nav.appendChild(b);
@@ -10821,18 +11560,15 @@ function xpOpenPlayer() {
           for (var k in tabButtons) tabButtons[k].classList.remove("active");
           t.classList.add("active");
           if (label === "Search") {
+            wmpGo(win, "library");
             win.wmp.search.focus();
             win.wmp.search.select();
           } else if (label === "Playlists") {
-            wmpState.folder = null;
-            wmpState.query = "";
-            win.wmp.search.value = "";
-            wmpRenderLibrary(win);
-            wmpRenderList(win);
+            wmpGo(win, "playlists");
           } else if (label === "Queue-It-Up") {
-            showBalloon("queue-it-up", "As faixas visiveis tocam em sequencia.");
-          } else {
-            showBalloon("adicionar", "A biblioteca ja reune os lancamentos do catalogo.");
+            wmpGo(win, "queue");
+          } else if (label === "Add") {
+            wmpGo(win, "add");
           }
         });
         tabButtons[label] = t;
@@ -10842,14 +11578,9 @@ function xpOpenPlayer() {
       var albumInfo = wmpEl("button", "wmp-tab link", "View Album Info");
       albumInfo.type = "button";
       albumInfo.addEventListener("click", function() {
-        var current = wmpState.track;
-        if (!current) {
-          showBalloon("album", "Escolha uma faixa para ver o lancamento.");
-          return;
-        }
-        var rel = current.release;
-        var genres = (rel.genres || []).join(", ");
-        showBalloon("album", rel.title + " - " + rel.artist + " - " + rel.year + (genres ? " - " + genres : ""));
+        for (var k in tabButtons) tabButtons[k].classList.remove("active");
+        albumInfo.classList.add("active");
+        wmpGo(win, "album");
       });
       tabs.appendChild(albumInfo);
       main.appendChild(tabs);
@@ -10924,6 +11655,9 @@ function xpOpenPlayer() {
       list.setAttribute("role", "list");
       listWrap.appendChild(list);
       content.appendChild(listWrap);
+      var panel = wmpEl("div", "wmp-view-panel");
+      panel.style.display = "none";
+      content.appendChild(panel);
       main.appendChild(content);
 
       app.appendChild(nav);
@@ -11022,11 +11756,15 @@ function xpOpenPlayer() {
         knob: knob,
         time: time,
         search: input,
+        listWrap: listWrap,
+        content: content,
+        panel: panel,
         bPlay: bPlay,
         bPrev: bPrev,
         bNext: bNext,
         bStop: bStop
       };
+      if (win.el) win.el.wmp = win.wmp;
 
       wmpState.win = win;
 
@@ -11085,7 +11823,6 @@ function wmpRenderLibrary(win) {
       wmpState.folder = folderValue;
       wmpRenderLibrary(win);
       wmpRenderList(win);
-      playClick("select");
     });
     side.appendChild(b);
   }
@@ -11250,6 +11987,683 @@ function wmpRenderList(win) {
   win.wmp.statusRight.textContent = "Item(s): " + count;
 }
 
+// ------------------------------------------------- roteador de páginas do wmp
+function wmpGo(win, mode) {
+  if (!win || !win.wmp) return;  wmpState.mode = mode || "library";
+
+  // abas e botões laterais
+  var navBtns = win.wmp.navButtons || {};
+  for (var k in navBtns) {
+    navBtns[k].classList.toggle("active", k === mode);
+  }
+
+  var side = win.wmp.side;
+  var listWrap = win.wmp.listWrap;
+  var panel = win.wmp.panel;
+  if (!panel) return;
+
+  if (mode === "library") {
+    side.style.display = "";
+    listWrap.style.display = "";
+    panel.style.display = "none";
+    wmpRenderLibrary(win);
+    wmpRenderList(win);
+    return;
+  }
+
+  side.style.display = "none";
+  listWrap.style.display = "none";
+  panel.style.display = "block";
+  panel.innerHTML = "";
+
+  if (mode === "now") wmpRenderNowPlaying(win);
+  else if (mode === "guide") wmpRenderMediaGuide(win);
+  else if (mode === "cd") wmpRenderCDCopy(win);
+  else if (mode === "radio") wmpRenderRadio(win);
+  else if (mode === "device") wmpRenderDevice(win);
+  else if (mode === "premium") wmpRenderPremium(win);
+  else if (mode === "skin") wmpRenderSkins(win);
+  else if (mode === "playlists") wmpRenderPlaylists(win);
+  else if (mode === "queue") wmpRenderQueue(win);
+  else if (mode === "add") wmpRenderAdd(win);
+  else if (mode === "album") wmpRenderAlbumInfo(win);
+}
+
+// ------------------------------------------------- 1. Now Playing
+function wmpRenderNowPlaying(win) {
+  var p = win.wmp.panel;
+  var cur = wmpState.track;
+  var isPlaying = !!(wmpState.audio && !wmpState.audio.paused && cur);
+
+  var layout = wmpEl("div", "wmp-now-layout");
+
+  // Painel esquerdo: Capa grande, visualizador e informações da faixa
+  var art = wmpEl("div", "wmp-now-artpane");
+  var bigCover = wmpEl("div", "wmp-big-cover");
+  if (cur) {
+    wmpFillCover(bigCover, cur.release);
+  } else {
+    bigCover.innerHTML = '<span class="wmp-big-letter">WMP</span>';
+  }
+  art.appendChild(bigCover);
+
+  var bars = wmpEl("div", "wmp-viz-bars" + (isPlaying ? " playing" : ""));
+  for (var i = 0; i < 8; i++) {
+    bars.appendChild(wmpEl("div", "wmp-viz-bar"));
+  }
+  art.appendChild(bars);
+
+  var tTitle = wmpEl("div", "wmp-now-meta-title", cur ? cur.track.title : "Nenhuma faixa em reproducao");
+  var tSub = wmpEl("div", "wmp-now-meta-sub", cur ? (cur.release.artist + " \u2014 " + cur.release.title + " (" + cur.release.year + ")") : "Escolha uma faixa na fila ou biblioteca");
+  art.appendChild(tTitle);
+  art.appendChild(tSub);
+  layout.appendChild(art);
+
+  // Painel direito: Fila de reprodução ativa
+  var qPane = wmpEl("div", "wmp-now-queuepane");
+  var qHead = wmpEl("div", "wmp-q-head", "Fila de Reproducao (" + wmpQueue().length + " faixas)");
+  qPane.appendChild(qHead);
+
+  var qList = wmpEl("div", "wmp-q-list");
+  var queue = wmpQueue();
+  queue.forEach(function(item, idx) {
+    var active = !!(cur && cur.release === item.release && cur.track === item.track);
+    var row = wmpEl("button", "wmp-q-item" + (active ? " active" : ""));
+    row.type = "button";
+    row.textContent = (idx + 1) + ". " + item.track.title;
+    row.addEventListener("click", function() {
+      wmpPlayTrack(win, item.release, item.track);
+      wmpRenderNowPlaying(win);
+    });
+    qList.appendChild(row);
+  });
+  if (!queue.length) {
+    var empty = wmpEl("div", null, "Fila vazia.");
+    empty.style.padding = "8px";
+    empty.style.color = "#7c9fc7";
+    qList.appendChild(empty);
+  }
+  qPane.appendChild(qList);
+  layout.appendChild(qPane);
+
+  p.appendChild(layout);
+}
+
+// ------------------------------------------------- 2. Media Guide
+function wmpRenderMediaGuide(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Media Guide \u2014 Catalogo de Lancamentos"));
+  var sub = wmpEl("span", "wmp-page-sub", wmpState.releases.length + " lancamentos catalogados");
+  head.appendChild(sub);
+  p.appendChild(head);
+
+  var genres = ["Todos", "Jungle", "Grime", "Dubstep", "UK Garage", "Electronic", "Ambient"];
+  var activeGenre = "Todos";
+
+  var filters = wmpEl("div", "wmp-guide-filters");
+  var grid = wmpEl("div", "wmp-guide-grid");
+
+  function renderGrid() {
+    grid.innerHTML = "";
+    var rels = wmpState.releases.filter(function(r) {
+      if (activeGenre === "Todos") return true;
+      var gList = (r.genres || []).join(" ").toLowerCase();
+      return gList.indexOf(activeGenre.toLowerCase()) >= 0;
+    });
+
+    rels.forEach(function(r) {
+      var card = wmpEl("div", "wmp-guide-card");
+      var top = wmpEl("div", "wmp-card-top");
+      var cov = wmpEl("div", "wmp-card-cover");
+      wmpFillCover(cov, r);
+      top.appendChild(cov);
+
+      var info = wmpEl("div", "wmp-card-info");
+      var t = wmpEl("div", "wmp-card-title", r.title);
+      var m = wmpEl("div", "wmp-card-meta", r.artist + " \u00b7 " + r.year);
+      info.appendChild(t);
+      info.appendChild(m);
+      top.appendChild(info);
+      card.appendChild(top);
+
+      var gBox = wmpEl("div", "wmp-card-genres");
+      (r.genres || []).forEach(function(g) {
+        gBox.appendChild(wmpEl("span", "wmp-genre-badge", g));
+      });
+      card.appendChild(gBox);
+
+      var btnBar = wmpEl("div");
+      btnBar.style.marginTop = "8px";
+      btnBar.style.display = "flex";
+      btnBar.style.gap = "4px";
+
+      var bPlay = wmpEl("button", "wmp-btn-action", r.tracks.length ? "Tocar" : "Aguardando");
+      bPlay.type = "button";
+      bPlay.style.fontSize = "9px";
+      bPlay.style.height = "18px";
+      if (!r.tracks.length) bPlay.disabled = true;
+      bPlay.addEventListener("click", function(e) {
+        e.stopPropagation();
+        if (r.tracks.length) wmpPlayTrack(win, r, r.tracks[0]);
+      });
+      btnBar.appendChild(bPlay);
+
+      var bView = wmpEl("button", "wmp-chip-btn", "Ver Faixas");
+      bView.type = "button";
+      bView.style.fontSize = "9px";
+      bView.style.padding = "1px 6px";
+      bView.addEventListener("click", function() {
+        wmpState.folder = String(r.year);
+        wmpGo(win, "library");
+      });
+      btnBar.appendChild(bView);
+
+      card.appendChild(btnBar);
+      grid.appendChild(card);
+    });
+  }
+
+  genres.forEach(function(g) {
+    var b = wmpEl("button", "wmp-chip-btn" + (g === "Todos" ? " active" : ""), g);
+    b.type = "button";
+    b.addEventListener("click", function() {
+      filters.querySelectorAll(".wmp-chip-btn").forEach(function(x) { x.classList.remove("active"); });
+      b.classList.add("active");
+      activeGenre = g;
+      renderGrid();
+    });
+    filters.appendChild(b);
+  });
+
+  p.appendChild(filters);
+  p.appendChild(grid);
+  renderGrid();
+}
+
+// ------------------------------------------------- 3. Copy from CD
+function wmpRenderCDCopy(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Copy from CD \u2014 Ripear Faixas de CD"));
+  p.appendChild(head);
+
+  var bar = wmpEl("div", "wmp-cd-bar");
+  bar.appendChild(wmpEl("span", null, "Drive (D:) Audio CD"));
+
+  var sel = document.createElement("select");
+  sel.className = "wmp-select";
+  wmpState.releases.forEach(function(r, idx) {
+    var opt = document.createElement("option");
+    opt.value = String(idx);
+    opt.textContent = r.title + " (" + r.year + ") \u2014 " + r.tracks.length + " faixas";
+    sel.appendChild(opt);
+  });
+  bar.appendChild(sel);
+
+  var bRip = wmpEl("button", "wmp-btn-action", "Copiar Musicas (Rip)");
+  bRip.type = "button";
+  bar.appendChild(bRip);
+  p.appendChild(bar);
+
+  var progWrap = wmpEl("div", "wmp-prog-wrap");
+  var progFill = wmpEl("div", "wmp-prog-fill");
+  progWrap.appendChild(progFill);
+  p.appendChild(progWrap);
+
+  var statusText = wmpEl("div", null, "Pronto para copiar. Escolha o album e clique em Copiar Musicas.");
+  statusText.style.margin = "6px 0 10px";
+  statusText.style.color = "#a5c4ec";
+  p.appendChild(statusText);
+
+  var tableWrap = wmpEl("div");
+  p.appendChild(tableWrap);
+
+  function renderTable() {
+    tableWrap.innerHTML = "";
+    var rel = wmpState.releases[Number(sel.value) || 0];
+    if (!rel || !rel.tracks.length) {
+      tableWrap.textContent = "Nenhuma faixa presente no CD selecionado.";
+      return;
+    }
+    rel.tracks.forEach(function(t, i) {
+      var row = wmpEl("div");
+      row.style.display = "flex";
+      row.style.alignItems = "center";
+      row.style.gap = "8px";
+      row.style.padding = "4px 8px";
+      row.style.borderBottom = "1px solid #1a3962";
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = true;
+      row.appendChild(cb);
+      var num = wmpEl("span", null, (i + 1) + ".");
+      num.style.width = "20px";
+      row.appendChild(num);
+      var title = wmpEl("span", null, t.title);
+      title.style.flex = "1";
+      row.appendChild(title);
+      var stat = wmpEl("span", null, "Pendente");
+      stat.style.color = "#8fb3dc";
+      row.appendChild(stat);
+      tableWrap.appendChild(row);
+    });
+  }
+
+  sel.addEventListener("change", renderTable);
+  renderTable();
+
+  bRip.addEventListener("click", function() {
+    bRip.disabled = true;
+    statusText.textContent = "Copiando faixas para o computador em MP3 320 kbps...";
+    var step = 0;
+    var timer = setInterval(function() {
+      step += 10;
+      progFill.style.width = step + "%";
+      if (step >= 100) {
+        clearInterval(timer);
+        bRip.disabled = false;
+        statusText.textContent = "Copia concluida com sucesso! Faixas integradas a biblioteca.";
+        var stats = tableWrap.querySelectorAll("span:last-child");
+        stats.forEach(function(s) { s.textContent = "Copiado"; s.style.color = "#55ee55"; });
+      }
+    }, 120);
+  });
+}
+
+// ------------------------------------------------- 4. Radio Tuner
+function wmpRenderRadio(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Radio Tuner \u2014 Estacoes Virtuais do Matesu"));
+  head.appendChild(wmpEl("span", "wmp-page-sub", "Transmissao em 320 kbps"));
+  p.appendChild(head);
+
+  var stations = [
+    { name: "Blackmesa FM", freq: "98.5 FM", genre: "UK Garage / Speed Garage", kw: ["garage", "carnagarage"] },
+    { name: "Sublow 140", freq: "140.0 FM", genre: "Grime / Dubstep", kw: ["grime", "dubstep"] },
+    { name: "Atmospheric Jungle Network", freq: "160.4 FM", genre: "90s Atmospheric Jungle & DnB", kw: ["jungle", "drum and bass"] },
+    { name: "Leftover Ambient Sessions", freq: "88.1 FM", genre: "Ambient / Downtempo / Experimental", kw: ["ambient", "electronic"] },
+    { name: "Matesu 24/7 Shuffle", freq: "107.9 FM", genre: "Toda a Discografia em Sequencia", kw: [] }
+  ];
+
+  var list = wmpEl("div", "wmp-radio-grid");
+  stations.forEach(function(st) {
+    var card = wmpEl("div", "wmp-radio-item");
+
+    var info = wmpEl("div");
+    var top = wmpEl("div");
+    top.style.display = "flex";
+    top.style.alignItems = "center";
+    top.style.gap = "6px";
+    var nm = wmpEl("span", "wmp-station-name", st.name);
+    top.appendChild(nm);
+    var fq = wmpEl("span", null, "[" + st.freq + "]");
+    fq.style.color = "#f6d465";
+    fq.style.fontSize = "10px";
+    top.appendChild(fq);
+    info.appendChild(top);
+
+    var gn = wmpEl("div", "wmp-station-genre", st.genre);
+    info.appendChild(gn);
+    card.appendChild(info);
+
+    var bTune = wmpEl("button", "wmp-btn-action", "Sintonizar");
+    bTune.type = "button";
+    bTune.addEventListener("click", function() {
+      // Procura faixas que batem com a estacao
+      var matches = [];
+      wmpState.releases.forEach(function(r) {
+        var hit = !st.kw.length || st.kw.some(function(k) {
+          return (r.genres || []).join(" ").toLowerCase().indexOf(k) >= 0 || r.title.toLowerCase().indexOf(k) >= 0;
+        });
+        if (hit) {
+          r.tracks.forEach(function(t) { matches.push({ release: r, track: t }); });
+        }
+      });
+      if (matches.length) {
+        var pick = matches[Math.floor(Math.random() * matches.length)];
+        wmpPlayTrack(win, pick.release, pick.track);
+        showBalloon("radio tuner", "Sintonizado em " + st.name + " (" + st.freq + ")!");
+      }
+    });
+    card.appendChild(bTune);
+    list.appendChild(card);
+  });
+
+  p.appendChild(list);
+}
+
+// ------------------------------------------------- 5. Copy to Device
+function wmpRenderDevice(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Copy to Device \u2014 Sincronizar com MP3 Player Portatil"));
+  p.appendChild(head);
+
+  var layout = wmpEl("div", "wmp-device-layout");
+
+  // Esquerda: Status do dispositivo
+  var left = wmpEl("div", "wmp-device-pane");
+  left.innerHTML = '<div style="font-weight:700;font-size:12px;color:#fff;margin-bottom:4px;">Dispositivo: Matesu Pocket MP3</div>' +
+    '<div style="color:#9ec2eb;font-size:10px;margin-bottom:8px;">Capacidade: 512 MB Flash USB</div>' +
+    '<div class="wmp-prog-wrap" style="height:14px;"><div class="wmp-prog-fill" style="width:38%;"></div></div>' +
+    '<div style="color:#cce0f5;font-size:9px;margin-top:4px;">194 MB usados \u00b7 318 MB livres</div>';
+  layout.appendChild(left);
+
+  // Direita: Faixas disponíveis para sincronizar
+  var right = wmpEl("div", "wmp-device-pane");
+  var rHead = wmpEl("div");
+  rHead.style.display = "flex";
+  rHead.style.justifyContent = "space-between";
+  rHead.style.alignItems = "center";
+  rHead.style.marginBottom = "8px";
+  rHead.appendChild(wmpEl("b", null, "Faixas para Sincronizar"));
+
+  var bSync = wmpEl("button", "wmp-btn-action", "Sincronizar");
+  bSync.type = "button";
+  rHead.appendChild(bSync);
+  right.appendChild(rHead);
+
+  var list = wmpEl("div");
+  list.style.maxHeight = "180px";
+  list.style.overflow = "auto";
+  var queue = wmpQueue().slice(0, 12);
+  queue.forEach(function(item) {
+    var r = wmpEl("label");
+    r.style.display = "flex";
+    r.style.alignItems = "center";
+    r.style.gap = "6px";
+    r.style.padding = "2px 0";
+    r.style.cursor = "pointer";
+    var chk = document.createElement("input");
+    chk.type = "checkbox";
+    chk.checked = true;
+    r.appendChild(chk);
+    r.appendChild(wmpEl("span", null, item.track.title + " \u2014 " + item.release.title));
+    list.appendChild(r);
+  });
+  right.appendChild(list);
+
+  bSync.addEventListener("click", function() {
+    bSync.disabled = true;
+    bSync.textContent = "Sincronizando...";
+    setTimeout(function() {
+      bSync.disabled = false;
+      bSync.textContent = "Sincronizado!";
+      showBalloon("copy to device", "Todas as faixas selecionadas foram sincronizadas!");
+    }, 1200);
+  });
+
+  layout.appendChild(right);
+  p.appendChild(layout);
+}
+
+// ------------------------------------------------- 6. Premium Services
+function wmpRenderPremium(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Premium Services \u2014 Proximos Lancamentos (2026)"));
+  head.appendChild(wmpEl("span", "wmp-page-sub", "Catalogo Autoral"));
+  p.appendChild(head);
+
+  var upcomings = wmpState.releases.filter(function(r) { return !r.tracks.length || String(r.year) === "2026"; });
+
+  var intro = wmpEl("div");
+  intro.style.marginBottom = "10px";
+  intro.style.color = "#b0ceee";
+  intro.textContent = "Os albuns abaixo ja fazem parte da estrutura oficial da discografia e estao aguardando o upload dos arquivos:";
+  p.appendChild(intro);
+
+  upcomings.forEach(function(r) {
+    var card = wmpEl("div", "wmp-prem-card");
+    var top = wmpEl("div");
+    top.style.display = "flex";
+    top.style.justifyContent = "space-between";
+    top.style.alignItems = "center";
+    top.appendChild(wmpEl("b", null, r.title + " (" + r.year + ")"));
+    top.appendChild(wmpEl("span", "wmp-badge-wait", "Aguardando Upload"));
+    card.appendChild(top);
+
+    var desc = wmpEl("div");
+    desc.style.color = "#99badf";
+    desc.style.fontSize = "10px";
+    desc.style.marginTop = "4px";
+    desc.textContent = "Generos: " + (r.genres || []).join(", ");
+    card.appendChild(desc);
+
+    p.appendChild(card);
+  });
+}
+
+// ------------------------------------------------- 7. Skin Chooser
+function wmpRenderSkins(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Skin Chooser \u2014 Escolha a Skin do Player"));
+  p.appendChild(head);
+
+  var skins = [
+    { id: "luna", name: "Windows Media Player 9 (Padrao Luna)", cls: "luna", desc: "Visual classico azul Luna do Windows XP." },
+    { id: "royale", name: "Royale / Energy Blue (Media Center 2005)", cls: "royale", desc: "Tema escovado e tons de azul cobalto profundo." },
+    { id: "zune", name: "Zune / Obsidian Dark (Matesu Dark)", cls: "zune", desc: "Edicao preta fosca com detalhes em laranja." },
+    { id: "classic", name: "Classic 2000 (Corporativo Neutro)", cls: "classic", desc: "Barra cinza neutra inspirada no Windows 2000." }
+  ];
+
+  var currentSkin = localStorage.getItem("wmp_skin") || "luna";
+
+  var grid = wmpEl("div", "wmp-skin-list");
+  skins.forEach(function(s) {
+    var card = wmpEl("div", "wmp-skin-card" + (s.id === currentSkin ? " active" : ""));
+    var thumb = wmpEl("div", "wmp-skin-thumb " + s.cls);
+    card.appendChild(thumb);
+
+    var nm = wmpEl("b", null, s.name);
+    card.appendChild(nm);
+
+    var dc = wmpEl("span", null, s.desc);
+    dc.style.color = "#9ec2eb";
+    dc.style.fontSize = "10px";
+    dc.style.margin = "4px 0 8px";
+    card.appendChild(dc);
+
+    var bApply = wmpEl("button", "wmp-btn-action", s.id === currentSkin ? "Em Uso" : "Aplicar");
+    bApply.type = "button";
+    if (s.id === currentSkin) bApply.disabled = true;
+    bApply.addEventListener("click", function() {
+      localStorage.setItem("wmp_skin", s.id);
+      wmpApplySkin(s.id);
+      wmpRenderSkins(win);
+    });
+    card.appendChild(bApply);
+    grid.appendChild(card);
+  });
+
+  p.appendChild(grid);
+}
+
+function wmpApplySkin(skinId) {
+  var player = document.getElementById("xp-player");
+  if (!player) return;
+  player.classList.remove("wmp-skin-royale", "wmp-skin-zune", "wmp-skin-classic");
+  if (skinId === "royale") player.classList.add("wmp-skin-royale");
+  else if (skinId === "zune") player.classList.add("wmp-skin-zune");
+  else if (skinId === "classic") player.classList.add("wmp-skin-classic");
+}
+
+// ------------------------------------------------- 8. Playlists
+function wmpRenderPlaylists(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Playlists \u2014 Listas de Reproducao"));
+  p.appendChild(head);
+
+  var myPlaylists = [
+    { name: "Meus Favoritos", count: 8 },
+    { name: "Jungle & Breaks Essentials", count: 12 },
+    { name: "Sublow Grime / 140 Session", count: 7 }
+  ];
+
+  var list = wmpEl("div");
+  myPlaylists.forEach(function(pl) {
+    var item = wmpEl("div");
+    item.style.display = "flex";
+    item.style.justifyContent = "space-between";
+    item.style.padding = "8px 12px";
+    item.style.background = "#18325a";
+    item.style.border = "1px solid #2d558b";
+    item.style.borderRadius = "3px";
+    item.style.marginBottom = "6px";
+
+    var left = wmpEl("div");
+    left.appendChild(wmpEl("b", null, pl.name));
+    var cnt = wmpEl("span", null, " (" + pl.count + " faixas)");
+    cnt.style.color = "#99bde4";
+    left.appendChild(cnt);
+    item.appendChild(left);
+
+    var bPlay = wmpEl("button", "wmp-btn-action", "Reproduzir");
+    bPlay.type = "button";
+    bPlay.addEventListener("click", function() {
+      wmpGo(win, "library");
+      wmpStep(win, 1);
+    });
+    item.appendChild(bPlay);
+    list.appendChild(item);
+  });
+
+  p.appendChild(list);
+}
+
+// ------------------------------------------------- 9. Queue-It-Up
+function wmpRenderQueue(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  var q = wmpQueue();
+  head.appendChild(document.createTextNode("Queue-It-Up \u2014 Fila Atual (" + q.length + " faixas)"));
+  p.appendChild(head);
+
+  var list = wmpEl("div");
+  list.style.maxHeight = "280px";
+  list.style.overflow = "auto";
+
+  q.forEach(function(item, idx) {
+    var row = wmpEl("div");
+    row.style.display = "flex";
+    row.style.alignItems = "center";
+    row.style.gap = "8px";
+    row.style.padding = "4px 8px";
+    row.style.borderBottom = "1px solid #1a3962";
+
+    var n = wmpEl("span", null, (idx + 1) + ".");
+    n.style.width = "24px";
+    row.appendChild(n);
+
+    var t = wmpEl("span", null, item.track.title);
+    t.style.flex = "1";
+    row.appendChild(t);
+
+    var a = wmpEl("span", null, item.release.title);
+    a.style.color = "#95b8de";
+    row.appendChild(a);
+
+    var bPlay = wmpEl("button", "wmp-btn-action", "Tocar");
+    bPlay.type = "button";
+    bPlay.style.height = "18px";
+    bPlay.style.fontSize = "9px";
+    bPlay.addEventListener("click", function() {
+      wmpPlayTrack(win, item.release, item.track);
+    });
+    row.appendChild(bPlay);
+
+    list.appendChild(row);
+  });
+
+  p.appendChild(list);
+}
+
+// ------------------------------------------------- 10. Add
+function wmpRenderAdd(win) {
+  var p = win.wmp.panel;
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Add \u2014 Adicionar Itens ao Player"));
+  p.appendChild(head);
+
+  var cur = wmpState.track;
+  var box = wmpEl("div");
+  box.style.display = "flex";
+  box.style.flexDirection = "column";
+  box.style.gap = "8px";
+
+  var bAddCur = wmpEl("button", "wmp-btn-action", cur ? ("Adicionar \u201c" + cur.track.title + "\u201d aos Favoritos") : "Nenhuma faixa selecionada");
+  bAddCur.type = "button";
+  bAddCur.disabled = !cur;
+  bAddCur.addEventListener("click", function() {
+    showBalloon("adicionar", "Faixa adicionada a lista de Favoritos!");
+  });
+  box.appendChild(bAddCur);
+
+  var bReload = wmpEl("button", "wmp-btn-action", "Recarregar Catalogo da Pasta de Trabalho");
+  bReload.type = "button";
+  bReload.addEventListener("click", function() {
+    wmpLoadLibrary();
+    showBalloon("biblioteca", "Catalogo sincronizado com discografia-autoral.json!");
+  });
+  box.appendChild(bReload);
+
+  p.appendChild(box);
+}
+
+// ------------------------------------------------- 11. View Album Info
+function wmpRenderAlbumInfo(win) {
+  var p = win.wmp.panel;
+  var cur = wmpState.track;
+  var rel = cur ? cur.release : (wmpState.releases[0] || null);
+
+  var head = wmpEl("div", "wmp-page-title");
+  head.appendChild(document.createTextNode("Album Info \u2014 " + (rel ? rel.title : "Nenhum")));
+  p.appendChild(head);
+
+  if (!rel) return;
+
+  var top = wmpEl("div");
+  top.style.display = "flex";
+  top.style.gap = "16px";
+  top.style.marginBottom = "14px";
+
+  var cov = wmpEl("div", "wmp-big-cover");
+  cov.style.width = "90px";
+  cov.style.height = "90px";
+  wmpFillCover(cov, rel);
+  top.appendChild(cov);
+
+  var info = wmpEl("div");
+  info.innerHTML = '<div style="font-size:15px;font-weight:700;color:#fff;">' + rel.title + '</div>' +
+    '<div style="font-size:11px;color:#a4c5ee;margin:2px 0 6px;">Artista: ' + rel.artist + ' \u00b7 Ano: ' + rel.year + '</div>' +
+    '<div style="font-size:10px;color:#c6dcfa;">Generos: ' + (rel.genres || []).join(", ") + '</div>' +
+    '<div style="font-size:10px;color:#c6dcfa;">Total de Faixas: ' + rel.tracks.length + '</div>';
+  top.appendChild(info);
+  p.appendChild(top);
+
+  var tList = wmpEl("div");
+  rel.tracks.forEach(function(t, i) {
+    var r = wmpEl("div");
+    r.style.display = "flex";
+    r.style.justifyContent = "space-between";
+    r.style.padding = "4px 8px";
+    r.style.borderBottom = "1px solid #1a3860";
+    r.appendChild(wmpEl("span", null, (i + 1) + ". " + t.title));
+    var b = wmpEl("button", "wmp-btn-action", "Tocar");
+    b.type = "button";
+    b.style.fontSize = "9px";
+    b.style.height = "18px";
+    b.addEventListener("click", function() { wmpPlayTrack(win, rel, t); });
+    r.appendChild(b);
+    tList.appendChild(r);
+  });
+  p.appendChild(tList);
+}
+
 // --------------------------------------------------------------- reproducao
 function wmpSetStatus(win, title, sub) {
   if (!win || !win.wmp) return;
@@ -11309,6 +12723,13 @@ function wmpPlayTrack(win, release, track) {
       wmpUpdateTime(wmpState.win);
     });
     audio.addEventListener("error", function() {
+      // local faltou: tenta a mesma trilha no Internet Archive antes de desistir
+      var cur = wmpState.track;
+      var remote = cur && cur.track && cur.track.path ? WMP_AUDIO_REMOTE + cur.track.path : null;
+      if (remote && audio.src.indexOf(remote) !== 0) {
+        audio.src = remote;
+        return;
+      }
       wmpShowError(wmpState.win);
       wmpUpdatePlayButton(wmpState.win);
     });
@@ -11763,7 +13184,6 @@ function xpWireDesktop() {
           deskSelectIcons([icon]);
         }
         deskIconSpin(icon);
-        playClick("select");
       });
 
       icon.addEventListener("pointerdown", function(e) {
@@ -11915,7 +13335,6 @@ function xpWireQuickLaunch() {
       if (!act) return;
       btn.addEventListener("click", function(e) {
         e.stopPropagation();
-        playClick("select");
         act();
       });
     })(btns[i]);
@@ -12018,6 +13437,9 @@ function xpShowSearch() {
 }
 
 // ------------------------------------------------- iniciar
+window.addEventListener("pointerdown", deskImpactArm, { passive: true });
+window.addEventListener("keydown", deskImpactArm, { passive: true });
+
 if (deskIconsEl) {
   xpWireDesktop();
   xpWireQuickLaunch();
@@ -12365,7 +13787,6 @@ document.addEventListener("keydown", function(e) {
 });
 
 if (taskApp) taskApp.addEventListener("click", function() {
-  playClick("select");
   if (deskState === "app") minimizeApp();
   else openApp();
 });
