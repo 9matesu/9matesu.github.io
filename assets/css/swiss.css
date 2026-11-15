@@ -1,0 +1,1283 @@
+/* ==========================================================================
+   matesu OS — tema Swiss
+   Papel, tinta, grade, Switzer. O XP continua inteiro em assets/css/xp.css,
+   carregado só quando data-shell="xp".
+   ========================================================================== */
+
+:root {
+  --paper: #f1eee7;
+  --ink: #111111;
+  --ink-soft: #3b3b3b;
+  --muted: #6b6b6b;
+  --line: rgba(17, 17, 17, 0.16);
+  --line-strong: rgba(17, 17, 17, 0.42);
+  --accent: #e8380d;
+  --bar-h: 34px;
+  --dock-h: 60px;
+  --radius: 0px;
+  --font-ui: "Switzer", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   Camadas de shell
+   -------------------------------------------------------------------------- */
+
+.swiss-only {
+  display: none !important;
+}
+
+html[data-shell="swiss"] .swiss-only {
+  display: flex !important;
+}
+
+html[data-shell="swiss"] .xp-only {
+  display: none !important;
+}
+
+html[data-shell="swiss"] {
+  --font-xp: var(--font-ui);
+  --font-base: var(--font-ui);
+  --bg-main: var(--paper);
+  --bg-sidebar: var(--paper);
+  --bg-glass: var(--paper);
+  --bg-glass-strong: var(--paper);
+  --text-bright: var(--ink);
+  --text-active: var(--ink);
+  --text-body: var(--ink-soft);
+  --text-muted: var(--muted);
+  --text-dim: #8a8a86;
+  --text-faint: #b3b0a8;
+  --border-subtle: var(--line);
+  --border-link: var(--line-strong);
+  --field-bg: transparent;
+  --field-bg-focus: #ffffff;
+  --header-h: 52px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+}
+
+html[data-shell="swiss"] body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  cursor: default;
+}
+
+html[data-shell="swiss"] a,
+html[data-shell="swiss"] button,
+html[data-shell="swiss"] select,
+html[data-shell="swiss"] [role="button"],
+html[data-shell="swiss"] .desk-icon,
+html[data-shell="swiss"] .win-btn,
+html[data-shell="swiss"] .theme-swatch,
+html[data-shell="swiss"] .control,
+html[data-shell="swiss"] .gear-btn,
+html[data-shell="swiss"] .panel-close,
+html[data-shell="swiss"] .search-clear {
+  cursor: pointer;
+}
+
+html[data-shell="swiss"] ::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-shell="swiss"] :focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Área de trabalho
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] #desktop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, rgba(17, 17, 17, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.045) 1px, transparent 1px);
+  background-size: 80px 80px;
+  overflow: hidden;
+}
+
+html[data-shell="swiss"] #desk-wallpaper {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Barra de menu e dock
+   -------------------------------------------------------------------------- */
+
+#swiss-bar {
+  position: fixed;
+  z-index: 9000;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--bar-h);
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+
+.swiss-brand {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.swiss-brand sup {
+  position: relative;
+  top: -0.45em;
+  margin-left: 1px;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.swiss-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-left: 8vw;
+}
+
+.swiss-nav button,
+.swiss-text-btn {
+  border: 0;
+  padding: 2px 0;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  transition: color 0.14s ease;
+}
+
+.swiss-nav button:hover,
+.swiss-nav button:focus-visible,
+.swiss-text-btn:hover,
+.swiss-text-btn:focus-visible {
+  color: var(--ink);
+}
+
+.swiss-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+#swiss-sound[aria-pressed="true"] {
+  color: var(--ink);
+}
+
+#swiss-dock {
+  position: fixed;
+  z-index: 9000;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--dock-h);
+  align-items: stretch;
+  gap: 0;
+  padding: 0 20px;
+  border-top: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  user-select: none;
+}
+
+#swiss-dock > button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 104px;
+  padding: 0 18px 0 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  text-align: left;
+  transition: color 0.14s ease;
+}
+
+#swiss-dock > button:hover,
+#swiss-dock > button:focus-visible {
+  color: var(--ink);
+}
+
+#swiss-dock > button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 18px;
+  bottom: 14px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#swiss-dock > button:hover::after,
+#swiss-dock > button:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.dock-num {
+  color: var(--ink);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+
+.dock-label {
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.dock-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.dock-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.dock-clock {
+  display: flex;
+  align-items: center;
+  padding-left: 22px;
+  color: var(--ink);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Janelas
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] .window {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: 0 24px 60px rgba(17, 17, 17, 0.14);
+  color: var(--ink);
+  transition: opacity 0.24s ease, transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html[data-shell="swiss"] .win-bar {
+  height: 30px;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 0 8px 0 12px;
+  border-radius: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: none;
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .win-bar::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  background: var(--accent);
+}
+
+html[data-shell="swiss"] .win-title {
+  font-family: var(--font-ui);
+  font-size: 9.5px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .win-bar-ico,
+html[data-shell="swiss"] .win-icon {
+  display: none;
+}
+
+html[data-shell="swiss"] .win-btns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+html[data-shell="swiss"] .win-btn {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-shell="swiss"] .win-btn:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
+html[data-shell="swiss"] .win-btn span,
+html[data-shell="swiss"] .win-btn span::before,
+html[data-shell="swiss"] .win-btn span::after {
+  display: block;
+  position: absolute;
+  background: currentColor;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html[data-shell="swiss"] .win-close span,
+html[data-shell="swiss"] .win-close span::before,
+html[data-shell="swiss"] .win-close span::after {
+  width: 8px;
+  height: 1px;
+  top: 9px;
+  left: 5px;
+  transform: rotate(45deg);
+}
+
+html[data-shell="swiss"] .win-close span::after {
+  transform: rotate(-45deg);
+}
+
+html[data-shell="swiss"] .win-min span {
+  width: 8px;
+  height: 1px;
+  top: 13px;
+  left: 5px;
+}
+
+html[data-shell="swiss"] .win-max span {
+  width: 7px;
+  height: 7px;
+  top: 5px;
+  left: 5px;
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+html[data-shell="swiss"] .win-btn:hover span,
+html[data-shell="swiss"] .win-btn:hover span::before,
+html[data-shell="swiss"] .win-btn:hover span::after {
+  background: var(--paper);
+}
+
+html[data-shell="swiss"] .win-max:hover span {
+  background: transparent;
+  border-color: var(--paper);
+}
+
+html[data-shell="swiss"] .win-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+
+/* Janela principal: entre a barra e o dock */
+html[data-shell="swiss"] #app-window {
+  inset: var(--bar-h) 0 var(--dock-h) 0;
+  left: 0;
+  right: 0;
+  top: var(--bar-h);
+  bottom: var(--dock-h);
+  width: auto;
+  height: auto;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+html[data-shell="swiss"] .desk--app #app-window {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+html[data-shell="swiss"] #app-window > .win-bar {
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper);
+}
+
+html[data-shell="swiss"] #app-window #viewport {
+  height: 100%;
+  min-height: 0;
+}
+
+html[data-shell="swiss"] #app-window #sidebar,
+html[data-shell="swiss"] #app-window #main,
+html[data-shell="swiss"] #app-window #detail-panel {
+  height: 100%;
+}
+
+html[data-shell="swiss"] #sidebar .bio-top {
+  flex: 1;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+html[data-shell="swiss"] #sidebar .bio-photo-wrap {
+  width: 100%;
+  max-width: 150px;
+  margin: 0;
+}
+
+html[data-shell="swiss"] #sidebar .bio-text {
+  max-width: none;
+  width: 100%;
+  margin: 14px 0 0;
+}
+
+html[data-shell="swiss"] #sidebar .bio-links {
+  width: 100%;
+  margin-top: 26px;
+}
+
+/* --------------------------------------------------------------------------
+   Capa / entrada
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] #intro-card {
+  inset: var(--bar-h) 0 var(--dock-h) 0;
+  left: 0;
+  right: 0;
+  top: var(--bar-h);
+  bottom: var(--dock-h);
+  width: auto;
+  height: auto;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--paper);
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+html[data-shell="swiss"] .desk--app #intro-card,
+html[data-shell="swiss"] .desk--min #intro-card,
+html[data-shell="swiss"] .desk--closed #intro-card {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-shell="swiss"] #intro-card .win-bar {
+  display: none;
+}
+
+html[data-shell="swiss"] #intro-card .intro-body {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: 1fr auto auto;
+  gap: 0 24px;
+  height: 100%;
+  padding: 56px 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(17, 17, 17, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.06) 1px, transparent 1px);
+  background-size: calc(100% / 12) 100%, 100% 96px;
+  overflow: hidden;
+}
+
+html[data-shell="swiss"] #intro-card .intro-photo {
+  grid-column: 10 / 13;
+  grid-row: 1 / 3;
+  align-self: start;
+  justify-self: end;
+  width: min(18vw, 240px);
+  margin: 8px 0 0;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  overflow: hidden;
+  filter: grayscale(1) contrast(1.06);
+}
+
+html[data-shell="swiss"] #intro-card .intro-name {
+  grid-column: 1 / 10;
+  grid-row: 2 / 4;
+  align-self: end;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: clamp(88px, 17vw, 280px);
+  font-weight: 500;
+  line-height: 0.78;
+  letter-spacing: -0.075em;
+  color: var(--ink);
+  text-transform: lowercase;
+}
+
+html[data-shell="swiss"] #intro-card .intro-name span {
+  display: inline-block;
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+html[data-shell="swiss"] #intro-card .intro-bio {
+  grid-column: 1 / 6;
+  grid-row: 3;
+  align-self: end;
+  max-width: 380px;
+  margin: 24px 0 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+html[data-shell="swiss"] #intro-card .intro-actions {
+  grid-column: 7 / 13;
+  grid-row: 3;
+  align-self: end;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0;
+}
+
+html[data-shell="swiss"] #intro-card .intro-enter {
+  min-height: 0;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+
+html[data-shell="swiss"] #intro-card .intro-enter span {
+  margin-left: 8px;
+}
+
+html[data-shell="swiss"] #intro-card .intro-hint {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+html[data-shell="swiss"] #intro-card .intro-corner {
+  right: 40px;
+  bottom: 24px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+/* --------------------------------------------------------------------------
+   Conteúdo do portfólio
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] #sidebar {
+  width: 268px;
+  min-width: 268px;
+  padding: 28px 22px 22px;
+  border-right: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] #sidebar .bio-top {
+  gap: 18px;
+  align-items: flex-start;
+}
+
+html[data-shell="swiss"] #sidebar .bio-photo-wrap {
+  width: 96px;
+  height: 120px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+}
+
+html[data-shell="swiss"] #sidebar .bio-photo {
+  filter: grayscale(1) contrast(1.04);
+}
+
+html[data-shell="swiss"] #sidebar .brand-name {
+  font-family: var(--font-ui);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] #sidebar .bio-text {
+  margin: 18px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+html[data-shell="swiss"] #sidebar .bio-text b {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+html[data-shell="swiss"] #sidebar .bio-links {
+  display: grid;
+  gap: 0;
+  width: 100%;
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+html[data-shell="swiss"] #sidebar .bio-links a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.14s ease, padding-left 0.16s ease;
+}
+
+html[data-shell="swiss"] #sidebar .bio-links a:hover {
+  padding-left: 4px;
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] #sidebar .bio-links svg {
+  width: 13px;
+  height: 13px;
+}
+
+html[data-shell="swiss"] #sidebar .bio-footer {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+html[data-shell="swiss"] #sidebar .theme-toggle {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0 0 2px;
+  background: none;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+html[data-shell="swiss"] #topbar {
+  height: var(--header-h);
+  padding: 0 28px;
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .search-field {
+  width: 240px;
+  height: 28px;
+  padding: 0 8px 0 9px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-shell="swiss"] .search-field:focus-within {
+  border-color: var(--ink);
+}
+
+html[data-shell="swiss"] .search-field input {
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 11px;
+}
+
+html[data-shell="swiss"] .search-field input::placeholder {
+  color: var(--muted);
+}
+
+html[data-shell="swiss"] .control-label {
+  font-family: var(--font-ui);
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+html[data-shell="swiss"] .select-wrap select {
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 11px;
+}
+
+html[data-shell="swiss"] .gear-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .gear-btn[aria-expanded="true"] {
+  border-color: var(--ink);
+  transform: none;
+}
+
+html[data-shell="swiss"] #stage {
+  padding: 28px 28px 32px;
+  gap: 28px;
+  background: var(--paper);
+}
+
+html[data-shell="swiss"] .col {
+  padding-right: 28px;
+  border-right: 1px solid var(--line);
+}
+
+html[data-shell="swiss"] .col:last-child {
+  border-right: 0;
+}
+
+html[data-shell="swiss"] .item {
+  padding: 7px 0;
+  border-bottom: 1px solid transparent;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.2;
+  transition: color 0.14s ease, padding-left 0.16s ease, border-color 0.14s ease;
+}
+
+html[data-shell="swiss"] .item:hover {
+  padding-left: 5px;
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .item.active {
+  padding-left: 5px;
+  border-bottom-color: var(--ink);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+html[data-shell="swiss"] .item-count {
+  color: var(--muted);
+  font-size: 8px;
+  vertical-align: super;
+}
+
+html[data-shell="swiss"] .empty-note {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+html[data-shell="swiss"] #detail-panel {
+  width: 0;
+  min-width: 0;
+  border-left: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] #detail-panel.open {
+  width: 360px;
+  min-width: 360px;
+  border-left: 1px solid var(--ink);
+}
+
+html[data-shell="swiss"] #detail-panel .panel-head {
+  border-bottom: 1px solid var(--line);
+  padding: 14px 18px;
+}
+
+html[data-shell="swiss"] #detail-panel .panel-kicker {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+html[data-shell="swiss"] #detail-panel .panel-close {
+  border: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+html[data-shell="swiss"] #detail-panel h2,
+html[data-shell="swiss"] #detail-panel .detail-title {
+  font-family: var(--font-ui);
+  color: var(--ink);
+  letter-spacing: -0.03em;
+}
+
+html[data-shell="swiss"] #detail-panel .detail-meta,
+html[data-shell="swiss"] #detail-panel .detail-body,
+html[data-shell="swiss"] #detail-panel .detail-spec,
+html[data-shell="swiss"] #detail-panel .detail-tracks,
+html[data-shell="swiss"] #detail-panel .detail-links {
+  color: var(--muted);
+}
+
+html[data-shell="swiss"] #detail-panel .detail-spec dt,
+html[data-shell="swiss"] #detail-panel .detail-spec dd,
+html[data-shell="swiss"] #detail-panel .track-row,
+html[data-shell="swiss"] #detail-panel .detail-link {
+  border-color: var(--line);
+}
+
+html[data-shell="swiss"] #detail-panel .detail-link:hover {
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Mapa
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] #map-sheet {
+  border-top: 1px solid var(--ink);
+  background: #ffffff;
+}
+
+html[data-shell="swiss"] #map-sheet.is-target::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border: 1px solid var(--accent);
+  pointer-events: none;
+}
+
+html[data-shell="swiss"] #map-canvas {
+  cursor: grab;
+}
+
+html[data-shell="swiss"] .map-legend {
+  top: 10px;
+  left: 12px;
+  right: auto;
+  display: flex;
+  gap: 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+html[data-shell="swiss"] .map-legend-item {
+  gap: 5px;
+  margin: 0;
+}
+
+html[data-shell="swiss"] .legend-swatch {
+  width: 12px;
+  height: 2px;
+}
+
+html[data-shell="swiss"] .map-mark-label {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+html[data-shell="swiss"] .map-mark.root .map-mark-label {
+  font-weight: 600;
+}
+
+html[data-shell="swiss"] .map-mark.l2 .map-mark-label,
+html[data-shell="swiss"] .map-mark.leaf .map-mark-label {
+  font-weight: 400;
+}
+
+html[data-shell="swiss"] .map-badge-rect {
+  stroke: var(--map-ink);
+}
+
+html[data-shell="swiss"] #grabber {
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   Ajustes: folha lateral
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] #settings-panel {
+  left: auto;
+  right: 0;
+  top: var(--bar-h);
+  bottom: var(--dock-h);
+  width: 380px;
+  max-width: 92vw;
+  height: auto;
+  border: 0;
+  border-left: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: none;
+  transform: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
+}
+
+html[data-shell="swiss"] #settings-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+html[data-shell="swiss"] #settings-panel.maximized {
+  inset: var(--bar-h) 0 var(--dock-h) auto;
+  width: 380px;
+  max-width: 92vw;
+  transform: none;
+}
+
+html[data-shell="swiss"] #settings-panel .win-bar {
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper);
+}
+
+html[data-shell="swiss"] #settings-panel .settings-scroll {
+  gap: 22px;
+  padding: 24px 22px 28px;
+  border: 0;
+  border-radius: 0;
+  background: var(--paper);
+}
+
+html[data-shell="swiss"] #settings-panel .settings-group {
+  gap: 8px;
+}
+
+html[data-shell="swiss"] #settings-panel .control-label {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+html[data-shell="swiss"] .shell-switch {
+  border-color: var(--line);
+}
+
+html[data-shell="swiss"] .shell-switch button {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  letter-spacing: 0.02em;
+}
+
+html[data-shell="swiss"] .shell-switch button.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-shell="swiss"] #settings-panel .theme-list {
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+html[data-shell="swiss"] #settings-panel .theme-swatch {
+  min-height: 34px;
+  border: 0;
+  border-radius: 0;
+  padding: 7px 8px;
+  background: var(--paper);
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.02em;
+}
+
+html[data-shell="swiss"] #settings-panel .theme-swatch.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-shell="swiss"] #settings-panel .theme-pair {
+  width: 18px;
+  height: 10px;
+  border: 1px solid var(--line);
+}
+
+html[data-shell="swiss"] #settings-panel .theme-pair i {
+  width: 50%;
+  height: 100%;
+}
+
+html[data-shell="swiss"] #settings-panel .font-list,
+html[data-shell="swiss"] #settings-panel .font-btn {
+  border-radius: 0;
+}
+
+html[data-shell="swiss"] #settings-panel .font-btn {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 10px;
+}
+
+html[data-shell="swiss"] #settings-panel .font-btn.active {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: transparent;
+}
+
+html[data-shell="swiss"] #settings-panel .font-custom input {
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 10px;
+}
+
+html[data-shell="swiss"] #settings-panel .font-custom-btn {
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+html[data-shell="swiss"] #settings-panel input[type="range"] {
+  accent-color: var(--ink);
+}
+
+html[data-shell="swiss"] #settings-panel .settings-note {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+/* --------------------------------------------------------------------------
+   WMP e explorer: papel e tinta por cima do visual antigo
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] .xp-wmp {
+  border-color: var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: 0 24px 60px rgba(17, 17, 17, 0.14);
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .xp-wmp .win-bar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink);
+}
+
+html[data-shell="swiss"] .wmp-app,
+html[data-shell="swiss"] .wmp-main,
+html[data-shell="swiss"] .wmp-side,
+html[data-shell="swiss"] .wmp-list,
+html[data-shell="swiss"] .wmp-status,
+html[data-shell="swiss"] .wmp-transport,
+html[data-shell="swiss"] .wmp-library {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .wmp-side-head,
+html[data-shell="swiss"] .wmp-group-title,
+html[data-shell="swiss"] .wmp-title,
+html[data-shell="swiss"] .wmp-artist,
+html[data-shell="swiss"] .wmp-album,
+html[data-shell="swiss"] .wmp-genre,
+html[data-shell="swiss"] .wmp-len,
+html[data-shell="swiss"] .wmp-br {
+  color: var(--ink);
+}
+
+html[data-shell="swiss"] .wmp-group-meta,
+html[data-shell="swiss"] .wmp-count,
+html[data-shell="swiss"] .xp-wmp-folder,
+html[data-shell="swiss"] .wmp-status {
+  color: var(--muted);
+}
+
+html[data-shell="swiss"] .xp-wmp-folder.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-shell="swiss"] .xp-wmp-track {
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+}
+
+html[data-shell="swiss"] .xp-wmp-track:hover,
+html[data-shell="swiss"] .xp-wmp-track.playing {
+  background: rgba(17, 17, 17, 0.05);
+}
+
+html[data-shell="swiss"] .wmp-group {
+  border-bottom: 1px solid var(--ink);
+}
+
+html[data-shell="swiss"] .wmp-group-cover {
+  border: 1px solid var(--line);
+}
+
+html[data-shell="swiss"] .xp-wmp button,
+html[data-shell="swiss"] .xp-wmp input {
+  font-family: var(--font-ui);
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbar, responsivo e movimento
+   -------------------------------------------------------------------------- */
+
+html[data-shell="swiss"] * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+html[data-shell="swiss"] *::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+html[data-shell="swiss"] *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html[data-shell="swiss"] *::-webkit-scrollbar-thumb {
+  border: 2px solid var(--paper);
+  border-radius: 0;
+  background: var(--line-strong);
+}
+
+@media (max-width: 1000px) {
+  html[data-shell="swiss"] #sidebar {
+    width: 228px;
+    min-width: 228px;
+  }
+  html[data-shell="swiss"] .swiss-nav {
+    margin-left: 0;
+    gap: 16px;
+  }
+  html[data-shell="swiss"] #swiss-dock > button {
+    min-width: 88px;
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 760px) {
+  html[data-shell="swiss"] .swiss-nav {
+    display: none !important;
+  }
+  html[data-shell="swiss"] #sidebar {
+    display: none;
+  }
+  html[data-shell="swiss"] #detail-panel {
+    position: fixed;
+    inset: var(--bar-h) 0 var(--dock-h) 0;
+    width: auto;
+    border-left: 0;
+  }
+  html[data-shell="swiss"] #intro-card .intro-body {
+    padding: 32px 22px 28px;
+  }
+  html[data-shell="swiss"] #intro-card .intro-photo {
+    display: none;
+  }
+  html[data-shell="swiss"] #intro-card .intro-name {
+    grid-column: 1 / 13;
+    font-size: clamp(64px, 22vw, 140px);
+  }
+  html[data-shell="swiss"] #intro-card .intro-bio {
+    grid-column: 1 / 13;
+  }
+  html[data-shell="swiss"] #intro-card .intro-actions {
+    grid-column: 1 / 13;
+    justify-self: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-shell="swiss"] * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

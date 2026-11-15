@@ -1,0 +1,679 @@
+/* ------------------------------------------------- área de trabalho */
+#desktop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #1a68c4;
+  font-family: var(--font-xp);
+}
+
+/* Papel de parede: a foto cobre a mesa inteira, sem esticar nem cortar */
+#desk-wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #1a68c4;
+}
+
+#desk-wallpaper img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* O mapa com as estações vive dentro da janela, no pé da coluna.
+   A altura é controlada pelo grabber via --map-h; nada de height%
+   fixo aqui, senão o puxador deixa de funcionar. */
+
+/* ------------------------------------------------- ícones da mesa */
+#desk-icons {
+  position: absolute;
+  z-index: 4;
+  left: 10px;
+  top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.desk-icon {
+  width: 84px;
+  padding: 5px 2px 6px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-xp);
+  font-size: 11px;
+  line-height: 1.15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  outline: none;
+}
+
+.desk-icon-art {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.55));
+  transition: transform 0.14s ease;
+}
+
+.desk-icon:hover .desk-icon-art,
+.desk-icon:focus-visible .desk-icon-art {
+  transform: translateY(-1px);
+}
+
+.desk-icon-label {
+  padding: 1px 4px;
+  border-radius: 2px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.6);
+  transition: background 0.12s ease;
+}
+
+.desk-icon:hover .desk-icon-label,
+.desk-icon:focus-visible .desk-icon-label {
+  background: #316ac5;
+}
+
+/* ícones reais do XP, baixados para img/xp */
+.desk-icon-art img {
+  width: 44px;
+  height: 44px;
+  display: block;
+  object-fit: contain;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+/* ------------------------------------------------- área de trabalho: grade
+   O XP alinhava os ícones numa grade e o botão direito desenhava um
+   retângulo de seleção azul por cima de tudo. */
+#desk-icons {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 34px;
+  display: block;
+}
+
+#desk-icons .desk-icon {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  padding: 4px 2px;
+  border: 1px dotted transparent;
+  border-radius: 0;
+  user-select: none;
+  /* posicionados por física: nada de transição atrapalhando o passo */
+  transition: none;
+  transform-origin: 50% 62%;
+  will-change: left, top, transform;
+  touch-action: none;
+}
+
+#desk-icons .desk-icon.selected {
+  background: rgba(11, 63, 155, 0.42);
+  border-color: rgba(255, 255, 255, 0.62);
+}
+
+#desk-icons .desk-icon.dragging {
+  opacity: 0.65;
+  z-index: 20;
+}
+
+#desk-icons .desk-icon-art {
+  width: 40px;
+  height: 40px;
+}
+
+#desk-icons .desk-icon-art img {
+  width: 40px;
+  height: 40px;
+}
+
+#desk-icons .desk-icon-label {
+  max-width: 72px;
+  overflow-wrap: anywhere;
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* Retângulo de seleção da área de trabalho */
+#desk-marquee {
+  position: absolute;
+  z-index: 3;
+  display: none;
+  border: 1px dotted #1b4bd8;
+  background: rgba(49, 106, 197, 0.22);
+  pointer-events: none;
+}
+
+#desk-marquee.on {
+  display: block;
+}
+
+/* ------------------------------------------------- menu de contexto XP
+   O menu do XP era uma coluna de texto sobre uma moldura cinza, com
+   o item marcado em azul e os separadores pontilhados. */
+.xp-menu {
+  position: absolute;
+  z-index: 120;
+  min-width: 158px;
+  padding: 2px;
+  border: 1px solid #7f9db9;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-xp);
+  font-size: 12px;
+  color: #000;
+  user-select: none;
+}
+
+.xp-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 4px 16px 4px 6px;
+  border: 0;
+  background: none;
+  color: #000;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.xp-menu-item:hover,
+.xp-menu-item.focus {
+  color: #fff;
+  background: #316ac5;
+}
+
+.xp-menu-item .xp-menu-ico {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.xp-menu-item .xp-menu-arrow {
+  margin-left: auto;
+  padding-left: 18px;
+  font-size: 9px;
+}
+
+.xp-menu-item.disabled {
+  color: #a0a0a0;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.xp-menu-item.disabled:hover {
+  color: #a0a0a0;
+  background: none;
+}
+
+.xp-menu-sep {
+  height: 1px;
+  margin: 3px 2px;
+  border-top: 1px solid #d6d6d6;
+  border-bottom: 1px solid #fff;
+}
+
+/* ------------------------------------------------- janelas do explorer
+   Cada item da área de trabalho abre uma janela XP independente:
+   Meu Computador, Documentos, Música, Imagens e as pastas de release. */
+.xp-explorer {
+  position: absolute;
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+  min-width: 360px;
+  min-height: 240px;
+  padding: 0 3px 3px;
+  border: 1px solid #0831d9;
+  border-radius: 8px 8px 3px 3px;
+  background: #ece9d8;
+  box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-xp);
+  font-size: 12px;
+  color: #000;
+}
+
+.xp-explorer.open {
+  display: flex;
+}
+
+.xp-explorer.minimized {
+  display: none;
+}
+
+.xp-explorer.maximized {
+  left: 2px !important;
+  top: 2px !important;
+  width: auto !important;
+  height: auto !important;
+  right: 2px !important;
+  bottom: 36px !important;
+  border-radius: 6px;
+}
+
+.xp-explorer.maximized .xp-resize {
+  display: none;
+}
+
+/* Barra de título azul do explorer
+   No XP a barra corre de ponta a ponta da janela, encostando nas bordas
+   arredondadas. Aqui ela precisa de margem negativa para sangrar sobre
+   o padding de 3px da moldura. */
+.xp-explorer .win-bar {
+  height: 28px;
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0 -3px;
+  padding: 0 4px 0 5px;
+  gap: 4px;
+  border-radius: 7px 7px 0 0;
+  cursor: default;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.16) 9%, rgba(255, 255, 255, 0) 15%),
+    linear-gradient(180deg, #0e6ce4 0%, #3d8ef7 5%, #2a7cee 24%, #0f62dc 55%, #0b57cf 83%, #0949b4 97%, #073b98 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.35),
+    inset -1px 0 0 rgba(0, 0, 0, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+}
+
+.xp-explorer .win-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 20, 80, 0.75);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-bottom: 1px;
+}
+
+.xp-explorer .win-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.xp-explorer .win-icon::before {
+  display: none;
+}
+
+.xp-explorer .win-btns {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  gap: 2px;
+}
+
+/* Barra de ferramentas: voltar, frente, cima, pesquisa */
+.xp-explorer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 4px;
+  border-bottom: 1px solid #b5b5b5;
+  background: linear-gradient(180deg, #fff 0%, #f4f2e8 60%, #e6e3d2 100%);
+}
+
+.xp-tbtn {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: none;
+  cursor: pointer;
+}
+
+.xp-tbtn:hover:not(:disabled) {
+  border-color: #b5b5b5;
+  background: #fff;
+}
+
+.xp-tbtn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.xp-tbtn svg {
+  width: 16px;
+  height: 16px;
+  fill: #3a6ea5;
+  stroke: none;
+}
+
+.xp-tbtn:hover:not(:disabled) svg {
+  fill: #1d4e8f;
+}
+
+.xp-explorer-search {
+  margin-left: auto;
+  width: 130px;
+  padding: 2px 4px;
+  border: 1px solid #7f9db9;
+  background: #fff;
+  font-family: var(--font-xp);
+  font-size: 11px;
+  outline: none;
+}
+
+/* Endereço */
+.xp-explorer-address {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 6px;
+  border-bottom: 1px solid #b5b5b5;
+  background: #ece9d8;
+}
+
+.xp-explorer-address label {
+  font-size: 11px;
+  color: #333;
+}
+
+.xp-explorer-address input {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 4px;
+  border: 1px solid #7f9db9;
+  background: #fff;
+  font-family: var(--font-xp);
+  font-size: 11px;
+  outline: none;
+}
+
+/* Corpo: barra de ferramentas + endereço + árvore/lista */
+.xp-explorer-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #fff;
+}
+
+.xp-explorer-content {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  background: #fff;
+}
+
+.xp-explorer-tree {
+  width: 178px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #d4d0c8;
+  background: #fff;
+  min-height: 0;
+}
+
+.xp-tree-head {
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 6px;
+  border-bottom: 1px solid #0f3ba0;
+  background: linear-gradient(180deg, #225ad9 0%, #164ac0 100%);
+  color: #fff;
+  font-family: var(--font-xp);
+  font-size: 11px;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(0, 20, 70, 0.6);
+  user-select: none;
+}
+
+.xp-tree-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.xp-tree-close {
+  width: 13px;
+  height: 13px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #e06c55, #c03820);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.xp-tree-close:hover {
+  background: linear-gradient(180deg, #f07d67, #d44026);
+}
+
+.xp-tree-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 4px;
+}
+
+.xp-tree-node {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 2px 3px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #000;
+  text-align: left;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.xp-tree-node:hover {
+  background: #e8eef8;
+}
+
+.xp-tree-node.active {
+  background: #316ac5;
+  color: #fff;
+}
+
+.xp-tree-node.active img {
+  filter: none;
+}
+
+.xp-tree-node img {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.xp-tree-node .xp-tree-arrow {
+  width: 9px;
+  flex-shrink: 0;
+  font-size: 8px;
+  text-align: center;
+  color: #666;
+}
+
+.xp-tree-node.active .xp-tree-arrow {
+  color: #fff;
+}
+
+.xp-tree-children {
+  padding-left: 15px;
+}
+
+.xp-explorer-list {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Cabeçalho da lista em colunas */
+.xp-list-head {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-bottom: 1px solid #d4d0c8;
+  background: linear-gradient(180deg, #fff 0%, #f0eee4 100%);
+}
+
+.xp-list-head span {
+  padding: 3px 6px;
+  border-right: 1px solid #e4e1d8;
+  font-size: 11px;
+  color: #222;
+}
+
+.xp-list-head .xp-col-name {
+  flex: 1;
+}
+
+.xp-list-head .xp-col-size {
+  width: 96px;
+}
+
+.xp-list-head .xp-col-date {
+  width: 118px;
+}
+
+.xp-list-head .xp-col-type {
+  width: 110px;
+}
+
+.xp-list-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: #fff;
+}
+
+.xp-file {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 3px 6px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #000;
+  text-align: left;
+  cursor: default;
+}
+
+.xp-file:hover {
+  background: #e8eef8;
+}
+
+.xp-file.selected {
+  background: #316ac5;
+  color: #fff;
+}
+
+.xp-file img {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.xp-file .xp-file-name {
+  flex: 1;
+  min-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xp-file .xp-col-size,
+.xp-file .xp-col-date,
+.xp-file .xp-col-type {
+  width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #333;
+}
+
+.xp-file .xp-col-date {
+  width: 118px;
+}
+
+.xp-file .xp-col-type {
+  width: 110px;
+}
+
+.xp-file.selected .xp-col-size,
+.xp-file.selected .xp-col-date,
+.xp-file.selected .xp-col-type {
+  color: #fff;
+}
+
+/* Barra de status */
+.xp-explorer-status {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 6px;
+  border-top: 1px solid #b5b5b5;
+  background: #ece9d8;
+  font-size: 11px;
+  color: #333;
+}
+
+.xp-explorer-status .xp-status-right {
+  margin-left: auto;
+}
+
+/* Alça de redimensionamento */
+.xp-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background:
+    linear-gradient(135deg, transparent 0 46%, #8f9aa8 46% 52%, transparent 52% 58%,
+      #8f9aa8 58% 64%, transparent 64% 70%, #8f9aa8 70% 76%, transparent 76%);
+}
+

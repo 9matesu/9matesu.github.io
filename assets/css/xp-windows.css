@@ -1,0 +1,580 @@
+/* ------------------------------------------------- item da barra de tarefas
+   Cada janela aberta ganha um botão na barra, como no XP. */
+.task-item .task-win-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* ------------------------------------------------- janelas na área de trabalho
+   Cada janela é arrastável e redimensionável, como no XP. */
+.xp-drag-handle {
+  cursor: default;
+}
+
+.xp-explorer.resizing,
+.xp-wmp.resizing {
+  user-select: none;
+}
+
+/* Durante o arrasto o cursor vira a "mover", como no XP */
+body.xp-dragging,
+body.xp-dragging * {
+  cursor: move !important;
+  user-select: none !important;
+}
+
+body.xp-resizing,
+body.xp-resizing * {
+  cursor: nwse-resize !important;
+  user-select: none !important;
+}
+
+/* A janela que está sendo arrastada fica levemente transparente */
+.xp-explorer.dragging,
+.xp-wmp.dragging {
+  opacity: 0.92;
+}
+
+/* ------------------------------------------------- a janela (Luna) */
+.window {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 0 3px 3px;
+  border: 1px solid #003399;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #0a5fe0 0%, #0a4fd0 46%, #083fae 100%);
+  box-shadow:
+    0 18px 44px rgba(0, 8, 40, 0.45),
+    0 3px 8px rgba(0, 8, 40, 0.32);
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+}
+
+#app-window {
+  left: 96px;
+  right: 16px;
+  top: 14px;
+  bottom: 46px;
+  opacity: 0;
+  transform: scale(0.95) translateY(14px);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+#app-window.maximized {
+  left: 2px;
+  right: 2px;
+  top: 2px;
+  bottom: 36px;
+  border-radius: 6px;
+}
+
+.desk--app #app-window {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.desk--min #app-window,
+.desk--closed #app-window {
+  pointer-events: none;
+}
+
+/* barra de título */
+.win-bar {
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px 0 6px;
+  border-radius: 7px 7px 0 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.12) 8%, rgba(255, 255, 255, 0) 12%),
+    linear-gradient(180deg, #0e6ce4 0%, #3d8ef7 4%, #2a7cee 22%, #0f62dc 54%, #0b57cf 82%, #0949b4 96%, #073b98 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.35),
+    inset -1px 0 0 rgba(0, 0, 0, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  user-select: none;
+  position: relative;
+  z-index: 1;
+}
+
+#intro-card .win-bar {
+  height: 28px;
+}
+
+.win-icon {
+  width: 16px;
+  height: 15px;
+  flex-shrink: 0;
+  position: relative;
+  border: 1px solid #073b98;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #ffffff, #dbe9f8);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.win-icon::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: -1px;
+  height: 5px;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #66b0f8, #0d5ed4);
+}
+
+.win-icon--me {
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 34%, #8fc0ee 0 4px, #4b86c6 4.5px 100%);
+}
+
+.win-icon--me::before {
+  display: none;
+}
+
+.win-title {
+  font-family: var(--font-xp);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0;
+  text-shadow: 1px 1px 1px rgba(0, 20, 80, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 1px;
+}
+
+.win-btns {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+  padding-right: 1px;
+}
+
+.win-btn {
+  width: 21px;
+  height: 21px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 3px;
+  outline: none;
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #6bb2fb 0%, #2b7ff0 42%, #0d62dc 54%, #0a4fb8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 1px 1px rgba(0, 0, 0, 0.3);
+  transition: filter 0.1s ease, transform 0.06s ease;
+}
+
+.win-btn:hover {
+  filter: brightness(1.14);
+}
+
+.win-btn:active {
+  transform: translateY(1px);
+  filter: brightness(0.94);
+}
+
+.win-close {
+  background: linear-gradient(180deg, #f6a79e 0%, #e5573f 40%, #cf3421 55%, #a81f10 100%);
+  border-color: rgba(255, 210, 200, 0.9);
+}
+
+.win-btn span {
+  position: relative;
+  display: block;
+  width: 11px;
+  height: 11px;
+}
+
+.win-min span::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  bottom: 2px;
+  width: 7px;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.win-max span::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 8px;
+  height: 7px;
+  border: 1px solid #fff;
+  border-top-width: 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Maximizada, a mesma tecla vira restaurar */
+#app-window.maximized .win-max span::before {
+  left: 3px;
+  top: 3px;
+  width: 6px;
+  height: 5px;
+  border-top-width: 2px;
+}
+
+#app-window.maximized .win-max span::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 6px;
+  height: 5px;
+  border: 1px solid #fff;
+  border-top-width: 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.win-close span::before,
+.win-close span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4.5px;
+  width: 11px;
+  height: 2px;
+  border-radius: 1px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  transform: rotate(45deg);
+}
+
+.win-close span::after {
+  transform: rotate(-45deg);
+}
+
+.win-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-main);
+  border: 1px solid #002f86;
+  border-radius: 0 0 6px 6px;
+}
+
+#app-window #viewport {
+  height: 100%;
+  width: 100%;
+  border: 0;
+  /* dentro do portfólio vale a fonte escolhida pelo usuário */
+  font-family: var(--font-base);
+}
+
+#app-window #sidebar,
+#app-window #main,
+#app-window #detail-panel {
+  height: 100%;
+}
+
+/* A coluna da esquerda rola quando o texto passa da altura da janela */
+#app-window #sidebar {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+#app-window #sidebar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+#app-window .panel-scroll {
+  height: calc(100% - var(--header-h));
+}
+
+/* Dentro da janela o detalhe vira uma gaveta por cima da coluna:
+   assim o palco não encolhe e o texto não fica espremido. */
+#app-window #detail-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: min(340px, 84%);
+  min-width: 0;
+  z-index: 25;
+  border-left: 1px solid transparent;
+  box-shadow: none;
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.24s ease,
+    border-color 0.2s ease,
+    visibility 0s linear 0.34s;
+}
+
+#app-window #detail-panel.open {
+  width: min(340px, 84%);
+  min-width: 0;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  border-left-color: var(--border-subtle);
+  transition:
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.24s ease,
+    border-color 0.2s ease,
+    visibility 0s;
+}
+
+#app-window .panel-scroll {
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  #settings-panel {
+    top: 44%;
+    width: min(340px, calc(100vw - 24px));
+  }
+  .settings-scroll {
+    max-height: min(56vh, 420px);
+  }
+}
+
+/* ------------------------------------------------- cartão de entrada */
+#intro-card {
+  left: 50%;
+  top: 50%;
+  width: min(392px, calc(100vw - 40px));
+  padding: 0 3px 3px;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+  overflow: hidden;
+}
+
+.intro-body {
+  font-family: var(--font-base);
+  background: var(--bg-main);
+  border: 1px solid #002f86;
+  border-radius: 0 0 6px 6px;
+  padding: 18px 20px 22px;
+}
+
+.desk--app #intro-card,
+.desk--min #intro-card,
+.desk--closed #intro-card {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.97);
+}
+
+.intro-photo {
+  width: 172px;
+  margin: 0 auto 16px;
+  overflow: hidden;
+  background: var(--field-bg);
+  opacity: 0;
+  animation: introRise 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+}
+
+.intro-photo .bio-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 7 / 9;
+  object-fit: cover;
+  object-position: center 25%;
+  filter: grayscale(1) contrast(1.06);
+  transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#intro-card:hover .bio-photo {
+  filter: grayscale(1) contrast(1.16) brightness(1.05);
+  transform: scale(1.02);
+}
+
+.intro-name {
+  font-size: 40px;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  font-weight: 700;
+  color: var(--text-bright);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.intro-name span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%) rotate(5deg);
+  animation: letterRun 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 46ms + 160ms);
+}
+
+.intro-bio {
+  font-size: 11.5px;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  color: var(--text-muted);
+  text-align: justify;
+  text-justify: inter-word;
+  opacity: 0;
+  animation: introRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.42s forwards;
+}
+
+.intro-bio b {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.intro-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  opacity: 0;
+  animation: introRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.56s forwards;
+}
+
+.intro-enter {
+  border: 1px solid var(--text-bright);
+  background: transparent;
+  color: var(--text-bright);
+  font-family: inherit;
+  font-size: 10.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  transition: background 0.18s ease, color 0.18s ease, gap 0.18s ease;
+}
+
+.intro-enter span {
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.intro-enter:hover {
+  background: var(--text-bright);
+  color: var(--bg-main);
+}
+
+.intro-enter:hover span {
+  transform: translateX(4px);
+}
+
+.intro-enter:focus-visible {
+  outline: 1px solid var(--text-bright);
+  outline-offset: 3px;
+}
+
+.intro-hint {
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  animation: hintFloat 2.8s ease-in-out infinite;
+}
+
+.intro-corner {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+@keyframes letterRun {
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes introRise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes hintFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(3px); opacity: 1; }
+}
+
+/* saída: cada letra corre para fora, sincronizada com a janela abrindo */
+#intro-card.leaving .intro-name span {
+  animation: letterOut 0.42s cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
+  animation-delay: calc(var(--i, 0) * 24ms);
+}
+
+@keyframes letterOut {
+  to { opacity: 0; transform: translateY(-130%) rotate(-7deg); }
+}
+
+#intro-card.leaving .intro-photo,
+#intro-card.leaving .intro-bio,
+#intro-card.leaving .intro-actions,
+#intro-card.leaving .intro-corner {
+  animation: introFall 0.34s ease-in forwards;
+  animation-delay: 0.1s;
+}
+
+@keyframes introFall {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ------------------------------------------------- entrada do app */
+#app-window.enter-anim #topbar {
+  animation: barDrop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+#app-window.enter-anim #sidebar .bio-top > *,
+#app-window.enter-anim #sidebar .bio-footer {
+  animation: slideFromLeft 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms + 80ms);
+}
+
+#app-window.enter-anim #stage .col {
+  animation: slideFromRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+}
+
+@keyframes barDrop {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes slideFromRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Texto que empurra: cada item entra um tico depois do outro */
+#stage .col .item {
+  animation: itemRun 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 18ms);
+}
+
+@keyframes itemRun {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: none; }
+}
+

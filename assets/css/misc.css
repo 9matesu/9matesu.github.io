@@ -1,0 +1,201 @@
+/* ------------------------------------------------- texto sem ClearType
+   O XP original desenhava o texto sem a franja colorida do ClearType.
+   No Chrome isso só acontece quando o texto sai da camada principal:
+   will-change: transform cria uma camada própria e o navegador passa
+   a usar o antialiasing cinza, igual ao Windows XP. */
+#taskbar,
+#start-menu,
+#desk-icons,
+.power-screen,
+#xp-balloon,
+#settings-panel,
+.win-bar {
+  will-change: transform;
+}
+
+/* ------------------------------------------------- estações: sem efeito
+   O clique só preenche a bolinha (o miolo branco recebe a cor da
+   linha). Nenhum hover que cresce, nenhum brilho, nenhum halo. */
+.map-mark-core {
+  transition: fill 0.14s ease;
+}
+
+.map-mark-tag {
+  transition: opacity 0.18s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window,
+  .intro-hint,
+  #stage .col .item,
+  #app-window.enter-anim #sidebar .bio-top > *,
+  #app-window.enter-anim #stage .col {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  #app-window {
+    left: 4px;
+    right: 4px;
+    top: 4px;
+    bottom: 38px;
+  }
+  #app-window.maximized {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 34px;
+  }
+  #desk-icons .desk-icon {
+    width: 66px;
+    height: 68px;
+    font-size: 10px;
+  }
+  #desk-icons .desk-icon-art {
+    width: 34px;
+    height: 34px;
+  }
+  #desk-icons .desk-icon-art img {
+    width: 34px;
+    height: 34px;
+  }
+  #desk-icons .desk-icon-label {
+    max-width: 62px;
+  }
+  .xp-explorer {
+    left: 4px !important;
+    top: 4px !important;
+    width: calc(100vw - 8px) !important;
+    height: calc(100vh - 42px) !important;
+    min-width: 0;
+    min-height: 0;
+  }
+  .xp-explorer-tree {
+    width: 122px;
+  }
+  .xp-explorer-search {
+    width: 86px;
+  }
+  .xp-file .xp-col-date,
+  .xp-file .xp-col-type,
+  .xp-list-head .xp-col-date,
+  .xp-list-head .xp-col-type {
+    display: none;
+  }
+  .xp-wmp {
+    left: 4px !important;
+    top: 4px !important;
+    width: calc(100vw - 8px) !important;
+    height: calc(100vh - 42px) !important;
+    min-width: 0;
+    min-height: 0;
+  }
+  .xp-wmp-side {
+    width: 112px;
+  }
+  .wmp-nav {
+    width: 94px;
+  }
+  .wmp-nav-btn {
+    padding: 6px 5px;
+    font-size: 10px;
+  }
+  .wmp-nav-btn small {
+    display: none;
+  }
+  .wmp-list-head,
+  .xp-wmp-track {
+    grid-template-columns: 20px 15px minmax(60px, 1.6fr) minmax(44px, 1fr) 44px 44px 16px;
+  }
+  .wmp-list-head > span:nth-child(5),
+  .wmp-list-head > span:nth-child(6),
+  .xp-wmp-track > span:nth-child(5),
+  .xp-wmp-track > span:nth-child(6) {
+    display: none;
+  }
+  .xp-wmp-now {
+    padding: 2px 8px 8px;
+  }
+  .wmp-vol input {
+    width: 52px;
+  }
+  #intro-card {
+    width: calc(100vw - 16px);
+  }
+  .intro-body {
+    padding: 14px 16px 18px;
+  }
+  .intro-name {
+    font-size: 34px;
+  }
+  #start-menu {
+    width: min(384px, calc(100vw - 8px));
+    max-height: calc(100vh - 42px);
+    overflow-y: auto;
+    overflow-x: visible;
+  }
+  .start-col--places {
+    width: 168px;
+  }
+  .start-col--places .start-txt b {
+    font-size: 10.5px;
+  }
+  .start-flyout,
+  .start-flyout--left {
+    left: 4px;
+    right: 4px;
+    bottom: calc(100% + 4px);
+    min-width: 0;
+    max-height: 230px;
+    overflow-y: auto;
+  }
+  /* no celular o submenu aninhado não cabe; a categoria filtra direto */
+  .start-flyout .start-flyout {
+    display: none !important;
+  }
+  .start-user {
+    font-size: 14px;
+  }
+  /* No celular a janela perde a coluna da foto: o sobre vive no cartão */
+  #app-window #sidebar {
+    display: none;
+  }
+  #app-window #main {
+    width: 100%;
+  }
+  #topbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: var(--header-h);
+    padding: 7px 12px;
+    gap: 7px;
+  }
+  .search-field {
+    width: 100%;
+    max-width: none;
+  }
+  .topbar-controls {
+    width: 100%;
+    gap: 6px;
+    justify-content: space-between;
+  }
+  .topbar-controls .control {
+    flex: 1;
+  }
+  .topbar-controls .control .select-wrap {
+    width: 100%;
+  }
+  .topbar-controls .control .select-wrap select {
+    width: 100%;
+  }
+  .map-legend {
+    top: 8px;
+    right: 8px;
+    bottom: auto;
+    left: auto;
+    font-size: 9px;
+    padding: 6px 8px;
+  }
+}
