@@ -853,24 +853,6 @@ function mapRenderScene() {
   mapMarkList = mapLayout.items;
 }
 
-// A caixa das novidades: mede o nome e desenha o contorno em volta
-function mapFitNewsBoxes() {
-  mapLabels.forEach(function(nb) {
-    if (!nb.boxed) return;
-    var b = null;
-    try { b = nb.label.getBBox(); } catch (err) { b = null; }
-    if (!b || !b.width) return;
-    var pad = 4;
-    var rect = mapSvgEl("rect", "map-mark-box");
-    rect.setAttribute("x", String(b.x - pad));
-    rect.setAttribute("y", String(b.y - pad * 0.6));
-    rect.setAttribute("width", String(b.width + pad * 2));
-    rect.setAttribute("height", String(b.height + pad * 1.2));
-    rect.setAttribute("rx", "2");
-    nb.tag.insertBefore(rect, nb.label);
-  });
-}
-
 // Marca o caminho aberto na navegação
 function mapUpdateActive() {
   if (!mapLayout || !mapMarks) return;
@@ -929,7 +911,10 @@ function mapFitCam() {
   var vw = mapSvg ? mapSvg.clientWidth : 0;
   var vh = mapSvg ? mapSvg.clientHeight : 0;
   if (!vw || !vh) { vw = mapPaperW; vh = mapPaperH; }
-  var b = mapContentBox(150);
+  // Telas estreitas precisam de mais folga: os rótulos têm corpo fixo em
+  // pixels e, sem isso, encostam nas bordas da folha.
+  var pad = vw < 640 ? 1000 : 150;
+  var b = mapContentBox(pad);
   var base = mapBaseScale(vw, vh);
   var zx = vw / Math.max(1, (b.maxX - b.minX) * base);
   var zy = vh / Math.max(1, (b.maxY - b.minY) * base);
@@ -939,6 +924,42 @@ function mapFitCam() {
     cy: (b.minY + b.maxY) / 2,
     z: Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, z * 0.94))
   };
+  mapFitZ = mapCam.z;
+}
+
+// ------------------------------------------------- zoom em três passos
+// Sem roda do mouse e sem sequestrar a rolagem: o mapa tem três degraus
+// fixos (1x, 2x, 3x) sobre o enquadramento da folha inteira.
+var mapFitZ = 0;
+var mapZoomStepSel = 1;
+
+function mapPaintZoom() {
+  if (!mapSheet) return;
+  var btns = mapSheet.querySelectorAll("[data-map-zoom]");
+  for (var i = 0; i < btns.length; i++) {
+    var on = Number(btns[i].getAttribute("data-map-zoom")) === mapZoomStepSel;
+    btns[i].classList.toggle("active", on);
+    btns[i].setAttribute("aria-pressed", on ? "true" : "false");
+  }
+}
+
+function mapSetZoomStep(step) {
+  if (!mapSvg || !step) return;
+  if (!mapFitZ) mapFitCam();
+  mapZoomStepSel = step;
+  mapCamUser = true;
+  mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapFitZ * step }, true);
+  mapPaintZoom();
+}
+
+if (mapSheet) {
+  mapSheet.addEventListener("click", function(e) {
+    var btn = e.target.closest ? e.target.closest("[data-map-zoom]") : null;
+    if (!btn) return;
+    e.stopPropagation();
+    mapSetZoomStep(Number(btn.getAttribute("data-map-zoom")));
+  });
+  mapPaintZoom();
 }
 
 // Desenha a rota e as marcas do caminho atual
@@ -1094,20 +1115,6 @@ if (mapSvg) {
   mapSvg.addEventListener("pointercancel", mapPanEnd);
   mapSvg.addEventListener("lostpointercapture", mapPanEnd);
 
-  // a roda aproxima e afasta, sempre presa na folha
-  mapSvg.addEventListener("wheel", function(e) {
-    e.preventDefault();
-    var before = mapPointerPos(e);
-    var z = Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, mapCam.z * (e.deltaY < 0 ? 1.12 : 1 / 1.12)));
-    if (z === mapCam.z) return;
-    mapCamUser = true;
-    mapCam.z = z;
-    var after = mapPointerPos(e);
-    mapCam.cx += before.x - after.x;
-    mapCam.cy += before.y - after.y;
-    mapApplyCam();
-  }, { passive: false });
-
   // dois cliques reenquadram o desenho inteiro
   mapSvg.addEventListener("dblclick", function(e) {
     if (e.target.closest && e.target.closest(".map-mark")) return;
@@ -1155,6 +1162,13 @@ function mapInit() {
 
 mapInit();
 
+setTimeout(function () {
+  if (mapLayout && !mapCamUser) {
+    mapFitCam();
+    mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, false);
+  }
+}, 600);
+
 // O mapa muda de largura quando o painel de detalhe abre: refaz o viewBox
 // e, se o visitante ainda não mexeu na câmera, reenquadra a rede.
 if (window.ResizeObserver && mapSheet) {
@@ -1193,17 +1207,19 @@ function mapMaxHeight() {
 }
 
 function mapDefaultHeight() {
-  var swiss = document.documentElement.getAttribute("data-shell") === "swiss";
-  return Math.round(window.innerHeight * (swiss ? 0.44 : 0.46));
+  return Math.round(window.innerHeight * 0.44);
 }
 
 function setMapHeight(px) {
   mapHeight = Math.max(mapMinHeight(), Math.min(mapMaxHeight(), Math.round(px)));
   document.documentElement.style.setProperty("--map-h", mapHeight + "px");
+  void mapSheet.offsetHeight;
   mapResize();
   if (mapLayout && !mapCamUser) {
-    mapFitCam();
-    mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, false);
+    requestAnimationFrame(function () {
+      mapFitCam();
+      mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, false);
+    });
   }
 }
 

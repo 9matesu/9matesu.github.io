@@ -64,57 +64,32 @@ html, body {
   --metro-dev: var(--metro-4);
   --metro-social: var(--metro-5);
 
-  /* Cursores originais do Windows XP (pacote windows-xp-1). São os
-     arquivos .cur/.ani de verdade, extraídos em img/xp/cursors/.
-     Sem coordenadas de hotspot no CSS: quem manda é o hotspot
-     embutido em cada arquivo, senão o ponteiro sai do eixo. */
-  --cur-arrow:    url("img/xp/cursors/default_arrow.cur"), default;
-  --cur-hand:     url("img/xp/cursors/default_link.cur"), pointer;
-  --cur-grab:     url("img/xp/cursors/default_link.cur"), grab;
-  --cur-grabbing: url("img/xp/cursors/default_move.cur"), move;
-  --cur-move:     url("img/xp/cursors/default_move.cur"), move;
-  --cur-cross:    url("img/xp/cursors/cross.cur"), crosshair;
-  --cur-text:     url("img/xp/cursors/default_ibeam.cur"), text;
-  --cur-wait:     url("img/xp/cursors/default_wait.cur"), wait;
-  --cur-busy:     url("img/xp/cursors/default_busy.cur"), progress;
-  --cur-no:       url("img/xp/cursors/default_no.cur"), not-allowed;
-  --cur-help:     url("img/xp/cursors/default_helpsel.cur"), help;
-  --cur-ns:       url("img/xp/cursors/default_size4.cur"), ns-resize;
-  --cur-ew:       url("img/xp/cursors/default_size3.cur"), ew-resize;
-  --cur-nwse:     url("img/xp/cursors/default_size2.cur"), nwse-resize;
-  --cur-nesw:     url("img/xp/cursors/default_size1.cur"), nesw-resize;
+  /* Cursores nativos: o shell suíço não carrega o pacote do XP. */
+  --cur-arrow: default;
+  --cur-hand: pointer;
+  --cur-grab: grab;
+  --cur-grabbing: grabbing;
+  --cur-move: move;
+  --cur-cross: crosshair;
+  --cur-text: text;
+  --cur-wait: wait;
+  --cur-busy: progress;
+  --cur-no: not-allowed;
+  --cur-help: help;
+  --cur-ns: ns-resize;
+  --cur-ew: ew-resize;
+  --cur-nwse: nwse-resize;
+  --cur-nesw: nesw-resize;
 }
 
-/* A seta XP vale para a mesa inteira e para o chrome (botões, menus,
-   janelas). Sem !important: onde o seletor é mais específico — o painel
-   de ajustes (#stage .item / --cursor-item) e as estações do mapa
-   (.map-mark / --cur-hand) — a escolha correta prevalece. */
+/* Ponteiro de sistema em todo o site: o shell suíço usa os cursores
+   nativos do navegador. Sem !important, para o mapa e o painel de
+   ajustes poderem definir o seu (.map-mark, #stage .item). */
 body { cursor: var(--cur-arrow, default); }
-a, button, select, [role="button"], .desk-icon, .win-btn,
-.xp-file, .theme-swatch, .control, .gear-btn, .panel-close, .search-clear,
-.start-item, .start-txt {
-  cursor: var(--cur-arrow, pointer);
+a, button, select, [role="button"], .theme-swatch, .control, .gear-btn,
+.panel-close, .search-clear {
+  cursor: pointer;
 }
-
-/* Legenda tipográfica das linhas, sobre a carta */
-.map-legend {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 5;
-  background: var(--map-paper);
-  border: 1px solid var(--map-ink);
-  padding: 9px 11px;
-  font-family: var(--font-base);
-  font-size: 10px;
-  letter-spacing: 0.02em;
-  color: var(--map-ink);
-  pointer-events: none;
-}
-.map-legend-item { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
-.map-legend-item:first-child { margin-top: 0; }
-.map-legend-item:last-child { margin-bottom: 0; }
-.legend-swatch { width: 14px; height: 5px; flex-shrink: 0; }
 
 #viewport {
   position: relative;
@@ -317,7 +292,7 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   font-size: 12px;
   letter-spacing: -0.015em;
   margin-top: 6px;
-  width: 176px;
+  width: 100%;
   border-top: 1px solid var(--border-subtle);
   padding-top: 8px;
 }
@@ -329,9 +304,9 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.16s ease, background-color 0.16s ease;
-  width: fit-content;
+  width: 100%;
   padding: 3px 5px 3px 4px;
-  margin: 0 -4px;
+  margin: 0;
   border-bottom: 1px solid transparent;
 }
 
@@ -361,24 +336,7 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   align-items: center;
 }
 
-.theme-toggle {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 11px;
-  letter-spacing: -0.01em;
-  font-family: inherit;
-  padding: 0;
-  text-decoration: none;
-  transition: color 0.16s ease;
-}
-
-.theme-toggle:hover {
-  color: var(--text-bright);
-}
-
-/* Coluna principal: header + navegação */
+/* Coluna principal: navegação */
 #main {
   flex: 1;
   min-width: 0;
@@ -386,18 +344,6 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-#topbar {
-  height: var(--header-h);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 28px;
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--bg-main);
-  user-select: none;
 }
 
 .search-field {
@@ -615,24 +561,6 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--bg-sidebar);
-  border: 1px solid #002f86;
-  border-top: 0;
-  border-radius: 0 0 6px 6px;
-}
-
-.settings-scroll::-webkit-scrollbar {
-  width: 16px;
-}
-
-.settings-scroll::-webkit-scrollbar-track {
-  background: #d8e4f4;
-  border-left: 1px solid #a9c0dd;
-}
-
-.settings-scroll::-webkit-scrollbar-thumb {
-  border: 1px solid #7f9dbf;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #fdfefe 0%, #dce8f6 45%, #c3d8ef 100%);
 }
 
 .win-bar-ico {
@@ -698,148 +626,14 @@ a, button, select, [role="button"], .desk-icon, .win-btn,
   height: 13px;
 }
 
-.font-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
-}
-
-.font-btn {
-  padding: 8px;
-  border: 1px solid var(--border-subtle);
-  background: none;
-  color: var(--text-muted);
-  font-size: 13px;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.16s ease, color 0.16s ease;
-}
-
-.font-btn:hover {
-  color: var(--text-bright);
-  border-color: var(--border-link);
-}
-
-.font-btn.active {
-  color: var(--text-bright);
-  border-color: var(--text-dim);
-}
-
-.font-custom {
-  display: flex;
-  gap: 6px;
-  margin-top: 7px;
-}
-
-.font-custom input {
-  flex: 1;
-  min-width: 0;
-  padding: 6px 8px;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-main);
-  color: var(--text-muted);
-  font-family: var(--font-xp);
-  font-size: 12px;
-  outline: none;
-}
-
-.font-custom input:focus {
-  border-color: var(--border-link);
-}
-
-.font-custom-btn {
-  padding: 6px 12px;
-  border: 1px solid var(--border-subtle);
-  background: none;
-  color: var(--text-muted);
-  font-family: var(--font-xp);
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.font-custom-btn:hover {
-  color: var(--text-bright);
-  border-color: var(--border-link);
-}
-
-.slider-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.slider-row input[type="range"] {
-  flex: 1;
-  height: 2px;
-  appearance: none;
-  -webkit-appearance: none;
-  background: var(--border-link);
-  outline: none;
-  cursor: pointer;
-}
-
-.slider-row input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--text-bright);
-  cursor: pointer;
-}
-
-.slider-row input[type="range"]::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border: none;
-  border-radius: 50%;
-  background: var(--text-bright);
-  cursor: pointer;
-}
-
-.slider-value {
-  min-width: 42px;
-  font-size: 11px;
-  color: var(--text-dim);
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.settings-note {
-  font-size: 11px;
-  line-height: 1.4;
-  color: var(--text-faint);
-}
-
-/* Troca de sistema: Swiss ou XP, visível nos dois temas */
-.shell-switch {
-  display: flex;
-  border: 1px solid var(--border-subtle);
-}
-.shell-switch button {
-  flex: 1;
-  padding: 6px 8px;
-  border: 0;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 10px;
-  line-height: 1;
-  cursor: pointer;
-}
-.shell-switch button.active {
-  background: var(--text-bright);
-  color: var(--bg-main);
-}
-
-/* Grão sobre o canvas */
+/* Grão: desligado no shell suíço, mas o nó continua no DOM para o
+   JS do tema não quebrar se voltar. */
 #grain {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 55;
   opacity: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
-  background-size: 180px 180px;
-  mix-blend-mode: overlay;
+  display: none;
 }
 

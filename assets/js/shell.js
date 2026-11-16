@@ -378,9 +378,11 @@ window.addEventListener("keydown", deskImpactArm, { passive: true });
 if (deskIconsEl) {
   xpWireDesktop();
   xpWireQuickLaunch();
-  wmpLoadLibrary();
   xpStartupOnEntry();
 }
+
+// a biblioteca do player carrega independente do chrome do XP
+wmpLoadLibrary();
 
 // ------------------------------------------------- menu iniciar
 // Documentos recentes e programas: saem da mesma árvore do site, então o
@@ -430,24 +432,7 @@ if (balloonClose) balloonClose.addEventListener("click", function(e) {
   hideBalloon();
 });
 
-var traySound = document.getElementById("tray-sound");
-
-function applyXpMute() {
-  if (!traySound) return;
-  traySound.classList.toggle("muted", xpMuted);
-  traySound.setAttribute("aria-pressed", xpMuted ? "false" : "true");
-  traySound.setAttribute("aria-label", xpMuted ? "ativar sons do sistema" : "silenciar sons do sistema");
-}
-
-if (traySound) traySound.addEventListener("click", function(e) {
-  e.stopPropagation();
-  xpMuted = !xpMuted;
-  try { localStorage.setItem("xpMuted", xpMuted ? "1" : "0"); } catch (err) {}
-  applyXpMute();
-  if (!xpMuted) xpPlay("menu", 0.7);
-});
-
-applyXpMute();
+// O mudo vive nos ajustes (swiss.js); aqui não há mais tray do XP.
 
 var shutdownScreen = document.getElementById("shutdown-screen");
 var shutdownTimer = null;
@@ -722,15 +707,7 @@ if (iconSobre) iconSobre.addEventListener("dblclick", function() {
   showIntro(false);
 });
 
-// Entrar rolando: no cartão, qualquer rolagem abre a janela. Rolagem
-// em cima de um ícone da mesa é física de profundidade, não entrada.
-document.addEventListener("wheel", function(e) {
-  if (deskState !== "intro") return;
-  if (e.target.closest && e.target.closest(".desk-icon")) return;
-  e.preventDefault();
-  openApp();
-}, { passive: false, capture: true });
-
+// Entrar pelo teclado: no cartão, Enter ou espaço abre a janela.
 document.addEventListener("keydown", function(e) {
   if (deskState !== "intro") return;
   if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {

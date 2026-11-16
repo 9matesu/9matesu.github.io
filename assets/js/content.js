@@ -471,11 +471,14 @@ function resultLabel(m) {
   return (m.leaf && m.node.title) ? m.node.title : m.key;
 }
 
-// ------------------------------------------------- sons do XP
-// Os WAVs reais ficam em sfx/. O primeiro som só toca depois de um gesto
-// do usuário, como manda a política de autoplay dos navegadores.
-var xpMuted = false;
-try { xpMuted = localStorage.getItem("xpMuted") === "1"; } catch (e) {}
+// ------------------------------------------------- sons do shell
+// Os WAVs reais ficam em sfx/. O som nasce desligado: quem quiser
+// liga nos ajustes, e a escolha fica guardada.
+var xpMuted = true;
+try {
+  var mutedPref = localStorage.getItem("xpMuted");
+  if (mutedPref != null) xpMuted = mutedPref === "1";
+} catch (e) {}
 
 var xpSoundCache = {};
 var xpStartupPlayed = false;

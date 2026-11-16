@@ -8,86 +8,15 @@
 <link rel="stylesheet" href="assets/css/core.css">
 <link rel="stylesheet" href="assets/css/detail.css">
 <link rel="stylesheet" href="assets/css/map.css">
-<link rel="stylesheet" href="assets/css/wmp.css">
-<link rel="stylesheet" href="assets/css/misc.css">
+<link rel="stylesheet" href="assets/css/player.css">
+<link rel="stylesheet" href="assets/css/settings.css">
 <link rel="stylesheet" href="assets/css/swiss.css">
-<link id="xp-css" rel="stylesheet" href="assets/css/xp.css" media="not all">
-<script>
-(function () {
-  var shell = "swiss";
-  try { shell = localStorage.getItem("matesu.shell") || "swiss"; } catch (e) {}
-  if (shell !== "xp") shell = "swiss";
-  document.documentElement.setAttribute("data-shell", shell);
-  if (shell === "xp") {
-    var link = document.getElementById("xp-css");
-    if (link) link.media = "all";
-  }
-})();
-</script>
 </head>
 <body>
 <div id="desktop" class="desk--intro">
 
-  <header id="swiss-bar" class="swiss-only">
-    <button class="swiss-brand" type="button" data-swiss="home">matesu<sup>®</sup></button>
-    <nav class="swiss-nav" aria-label="navegação principal">
-      <button type="button" data-swiss="index">índice</button>
-      <button type="button" data-swiss="map">mapa</button>
-      <button type="button" data-swiss="player">player</button>
-      <button type="button" data-swiss="about">sobre</button>
-    </nav>
-    <div class="swiss-meta">
-      <button type="button" class="swiss-text-btn" id="swiss-sound" aria-pressed="false">som</button>
-      <button type="button" class="swiss-text-btn" id="swiss-theme">tinta</button>
-      <span id="swiss-clock">--:--</span>
-    </div>
-  </header>
-
-  <nav id="swiss-dock" class="swiss-only" aria-label="aplicativos">
-    <button type="button" data-swiss="portfolio"><span class="dock-num">01</span><span class="dock-label">portfólio</span></button>
-    <button type="button" data-swiss="map"><span class="dock-num">02</span><span class="dock-label">mapa</span></button>
-    <button type="button" data-swiss="player"><span class="dock-num">03</span><span class="dock-label">player</span></button>
-    <button type="button" data-swiss="about"><span class="dock-num">04</span><span class="dock-label">sobre</span></button>
-    <div class="dock-status"><span class="dock-dot" aria-hidden="true"></span><span id="dock-status-text">pronto</span></div>
-    <span class="dock-clock" id="dock-clock">--:--</span>
-  </nav>
-
-  <!-- Papel de parede: ilha tropical, no espírito do Bliss -->
-  <div id="desk-wallpaper" class="xp-only" aria-hidden="true">
-    <img src="img/wall/desktop-xp.jpg" alt="">
-  </div>
-
-  <!-- Ícones da área de trabalho -->
-  <div id="desk-icons" class="xp-only" aria-label="área de trabalho">
-    <button class="desk-icon" id="icon-portfolio" type="button" aria-label="abrir portfólio">
-      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/Explorer-48.png" alt=""></span>
-      <span class="desk-icon-label">portfólio</span>
-    </button>
-    <button class="desk-icon" id="icon-sobre" type="button" aria-label="abrir sobre">
-      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/UserAccounts-48.png" alt=""></span>
-      <span class="desk-icon-label">sobre</span>
-    </button>
-    <button class="desk-icon" id="icon-player" type="button" aria-label="abrir media player">
-      <span class="desk-icon-art" aria-hidden="true"><img src="img/xp/WindowsMediaPlayer10-48.png" alt=""></span>
-      <span class="desk-icon-label">media player</span>
-    </button>
-  </div>
-
-  <!-- Retângulo de seleção da área de trabalho -->
-  <div id="desk-marquee" class="xp-only" aria-hidden="true"></div>
-
-  <!-- Menu de contexto do XP (criado sob demanda) -->
-  <div id="xp-context-layer" class="xp-only" aria-hidden="true"></div>
-
-  <!-- Cartão de entrada: a janela fechada, só a foto e o sobre -->
-  <section id="intro-card" class="window" aria-label="sobre matesu">
-    <div class="win-bar">
-      <span class="win-icon win-icon--me" aria-hidden="true"></span>
-      <span class="win-title">sobre: matesu</span>
-      <div class="win-btns">
-        <button class="win-btn win-close" id="intro-close" type="button" aria-label="fechar sobre"><span></span></button>
-      </div>
-    </div>
+  <!-- Capa: nome, foto e uma linha -->
+  <section id="intro-card" class="window" aria-label="matesu">
     <div class="intro-body">
       <div class="intro-photo">
         <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
@@ -98,450 +27,188 @@
         o <b>@blackmesaent</b> e o <b>bloodworm trax</b>.</p>
       <div class="intro-actions">
         <button class="intro-enter" id="intro-enter" type="button">abrir portfólio <span aria-hidden="true">→</span></button>
-        <span class="intro-hint">ou role para entrar</span>
       </div>
-      <span class="intro-corner" aria-hidden="true">1.0</span>
     </div>
   </section>
 
-  <!-- A janela do portfolio -->
+  <!-- Portfólio -->
   <section id="app-window" class="window" aria-label="portfólio matesu">
-    <div class="win-bar">
-      <img class="win-bar-ico" src="img/xp/Explorer-16.png" alt="" aria-hidden="true">
-      <span class="win-title">matesu: portfólio</span>
-      <div class="win-btns">
-        <button class="win-btn win-min" id="win-min" type="button" aria-label="minimizar"><span></span></button>
-        <button class="win-btn win-max" id="win-max" type="button" aria-label="maximizar"><span></span></button>
-        <button class="win-btn win-close" id="win-close" type="button" aria-label="fechar"><span></span></button>
-      </div>
-    </div>
     <div class="win-body">
       <div id="viewport">
 
-  <!-- Coluna fixa com informações reais -->
-  <aside id="sidebar">
-    <div class="sidebar-collapsed-hint" onclick="toggleSidebar(event)">matesu</div>
-    <div class="bio-top">
-      <div class="bio-photo-wrap" id="bio-photo" title="esquerda bolinha, direita limiar, scroll move a foto">
-        <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
-        <img class="bio-photo-dots" src="fotos/matesu-dots.jpg" alt="" aria-hidden="true" draggable="false">
-      </div>
-      <div class="brand-name" onclick="toggleSidebar(event)" title="colapsar/expandir">matesu</div>
-      <div class="bio-text">
-        olá! aqui ficam os projetos &amp; serviços. antes, matesu: <b>produtor musical</b>, <b>designer gráfico</b>, <b>desenvolvedor</b>, <b>fotógrafo</b>, <b>engenheiro de mixagem</b>, <b>dj</b>, <b>diretor criativo</b>, <b>social media</b> [...]. criação e exploração de inúmeras formas de arte, sempre.
-      </div>
-      <div class="bio-text">
-        desde 2015, projetos entre setores audiovisuais diversos, com o <a class="mention" href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo, criado por <a class="mention" href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e matesu.
-      </div>
-      <div class="bio-text">
-        trânsito livre pelo espectro eletrônico inteiro e além. sempre aberto a novos desafios e elaborações.
-      </div>
-      <div class="bio-links">
-        <a href="mailto:matesubeats@gmail.com" title="email">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <rect x="1.6" y="3.4" width="12.8" height="9.2" rx="1.2"></rect>
-            <path d="M2.2 4.6 L8 9 L13.8 4.6" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          <span>matesubeats@gmail.com</span>
-        </a>
-        <a href="https://instagram.com/9matesu" target="_blank" rel="noopener" title="instagram">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <rect x="2.2" y="2.2" width="11.6" height="11.6" rx="3.4"></rect>
-            <circle cx="8" cy="8" r="2.6"></circle>
-            <circle cx="11.5" cy="4.5" r="0.7" fill="currentColor" stroke="none"></circle>
-          </svg>
-          <span>instagram</span>
-        </a>
-        <a href="https://matesu.bandcamp.com" target="_blank" rel="noopener" title="bandcamp">
-          <svg viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M0.9 12.4 5.8 3.6h9.3l-4.9 8.8z" fill="currentColor" stroke="none"></path>
-          </svg>
-          <span>bandcamp</span>
-        </a>
-        <a href="https://www.behance.net/matesu" target="_blank" rel="noopener" title="behance">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <path d="M1.6 4.4 h4 a1.9 1.9 0 0 1 0 3.8 h-4 z" stroke-linejoin="round"></path>
-            <path d="M1.6 8.2 h4.5 a2.3 2.3 0 0 1 0 4.6 h-4.5 z" stroke-linejoin="round"></path>
-            <path d="M10.2 5.4 h4.2" stroke-linecap="round"></path>
-            <path d="M10.2 9.1 h4.6 a2.3 2.3 0 0 0-4.6 0 z" stroke-linejoin="round"></path>
-          </svg>
-          <span>behance</span>
-        </a>
-        <a href="https://github.com/9matesu" target="_blank" rel="noopener" title="github">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <path d="M5.7 13.4 V9.7 c-2 .4-2.6-1-2.6-1 -.2-.7-.6-.9-.6-.9 -.7-.5 0-.5 0-.5 .8 0 1.2.8 1.2.8 .7 1.2 1.9.9 2.4.7 0-.5.3-.9.5-1.1 -1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1 -.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8 a7.4 7.4 0 0 1 4 0 c1.5-1 2.2-.8 2.2-.8 .5 1.1 .2 1.9 .1 2.1 .5.5.8 1.2.8 2.1 0 3.1-1.8 3.8-3.6 4 .3.3.6.8.6 1.7 v3.6" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          <span>github</span>
-        </a>
+        <aside id="sidebar">
+          <div class="sidebar-collapsed-hint" onclick="toggleSidebar(event)">matesu</div>
+          <div class="bio-top">
+            <div class="side-head">
+              <div class="brand-name" onclick="toggleSidebar(event)" title="colapsar/expandir">matesu</div>
+              <button class="win-btn win-close" id="win-close" type="button" aria-label="fechar portfólio"><span></span></button>
+            </div>
+            <div class="bio-photo-wrap" id="bio-photo" title="esquerda bolinha, direita limiar, scroll move a foto">
+              <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
+              <img class="bio-photo-dots" src="fotos/matesu-dots.jpg" alt="" aria-hidden="true" draggable="false">
+            </div>
+            <div class="bio-text">
+              olá! aqui ficam os projetos &amp; serviços. antes, matesu: <b>produtor musical</b>, <b>designer gráfico</b>, <b>desenvolvedor</b>, <b>fotógrafo</b>, <b>engenheiro de mixagem</b>, <b>dj</b>, <b>diretor criativo</b>, <b>social media</b> [...]. criação e exploração de inúmeras formas de arte, sempre.
+            </div>
+            <div class="bio-text">
+              desde 2015, projetos entre setores audiovisuais diversos, com o <a class="mention" href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo, criado por <a class="mention" href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e matesu.
+            </div>
+            <div class="bio-links">
+              <a href="mailto:matesubeats@gmail.com" title="email">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+                  <rect x="1.6" y="3.4" width="12.8" height="9.2" rx="1.2"></rect>
+                  <path d="M2.2 4.6 L8 9 L13.8 4.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span>email</span>
+              </a>
+              <a href="https://instagram.com/9matesu" target="_blank" rel="noopener" title="instagram">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+                  <rect x="2.2" y="2.2" width="11.6" height="11.6" rx="3.4"></rect>
+                  <circle cx="8" cy="8" r="2.6"></circle>
+                  <circle cx="11.5" cy="4.5" r="0.7" fill="currentColor" stroke="none"></circle>
+                </svg>
+                <span>instagram</span>
+              </a>
+              <a href="https://matesu.bandcamp.com" target="_blank" rel="noopener" title="bandcamp">
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M0.9 12.4 5.8 3.6h9.3l-4.9 8.8z" fill="currentColor" stroke="none"></path>
+                </svg>
+                <span>bandcamp</span>
+              </a>
+              <a href="https://www.behance.net/matesu" target="_blank" rel="noopener" title="behance">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+                  <path d="M1.6 4.4 h4 a1.9 1.9 0 0 1 0 3.8 h-4 z" stroke-linejoin="round"></path>
+                  <path d="M1.6 8.2 h4.5 a2.3 2.3 0 0 1 0 4.6 h-4.5 z" stroke-linejoin="round"></path>
+                  <path d="M10.2 5.4 h4.2" stroke-linecap="round"></path>
+                  <path d="M10.2 9.1 h4.6 a2.3 2.3 0 0 0-4.6 0 z" stroke-linejoin="round"></path>
+                </svg>
+                <span>behance</span>
+              </a>
+              <a href="https://github.com/9matesu" target="_blank" rel="noopener" title="github">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+                  <path d="M5.7 13.4 V9.7 c-2 .4-2.6-1-2.6-1 -.2-.7-.6-.9-.6-.9 -.7-.5 0-.5 0-.5 .8 0 1.2.8 1.2.8 .7 1.2 1.9.9 2.4.7 0-.5.3-.9.5-1.1 -1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1 -.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8 a7.4 7.4 0 0 1 4 0 c1.5-1 2.2-.8 2.2-.8 .5 1.1 .2 1.9 .1 2.1 .5.5.8 1.2.8 2.1 0 3.1-1.8 3.8-3.6 4 .3.3.6.8.6 1.7 v3.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span>github</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="side-tools">
+            <div class="search-field">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="7" cy="7" r="4.4" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+                <path d="M10.4 10.4 L14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+              </svg>
+              <input id="search" type="search" placeholder="buscar" autocomplete="off" spellcheck="false" aria-label="buscar">
+              <button id="search-clear" class="search-clear" type="button" aria-label="limpar busca" hidden>&times;</button>
+            </div>
+            <div class="tools-row">
+              <span class="select-wrap">
+                <select id="filter" aria-label="filtrar por seção">
+                  <option value="all">tudo</option>
+                  <option value="design">design</option>
+                  <option value="música">música</option>
+                  <option value="cultura">cultura</option>
+                  <option value="desenvolvimento">desenvolvimento</option>
+                  <option value="matesuposting">matesuposting</option>
+                </select>
+              </span>
+              <span class="select-wrap">
+                <select id="sort" aria-label="ordenar">
+                  <option value="natural">natural</option>
+                  <option value="az">a-z</option>
+                  <option value="za">z-a</option>
+                  <option value="recent">recentes</option>
+                </select>
+              </span>
+              <button class="gear-btn" id="settings-btn" type="button" aria-label="ajustes" aria-expanded="false" aria-controls="settings-panel">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </button>
+            </div>
+            <span id="results-count" class="results-count" hidden></span>
+          </div>
+        </aside>
+
+        <div id="main">
+          <div id="stage-wrap">
+            <main id="stage"></main>
+          </div>
+
+          <button id="grabber" type="button" aria-label="expandir ou fechar o mapa" title="arraste para redimensionar; clique abre e fecha">
+            <span class="grabber-grip" aria-hidden="true"></span>
+          </button>
+
+          <section id="map-sheet" aria-label="mapa do site">
+            <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa com todas as estações">
+              <defs>
+                <filter id="map-noise-filter" x="0" y="0" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence>
+                  <feColorMatrix type="saturate" values="0"></feColorMatrix>
+                </filter>
+                <pattern id="map-grid-pat" width="300" height="300" patternUnits="userSpaceOnUse">
+                  <path class="map-grid-line" d="M300 0H0V300"></path>
+                </pattern>
+              </defs>
+              <g id="map-camera">
+                <rect class="map-paper-fill" x="0" y="0" width="3600" height="3000"></rect>
+                <rect class="map-grid-rect" x="-1500" y="-1200" width="6600" height="5400" fill="url(#map-grid-pat)"></rect>
+                <g id="map-contours" aria-hidden="true"></g>
+                <g id="map-route"></g>
+                <g id="map-links"></g>
+                <g id="map-route-active"></g>
+                <g id="map-marks"></g>
+              </g>
+              <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
+            </svg>
+            <div class="map-zoom" role="group" aria-label="zoom do mapa">
+              <button type="button" class="map-zoom-btn active" data-map-zoom="1" aria-pressed="true">1×</button>
+              <button type="button" class="map-zoom-btn" data-map-zoom="2" aria-pressed="false">2×</button>
+              <button type="button" class="map-zoom-btn" data-map-zoom="3" aria-pressed="false">3×</button>
+            </div>
+          </section>
+        </div>
+
+        <aside id="detail-panel" aria-label="detalhe do item" inert>
+          <div class="panel-head">
+            <button class="panel-close" id="panel-close" type="button" aria-label="fechar detalhe">&times;</button>
+          </div>
+          <div class="panel-scroll" id="panel-scroll"></div>
+        </aside>
+
       </div>
     </div>
-    <div class="bio-footer">
-      <span>matesu · 2026</span>
-      <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="alternar tema">claro</button>
-    </div>
-  </aside>
-
-  <!-- Coluna principal -->
-  <div id="main">
-
-    <header id="topbar">
-      <div class="search-field">
-        <svg viewBox="0 0 16 16" aria-hidden="true">
-          <circle cx="7" cy="7" r="4.4" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
-          <path d="M10.4 10.4 L14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
-        </svg>
-        <input id="search" type="search" placeholder="buscar" autocomplete="off" spellcheck="false" aria-label="buscar">
-        <button id="search-clear" class="search-clear" type="button" aria-label="limpar busca" hidden>&times;</button>
-      </div>
-      <span id="results-count" class="results-count" hidden></span>
-      <div class="topbar-controls">
-        <label class="control">
-          <span class="control-label">filtro</span>
-          <span class="select-wrap">
-            <select id="filter" aria-label="filtrar por seção">
-              <option value="all">tudo</option>
-              <option value="design">design</option>
-              <option value="música">música</option>
-              <option value="cultura">cultura</option>
-              <option value="desenvolvimento">desenvolvimento</option>
-              <option value="matesuposting">matesuposting</option>
-            </select>
-          </span>
-        </label>
-        <label class="control">
-          <span class="control-label">ordem</span>
-          <span class="select-wrap">
-            <select id="sort" aria-label="ordenar">
-              <option value="natural">natural</option>
-              <option value="az">a-z</option>
-              <option value="za">z-a</option>
-              <option value="recent">recentes</option>
-            </select>
-          </span>
-        </label>
-        <button class="gear-btn" id="settings-btn" type="button" aria-label="ajustes do canvas" aria-expanded="false" aria-controls="settings-panel">
-          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3.2"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- Navegação contínua -->
-    <div id="stage-wrap">
-      <main id="stage"></main>
-    </div>
-
-    <!-- Puxador da janela: arrasta redimensiona a folha do mapa,
-         clique simples expande/fecha, duplo clique vai ao máximo -->
-    <button id="grabber" type="button" aria-label="expandir ou fechar o mapa do metrô" title="arraste para redimensionar; clique abre e fecha">
-      <span class="grabber-grip" aria-hidden="true"></span>
-      <span class="grabber-hint" aria-hidden="true">mapa</span>
-    </button>
-
-    <!-- Mapa do site: diagrama estilo Metrô de SP com linhas coloridas -->
-    <section id="map-sheet" aria-label="mapa metropolitano do site">
-      <div class="map-legend">
-        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-design)"></div> Design</div>
-        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-musica)"></div> Música</div>
-        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-cultura)"></div> Cultura</div>
-        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-dev)"></div> Dev</div>
-        <div class="map-legend-item"><div class="legend-swatch" style="background: var(--metro-social)"></div> Posting</div>
-      </div>
-      <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa metropolitano com todas as estações">
-        <defs>
-          <filter id="map-noise-filter" x="0" y="0" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence>
-            <feColorMatrix type="saturate" values="0"></feColorMatrix>
-          </filter>
-          <pattern id="map-grid-pat" width="300" height="300" patternUnits="userSpaceOnUse">
-            <path class="map-grid-line" d="M300 0H0V300"></path>
-          </pattern>
-        </defs>
-        <!-- O relevo topográfico mora DENTRO da câmera: ele acompanha o
-             pan e o zoom junto com as linhas, como uma carta de verdade. -->
-        <g id="map-camera">
-          <rect class="map-paper-fill" x="0" y="0" width="3600" height="3000"></rect>
-          <rect class="map-grid-rect" x="-1500" y="-1200" width="6600" height="5400" fill="url(#map-grid-pat)"></rect>
-          <g id="map-contours" aria-hidden="true"></g>
-          <g id="map-route"></g>
-          <g id="map-links"></g>
-          <g id="map-route-active"></g>
-          <g id="map-marks"></g>
-        </g>
-        <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
-      </svg>
-    </section>
-
-
-
-  </div>
-
-  <!-- Coluna fixa da direita: o item final, do topo ao rodapé -->
-  <aside id="detail-panel" aria-label="detalhe do item" inert>
-    <div class="panel-head">
-      <span class="panel-kicker">item</span>
-      <button class="panel-close" id="panel-close" type="button" aria-label="fechar detalhe">&times;</button>
-    </div>
-    <div class="panel-scroll" id="panel-scroll"></div>
-  </aside>
-
-      </div><!-- /viewport -->
-    </div><!-- /win-body -->
-
-    <!-- Ajustes: janela do XP, por cima da área de trabalho -->
-    <section id="settings-panel" class="window window--settings" aria-label="ajustes do canvas">
-      <div class="win-bar">
-        <img class="win-bar-ico" src="img/xp/ControlPanel.png" alt="">
-        <span class="win-title">ajustes: painel de controle</span>
-        <div class="win-btns">
-          <button class="win-btn win-min" id="settings-min" type="button" aria-label="minimizar ajustes"><span></span></button>
-          <button class="win-btn win-max" id="settings-max" type="button" aria-label="maximizar ajustes"><span></span></button>
-          <button class="win-btn win-close" id="settings-close" type="button" aria-label="fechar ajustes"><span></span></button>
-        </div>
-      </div>
-      <div class="settings-scroll">
-        <div class="settings-group">
-          <span class="control-label">sistema</span>
-          <div class="shell-switch" role="group" aria-label="tema do sistema">
-            <button type="button" data-shell-set="swiss">matesu os</button>
-            <button type="button" data-shell-set="xp">windows xp</button>
-          </div>
-        </div>
-
-        <div class="settings-group">
-          <span class="control-label">tema</span>
-          <div class="theme-list" id="theme-list"></div>
-        </div>
-
-        <div class="settings-group">
-          <span class="control-label">fonte do conteúdo</span>
-          <div class="font-list" id="font-list"></div>
-          <div class="font-custom">
-            <input type="text" id="font-custom-input" placeholder="outra fonte (ex.: IBM Plex Sans)" aria-label="outra fonte">
-            <button type="button" class="font-custom-btn" id="font-custom-btn">usar</button>
-          </div>
-        </div>
-
-        <div class="settings-group">
-          <span class="control-label">cursor</span>
-          <div class="font-list" id="cursor-list"></div>
-        </div>
-
-        <div class="settings-group">
-          <span class="control-label">grão</span>
-          <div class="slider-row">
-            <input type="range" id="grain-range" min="0" max="100" value="0" aria-label="intensidade do grão">
-            <span class="slider-value" id="grain-value">0%</span>
-          </div>
-        </div>
-
-        <div class="settings-group">
-          <span class="control-label">matiz</span>
-          <div class="slider-row">
-            <input type="range" id="hue-range" min="-180" max="180" value="0" aria-label="matiz">
-            <span class="slider-value" id="hue-value">0°</span>
-          </div>
-        </div>
-
-        <p class="settings-note">Tema, fonte, grão e matiz ficam salvos neste navegador.</p>
-      </div>
-    </section>
   </section>
 
-  <!-- Menu iniciar: duas colunas, como no XP -->
-  <div id="start-menu" class="xp-only" role="menu" aria-label="menu iniciar">
-    <div class="start-head">
-      <img class="start-avatar" src="fotos/matesu-normal.jpg" alt="">
-      <span class="start-user">matesu</span>
-    </div>
-
-    <div class="start-body">
-      <!-- coluna branca: programas fixados e recentes -->
-      <div class="start-col start-col--main">
-        <button class="start-item" type="button" role="menuitem" data-start="portfolio">
-          <img class="start-ico" src="img/xp/InternetExplorer6.png" alt="">
-          <span class="start-txt"><b>portfólio</b><small>Internet</small></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-start="email">
-          <img class="start-ico" src="img/xp/OutlookExpress.png" alt="">
-          <span class="start-txt"><b>e-mail</b><small>Outlook Express</small></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-start="sobre">
-          <img class="start-ico" src="img/xp/UserAccounts.png" alt="">
-          <span class="start-txt"><b>sobre</b><small>conta do usuário</small></span>
-        </button>
-
-        <div class="start-sep"></div>
-        <p class="start-group-label">programas recentes</p>
-
-        <button class="start-item" type="button" role="menuitem" data-path="design|arte|blackmesa hz">
-          <img class="start-ico start-ico--sm" src="img/xp/FolderOpened.png" alt="">
-          <span class="start-txt"><b>BLACKMESA Hz</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-path="design|flyers|trackmesa">
-          <img class="start-ico start-ico--sm" src="img/xp/FolderOpened.png" alt="">
-          <span class="start-txt"><b>TRACKMESA</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-path="design|flyers|simpatia">
-          <img class="start-ico start-ico--sm" src="img/xp/FolderOpened.png" alt="">
-          <span class="start-txt"><b>Simpatia</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-filter="música">
-          <img class="start-ico start-ico--sm" src="img/xp/MyMusic.png" alt="">
-          <span class="start-txt"><b>discografia</b></span>
-        </button>
-
-        <div class="start-sep"></div>
-        <div class="start-row">
-          <button class="start-item start-item--all" type="button" role="menuitem" aria-haspopup="true" aria-expanded="false">
-            <img class="start-ico" src="img/xp/StartMenuProgramsAlt.png" alt="">
-            <span class="start-txt"><b>todos os programas</b></span>
-            <span class="start-arrow" aria-hidden="true"></span>
-          </button>
-          <div class="start-flyout js-all-programs" role="menu" aria-label="todos os programas"></div>
-        </div>
-      </div>
-
-      <!-- coluna azul: pastas e locais do sistema -->
-      <div class="start-col start-col--places">
-        <p class="start-group-label">pastas</p>
-
-        <div class="start-row">
-          <button class="start-item" type="button" role="menuitem" aria-haspopup="true" aria-expanded="false">
-            <img class="start-ico start-ico--sm" src="img/xp/RecentDocuments.png" alt="">
-            <span class="start-txt"><b>documentos recentes</b></span>
-            <span class="start-arrow" aria-hidden="true"></span>
-          </button>
-          <div class="start-flyout start-flyout--left js-recent-docs" role="menu" aria-label="documentos recentes"></div>
-        </div>
-        <button class="start-item" type="button" role="menuitem" data-filter="design">
-          <img class="start-ico start-ico--sm" src="img/xp/MyPictures.png" alt="">
-          <span class="start-txt"><b>minhas imagens</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-filter="música">
-          <img class="start-ico start-ico--sm" src="img/xp/MyMusic.png" alt="">
-          <span class="start-txt"><b>minha música</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-start="portfolio">
-          <img class="start-ico start-ico--sm" src="img/xp/MyComputer.png" alt="">
-          <span class="start-txt"><b>meu computador</b></span>
-        </button>
-
-        <div class="start-sep"></div>
-
-        <button class="start-item" type="button" role="menuitem" data-start="settings">
-          <img class="start-ico start-ico--sm" src="img/xp/ControlPanel.png" alt="">
-          <span class="start-txt"><b>painel de controle</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-start="network">
-          <img class="start-ico start-ico--sm" src="img/xp/NetworkConnection.png" alt="">
-          <span class="start-txt"><b>conectar-se</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-start="printer">
-          <img class="start-ico start-ico--sm" src="img/xp/PrintersandFaxes.png" alt="">
-          <span class="start-txt"><b>impressoras e fax</b></span>
-        </button>
-
-        <div class="start-sep"></div>
-
-        <button class="start-item" type="button" role="menuitem" data-start="help">
-          <img class="start-ico start-ico--sm" src="img/xp/HelpandSupport.png" alt="">
-          <span class="start-txt"><b>ajuda e suporte</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-start="search">
-          <img class="start-ico start-ico--sm" src="img/xp/Search.png" alt="">
-          <span class="start-txt"><b>pesquisar</b></span>
-        </button>
-        <button class="start-item" type="button" role="menuitem" data-start="run">
-          <img class="start-ico start-ico--sm" src="img/xp/Run.png" alt="">
-          <span class="start-txt"><b>executar...</b></span>
-        </button>
+  <!-- Ajustes -->
+  <section id="settings-panel" class="window window--settings" aria-label="ajustes">
+    <div class="win-bar">
+      <span class="win-title">ajustes</span>
+      <div class="win-btns">
+        <button class="win-btn win-close" id="settings-close" type="button" aria-label="fechar ajustes"><span></span></button>
       </div>
     </div>
-
-    <div class="start-foot">
-      <button class="start-power" type="button" role="menuitem" data-start="logoff">
-        <img src="img/xp/Logout.png" alt="">fazer logoff
-      </button>
-      <button class="start-power" type="button" role="menuitem" data-start="shutdown">
-        <img src="img/xp/Power.png" alt="">desligar o computador
-      </button>
+    <div class="settings-scroll">
+      <div class="settings-group">
+        <span class="control-label">tema</span>
+        <div class="theme-list" id="theme-list"></div>
+      </div>
+      <div class="settings-group">
+        <span class="control-label">som</span>
+        <div class="shell-switch" role="group" aria-label="som">
+          <button type="button" id="sound-on">ligado</button>
+          <button type="button" id="sound-off">desligado</button>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Barra de tarefas -->
-  <div id="taskbar" class="xp-only">
-    <button id="start-btn" class="start-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="start-menu">
-      <span class="start-label">iniciar</span>
-    </button>
-
-    <!-- Barra de acesso rápido, como no XP
-         Os PNGs de 32px descem para 16px na tela: ficam mais nítidos que
-         as versões de 16px extraídas do shell32 (que são de 4 bits). -->
-    <div class="quick-launch" role="toolbar" aria-label="acesso rápido">
-      <button class="ql-btn" type="button" data-ql="computer" title="Meu Computador" aria-label="Meu Computador">
-        <img src="img/xp/Computer-32.png" alt="">
-      </button>
-      <button class="ql-btn" type="button" data-ql="player" title="Windows Media Player" aria-label="Windows Media Player">
-        <img src="img/xp/WindowsMediaPlayer10-32.png" alt="">
-      </button>
-      <button class="ql-btn" type="button" data-ql="search" title="Pesquisar arquivos" aria-label="Pesquisar arquivos">
-        <img src="img/xp/Search-32.png" alt="">
-      </button>
-      <span class="ql-sep" aria-hidden="true"></span>
-      <button class="ql-btn" type="button" data-ql="desktop" title="Mostrar área de trabalho" aria-label="Mostrar área de trabalho">
-        <img src="img/xp/Go-32.png" alt="">
-      </button>
-    </div>
-
-    <div class="task-buttons" id="task-buttons"></div>
-
-    <div class="tray">
-      <button id="tray-sound" class="tray-sound" type="button" aria-label="silenciar sons do sistema" aria-pressed="true">
-        <img src="img/xp/Volume-32.png" alt="">
-      </button>
-      <span class="tray-ico" aria-hidden="true"><img src="img/xp/NetworkConnection.png" alt=""></span>
-      <span id="task-clock" aria-hidden="true">--:--</span>
-    </div>
-  </div>
-
-  <!-- Balão de notificação do XP -->
-  <div id="xp-balloon" role="status" aria-live="polite">
-    <button class="balloon-close" id="balloon-close" type="button" aria-label="fechar aviso">&times;</button>
-    <p class="balloon-title" id="balloon-title"></p>
-    <p class="balloon-text" id="balloon-text"></p>
-  </div>
-
-  <!-- Tela de desligar -->
-  <div id="shutdown-screen" class="power-screen" hidden>
-    <div class="power-brand">
-      <span class="xp-flag" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span>windows <b>xp</b></span>
-    </div>
-    <p class="power-msg" id="shutdown-msg">o Windows está sendo desligado...</p>
-    <p class="power-sub" id="shutdown-sub">aguarde</p>
-  </div>
-
-  <!-- Tela de logoff / boas-vindas -->
-  <div id="logoff-screen" class="power-screen power-screen--welcome" hidden>
-    <div class="power-strip power-strip--top"></div>
-    <p class="power-msg">fazendo logoff...</p>
-    <div class="welcome-tile" id="welcome-tile" role="button" tabindex="0" aria-label="entrar como matesu">
-      <img src="fotos/matesu-normal.jpg" alt="">
-      <span>matesu</span>
-    </div>
-    <p class="welcome-hint">clique no nome para entrar</p>
-    <div class="power-strip power-strip--bottom"></div>
-  </div>
-
-  <div id="grain"></div>
-
-  <!-- Janelas do explorer (Meu Computador, Documentos, Imagens, pastas) -->
+  <!-- Janelas abertas sob demanda (player) -->
   <div id="xp-windows" aria-live="polite"></div>
 
-</div><!-- /desktop -->
+</div>
 
 <script src="assets/js/data-discography.js" defer></script>
 <script src="assets/js/content.js" defer></script>

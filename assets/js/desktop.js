@@ -163,17 +163,19 @@ function collapseApp(target, state) {
 }
 
 function minimizeApp() {
-  if (deskState !== "app" || !taskApp) return;
+  if (deskState !== "app") return;
   xpPlay("minimize", 0.5);
-  collapseApp(taskApp.getBoundingClientRect(), "min");
+  if (taskApp) collapseApp(taskApp.getBoundingClientRect(), "min");
+  else showIntro(false);
 }
 
 function closeApp() {
-  if ((deskState !== "app" && deskState !== "min") || !iconPortfolio) return;
+  if (deskState !== "app" && deskState !== "min") return;
   appWindow.classList.remove("maximized");
   if (winMax) winMax.setAttribute("aria-label", "maximizar");
   playClick("close");
-  collapseApp(iconPortfolio.getBoundingClientRect(), "closed");
+  if (iconPortfolio) collapseApp(iconPortfolio.getBoundingClientRect(), "closed");
+  else showIntro(false);
   setTimeout(mapResize, 600);
 }
 
@@ -1035,6 +1037,10 @@ function xpCreateWindow(spec) {
   el.setAttribute("role", "dialog");
   el.setAttribute("aria-label", spec.title);
 
+  // Sem barra de tarefas (shell suíço), minimizar/maximizar não têm
+  // para onde ir: a janela ganha só o fechar.
+  var hasTask = !!xpTaskHost();
+
   var w = spec.width || 520;
   var h = spec.height || 380;
   var left = spec.left != null ? spec.left : 120;
@@ -1081,9 +1087,11 @@ function xpCreateWindow(spec) {
   bClose.setAttribute("aria-label", "fechar");
   bClose.innerHTML = "<span></span>";
 
-  btns.appendChild(bMin);
-  btns.appendChild(bMax);
   btns.appendChild(bClose);
+  if (hasTask) {
+    btns.insertBefore(bMin, bClose);
+    btns.insertBefore(bMax, bClose);
+  }
   bar.appendChild(btns);
   el.appendChild(bar);
 
@@ -1114,6 +1122,8 @@ function xpCreateWindow(spec) {
   xpWindowsEl.appendChild(el);
 
   // botão na barra de tarefas
+  var taskHost = xpTaskHost();
+  if (taskHost) {
   var taskBtn = document.createElement("button");
   taskBtn.type = "button";
   taskBtn.className = "task-item";
@@ -1132,8 +1142,7 @@ function xpCreateWindow(spec) {
   tLabel.className = "task-label";
   tLabel.textContent = spec.title;
   taskBtn.appendChild(tLabel);
-  var taskHost = xpTaskHost();
-  if (taskHost) taskHost.appendChild(taskBtn);
+  taskHost.appendChild(taskBtn);
 
   taskBtn.addEventListener("click", function() {
     if (win.minimized) {
@@ -1157,6 +1166,7 @@ function xpCreateWindow(spec) {
       { label: "Fechar", action: function() { xpCloseWindow(win); } }
     ]);
   });
+  }
 
   // botões da barra de título
   bMin.addEventListener("click", function(e) {
@@ -1176,7 +1186,7 @@ function xpCreateWindow(spec) {
   xpMakeDraggable(win, bar);
 
   // duplo clique no título maximiza, como no XP
-  bar.addEventListener("dblclick", function(e) {
+  if (hasTask) bar.addEventListener("dblclick", function(e) {
     if (e.target.closest(".win-btn")) return;
     xpToggleMaximize(win);
   });
@@ -1184,6 +1194,12 @@ function xpCreateWindow(spec) {
   // menu de contexto na barra de título
   bar.addEventListener("contextmenu", function(e) {
     e.preventDefault();
+    if (!hasTask) {
+      showXpMenu(e.clientX, e.clientY, [
+        { label: "Fechar", action: function() { xpCloseWindow(win); } }
+      ]);
+      return;
+    }
     showXpMenu(e.clientX, e.clientY, [
       { label: "Restaurar", disabled: !win.maximized, action: function() { xpToggleMaximize(win); } },
       { label: "Mover", disabled: true },

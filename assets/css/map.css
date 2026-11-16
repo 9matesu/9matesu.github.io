@@ -203,6 +203,11 @@
   fill: var(--dot-color);
 }
 
+/* Sem hover que cresce, sem brilho, sem halo: só a cor do miolo
+   e a opacidade do nome mudam, devagar. */
+.map-mark-core { transition: fill 0.14s ease; }
+.map-mark-tag { transition: opacity 0.18s ease; }
+
 .map-mark-box {
   fill: var(--map-paper);
   stroke: var(--map-ink);
