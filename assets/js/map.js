@@ -632,9 +632,12 @@ function mapApplyCam() {
   }
 
   var z = mapCam.z;
-  var level = z >= MAP_ZOOM_DETAIL ? "detail"
-    : z >= MAP_ZOOM_NEAR ? "near"
-    : z >= MAP_ZOOM_MID ? "mid"
+  // Os degraus de rotulagem acompanham o enquadramento da folha: no
+  // telefone o 1× já é um zoom pequeno, então 1,9 fixo nunca chegaria.
+  var base = mapFitZ || 1;
+  var level = z >= base * MAP_ZOOM_DETAIL ? "detail"
+    : z >= base * MAP_ZOOM_NEAR ? "near"
+    : z >= base * MAP_ZOOM_MID ? "mid"
     : "far";
   if (mapSvg.getAttribute("data-zoom") !== level) mapSvg.setAttribute("data-zoom", level);
 }
@@ -911,9 +914,9 @@ function mapFitCam() {
   var vw = mapSvg ? mapSvg.clientWidth : 0;
   var vh = mapSvg ? mapSvg.clientHeight : 0;
   if (!vw || !vh) { vw = mapPaperW; vh = mapPaperH; }
-  // Telas estreitas precisam de mais folga: os rótulos têm corpo fixo em
-  // pixels e, sem isso, encostam nas bordas da folha.
-  var pad = vw < 640 ? 1000 : 150;
+  // Telas estreitas precisam de folga para o desenho respirar; os nomes
+  // entram no zoom 2×, então o 1× pode ocupar a largura toda.
+  var pad = vw < 640 ? 300 : 150;
   var b = mapContentBox(pad);
   var base = mapBaseScale(vw, vh);
   var zx = vw / Math.max(1, (b.maxX - b.minX) * base);
@@ -925,12 +928,16 @@ function mapFitCam() {
     z: Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, z * 0.94))
   };
   mapFitZ = mapCam.z;
+  mapFitCx = mapCam.cx;
+  mapFitCy = mapCam.cy;
 }
 
 // ------------------------------------------------- zoom em três passos
 // Sem roda do mouse e sem sequestrar a rolagem: o mapa tem três degraus
 // fixos (1x, 2x, 3x) sobre o enquadramento da folha inteira.
 var mapFitZ = 0;
+var mapFitCx = 0;
+var mapFitCy = 0;
 var mapZoomStepSel = 1;
 
 function mapPaintZoom() {
@@ -948,8 +955,23 @@ function mapSetZoomStep(step) {
   if (!mapFitZ) mapFitCam();
   mapZoomStepSel = step;
   mapCamUser = true;
-  mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapFitZ * step }, true);
+  // 1× devolve o enquadramento da folha inteira; 2× e 3× miram o
+  // miolo das raízes, que é onde os nomes aparecem.
+  var c = step === 1 ? { cx: mapFitCx, cy: mapFitCy } : mapRootCenter();
+  mapGoTo({ cx: c.cx, cy: c.cy, z: mapFitZ * step }, true);
   mapPaintZoom();
+}
+
+// Centro das estações-raiz, em coordenadas da folha.
+function mapRootCenter() {
+  if (!mapLayout || !mapLayout.items.length) return { cx: mapCam.cx, cy: mapCam.cy };
+  var sx = 0, sy = 0, n = 0;
+  mapLayout.items.forEach(function(it) {
+    if (!it.isRoot) return;
+    sx += it.x; sy += it.y; n++;
+  });
+  if (!n) return { cx: mapCam.cx, cy: mapCam.cy };
+  return { cx: sx / n, cy: sy / n };
 }
 
 if (mapSheet) {
@@ -1207,7 +1229,9 @@ function mapMaxHeight() {
 }
 
 function mapDefaultHeight() {
-  return Math.round(window.innerHeight * 0.44);
+  // No telefone o mapa ocupa mais altura: é ele que carrega a navegação.
+  var share = window.innerWidth < 640 ? 0.52 : 0.44;
+  return Math.round(window.innerHeight * share);
 }
 
 function setMapHeight(px) {

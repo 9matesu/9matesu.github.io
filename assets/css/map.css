@@ -302,10 +302,10 @@
 
 @media (max-width: 760px) {
   .map-mark.root .map-mark-label {
-    font-size: 18px;
+    font-size: 15px;
   }
   .map-mark.l1 .map-mark-label {
-    font-size: 13px;
+    font-size: 12.5px;
   }
   .map-mark.l2 .map-mark-label,
   .map-mark.l3 .map-mark-label,

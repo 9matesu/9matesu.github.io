@@ -704,17 +704,13 @@ button { appearance: none; }
 
   #sidebar { display: none; }
 
-  /* No telefone, o zoom 1× mostra só as estações-raiz: os nomes
-     menores se atropelam nessa escala. */
-  #map-canvas[data-zoom="far"] .map-mark.l1 .map-mark-label,
-  #map-canvas[data-zoom="far"] .map-mark.l2 .map-mark-label,
-  #map-canvas[data-zoom="far"] .map-mark.l3 .map-mark-label,
-  #map-canvas[data-zoom="far"] .map-mark.leaf .map-mark-label { opacity: 0; }
+  /* No telefone, o zoom 1× é o desenho puro: as estações ficam tão
+     próximas que qualquer nome de raiz se atropela. Os nomes entram
+     a partir do 2×, e o hover ainda mostra o da estação apontada. */
+  #map-canvas[data-zoom="far"] .map-mark .map-mark-label { opacity: 0; }
 
-  #map-canvas[data-zoom="far"] .map-mark.l1:hover .map-mark-label,
-  #map-canvas[data-zoom="far"] .map-mark.l1.active .map-mark-label,
-  #map-canvas[data-zoom="far"] .map-mark.l2:hover .map-mark-label,
-  #map-canvas[data-zoom="far"] .map-mark.leaf:hover .map-mark-label { opacity: 1; }
+  #map-canvas[data-zoom="far"] .map-mark:hover .map-mark-label,
+  #map-canvas[data-zoom="far"] .map-mark.active .map-mark-label { opacity: 1; }
 
   #stage { padding: 12px 0 16px; }
   .col { flex-basis: 74vw; width: 74vw; padding: 0 16px; }
