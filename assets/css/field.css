@@ -62,7 +62,7 @@ body { overflow-x: clip; }
 html, body { overscroll-behavior: none; }
 
 .hero, .trail, .posting, .about,
-.archive-head, .archive-filters { touch-action: none; }
+.archive-head, .archive-filters { touch-action: pan-y; }
 
 .archive-cols, .archive-side, dialog#howto { touch-action: pan-y; }
 
@@ -1192,6 +1192,11 @@ dialog#howto ol { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-
 /* --------------------------------------------------------------------------
    Responsive
    -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .page { height: auto; min-height: 100svh; overflow: visible; }
+  .page.hero { height: 100svh; min-height: 100svh; overflow: hidden; }
+}
 
 @media (max-width: 900px) {
   .archive-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }

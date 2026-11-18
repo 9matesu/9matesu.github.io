@@ -3,6 +3,7 @@
   'use strict';
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse = window.matchMedia('(pointer: coarse)').matches;
 
   var TREE = [
     { title: 'Bulgarian Stock Exchange', meta: 'estamparia e vestuário · 2025', img: 'img/bse/frente.png', images: ['img/bse/frente.png', 'img/bse/costas.png'], link: 'https://plazaaaaa.com/product/2340', category: 'design', year: 2025, desc: 'Projeto de estamparia e vestuário. Peças com a identidade da bolsa búlgara, impressas em serigrafia, com estudo de tipografia, textura e acabamento.' },
@@ -847,7 +848,7 @@
   }
 
   window.addEventListener('wheel', function (e) {
-    if (reduce || !sections.length) return;
+    if (reduce || !sections.length || coarse) return;
     if (inScrollable(e.target)) return;
 
     var delta = normalizeWheel(e);
@@ -862,12 +863,14 @@
   var touchY = null;
   window.addEventListener('touchstart', function (e) {
     if (!sections.length) return;
+    if (coarse) { touchY = null; return; }
     if (e.touches.length !== 1) { touchY = null; return; }
     if (inScrollable(e.target)) { touchY = null; return; }
     touchY = e.touches[0].clientY;
   }, { passive: true });
 
   window.addEventListener('touchmove', function (e) {
+    if (coarse) { touchY = null; return; }
     if (touchY == null || !e.touches.length) return;
     if (inScrollable(e.target)) { touchY = null; return; }
 
