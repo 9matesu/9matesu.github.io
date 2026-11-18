@@ -1,13 +1,11 @@
-// ---------------------------------------------------------------- ajustes
-// Dois temas, um par de cores cada. O resto da paleta é derivado do par,
-// então o site inteiro continua legível em qualquer um deles.
+// Ajustes do portfólio. Dois temas, sem dependências.
 var THEMES = [
-  { id: "tinta", name: "tinta", bg: "#111110", fg: "#f1eee7" },
-  { id: "papel", name: "papel", bg: "#f1eee7", fg: "#111110" }
+  { id: "branco", name: "branco", bg: "#ffffff", fg: "#141414", dark: false },
+  { id: "preto", name: "preto", bg: "#0a0a0a", fg: "#f1eee7", dark: true }
 ];
 
 var ajustes = {
-  theme: "tinta"
+  theme: "branco"
 };
 
 function hexToRgb(hex) {
@@ -16,29 +14,21 @@ function hexToRgb(hex) {
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
 
-// Mistura duas cores. t é o peso da primeira.
 function mixColors(a, b, t) {
   var A = hexToRgb(a);
   var B = hexToRgb(b);
-  var c = [0, 1, 2].map(function(i) {
-    return Math.round(A[i] * t + B[i] * (1 - t));
-  });
-  return "rgb(" + c.join(",") + ")";
+  return "rgb(" + [0, 1, 2].map(function(i) { return Math.round(A[i] * t + B[i] * (1 - t)); }).join(",") + ")";
 }
 
-// Uma cor é clara quando o olho não precisa se adaptar a ela
 function isLightColor(hex) {
   var c = hexToRgb(hex);
-  var lum = (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255;
-  return lum > 0.55;
+  return (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255 > 0.55;
 }
 
 function currentTheme() {
-  var found = THEMES.filter(function(t) { return t.id === ajustes.theme; })[0];
-  return found || THEMES[0];
+  return THEMES.filter(function(t) { return t.id === ajustes.theme; })[0] || THEMES[0];
 }
 
-// Aplica o par de cores nos tokens que o CSS lê.
 function applyPalette() {
   var t = currentTheme();
   var bg = t.bg;
@@ -48,56 +38,24 @@ function applyPalette() {
 
   root.setProperty("--paper", bg);
   root.setProperty("--ink", fg);
-  root.setProperty("--ink-soft", mixColors(fg, bg, 0.78));
   root.setProperty("--muted", mixColors(fg, bg, 0.58));
-  root.setProperty("--faint", mixColors(fg, bg, 0.40));
-  root.setProperty("--line", light ? "rgba(17,17,16,0.16)" : "rgba(241,238,231,0.14)");
-  root.setProperty("--line-2", light ? "rgba(17,17,16,0.32)" : "rgba(241,238,231,0.28)");
-  root.setProperty("--accent", light ? "#e8380d" : "#ff4a1c");
+  root.setProperty("--faint", mixColors(fg, bg, 0.4));
+  root.setProperty("--line", light ? "rgba(20,20,20,0.12)" : "rgba(241,238,231,0.14)");
+  root.setProperty("--line-2", light ? "rgba(20,20,20,0.28)" : "rgba(241,238,231,0.28)");
 
-  // tokens legados que core.css e detail.css ainda leem
-  root.setProperty("--bg-main", bg);
-  root.setProperty("--bg-sidebar", bg);
-  root.setProperty("--text-bright", fg);
-  root.setProperty("--text-active", fg);
-  root.setProperty("--text-body", mixColors(fg, bg, 0.78));
-  root.setProperty("--text-muted", mixColors(fg, bg, 0.58));
-  root.setProperty("--text-dim", mixColors(fg, bg, 0.46));
-  root.setProperty("--text-faint", mixColors(fg, bg, 0.40));
-  root.setProperty("--border-subtle", light ? "rgba(17,17,16,0.16)" : "rgba(241,238,231,0.14)");
-  root.setProperty("--border-link", light ? "rgba(17,17,16,0.32)" : "rgba(241,238,231,0.28)");
-  root.setProperty("--field-bg", "transparent");
-  root.setProperty("--field-bg-focus", bg);
-  root.setProperty("--bg-glass", bg);
-  root.setProperty("--bg-glass-strong", bg);
-
-  document.body.classList.toggle("light", light);
+  document.body.classList.toggle("dark", !!t.dark);
 }
 
-// ------------------------------------------------- foto do perfil
-// O hover mostra a versão com as bolinhas vermelhas. O clique
-// esquerdo deixa a bolinha fixa. O botão direito abre o threshold
-// chapado, que segue o mouse dentro da caixa, e o segundo clique
-// direito salva o estado e sai da caixa. O scroll move a foto.
+// Foto: hover mostra a versão com bolinhas; clique fixa; botão direito alterna.
 var photoWrap = document.getElementById("bio-photo");
-var photoState = {
-  dots: false,       // bolinha fixa
-  blocked: false,    // bolinha escondida depois de removida
-  mode: "normal",    // normal | threshold
-  saved: 50,         // limiar salvo
-  live: 50,          // limiar em edição
-  pan: 25            // posição vertical da foto dentro da caixa
-};
+var photoState = { dots: false, blocked: false, mode: "normal", saved: 50, live: 50, pan: 25 };
 
-// O limiar sai da posição horizontal do mouse dentro da caixa
 function photoThresholdAt(clientX) {
   if (!photoWrap) return 50;
   var r = photoWrap.getBoundingClientRect();
-  var p = (clientX - r.left) / Math.max(1, r.width);
-  return Math.max(0, Math.min(100, Math.round(p * 100)));
+  return Math.max(0, Math.min(100, Math.round(((clientX - r.left) / Math.max(1, r.width)) * 100)));
 }
 
-// Brilho que coloca o corte do threshold onde ele deve ficar
 function photoBrightness(t) {
   var cut = 0.92 - 0.84 * (t / 100);
   return 0.5 / cut;
@@ -113,165 +71,124 @@ function applyPhoto() {
 }
 
 if (photoWrap) {
-  photoWrap.addEventListener("mouseenter", function() {
-    photoWrap.classList.add("hovered");
-  });
-
+  photoWrap.addEventListener("mouseenter", function() { photoWrap.classList.add("hovered"); });
   photoWrap.addEventListener("mouseleave", function() {
     photoWrap.classList.remove("hovered");
-    // da próxima vez que o mouse entrar, a bolinha volta a ser mostrada
-    photoState.blocked = false;
+    if (photoState.mode === "threshold") {
+      photoState.mode = "normal";
+      photoState.live = photoState.saved;
+    }
     applyPhoto();
   });
-
-  // Mouse dentro da caixa troca o valor do limiar
   photoWrap.addEventListener("mousemove", function(e) {
     if (photoState.mode !== "threshold") return;
     photoState.live = photoThresholdAt(e.clientX);
     applyPhoto();
   });
-
-  // Scroll dentro da caixa sobe e desce a foto original
-  photoWrap.addEventListener("wheel", function(e) {
-    e.preventDefault();
-    var d = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
-    photoState.pan = Math.max(0, Math.min(100, photoState.pan + d * 0.16));
-    applyPhoto();
-  }, { passive: false });
-
-  // Botão esquerdo: adiciona a bolinha, ou tira se ela estiver na caixa
   photoWrap.addEventListener("click", function(e) {
-    if (e.button !== 0) return;
+    if (e.button !== 0 || photoState.blocked) return;
+    photoState.dots = !photoState.dots;
+    applyPhoto();
+  });
+  photoWrap.addEventListener("contextmenu", function(e) {
     e.preventDefault();
-    var showing = photoState.dots ||
-      (photoWrap.classList.contains("hovered") && !photoState.blocked);
-    if (showing) {
+    if (photoState.mode === "threshold") {
+      photoState.mode = "normal";
+      photoState.saved = photoState.live;
+    } else if (photoState.dots) {
       photoState.dots = false;
       photoState.blocked = true;
     } else {
-      photoState.dots = true;
       photoState.blocked = false;
-    }
-    applyPhoto();
-  });
-
-  // Botão direito: o limiar. O segundo clique salva e sai da caixa
-  photoWrap.addEventListener("contextmenu", function(e) {
-    e.preventDefault();
-    if (photoState.mode === "normal") {
       photoState.mode = "threshold";
-      photoState.live = photoState.saved;
-    } else {
-      photoState.saved = photoState.live;
-      photoState.mode = "normal";
     }
     applyPhoto();
   });
+  photoWrap.addEventListener("wheel", function(e) {
+    e.preventDefault();
+    photoState.pan = Math.max(0, Math.min(100, photoState.pan + (e.deltaY > 0 ? 4 : -4)));
+    applyPhoto();
+  }, { passive: false });
 }
 
-function saveAjustes() {
-  try {
-    localStorage.setItem("matesu_canvas", JSON.stringify(ajustes));
-  } catch (e) {}
-}
+var themeList = document.getElementById("theme-list");
 
-function loadAjustes() {
-  try {
-    var saved = localStorage.getItem("matesu_canvas");
-    if (!saved) return;
-    var data = JSON.parse(saved);
-    if (!data || typeof data !== "object") return;
-    if (data.theme === "papel") ajustes.theme = "papel";
-    else ajustes.theme = "tinta";
-  } catch (e) {}
-}
-
-function buildAjustesUI() {
-  var themeList = document.getElementById("theme-list");
+function paintThemes() {
   if (!themeList) return;
   themeList.innerHTML = "";
   THEMES.forEach(function(t) {
     var b = document.createElement("button");
     b.type = "button";
-    b.className = "theme-swatch";
-    b.dataset.theme = t.id;
-    b.title = t.name;
-
-    var pair = document.createElement("span");
-    pair.className = "theme-pair";
-    var a = document.createElement("i");
-    a.style.background = t.bg;
-    var c = document.createElement("i");
-    c.style.background = t.fg;
-    pair.appendChild(a);
-    pair.appendChild(c);
-
-    var label = document.createElement("span");
-    label.textContent = t.name;
-
-    b.appendChild(pair);
-    b.appendChild(label);
+    b.className = "theme-swatch" + (ajustes.theme === t.id ? " active" : "");
+    b.innerHTML = '<span class="theme-pair"><i style="background:' + t.bg + '"></i><i style="background:' + t.fg + '"></i></span><span>' + t.name + '</span>';
     b.addEventListener("click", function() {
       ajustes.theme = t.id;
+      try { localStorage.setItem("matesu_theme", t.id); } catch (e) {}
       applyPalette();
-      markAjustes();
-      saveAjustes();
+      paintThemes();
+      if (typeof xpPlay === "function") xpPlay("click", 0.35);
     });
     themeList.appendChild(b);
   });
 }
 
-function markAjustes() {
-  var swatches = document.querySelectorAll(".theme-swatch");
-  for (var i = 0; i < swatches.length; i++) {
-    swatches[i].classList.toggle("active", swatches[i].dataset.theme === ajustes.theme);
+try {
+  var savedTheme = localStorage.getItem("matesu_theme");
+  if (savedTheme && THEMES.some(function(t) { return t.id === savedTheme; })) ajustes.theme = savedTheme;
+} catch (e) {}
+
+var settingsBtn = document.getElementById("settings-btn");
+var settingsPanel = document.getElementById("settings-panel");
+var settingsClose = document.getElementById("settings-close");
+
+function setSettings(open) {
+  if (!settingsPanel) return;
+  settingsPanel.classList.toggle("open", open);
+  if (settingsBtn) settingsBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  if (open && typeof xpPlay === "function") xpPlay("click", 0.35);
+}
+
+if (settingsBtn) settingsBtn.addEventListener("click", function(e) {
+  e.stopPropagation();
+  setSettings(!settingsPanel.classList.contains("open"));
+});
+if (settingsClose) settingsClose.addEventListener("click", function() { setSettings(false); });
+document.addEventListener("click", function(e) {
+  if (!settingsPanel || !settingsPanel.classList.contains("open")) return;
+  if (e.target.closest && e.target.closest("#settings-panel, #settings-btn")) return;
+  setSettings(false);
+});
+
+var soundOn = document.getElementById("sound-on");
+var soundOff = document.getElementById("sound-off");
+
+function paintSound() {
+  var on = !window.xpMuted;
+  if (soundOn) {
+    soundOn.classList.toggle("active", on);
+    soundOn.setAttribute("aria-pressed", on ? "true" : "false");
+  }
+  if (soundOff) {
+    soundOff.classList.toggle("active", !on);
+    soundOff.setAttribute("aria-pressed", on ? "false" : "true");
   }
 }
 
-function toggleSettings(force) {
-  var panel = document.getElementById("settings-panel");
-  var btn = document.getElementById("settings-btn");
-  if (!panel) return;
-  var open = force != null ? force : !panel.classList.contains("open");
-  panel.classList.toggle("open", open);
-  if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
-  if (open) xpPlay("restore", 0.45);
+function setSound(on) {
+  window.xpMuted = !on;
+  try { localStorage.setItem("xpMuted", window.xpMuted ? "1" : "0"); } catch (e) {}
+  paintSound();
+  if (on && typeof xpPlay === "function") xpPlay("start", 0.4);
 }
 
-(function initAjustes() {
-  loadAjustes();
-  applyPalette();
-  buildAjustesUI();
-  markAjustes();
+if (soundOn) soundOn.addEventListener("click", function() { setSound(true); });
+if (soundOff) soundOff.addEventListener("click", function() { setSound(false); });
 
-  var btn = document.getElementById("settings-btn");
-  if (btn) {
-    btn.addEventListener("click", function(e) {
-      e.stopPropagation();
-      toggleSettings();
-    });
-  }
+applyPalette();
+paintThemes();
+applyPhoto();
+paintSound();
 
-  var panel = document.getElementById("settings-panel");
-  if (panel) {
-    panel.addEventListener("click", function(e) { e.stopPropagation(); });
-
-    var sClose = document.getElementById("settings-close");
-    if (sClose) sClose.addEventListener("click", function(e) {
-      e.stopPropagation();
-      toggleSettings(false);
-    });
-  }
-
-  document.addEventListener("click", function(e) {
-    var panelEl = document.getElementById("settings-panel");
-    if (!panelEl || !panelEl.classList.contains("open")) return;
-    if (panelEl.contains(e.target)) return;
-    if (e.target.closest && e.target.closest("#settings-btn")) return;
-    toggleSettings(false);
-  });
-
-  document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") toggleSettings(false);
-  });
-})();
+window.toggleSidebar = function() {};
+window.applyPalette = applyPalette;
+window.applyPhoto = applyPhoto;

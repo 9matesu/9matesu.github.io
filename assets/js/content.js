@@ -1,82 +1,51 @@
 var tree = {
   "design": {
-    "vestuário": {
-      "bse (iran tee)": {
-        "frente": {
-          title: "Bulgaria Stock Exchange Tee, frente",
-          meta: "restock iran, 2025",
-          body: "Peça de camiseta do restock iran, 2025, com a arte na frente. Design gráfico e estampa têxtil; produção do restock e venda no plazaaaaa.com.",
-          img: "img/bse/frente.png",
-          link: "https://plazaaaaa.com/product/2340"
-        },
-        "costas": {
-          title: "Bulgaria Stock Exchange Tee, costas",
-          meta: "restock iran, 2025",
-          body: "A mesma peça vista de trás. Design gráfico e estampa têxtil no dorso, produção do restock iran e venda no plazaaaaa.com.",
-          img: "img/bse/costas.png",
-          link: "https://plazaaaaa.com/product/2340"
-        }
-      }
-    },
-    "arte": {
-      "blackmesa hz": {
-        title: "BLACKMESA Hz",
-        meta: "07/06/2026",
-        body: "Identidade visual e cartaz do BLACKMESA Hz, de 07/06/2026. Direção de arte e design gráfico no coletivo.",
-        img: "img/bmhz0/frente.png"
+    "bse (iran tee)": {
+      "frente": {
+        title: "BSE Tee, frente",
+        meta: "restock iran, 2025",
+        body: "Camiseta do restock iran, 2025. Design gráfico e estampa têxtil.",
+        img: "img/bse/frente.png",
+        link: "https://plazaaaaa.com/product/2340"
       },
-      "logo blackmesa": {
-        title: "Logo BLACKMESA",
-        meta: "identidade visual, 2025",
-        body: "Logo do BLACKMESA dentro do sistema de identidade visual de 2025. Direção de arte e design gráfico no desenho da marca.",
-        img: "img/logos/blackmesa.png"
+      "costas": {
+        title: "BSE Tee, costas",
+        meta: "restock iran, 2025",
+        body: "Verso da mesma peça. Design gráfico e estampa têxtil.",
+        img: "img/bse/costas.png",
+        link: "https://plazaaaaa.com/product/2340"
       }
     },
-    "identidade visual": {
-      "blackmesa 2025": {
+    "blackmesa": {
+      "identidade 2025": {
         title: "BLACKMESA 2025",
         meta: "identidade visual, 2025",
-        body: "Identidade visual do BLACKMESA em 2025, com flyers, cartazes e peças gráficas do coletivo. Projeto publicado no Behance.",
+        body: "Sistema de identidade visual do coletivo BLACKMESA. Flyers, cartazes e peças gráficas.",
         img: "img/logos/blackmesa.png",
         link: "https://www.behance.net/gallery/226862609/BLACKMESA-2025"
       },
-      "blackmesa 2024": {
+      "identidade 2024": {
         title: "BLACKMESA 2024",
         meta: "identidade visual, 2024",
-        body: "Identidade visual do BLACKMESA em 2024: flyers, cartazes e peças gráficas do coletivo ao longo do ano. Projeto publicado no Behance.",
+        body: "Identidade visual do BLACKMESA em 2024.",
+        img: "img/logos/blackmesa.png",
         link: "https://www.behance.net/gallery/226860687/BLACKMESA-2024"
-      },
+      }
+    },
+    "bloodworm": {
       "lagerhaus i": {
-        title: "bloodworm trax — LAGERHAUS I",
+        title: "LAGERHAUS I",
         meta: "identidade visual, 2024",
-        body: "Identidade visual do LAGERHAUS I, primeira edição do bloodworm trax, em 25/10/2024. Peças gráficas do selo publicadas no Behance.",
+        body: "Primeira edição do bloodworm trax. Direção de arte e peças gráficas.",
         img: "img/logos/bloodworm.png",
         link: "https://www.behance.net/gallery/226864143/bloodworm-trax-LAGERHAUS-I"
-      },
-      "worm spotter": {
-        title: "bloodworm trax — worm spotter",
-        meta: "identidade visual, 2024",
-        body: "Peças de identidade visual do worm spotter, dentro do bloodworm trax. Projeto publicado no Behance.",
-        link: "https://www.behance.net/gallery/226863501/bloodworm-trax-worm-spotter"
-      },
-      "agendas 2024-2025": {
-        title: "agendas 2024-2025",
-        meta: "design gráfico, 2024",
-        body: "Agendas de 2024 e 2025: design gráfico e diagramação do material. Projeto publicado no Behance.",
-        link: "https://www.behance.net/gallery/226863685/agendas-2024-2025"
-      },
-      "variados": {
-        title: "variados",
-        meta: "seleção, 2025",
-        body: "Seleção de trabalhos variados de design gráfico, entre peças avulsas e experimentos. Projeto publicado no Behance.",
-        link: "https://www.behance.net/gallery/226863923/variados"
       }
     },
     "flyers": {
       "trackmesa": {
-        title: "TRACKMESA, 10/07/2026",
+        title: "TRACKMESA",
         meta: "flyer, 4 variações",
-        body: "Flyer do TRACKMESA, evento de 10/07/2026 no Void Centro, em São Paulo. Quatro variações de cartaz, com design gráfico e diagramação.",
+        body: "Cartaz do TRACKMESA, 10/07/2026, Void Centro, São Paulo.",
         images: [
           "img/trackmesa/1.png",
           "img/trackmesa/2.png",
@@ -87,140 +56,52 @@ var tree = {
       "vault 2": {
         title: "Vault 2",
         meta: "flyer, 17/12/2025",
-        body: "Flyer do Vault 2, de 17/12/2025. Design gráfico e diagramação do cartaz.",
-        images: [
-          "img/misc/vault2_FINAL_3.png"
-        ]
-      },
-      "kerosene x blackmesa": {
-        title: "Kerosene x BLACKMESA",
-        meta: "flyer, 09/05/2026",
-        body: "Flyer do Kerosene x BLACKMESA no Void, em São Paulo, em 09/05/2026. Design gráfico e diagramação do cartaz.",
-        images: [
-          "img/blackmesa/kerosene.png"
-        ]
-      },
-      "real vale shit": {
-        title: "REAL VALE SHIT, PRE FEST",
-        meta: "flyer, 06/07/2025",
-        body: "Flyer do PRE FEST REAL VALE SHIT, de 06/07/2025, em São José dos Campos. Design gráfico e diagramação do cartaz.",
-        images: [
-          "img/blackmesa/real-vale-shit.jpg"
-        ]
-      },
-      "simpatia": {
-        title: "Simpatia, 20/05/2025",
-        meta: "capa, 4 arquivos",
-        body: "Capa e contracapas do álbum Simpatia, de 20/05/2025. Direção de arte e design gráfico nos quatro arquivos, em quadrado digital de 3000 por 3000.",
+        body: "Flyer do Vault 2.",
+        images: ["img/misc/vault2_FINAL_3.png"]
+      }
+    },
+    "simpatia": {
+      "capa": {
+        title: "Simpatia",
+        meta: "capa, 20/05/2025",
+        body: "Capa e contracapas do álbum Simpatia.",
         images: [
           "img/simpatia/capa.png",
           "img/simpatia/contracapa-1.png",
           "img/simpatia/contracapa-2.png",
           "img/simpatia/contracapa-3.png"
         ]
-      },
-      "flash day": {
-        title: "Flash Day, 16/04/2025",
-        meta: "cartaz, 2 versões",
-        body: "Cartaz do Flash Day, de 16/04/2025. Design gráfico em duas versões, a segunda com a tipografia mexida.",
-        images: [
-          "img/flashday/flashday-1.png",
-          "img/flashday/flashday-2.png"
-        ]
-      },
-      "blackmesa hz": {
-        title: "BLACKMESA Hz, 07/06/2026",
-        meta: "cartaz, frente",
-        body: "Cartaz do BLACKMESA Hz, de 07/06/2026. Direção de arte e design gráfico para o coletivo.",
-        images: [
-          "img/bmhz0/frente.png"
-        ]
-      },
-      "bse": {
-        title: "bulgarian stock exchange, iran tee 2025",
-        meta: "peça, frente e costas",
-        body: "A peça do Bulgarian Stock Exchange para o iran tee 2025, frente e costas. Design gráfico e designer têxtil na estampa.",
-        images: [
-          "img/bse/frente.png",
-          "img/bse/costas.png"
-        ]
-      },
-      "misc": {
-        title: "Misc, 17/12/2025",
-        meta: "flyers, 2 peças",
-        body: "Dois flyers avulsos de 17/12/2025, entre Brous e mais uma variação gráfica. Design gráfico e diagramação.",
-        images: [
-          "img/misc/BROUS_FLYER_2908.png",
-          "img/misc/1_1.png"
-        ]
-      }
-    },
-    "fotografia": {
-      "matesuposting": {
-        title: "matesuposting",
-        meta: "registro fotográfico",
-        body: "Fotografia de rua e de show publicada no matesuposting, com registros de São Paulo e do Vale do Paraíba.",
-        img: "fotos/BMV1-9.jpg",
-        link: "https://instagram.com/matesuposting"
       }
     }
   },
   "música": {
     "lançamentos": {},
-    "participações": {},
-    "sobre mim": {
-      title: "matesu",
-      meta: "produtor musical, coprodutor, mixagem e masterização",
-      body: "Produção musical, coprodução e mixagem desde 2015, com masterização do material e sound design na mesma linha, entre House, Jungle, UK Garage, Grime, Techno e Ambiente. Colaborações com ZONAexp, SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, e passagens por Rinse FM, NTS Radio, Function!, Veneno, Foundation FM, HÖR, Dekmantel e Aaja Music. Vale do Paraíba, interior de São Paulo.",
-      img: "fotos/BMV1-21.jpg"
-    },
-    "diretrizes técnicas": {
-      "mixagem": {
-        title: "Diretrizes para Mixagem",
-        meta: "especificações técnicas",
-        body: "Stems em .wav, 24 bits, no mínimo 44.1kHz, sem ruídos ou clipping fora do combinado e com todas as faixas presentes no arquivo compactado. Afinação de vocal não está incluída no pacote. O pedido precisa vir com prazo, referência sônica e especificações de preferência.",
-        img: "img/pics/rvsfest-39.jpg"
-      },
-      "arquivos finais": {
-        title: "Arquivos Finais",
-        meta: "entrega",
-        body: "Entrega em .wav, 24 bits e 44.1kHz, em duas versões: uma sem headroom e outra com headroom de -6dB, salvo pedido diferente.",
-        img: "img/pics/IMG_2.png"
-      },
-      "upload dos arquivos": {
-        title: "Upload dos Arquivos",
-        meta: "transferência",
-        body: "Entrega por Google Drive ou pela plataforma que o cliente preferir. Os links duram 7 dias, com reenvio quando precisar.",
-        img: "img/pics/BMV1-46.jpg"
-      },
-      "solicitar": {
-        title: "Solicitar Serviço",
-        meta: "contato direto",
-        body: "Para orçamento e envio de demos, escreve para matesubeats@gmail.com. Mp3 de até 15MB.",
-        img: "img/logos/matesulogo.png"
-      }
-    }
+    "participações": {}
   },
   "cultura": {
     "blackmesa": {
-      title: "BLACKMESA",
-      meta: "coletivo artístico, são paulo",
-      body: "Coletivo paulistano que atravessa música, artes visuais e cultura urbana underground. Produção cultural e direção criativa no coletivo, com programação e curadoria.",
-      img: "img/bmhz0/frente.png",
-      link: "https://instagram.com/blackmesaent"
+      "coletivo": {
+        title: "BLACKMESA",
+        meta: "coletivo artístico, são paulo",
+        body: "Coletivo paulistano que atravessa música, artes visuais e cultura urbana underground.",
+        img: "img/bmhz0/frente.png",
+        link: "https://instagram.com/blackmesaent"
+      }
     },
     "bloodworm": {
-      title: "bloodworm trax",
-      meta: "selo musical",
-      body: "Selo criado com o rafao para as correntes artísticas do interior de São Paulo. Lá dentro: produção musical, direção criativa, direção artística e lançamento dos artistas. O logo do selo, em halftone, também é peça da casa.",
-      img: "img/logos/bloodworm.png",
-      link: "https://bloodwormtrax.neocities.org"
+      "selo": {
+        title: "bloodworm trax",
+        meta: "selo musical",
+        body: "Selo criado com rafao para as correntes artísticas do interior de São Paulo.",
+        img: "img/logos/bloodworm.png",
+        link: "https://bloodwormtrax.neocities.org"
+      }
     },
-    "apresentações": {
-      "trackmesa (10/07/2026)": {
+    "eventos": {
+      "trackmesa": {
         title: "TRACKMESA",
         meta: "10/07/2026, Void Centro, São Paulo",
-        body: "Noite de dj no Void Centro, em São Paulo, em 10/07/2026. Produção cultural do evento.",
+        body: "Noite de dj no Void Centro, em São Paulo.",
         img: "img/trackmesa/1.png",
         link: "https://zig.tickets/eventos/trackmesa"
       }
@@ -231,14 +112,14 @@ var tree = {
       "opcoda": {
         title: "opcoda",
         meta: "VST3, C++",
-        body: "Sintetizador granular que lê executáveis do Windows e transforma os bytes em som. Roda como VST3 e como aplicativo avulso, na versão 0.1.0. Parsing do PE, motor de oito vozes e interface que expõe a leitura em forma de onda, grade de bytes, curva de entropia e matriz de modulação.",
+        body: "Sintetizador granular que lê executáveis do Windows e transforma os bytes em som.",
         img: "img/github/opcoda.png",
         link: "https://github.com/9matesu/Opcoda"
       },
       "minisynth32": {
         title: "minisynth32",
         meta: "ESP32-S3, TypeScript",
-        body: "Sintetizador digital em ESP32-S3, com firmware embarcado, back-end Node.js e front-end React para mexer nos parâmetros em tempo real. Os presets ficam em SQLite. Veio da curricularização do curso de Análise e Desenvolvimento de Sistemas da FATEC Cruzeiro, dentro do programa Acelera 01/2026.",
+        body: "Sintetizador digital em ESP32-S3, com firmware embarcado, back-end Node.js e front-end React.",
         img: "img/github/minisynth32.png",
         link: "https://github.com/9matesu/minisynth32"
       }
@@ -247,14 +128,14 @@ var tree = {
       "catlas": {
         title: "catlas",
         meta: "Python, documentação",
-        body: "Mapeador de codebases. Inventaria arquivos, rastreia de onde os dados entram e para onde saem, e desenha o resultado em Mermaid para o GitHub renderizar. Serve para onboarding, revisão antes de refatorar e documentação de passagem.",
+        body: "Mapeador de codebases. Inventaria arquivos e desenha o resultado em Mermaid.",
         img: "img/github/catlas.png",
         link: "https://github.com/9matesu/Catlas"
       },
       "wptools": {
         title: "wptools",
         meta: "PowerShell, Windows",
-        body: "Suíte de PowerShell para instalar e gerenciar o WhatsApp Desktop no Windows 10 e 11, com instalador de uma linha e menu interativo.",
+        body: "Suíte de PowerShell para instalar e gerenciar o WhatsApp Desktop no Windows 10 e 11.",
         img: "img/github/wptools.png",
         link: "https://github.com/9matesu/WPtools"
       }
@@ -263,7 +144,7 @@ var tree = {
       "resuMe": {
         title: "resuMe",
         meta: "extensão, TypeScript",
-        body: "Extensão de navegador que lê a vaga aberta na página e reescreve o currículo para ela, com revisão linha a linha antes de exportar. O motor roda local, sem conta e sem servidor.",
+        body: "Extensão de navegador que lê a vaga aberta na página e reescreve o currículo para ela. Local-first, sem conta e sem servidor.",
         img: "img/github/resuMe.png",
         link: "https://github.com/9matesu/resume"
       }
@@ -271,15 +152,16 @@ var tree = {
   },
   "matesuposting": {
     "journal": {
-      title: "matesuposting",
-      meta: "caderno de ideias, são paulo",
-      body: "Sob construção. Ainda sem saber o que construir, na verdade.\n\nCaderno não-tão-privado de ideias e regurgitações, pelo livre arbítrio — leitura recomendada.",
-      img: "fotos/BMV1-9.jpg"
+      "sobre": {
+        title: "matesuposting",
+        meta: "caderno de ideias, são paulo",
+        body: "Caderno não-tão-privado de ideias e regurgitações, pelo livre arbítrio. Leitura recomendada.",
+        img: "fotos/BMV1-9.jpg"
+      }
     }
   }
 };
 
-// Thumbnails leves (96x96) derivados das imagens originais em img/thumbs/
 var THUMB_MAP = {
   "img/bse/frente.png": "img/thumbs/bse_frente.jpg",
   "img/bse/costas.png": "img/thumbs/bse_costas.jpg",
@@ -344,7 +226,6 @@ var path = [];
 var deskPathReady = false;
 var stage = document.getElementById("stage");
 
-// Assets com tinta preta e fundo transparente, que somem no tema escuro
 var INVERT_ON_DARK = {
   "img/logos/blackmesa.png": true
 };
@@ -395,11 +276,9 @@ function dateValue(node, key) {
 function sortKeys(keys, colIndex) {
   if (sortMode === "natural") return keys;
   var arr = keys.slice();
-  if (sortMode === "az") {
-    arr.sort(function(a, b) { return collator.compare(a, b); });
-  } else if (sortMode === "za") {
-    arr.sort(function(a, b) { return collator.compare(b, a); });
-  } else if (sortMode === "recent") {
+  if (sortMode === "az") arr.sort(function(a, b) { return collator.compare(a, b); });
+  else if (sortMode === "za") arr.sort(function(a, b) { return collator.compare(b, a); });
+  else if (sortMode === "recent") {
     arr.sort(function(a, b) {
       var diff = dateValue(nodeAt(colIndex, b), b) - dateValue(nodeAt(colIndex, a), a);
       return diff || collator.compare(a, b);
@@ -408,13 +287,9 @@ function sortKeys(keys, colIndex) {
   return arr;
 }
 
-// Texto que a busca enxerga dentro de um item: título, meta, descrição,
-// ficha técnica, faixas e links
 function nodeSearchText(node) {
   var parts = [node.title, node.meta, node.body];
-  if (node.spec) {
-    node.spec.forEach(function(s) { parts.push(s.label, s.value); });
-  }
+  if (node.spec) node.spec.forEach(function(s) { parts.push(s.label, s.value); });
   if (node.tracks) {
     node.tracks.forEach(function(t) {
       parts.push(t.title);
@@ -422,13 +297,10 @@ function nodeSearchText(node) {
       if (t.roles) parts = parts.concat(t.roles);
     });
   }
-  if (node.links) {
-    node.links.forEach(function(l) { parts.push(l.label); });
-  }
+  if (node.links) node.links.forEach(function(l) { parts.push(l.label); });
   return parts.filter(Boolean).join(" ");
 }
 
-// Percorre a árvore inteira e devolve quem casa com a busca
 function collectMatches() {
   var q = normalizeText(searchQuery);
   var out = [];
@@ -441,22 +313,16 @@ function collectMatches() {
       var full = keys.concat([key]);
       var leaf = isLeaf(child);
       var hay = normalizeText([key, nodeSearchText(child)].filter(Boolean).join(" "));
-      if (hay.indexOf(q) !== -1) {
-        out.push({ key: key, path: full, node: child, leaf: leaf });
-      }
+      if (hay.indexOf(q) !== -1) out.push({ key: key, path: full, node: child, leaf: leaf });
       if (!leaf) walk(child, full);
     });
   })(tree, []);
 
-  if (filterMode !== "all") {
-    out = out.filter(function(m) { return m.path[0] === filterMode; });
-  }
+  if (filterMode !== "all") out = out.filter(function(m) { return m.path[0] === filterMode; });
 
   if (sortMode === "az" || sortMode === "za") {
     var dir = sortMode === "az" ? 1 : -1;
-    out.sort(function(a, b) {
-      return dir * collator.compare(resultLabel(a), resultLabel(b));
-    });
+    out.sort(function(a, b) { return dir * collator.compare(resultLabel(a), resultLabel(b)); });
   } else if (sortMode === "recent") {
     out.sort(function(a, b) {
       var diff = dateValue(b.node, b.key) - dateValue(a.node, a.key);
@@ -472,8 +338,6 @@ function resultLabel(m) {
 }
 
 // ------------------------------------------------- sons do shell
-// Os WAVs reais ficam em sfx/. O som nasce desligado: quem quiser
-// liga nos ajustes, e a escolha fica guardada.
 var xpMuted = true;
 try {
   var mutedPref = localStorage.getItem("xpMuted");
@@ -492,7 +356,6 @@ function xpPlay(name, vol) {
     xpSoundCache[name] = audio;
   }
   try {
-    // ponytail: cloneNode evita truncar som em cliques rápidos
     var clone = audio.cloneNode();
     clone.volume = vol == null ? 0.5 : vol;
     var playing = clone.play();
@@ -500,162 +363,16 @@ function xpPlay(name, vol) {
   } catch (e) {}
 }
 
-// O clique do XP é o mesmo som do botão iniciar ("Windows XP Start"):
-// um estalo curto, seco, com peso. Entrar, voltar, selecionar e abrir
-// usam esse mesmo tick, só mudando o volume.
 var XP_CLICK_SOUND = "start";
 
 function playClick(action) {
   if (xpMuted) return;
-  if (action === "close") {
-    xpPlay(XP_CLICK_SOUND, 0.4);
-    return;
-  }
-  if (action === "dblclick" || action === "open") {
-    xpPlay(XP_CLICK_SOUND, 0.5);
-    return;
-  }
-  // cliques simples e selecoes comuns nao tocam; so faz estalo quando abre de fato
+  if (action === "close") { xpPlay(XP_CLICK_SOUND, 0.4); return; }
+  if (action === "dblclick" || action === "open") { xpPlay(XP_CLICK_SOUND, 0.5); return; }
 }
 
-// O clique simples e seco. O duplo clique abre e tem som proprio.
 function playOpenSound() {
   xpPlay(XP_CLICK_SOUND, 0.5);
-}
-
-// ------------------------------------------------- impacto dos ícones
-// Impacto seco e grave: corpo de ruído curto filtrado no grave (o "toc" da
-// mesa) + senoide descendente rápida (o peso) + cauda curtíssima de
-// reverberação sintetizada.
-var deskImpactCtx = null;
-var deskImpactNoise = null;
-var deskImpactVerbBuf = null;
-var deskImpactVerbNode = null;
-var deskImpactOn = false;
-var deskImpactQuiet = false;
-var deskImpactLast = 0;
-
-function deskImpactArm() {
-  var AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC) return;
-  try {
-    if (!deskImpactCtx) deskImpactCtx = new AC();
-    if (deskImpactCtx.state === "suspended") deskImpactCtx.resume();
-  } catch (e) {
-    return;
-  }
-  deskImpactOn = true;
-}
-
-// Impulso de ruído curto, já filtrado grave: o corpo do estalo.
-function deskImpactBuffer(ctx) {
-  if (deskImpactNoise) return deskImpactNoise;
-  var len = Math.floor(ctx.sampleRate * 0.08);
-  var buf = ctx.createBuffer(1, len, ctx.sampleRate);
-  var data = buf.getChannelData(0);
-  var lp = 0;
-  for (var i = 0; i < len; i++) {
-    var env = Math.pow(1 - i / len, 5.0);
-    lp += (Math.random() * 2 - 1 - lp) * 0.08;
-    data[i] = lp * env;
-  }
-  deskImpactNoise = buf;
-  return buf;
-}
-
-// Cauda de reverb curta e sutil para dar espessura de sala ao impacto.
-function deskImpactVerbBuffer(ctx) {
-  if (deskImpactVerbBuf) return deskImpactVerbBuf;
-  var len = Math.floor(ctx.sampleRate * 0.22);
-  var buf = ctx.createBuffer(2, len, ctx.sampleRate);
-  for (var c = 0; c < 2; c++) {
-    var d = buf.getChannelData(c);
-    for (var i = 0; i < len; i++) {
-      var tail = Math.pow(1 - i / len, 3.2);
-      d[i] = (Math.random() * 2 - 1) * tail * 0.45;
-    }
-  }
-  deskImpactVerbBuf = buf;
-  return buf;
-}
-
-function deskImpactVerbBus(ctx) {
-  if (deskImpactVerbNode) return deskImpactVerbNode;
-  try {
-    var conv = ctx.createConvolver();
-    conv.buffer = deskImpactVerbBuffer(ctx);
-    var wet = ctx.createGain();
-    wet.gain.value = 0.16;
-    conv.connect(wet);
-    wet.connect(ctx.destination);
-    deskImpactVerbNode = { input: conv, send: 0.25 };
-  } catch (e) {
-    deskImpactVerbNode = { input: ctx.destination, send: 0 };
-  }
-  return deskImpactVerbNode;
-}
-
-// body pode ser um corpo da física; usa id para limitar a repetição no mesmo ícone.
-function deskImpactSound(body, speed, kind) {
-  if (!deskImpactOn || deskImpactQuiet || xpMuted) return;
-  if (!deskImpactCtx) deskImpactArm();
-  var ctx = deskImpactCtx;
-  if (!ctx || ctx.state !== "running") return;
-
-  var force = Math.min(1, Math.max(0.1, Number(speed || 0) / 720));
-  if (force < 0.11) return;
-  var now = window.performance && performance.now ? performance.now() : Date.now();
-  var key = body && body.el ? body.el.id : "desk";
-  if (!deskImpactSound[key]) deskImpactSound[key] = 0;
-  if (now - deskImpactSound[key] < 40) return;
-  deskImpactSound[key] = now;
-  if (now - deskImpactLast < 10) return;
-  deskImpactLast = now;
-
-  var when = ctx.currentTime + 0.001;
-  var out = ctx.createGain();
-  out.gain.setValueAtTime(0, when);
-  // Volume baixo / contido como solicitado
-  out.gain.linearRampToValueAtTime(0.24 * force + 0.03, when + 0.003);
-  out.gain.exponentialRampToValueAtTime(0.0001, when + 0.12);
-  out.connect(ctx.destination);
-
-  var verb = deskImpactVerbBus(ctx);
-  if (verb && verb.input && verb.send > 0) {
-    var send = ctx.createGain();
-    send.gain.value = verb.send;
-    out.connect(send);
-    send.connect(verb.input);
-  }
-
-  // Peso grave: onda descendente de 135Hz para 36Hz
-  var thump = ctx.createOscillator();
-  thump.type = "sine";
-  thump.frequency.setValueAtTime(135 - force * 35, when);
-  thump.frequency.exponentialRampToValueAtTime(36, when + 0.08);
-  var tg = ctx.createGain();
-  tg.gain.setValueAtTime(0.0001, when);
-  tg.gain.exponentialRampToValueAtTime(0.9, when + 0.005);
-  tg.gain.exponentialRampToValueAtTime(0.0001, when + 0.13);
-  thump.connect(tg);
-  tg.connect(out);
-  thump.start(when);
-  thump.stop(when + 0.14);
-
-  // Corpo seco: ruído passa-baixa curto sem agudo
-  var src = ctx.createBufferSource();
-  src.buffer = deskImpactBuffer(ctx);
-  var lp = ctx.createBiquadFilter();
-  lp.type = "lowpass";
-  lp.frequency.value = 520 + force * 380;
-  lp.Q.value = 0.85;
-  var srcGain = ctx.createGain();
-  srcGain.gain.value = 0.65;
-  src.connect(lp);
-  lp.connect(srcGain);
-  srcGain.connect(out);
-  src.start(when);
-  src.stop(when + 0.08);
 }
 
 // ponytail: startup sound removido — sem som de boot
@@ -663,10 +380,6 @@ function xpStartup() {}
 function xpStartupOnEntry() {}
 
 // Popula a discografia a partir de discography.json
-// O arquivo é o SSOT: lançamentos, participações, ficha técnica, faixas e
-// links. Tudo que aparece na seção música sai daqui, sem nada inventado.
-// As capas ficam no sidecar discography-covers.json, porque o SSOT não
-// guarda imagem.
 var DISC_MONTHS = ["janeiro", "fevereiro", "março", "abril", "maio", "junho",
   "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 
@@ -683,7 +396,6 @@ var DISC_LINKS = {
   apple: "Apple Music"
 };
 
-// Ícones em traço, desenhados no próprio SVG
 var DISC_ICONS = {
   disc: "M12 3.4a8.6 8.6 0 1 1 0 17.2 8.6 8.6 0 0 1 0-17.2zM12 9.6a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8z",
   calendar: "M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM3 10h18M8 3v4M16 3v4",
@@ -700,7 +412,6 @@ var DISC_ICONS = {
 
 var DISC_NS = "http://www.w3.org/2000/svg";
 
-// Desenha um ícone da discografia
 function discIcon(name, cls) {
   var svg = document.createElementNS(DISC_NS, "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
@@ -718,7 +429,6 @@ function discIcon(name, cls) {
   return svg;
 }
 
-// "2026-05-20" vira "20 de maio de 2026"
 function discDate(iso) {
   var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ""));
   if (!m) return String(iso || "");
@@ -726,7 +436,6 @@ function discDate(iso) {
   return parseInt(m[3], 10) + " de " + mes + " de " + m[1];
 }
 
-// Junta uma lista de nomes sem "&" e sem dois-pontos
 function discJoin(arr) {
   var list = (arr || []).filter(function(v) { return !!v; });
   if (!list.length) return "";
@@ -739,7 +448,6 @@ function discCapital(s) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 }
 
-// Soma a duração das faixas e devolve no formato m:ss
 function discDuration(tracks) {
   var total = 0;
   (tracks || []).forEach(function(t) {
@@ -752,7 +460,6 @@ function discDuration(tracks) {
   return m + ":" + (s < 10 ? "0" : "") + s;
 }
 
-// Monta a ficha técnica de um lançamento
 function discSpec(item, credited, mainArtist, others, tracks) {
   var spec = [];
   spec.push({ icon: "disc", label: "tipo", value: credited ? "lançamento" : "participação" });
@@ -768,7 +475,6 @@ function discSpec(item, credited, mainArtist, others, tracks) {
   return spec;
 }
 
-// Texto da descrição, montado só com o que o SSOT traz
 function discDescription(item, credited, mainArtist, others, tracks) {
   var roles = discCapital(discJoin(item.roles));
   var n = tracks.length;
@@ -792,7 +498,6 @@ function discDescription(item, credited, mainArtist, others, tracks) {
   return partes.join(" ");
 }
 
-// Links externos do lançamento
 function discLinks(item) {
   var out = [];
   var links = item.externalLinks || {};
@@ -805,9 +510,7 @@ function discLinks(item) {
   return out;
 }
 
-// A discografia viaja com o site (assets/js/data-discography.js), não por
-// fetch: assim o portfólio abre igual em http e em file://. Os .json
-// continuam sendo a fonte; tools/embed-data.mjs regenera o arquivo.
+// A discografia viaja com o site (assets/js/data-discography.js), não por fetch.
 function discApplyCatalog() {
   var data = window.MATESU_DISCOGRAPHY || {};
   var items = data.items || [];
@@ -879,8 +582,6 @@ function isLeaf(node) {
 function toggleSidebar(e) {
   if (e) e.stopPropagation();
   var sb = document.getElementById("sidebar");
-  var isCollapsing = !sb.classList.contains("collapsed");
-  playClick(isCollapsing ? "close" : "open");
+  if (!sb) return;
   sb.classList.toggle("collapsed");
 }
-

@@ -1,223 +1,177 @@
-<!DOCTYPE html>
-<html lang="pt">
+<!doctype html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>matesu</title>
-<link rel="stylesheet" href="assets/fonts/switzer.css">
-<link rel="stylesheet" href="assets/css/core.css">
-<link rel="stylesheet" href="assets/css/detail.css">
-<link rel="stylesheet" href="assets/css/map.css">
-<link rel="stylesheet" href="assets/css/player.css">
-<link rel="stylesheet" href="assets/css/settings.css">
-<link rel="stylesheet" href="assets/css/swiss.css">
+<meta name="description" content="matesu, produtor musical, designer gráfico, desenvolvedor, fotógrafo, engenheiro de mixagem, dj e diretor criativo. São Paulo, desde 2015." />
+<meta name="author" content="matesu" />
+<meta property="og:title" content="matesu" />
+<meta property="og:description" content="Trabalho com música, design, código, imagem e som. São Paulo, desde 2015." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://matesu.me/" />
+<meta property="og:image" content="https://matesu.me/fotos/matesu-normal.jpg" />
+<link rel="canonical" href="https://matesu.me/" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="stylesheet" href="assets/fonts/switzer.css" />
+<link rel="stylesheet" href="assets/css/field.css" />
 </head>
 <body>
-<div id="desktop" class="desk--intro">
 
-  <!-- Capa: nome, foto e uma linha -->
-  <section id="intro-card" class="window" aria-label="matesu">
-    <div class="intro-body">
-      <div class="intro-photo">
-        <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
-      </div>
-      <h1 class="intro-name" aria-label="matesu">matesu</h1>
-      <p class="intro-bio">produtor musical, designer gráfico, desenvolvedor, fotógrafo,
-        engenheiro de mixagem, dj e diretor criativo. desde 2015 entre o audiovisual,
-        o <b>@blackmesaent</b> e o <b>bloodworm trax</b>.</p>
-      <div class="intro-actions">
-        <button class="intro-enter" id="intro-enter" type="button">abrir portfólio <span aria-hidden="true">→</span></button>
-      </div>
-    </div>
-  </section>
+<main class="field" id="field">
 
-  <!-- Portfólio -->
-  <section id="app-window" class="window" aria-label="portfólio matesu">
-    <div class="win-body">
-      <div id="viewport">
+  <section class="page hero" id="top" data-section data-page>
+    <div class="hero-stage">
+      <div class="hero-card">
+        <div id="dotcut" data-manual="1" aria-hidden="true"></div>
 
-        <aside id="sidebar">
-          <div class="sidebar-collapsed-hint" onclick="toggleSidebar(event)">matesu</div>
-          <div class="bio-top">
-            <div class="side-head">
-              <div class="brand-name" onclick="toggleSidebar(event)" title="colapsar/expandir">matesu</div>
-              <button class="win-btn win-close" id="win-close" type="button" aria-label="fechar portfólio"><span></span></button>
-            </div>
-            <div class="bio-photo-wrap" id="bio-photo" title="esquerda bolinha, direita limiar, scroll move a foto">
-              <img class="bio-photo bio-photo-base" src="fotos/matesu-normal.jpg" alt="matesu" draggable="false">
-              <img class="bio-photo-dots" src="fotos/matesu-dots.jpg" alt="" aria-hidden="true" draggable="false">
-            </div>
-            <div class="bio-text">
-              olá! aqui ficam os projetos &amp; serviços. antes, matesu: <b>produtor musical</b>, <b>designer gráfico</b>, <b>desenvolvedor</b>, <b>fotógrafo</b>, <b>engenheiro de mixagem</b>, <b>dj</b>, <b>diretor criativo</b>, <b>social media</b> [...]. criação e exploração de inúmeras formas de arte, sempre.
-            </div>
-            <div class="bio-text">
-              desde 2015, projetos entre setores audiovisuais diversos, com o <a class="mention" href="https://instagram.com/blackmesaent" target="_blank" rel="noopener">@blackmesaent</a>, coletivo paulistano, e o <a href="https://bloodwormtrax.neocities.org" target="_blank" rel="noopener">bloodworm trax</a>, selo voltado para as correntes artísticas interioranas de são paulo, criado por <a class="mention" href="https://www.instagram.com/rafao_wav" target="_blank" rel="noopener">rafao</a> e matesu.
-            </div>
-            <div class="bio-links">
-              <a href="mailto:matesubeats@gmail.com" title="email">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-                  <rect x="1.6" y="3.4" width="12.8" height="9.2" rx="1.2"></rect>
-                  <path d="M2.2 4.6 L8 9 L13.8 4.6" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-                <span>email</span>
-              </a>
-              <a href="https://instagram.com/9matesu" target="_blank" rel="noopener" title="instagram">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-                  <rect x="2.2" y="2.2" width="11.6" height="11.6" rx="3.4"></rect>
-                  <circle cx="8" cy="8" r="2.6"></circle>
-                  <circle cx="11.5" cy="4.5" r="0.7" fill="currentColor" stroke="none"></circle>
-                </svg>
-                <span>instagram</span>
-              </a>
-              <a href="https://matesu.bandcamp.com" target="_blank" rel="noopener" title="bandcamp">
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                  <path d="M0.9 12.4 5.8 3.6h9.3l-4.9 8.8z" fill="currentColor" stroke="none"></path>
-                </svg>
-                <span>bandcamp</span>
-              </a>
-              <a href="https://www.behance.net/matesu" target="_blank" rel="noopener" title="behance">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-                  <path d="M1.6 4.4 h4 a1.9 1.9 0 0 1 0 3.8 h-4 z" stroke-linejoin="round"></path>
-                  <path d="M1.6 8.2 h4.5 a2.3 2.3 0 0 1 0 4.6 h-4.5 z" stroke-linejoin="round"></path>
-                  <path d="M10.2 5.4 h4.2" stroke-linecap="round"></path>
-                  <path d="M10.2 9.1 h4.6 a2.3 2.3 0 0 0-4.6 0 z" stroke-linejoin="round"></path>
-                </svg>
-                <span>behance</span>
-              </a>
-              <a href="https://github.com/9matesu" target="_blank" rel="noopener" title="github">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-                  <path d="M5.7 13.4 V9.7 c-2 .4-2.6-1-2.6-1 -.2-.7-.6-.9-.6-.9 -.7-.5 0-.5 0-.5 .8 0 1.2.8 1.2.8 .7 1.2 1.9.9 2.4.7 0-.5.3-.9.5-1.1 -1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1 -.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8 a7.4 7.4 0 0 1 4 0 c1.5-1 2.2-.8 2.2-.8 .5 1.1 .2 1.9 .1 2.1 .5.5.8 1.2.8 2.1 0 3.1-1.8 3.8-3.6 4 .3.3.6.8.6 1.7 v3.6" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-                <span>github</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="side-tools">
-            <div class="search-field">
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <circle cx="7" cy="7" r="4.4" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
-                <path d="M10.4 10.4 L14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
-              </svg>
-              <input id="search" type="search" placeholder="buscar" autocomplete="off" spellcheck="false" aria-label="buscar">
-              <button id="search-clear" class="search-clear" type="button" aria-label="limpar busca" hidden>&times;</button>
-            </div>
-            <div class="tools-row">
-              <span class="select-wrap">
-                <select id="filter" aria-label="filtrar por seção">
-                  <option value="all">tudo</option>
-                  <option value="design">design</option>
-                  <option value="música">música</option>
-                  <option value="cultura">cultura</option>
-                  <option value="desenvolvimento">desenvolvimento</option>
-                  <option value="matesuposting">matesuposting</option>
-                </select>
-              </span>
-              <span class="select-wrap">
-                <select id="sort" aria-label="ordenar">
-                  <option value="natural">natural</option>
-                  <option value="az">a-z</option>
-                  <option value="za">z-a</option>
-                  <option value="recent">recentes</option>
-                </select>
-              </span>
-              <button class="gear-btn" id="settings-btn" type="button" aria-label="ajustes" aria-expanded="false" aria-controls="settings-panel">
-                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
-              </button>
-            </div>
-            <span id="results-count" class="results-count" hidden></span>
-          </div>
-        </aside>
-
-        <div id="main">
-          <div id="stage-wrap">
-            <main id="stage"></main>
-          </div>
-
-          <button id="grabber" type="button" aria-label="expandir ou fechar o mapa" title="arraste para redimensionar; clique abre e fecha">
-            <span class="grabber-grip" aria-hidden="true"></span>
-          </button>
-
-          <section id="map-sheet" aria-label="mapa do site">
-            <svg id="map-canvas" xmlns="http://www.w3.org/2000/svg" aria-label="mapa com todas as estações">
-              <defs>
-                <filter id="map-noise-filter" x="0" y="0" width="100%" height="100%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence>
-                  <feColorMatrix type="saturate" values="0"></feColorMatrix>
-                </filter>
-                <pattern id="map-grid-pat" width="300" height="300" patternUnits="userSpaceOnUse">
-                  <path class="map-grid-line" d="M300 0H0V300"></path>
-                </pattern>
-              </defs>
-              <g id="map-camera">
-                <rect class="map-paper-fill" x="0" y="0" width="3600" height="3000"></rect>
-                <rect class="map-grid-rect" x="-1500" y="-1200" width="6600" height="5400" fill="url(#map-grid-pat)"></rect>
-                <g id="map-contours" aria-hidden="true"></g>
-                <g id="map-route"></g>
-                <g id="map-links"></g>
-                <g id="map-route-active"></g>
-                <g id="map-marks"></g>
-              </g>
-              <rect class="map-grain" x="0" y="0" width="100%" height="100%" filter="url(#map-noise-filter)"></rect>
-            </svg>
-            <div class="map-zoom" role="group" aria-label="zoom do mapa">
-              <button type="button" class="map-zoom-btn active" data-map-zoom="1" aria-pressed="true">1×</button>
-              <button type="button" class="map-zoom-btn" data-map-zoom="2" aria-pressed="false">2×</button>
-              <button type="button" class="map-zoom-btn" data-map-zoom="3" aria-pressed="false">3×</button>
-            </div>
-          </section>
-        </div>
-
-        <aside id="detail-panel" aria-label="detalhe do item" inert>
-          <div class="panel-head">
-            <button class="panel-close" id="panel-close" type="button" aria-label="fechar detalhe">&times;</button>
-          </div>
-          <div class="panel-scroll" id="panel-scroll"></div>
-        </aside>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Ajustes -->
-  <section id="settings-panel" class="window window--settings" aria-label="ajustes">
-    <div class="win-bar">
-      <span class="win-title">ajustes</span>
-      <div class="win-btns">
-        <button class="win-btn win-close" id="settings-close" type="button" aria-label="fechar ajustes"><span></span></button>
-      </div>
-    </div>
-    <div class="settings-scroll">
-      <div class="settings-group">
-        <span class="control-label">tema</span>
-        <div class="theme-list" id="theme-list"></div>
-      </div>
-      <div class="settings-group">
-        <span class="control-label">som</span>
-        <div class="shell-switch" role="group" aria-label="som">
-          <button type="button" id="sound-on">ligado</button>
-          <button type="button" id="sound-off">desligado</button>
+        <div class="hero-id">
+          <img class="hero-avatar" src="fotos/matesu-normal.jpg" alt="matesu" />
+          <span class="hero-id-name boxed">matesu</span>
+          <span class="mono boxed">são paulo · desde 2015</span>
+          <span class="mono hero-kicker boxed">olá! eu sou matesu e eu provavelmente estou:</span>
+          <h1 class="hero-phrase boxed" id="phrase">construindo coisas</h1>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Janelas abertas sob demanda (player) -->
-  <div id="xp-windows" aria-live="polite"></div>
+  <section class="page trail" id="projetos" data-section data-page>
+    <div class="wrap trail-head">
+      <h2>todos os projetos</h2>
+      <span class="mono">passe o mouse · clique para abrir</span>
+    </div>
+    <div class="trail-host" id="trail"></div>
+  </section>
 
-</div>
+  <section class="page archive" id="arquivo" data-section data-page>
+    <div class="wrap">
+      <div class="archive-head">
+        <h2>arquivo</h2>
+        <input id="archive-search" class="archive-search" type="search" placeholder="buscar" autocomplete="off" spellcheck="false" aria-label="buscar no arquivo" />
+      </div>
+      <div class="archive-filters" id="archive-filters"></div>
+      <div class="archive-cols" id="archive-cols"></div>
+    </div>
+    <aside class="archive-side" id="archive-side" hidden aria-label="detalhe do projeto">
+      <button class="archive-close" type="button" aria-label="fechar">×</button>
+      <div id="archive-detail"></div>
+    </aside>
+  </section>
+
+  <section class="page gallery" id="visuais" data-section data-page>
+    <div class="wrap">
+      <div class="archive-head">
+        <h2>visuais</h2>
+        <span class="mono">design · programação · som · imagem · direção</span>
+      </div>
+      <div class="gallery-filters" id="gallery-filters"></div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </div>
+    <div class="lightbox" id="lightbox" hidden>
+      <button class="lightbox-close" type="button" aria-label="fechar">×</button>
+      <button class="lightbox-nav lightbox-prev" type="button" aria-label="anterior">←</button>
+      <div class="lightbox-inner">
+        <img id="lightbox-img" alt="" />
+        <div class="lightbox-cap">
+          <span class="mono" id="lightbox-meta"></span>
+          <h3 id="lightbox-title"></h3>
+        </div>
+      </div>
+      <button class="lightbox-nav lightbox-next" type="button" aria-label="próxima">→</button>
+    </div>
+  </section>
+
+  <section class="page posting" id="postmaster" data-section data-page>
+    <div class="wrap">
+      <div class="posting-masthead">
+        <h2>matesuposting</h2>
+      </div>
+      <p class="posting-desc">caderno de alguma coisa regurgitação.</p>
+      <div class="posting-empty">
+        <span class="mono">nada publicado ainda.</span>
+      </div>
+      <form class="subscribe" id="subscribe" novalidate>
+        <label class="mono" for="subscribe-email">receba por email</label>
+        <div class="subscribe-row">
+          <input id="subscribe-email" type="email" placeholder="voce@email.com" autocomplete="email" />
+          <button class="btn btn-dark" type="submit">assinar</button>
+        </div>
+        <span class="subscribe-note mono" id="subscribe-note">sem spam, sem robô. só quando tiver texto novo.</span>
+      </form>
+    </div>
+  </section>
+
+  <section class="page collab" id="estive" data-section data-page>
+    <div class="stack-bg" id="stack-bg" aria-hidden="true"></div>
+    <div class="wrap stack-box">
+      <div class="archive-head">
+        <h2>estive aqui</h2>
+        <span class="mono">A-Z · artistas e projetos</span>
+      </div>
+      <div class="collab-cols" id="collab-cols"></div>
+    </div>
+  </section>
+
+  <section class="page about" id="sobre" data-section data-page>
+    <div class="wrap">
+      <div class="about-top">
+        <img class="about-avatar" src="fotos/matesu-normal.jpg" alt="matesu" />
+        <div class="about-intro">
+          <h2>você já me viu por aí?</h2>
+          <p class="about-lead">Matesu, produtor músical e engenheiro de áudio desde 2015, transita entre as muitas facetas da música eletrônica de forma técnica: sua sonoridade é sempre acompanhada de graus de experimentação e turbulência, seja de maneira introspectiva ou não. Também acompanha e participa no desenvolvimento de diversos nichos no substrato musical brasileiro, trabalhando entre o jungle e o UK Garage, do techno ao ambiente.</p>
+        </div>
+      </div>
+
+      <div class="about-body">
+        <p>Inserido no circuito underground eletrônico paulistano, já colaborou com figuras relevantes dentro e fora do país ao longo do tempo: zonaEXP., SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, além de plays na Rinse FM, NTS, Dekmantel, HÖR, Function!, Veneno, Foundation FM e Aaja Music. É co-fundador do selo <b>bloodworm trax</b> e integrante do coletivo artístico <b>BLACKMESA</b>.</p>
+
+        <div class="about-cols">
+          <div><span class="mono">agora</span><ul><li>produção cultural</li><li>dj</li><li>produção e mixagem</li><li>design gráfico</li><li>desenvolvimento</li><li>fotografia</li><li>direção criativa</li></ul></div>
+          <div><span class="mono">principais</span><ul><li><a href="https://matesu.me/resume/" target="_blank" rel="noopener">resuMe</a></li><li><a href="https://github.com/9matesu/Opcoda" target="_blank" rel="noopener">opcoda</a></li></ul></div>
+          <div><span class="mono">contato</span><ul><li><a href="mailto:contact@matesu.me">email</a></li><li><a href="https://github.com/9matesu" target="_blank" rel="noopener">github</a></li><li><a href="https://www.instagram.com/blackmesaent" target="_blank" rel="noopener">instagram</a></li><li><a href="https://www.linkedin.com/in/matesu" target="_blank" rel="noopener">linkedin</a></li></ul></div>
+        </div>
+
+        <p class="about-contact-note">Estou com agendas fechadas, mas qualquer ideia de trabalho é só me alcançar em <a href="mailto:contact@matesu.me">contact@matesu.me</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page flags" id="bandeiras" data-section data-page>
+    <div class="wrap">
+      <div class="flags-grid">
+        <figure class="flag-card"><img class="flag-big" src="img/flags/tj.svg" alt="Tajiquistão" /><figcaption>tajiquistão</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/os.svg" alt="Ossétia do Sul" /><figcaption>ossétia do sul</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/ru.svg" alt="Rússia 1992" /><figcaption>rússia 1992</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/pmr.svg" alt="Transnístria" /><figcaption>transnístria</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/trnc.svg" alt="Chipre do Norte" /><figcaption>chipre do norte</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/xk.svg" alt="Kosovo" /><figcaption>kosovo</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/tw.svg" alt="Taiwan" /><figcaption>taiwan</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/ps.svg" alt="Palestina" /><figcaption>palestina</figcaption></figure>
+      </div>
+
+      <div class="flags-lines">
+        <p>incident responder @ <b>Akamai Technologies</b></p>
+        <p>sei todas as bandeiras: estados nacionais, reconhecidos ou não pela ONU.</p>
+        <p>fascinado por incidentes radiológicos. <a href="https://www-pub.iaea.org/MTCD/Publications/PDF/Pub1660web-81061875.pdf" target="_blank" rel="noopener">relatório da IAEA sobre o acidente de Lia, Geórgia</a>.</p>
+        <p>gosto de <b>minecraft 1.5.2</b> · <b>web 2.0, pré-2013</b>.</p>
+      </div>
+
+      <p class="disclaimer">Disclaimer: As opiniões, posicionamentos e manifestações publicados neste perfil são de caráter estritamente pessoal e não representam, necessariamente, as opiniões, posições ou valores da empresa à qual estou profissionalmente vinculado, de seus clientes, parceiros ou afiliadas. As publicações são feitas em caráter individual e não constituem declarações oficiais em nome de qualquer organização com a qual mantenho vínculo profissional.</p>
+    </div>
+  </section>
+
+</main>
+
+<div class="pager" id="pager" aria-label="páginas"></div>
 
 <script src="assets/js/data-discography.js" defer></script>
-<script src="assets/js/content.js" defer></script>
-<script src="assets/js/settings.js" defer></script>
-<script src="assets/js/nav.js" defer></script>
-<script src="assets/js/map.js" defer></script>
-<script src="assets/js/desktop.js" defer></script>
-<script src="assets/js/wmp.js" defer></script>
-<script src="assets/js/shell.js" defer></script>
-<script src="assets/js/swiss.js" defer></script>
+<script src="assets/js/gallery-data.js" defer></script>
+<script src="assets/js/dotglyphs.js" defer></script>
+<script src="assets/js/dotcut.js" defer></script>
+<script src="assets/js/code-trail.js" defer></script>
+<script src="assets/js/stack-type.js" defer></script>
+<script src="assets/js/field.js" defer></script>
 </body>
 </html>

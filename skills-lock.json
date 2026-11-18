@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "skills": {
+    "code-trail": {
+      "source": "design.how",
+      "sourceUrl": "https://design.how/vault/code-trail",
+      "sourceType": "well-known",
+      "computedHash": "d31fdaf7750d2df7c70afa614195a9a6f9bad8f801a9f2d2440930b1e5b78586",
+      "wellKnownDigest": "sha256:f2865825b3ee4bd9cc46282682e7ed087961ea1013f56e6abe392da7da0a2e94"
+    },
+    "dot-cut": {
+      "source": "design.how",
+      "sourceUrl": "https://design.how/vault/dot-cut",
+      "sourceType": "well-known",
+      "computedHash": "f4d7cc333323ef8494d8e6ae9a3a8046438e2b163c8fcc819dd66ca00473d0e5",
+      "wellKnownDigest": "sha256:2ceed0f88e0a57cb82c52258d4052cd50dd9c6d027817a787395c8f9d2f998ab"
+    },
+    "liquid-glass": {
+      "source": "fengshao1227/ccg-workflow",
+      "commit": "2f12cc5f7862437e46ff498ad844ca62c65e77aa",
+      "sourceType": "github",
+      "skillPath": "templates/skills/domains/frontend-design/liquid-glass/SKILL.md",
+      "computedHash": "5cbf735b7edf14a2d55a3ce974a6337ce3b01797762670b447662ffb05964025"
+    },
+    "stack-type": {
+      "source": "design.how",
+      "sourceUrl": "https://design.how/vault/stack-type",
+      "sourceType": "well-known",
+      "computedHash": "691a20968be79dcebb7ce8e42e96c76686bd16b54162bbe8844f760f9f7056dc",
+      "wellKnownDigest": "sha256:4b23b8c904f29daa7035a98c9d7d52fa5717a9f6da5172c965dbc23036dc8945"
+    }
+  }
+}

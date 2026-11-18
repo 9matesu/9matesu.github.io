@@ -1,20 +1,7 @@
-// ------------------------------------------------- mapa topográfico
-// A carta agora é uma flora de linhas: cada seção da árvore é uma linha
-// de metô. O relevo fica no fundo, apagado; o que se lê é a malha amarela
-// com as estações. Toda linha é linear: estações enfileiradas por fila,
-// raiz no topo, filhos na fila de baixo, alinhados no eixo do próprio
-// ramo.
-
+// Mapa do portfólio. Cada seção vira uma linha de metrô; cada item, uma estação.
 var MAP_NS = "http://www.w3.org/2000/svg";
-
 var MAP_SEED = 20260211;
 
-var MAP_COLS = 170;
-var MAP_ROWS = 70;
-var MAP_LEVELS = 9;
-var MAP_NEWS_COUNT = 7;
-
-// ------------------------------------------------- ruído e relevo
 function mapNum(v) {
   return Math.round(v * 10) / 10;
 }
@@ -55,7 +42,6 @@ function mapFbm(x, y, seed, octaves) {
   return sum / norm;
 }
 
-// Altitude do terreno, normalizada entre 0 e 1
 function mapRelief(u, v) {
   var x = u * (mapPaperW / 620);
   var y = v * (mapPaperH / 620);
@@ -65,23 +51,18 @@ function mapRelief(u, v) {
   return h < 0 ? 0 : h > 1 ? 1 : h;
 }
 
-function mapRandom(seed) {
-  var a = seed >>> 0;
-  return function() {
-    a += 0x6D2B79F5;
-    var t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
+function mapSvgEl(tag, cls) {
+  var el = document.createElementNS(MAP_NS, tag);
+  if (cls) el.setAttribute("class", cls);
+  return el;
 }
 
-// Curvas de nível por marching squares, com os trechos unidos em polilinhas
 function mapContourLines(f, level, cols, rows, paperW, paperH) {
-  cols = cols || MAP_COLS;
-  rows = rows || MAP_ROWS;
+  cols = cols || 170;
+  rows = rows || 70;
   paperW = paperW || mapPaperW;
   paperH = paperH || mapPaperH;
+
   var hCount = (rows + 1) * (cols + 1);
   var adj = new Map();
   var pts = new Map();
@@ -124,27 +105,25 @@ function mapContourLines(f, level, cols, rows, paperW, paperH) {
       var va = f[i0], vb = f[i1], vc = f[i2], vd = f[i3];
       var code = (va > level ? 1 : 0) | (vb > level ? 2 : 0) | (vc > level ? 4 : 0) | (vd > level ? 8 : 0);
       if (code === 0 || code === 15) continue;
-      var top, right, bottom, left, mid;
+
       switch (code) {
         case 1: link(hp(x, y), vp(x, y)); break;
         case 2: link(hp(x, y), vp(x + 1, y)); break;
         case 3: link(vp(x, y), vp(x + 1, y)); break;
         case 4: link(vp(x + 1, y), hp(x, y + 1)); break;
         case 5:
-          mid = (va + vb + vc + vd) / 4;
-          top = hp(x, y); left = vp(x, y); right = vp(x + 1, y); bottom = hp(x, y + 1);
-          if (mid > level) { link(top, right); link(bottom, left); }
-          else { link(top, left); link(right, bottom); }
+          var mid = (va + vb + vc + vd) / 4;
+          if (mid > level) { link(hp(x, y), vp(x + 1, y)); link(hp(x, y + 1), vp(x, y)); }
+          else { link(hp(x, y), vp(x, y)); link(vp(x + 1, y), hp(x, y + 1)); }
           break;
         case 6: link(hp(x, y), hp(x, y + 1)); break;
         case 7: link(vp(x, y), hp(x, y + 1)); break;
         case 8: link(hp(x, y + 1), vp(x, y)); break;
         case 9: link(hp(x, y), hp(x, y + 1)); break;
         case 10:
-          mid = (va + vb + vc + vd) / 4;
-          top = hp(x, y); left = vp(x, y); right = vp(x + 1, y); bottom = hp(x, y + 1);
-          if (mid > level) { link(top, left); link(right, bottom); }
-          else { link(top, right); link(bottom, left); }
+          var mid2 = (va + vb + vc + vd) / 4;
+          if (mid2 > level) { link(hp(x, y), vp(x, y)); link(vp(x + 1, y), hp(x, y + 1)); }
+          else { link(hp(x, y), vp(x + 1, y)); link(hp(x, y + 1), vp(x, y)); }
           break;
         case 11: link(vp(x + 1, y), hp(x, y + 1)); break;
         case 12: link(vp(x + 1, y), vp(x, y)); break;
@@ -180,29 +159,12 @@ function mapContourLines(f, level, cols, rows, paperW, paperH) {
       var p = pts.get(chain[k]);
       line.push([p[0] / cols * paperW, p[1] / rows * paperH]);
     }
-    lines.push(mapWobble(line));
+    lines.push(line);
   });
 
   return lines;
 }
 
-// Um desvio pequeno na normal da curva: dá o tremor de linha feita à mão
-function mapWobble(pts) {
-  var out = [];
-  for (var i = 0; i < pts.length; i++) {
-    var p = pts[i];
-    var a = pts[Math.max(0, i - 1)];
-    var b = pts[Math.min(pts.length - 1, i + 1)];
-    var tx = b[0] - a[0];
-    var ty = b[1] - a[1];
-    var len = Math.sqrt(tx * tx + ty * ty) || 1;
-    var w = (mapNoise(p[0] * 0.03, p[1] * 0.03, MAP_SEED + 31) - 0.5) * 5;
-    out.push([p[0] - ty / len * w, p[1] + tx / len * w]);
-  }
-  return out;
-}
-
-// Curva suave por pontos médios
 function mapSmoothPath(pts) {
   if (!pts || pts.length < 2) return "";
   var d = "M" + mapNum(pts[0][0]) + " " + mapNum(pts[0][1]);
@@ -216,13 +178,6 @@ function mapSmoothPath(pts) {
   return d;
 }
 
-function mapSvgEl(tag, cls) {
-  var el = document.createElementNS(MAP_NS, tag);
-  if (cls) el.setAttribute("class", cls);
-  return el;
-}
-
-// Desenha as curvas de nível de um campo qualquer dentro de um grupo SVG
 function mapContoursInto(group, cols, rows, w, h, relief) {
   var f = new Float32Array((cols + 1) * (rows + 1));
   var min = 2;
@@ -235,9 +190,10 @@ function mapContoursInto(group, cols, rows, w, h, relief) {
       if (hgt > max) max = hgt;
     }
   }
-  var step = (max - min) / (MAP_LEVELS + 1);
+  var levels = 7;
+  var step = (max - min) / (levels + 1);
   var frag = document.createDocumentFragment();
-  for (var l = 1; l <= MAP_LEVELS; l++) {
+  for (var l = 1; l <= levels; l++) {
     var level = min + step * l;
     var lines = mapContourLines(f, level, cols, rows, w, h);
     var d = "";
@@ -251,189 +207,81 @@ function mapContoursInto(group, cols, rows, w, h, relief) {
   group.appendChild(frag);
 }
 
-// O relevo topográfico: as curvas de nível são desenhadas no espaço do
-// mundo (o tamanho da folha), dentro da câmera. Assim o relevo anda
-// junto com o pan e o zoom, como o papel de verdade sob o diagrama.
-function mapBuildTerrain() {
-  if (!mapContours || !mapSvg) return;
-  mapBuilt = true;
-  if (mapTerrainSize && mapTerrainSize[0] === mapPaperW && mapTerrainSize[1] === mapPaperH) return;
-  mapTerrainSize = [mapPaperW, mapPaperH];
-
-  var cols = Math.max(24, Math.round(mapPaperW / 24));
-  var rows = Math.max(20, Math.round(mapPaperH / 24));
-  mapContoursInto(mapContours, cols, rows, mapPaperW, mapPaperH, mapRelief);
-}
-
-// ------------------------------------------------- núcleo do mapa
-// ================================================================
-//  Núcleo do mapa: onde cada item da árvore vira uma estação de metô.
-//  Puro, sem DOM: o navegador desenha, o terminal confere.
-// ================================================================
-
-// As raízes visíveis no mapa: sempre todas. O filtro da navegação não
-// apaga um distrito do mapa — ele só apaga o foco dos outros. Sumir com
-// música ao filtrar design escondia justamente a discografia.
+// ------------------------------------------------- layout
 function mapRootKeys() {
   return sortKeys(Object.keys(tree), 0);
 }
 
-// ------------------------------------------------- montagem completa (Metrô de SP)
-// Distribuição por quadrantes e ângulos octilineares (45°), sem sobreposição de linhas
+var MAP_TRUNK = 260;
+var MAP_BRANCH = 56;
+
+var MAP_LINES = [
+  { key: "design", x: 360, y: 700, line: 1 },
+  { key: "música", x: 360, y: 1400, line: 2 },
+  { key: "cultura", x: 360, y: 2100, line: 3 },
+  { key: "desenvolvimento", x: 2200, y: 700, line: 4 },
+  { key: "matesuposting", x: 2200, y: 1400, line: 5 }
+];
+
 function mapBuildLayout(tree, roots, newsPaths) {
   var items = [];
   var clusters = [];
   var newsSet = {};
   (newsPaths || []).forEach(function(p) { newsSet[p.join(" > ")] = true; });
 
-  // A folha é dimensionada uma única vez, no topo do motor (mapPaperW/H).
-  // Aqui só sincronizamos o cache do relevo — nada de mudar o tamanho,
-  // senão a câmera e o papel passam a discordar em pleno pan.
-  if (!mapPaperDims || mapPaperDims[0] !== mapPaperW || mapPaperDims[1] !== mapPaperH) {
-    mapPaperDims = [mapPaperW, mapPaperH];
-  }
-  var CX = mapPaperW / 2, CY = mapPaperH / 2;
-
   var posMap = {};
 
-  // 1. Linha 1 - Azul (design) - Quadrante Noroeste (Top-Left)
-  if (tree['design']) {
-    posMap['design'] = { x: 1400, y: 800, slot: 'down', lineNo: 1, cluster: 'design' };
-    var subs = Object.keys(tree['design']);
-    var startY = 700;
-    subs.forEach(function(subKey, idx) {
-      var subPath = 'design > ' + subKey;
-      var sy = startY - idx * 160;
-      posMap[subPath] = { x: 1200, y: sy, slot: 'left', lineNo: 1, cluster: 'design' };
-      var subNode = tree['design'][subKey];
-      if (subNode && typeof subNode === 'object' && !isLeaf(subNode)) {
-        var leaves = Object.keys(subNode);
-        leaves.forEach(function(lk, lidx) {
-          var lp = subPath + ' > ' + lk;
-          // Cada ramo desce em passo próprio: as fileiras nunca formam
-          // colunas alinhadas de estação (aquilo lia como planilha).
-          var lx = 1050 - lidx * 145 - (idx % 2) * 45;
-          var lyy = sy;
-          posMap[lp] = { x: lx, y: lyy, slot: (lidx % 2 === 0 ? 'down' : 'up'), lineNo: 1, cluster: 'design' };
-          var lNode = subNode[lk];
-          if (lNode && typeof lNode === 'object' && !isLeaf(lNode)) {
-            var subLeaves = Object.keys(lNode);
-            subLeaves.forEach(function(slk, slidx) {
-              posMap[lp + ' > ' + slk] = { x: lx - 70, y: lyy + (slidx === 0 ? -46 : 46), slot: (slidx === 0 ? 'up' : 'down'), lineNo: 1, cluster: 'design' };
-            });
-          }
+  function placeLine(spec) {
+    if (!tree[spec.key]) return;
+    var base = spec.key;
+    var kids = Object.keys(tree[base]);
+    posMap[base] = { x: spec.x, y: spec.y, slot: "left", lineNo: spec.line, cluster: base };
+
+    kids.forEach(function(k, i) {
+      var x = spec.x + MAP_TRUNK * (i + 1);
+      var dir = i % 2 === 0 ? -1 : 1;
+      var path = base + " > " + k;
+      posMap[path] = {
+        x: x,
+        y: spec.y,
+        slot: dir < 0 ? "down" : "up",
+        lineNo: spec.line,
+        cluster: base
+      };
+
+      var step = 0;
+      (function walk(node, parentPath) {
+        if (!node || typeof node !== "object" || isLeaf(node)) return;
+        Object.keys(node).forEach(function(ck) {
+          step += 1;
+          var cp = parentPath + " > " + ck;
+          posMap[cp] = {
+            x: x,
+            y: spec.y + dir * MAP_BRANCH * step,
+            slot: "right",
+            lineNo: spec.line,
+            cluster: base
+          };
+          walk(node[ck], cp);
         });
-      }
+      })(tree[base][k], path);
     });
   }
 
-  // 2. Linha 3 - Vermelha (cultura) - Quadrante Nordeste Alto (Top-Right)
-  if (tree['cultura']) {
-    posMap['cultura'] = { x: 2150, y: 700, slot: 'right', lineNo: 3, cluster: 'cultura' };
-    var ckeys = Object.keys(tree['cultura']);
-    ckeys.forEach(function(ck, cidx) {
-      var cp = 'cultura > ' + ck;
-      var cy = 550 - cidx * 150;
-      posMap[cp] = { x: 2400, y: cy, slot: 'up', lineNo: 3, cluster: 'cultura' };
-      var cNode = tree['cultura'][ck];
-      if (cNode && typeof cNode === 'object' && !isLeaf(cNode)) {
-        Object.keys(cNode).forEach(function(sck, scidx) {
-          posMap[cp + ' > ' + sck] = { x: 2580 + scidx * 160, y: cy, slot: 'down', lineNo: 3, cluster: 'cultura' };
-        });
-      }
-    });
-  }
+  MAP_LINES.forEach(placeLine);
 
-  // 3. Linha 2 - Verde (música) - Quadrante Leste / Sudeste (Mid & Lower Right)
-  if (tree['música']) {
-    posMap['música'] = { x: 2200, y: 1200, slot: 'left', lineNo: 2, cluster: 'música' };
-    var m = tree['música'];
-    if (m['sobre mim']) {
-      posMap['música > sobre mim'] = { x: 2450, y: 1080, slot: 'up', lineNo: 2, cluster: 'música' };
-    }
-    if (m['diretrizes técnicas']) {
-      posMap['música > diretrizes técnicas'] = { x: 2450, y: 1220, slot: 'up', lineNo: 2, cluster: 'música' };
-      var dkeys = Object.keys(m['diretrizes técnicas']);
-      dkeys.forEach(function(dk, didx) {
-        posMap['música > diretrizes técnicas > ' + dk] = { x: 2650 + didx * 150, y: 1220, slot: (didx % 2 === 0 ? 'down' : 'up'), lineNo: 2, cluster: 'música' };
-      });
-    }
-    if (m['participações']) {
-      // O tronco dos anos desce em zigue-zague de 45°: cada ano avança ou
-      // recua na horizontal, então as faixas nunca formam colunas alinhadas.
-      posMap['música > participações'] = { x: 2330, y: 1380, slot: 'left', lineNo: 2, cluster: 'música' };
-      var partYears = Object.keys(m['participações']);
-      var py = 1470;
-      partYears.forEach(function(yk, pidx) {
-        var yp = 'música > participações > ' + yk;
-        var px = 2330 + (pidx % 2 ? 110 : 0);
-        posMap[yp] = { x: px, y: py, slot: 'left', lineNo: 2, cluster: 'música' };
-        var tracks = m['participações'][yk];
-        if (tracks && typeof tracks === 'object') {
-          // O leque de cada ano abre para cima ou para baixo: as faixas
-          // formam uma espinha de peixe, não uma escada de colunas iguais.
-          var pdir = pidx % 2 === 0 ? 1 : -1;
-          Object.keys(tracks).forEach(function(tk, tidx) {
-            posMap[yp + ' > ' + tk] = { x: px + 190 + tidx * 122, y: py + pdir * tidx * 20, slot: (tidx % 2 === 0 ? 'up' : 'down'), lineNo: 2, cluster: 'música' };
-          });
-        }
-        py += 126;
-      });
-    }
-    if (m['lançamentos']) {
-      // Mesmo desenho, mas deslocado: as faixas dos dois grupos nunca
-      // coincidem em altura, e as capas nunca caem nas mesmas colunas.
-      var lxStart = 3260;
-      posMap['música > lançamentos'] = { x: lxStart, y: 1200, slot: 'right', lineNo: 2, cluster: 'música' };
-      var years = Object.keys(m['lançamentos']);
-      var ly = 1300;
-      years.forEach(function(yk, yidx) {
-        var yp = 'música > lançamentos > ' + yk;
-        var lx = lxStart + (yidx % 2 ? 110 : 0);
-        posMap[yp] = { x: lx, y: ly, slot: 'left', lineNo: 2, cluster: 'música' };
-        var albums = m['lançamentos'][yk];
-        if (albums && typeof albums === 'object') {
-          var ldir = yidx % 2 === 0 ? -1 : 1;
-          Object.keys(albums).forEach(function(ak, aidx) {
-            posMap[yp + ' > ' + ak] = { x: lx + 175 + aidx * 118, y: ly + ldir * aidx * 18, slot: (aidx % 2 === 0 ? 'down' : 'up'), lineNo: 2, cluster: 'música' };
-          });
-        }
-        ly += 140;
-      });
-    }
-  }
+  var extra = 0;
+  (roots || []).forEach(function(rk) {
+    var known = MAP_LINES.some(function(spec) { return spec.key === rk; });
+    if (known || !tree[rk]) return;
+    placeLine({ key: rk, x: 2200, y: 2100 + extra * 300, line: 1 });
+    extra += 1;
+  });
 
-  // 4. Linha 5 - Lilás (matesuposting) - Quadrante Sul Puro (Down)
-  if (tree['matesuposting']) {
-    posMap['matesuposting'] = { x: 1800, y: 1550, slot: 'leftUp', lineNo: 5, cluster: 'matesuposting' };
-    var mpkeys = Object.keys(tree['matesuposting']);
-    mpkeys.forEach(function(mpk, mpidx) {
-      posMap['matesuposting > ' + mpk] = { x: 1800, y: 1750 + mpidx * 150, slot: 'right', lineNo: 5, cluster: 'matesuposting' };
-    });
-  }
-
-  // 5. Linha 4 - Amarela (desenvolvimento) - Quadrante Sudoeste (Bottom-Left)
-  if (tree['desenvolvimento']) {
-    posMap['desenvolvimento'] = { x: 1400, y: 1600, slot: 'left', lineNo: 4, cluster: 'desenvolvimento' };
-    var dkeys = Object.keys(tree['desenvolvimento']);
-    dkeys.forEach(function(dk, didx) {
-      var dp = 'desenvolvimento > ' + dk;
-      var dy = 1750 + didx * 160;
-      posMap[dp] = { x: 1200, y: dy, slot: 'up', lineNo: 4, cluster: 'desenvolvimento' };
-      var dNode = tree['desenvolvimento'][dk];
-      if (dNode && typeof dNode === 'object' && !isLeaf(dNode)) {
-        Object.keys(dNode).forEach(function(sdk, sdidx) {
-          posMap[dp + ' > ' + sdk] = { x: 1040 - sdidx * 160, y: dy, slot: 'down', lineNo: 4, cluster: 'desenvolvimento' };
-        });
-      }
-    });
-  }
-
-  // Montar items com hierarchy
   function buildItem(p, parentItem) {
     var key = p[p.length - 1];
     var kStr = p.join(" > ");
-    var pos = posMap[kStr] || { x: 1800, y: 1200, slot: 'up', lineNo: 1, cluster: p[0] };
+    var pos = posMap[kStr] || { x: 1800, y: 1200, slot: "up", lineNo: 1, cluster: p[0] };
     var node = resolve(p);
     var it = {
       key: key,
@@ -443,11 +291,10 @@ function mapBuildLayout(tree, roots, newsPaths) {
       isRoot: p.length === 1,
       isLeaf: !!isLeaf(node),
       isNews: !!newsSet[kStr],
-      isHub: kStr === "música > participações" || kStr === "música > lançamentos",
       x: pos.x,
       y: pos.y,
       slot: pos.slot,
-      dotR: MAP_DOT_R[p.length - 1] || 12,
+      dotR: [22, 18, 14, 10][p.length - 1] || 10,
       cluster: pos.cluster,
       lineNo: pos.lineNo,
       parent: parentItem ? {
@@ -461,16 +308,14 @@ function mapBuildLayout(tree, roots, newsPaths) {
       } : null
     };
     items.push(it);
-    if (node && typeof node === 'object' && !isLeaf(node)) {
+    if (node && typeof node === "object" && !isLeaf(node)) {
       Object.keys(node).forEach(function(childKey) {
         buildItem(p.concat([childKey]), it);
       });
     }
   }
 
-  roots.forEach(function(rk) {
-    buildItem([rk], null);
-  });
+  roots.forEach(function(rk) { buildItem([rk], null); });
 
   roots.forEach(function(rk) {
     clusters.push({
@@ -482,76 +327,43 @@ function mapBuildLayout(tree, roots, newsPaths) {
   return { items: items, clusters: clusters };
 }
 
-// Raio de tela de cada nível, em unidades da folha
-var MAP_DOT_R = [26, 20, 16, 12];
-
-// ------------------------------------------------- desenho da carta
+// ------------------------------------------------- DOM
 var mapSheet = document.getElementById("map-sheet");
 var mapSvg = document.getElementById("map-canvas");
 var mapCamera = document.getElementById("map-camera");
-var mapPaperRect = document.querySelector("#map-camera .map-paper-fill");
 var mapContours = document.getElementById("map-contours");
 var mapRoute = document.getElementById("map-route");
 var mapRouteActive = document.getElementById("map-route-active");
 var mapLinks = document.getElementById("map-links");
 var mapMarks = document.getElementById("map-marks");
 
-// Tamanho da folha: único valor, usado por câmera, relevo e rect de papel.
-// Larga o bastante para o passeio horizontal; o grid de fundo é CSS e
-// contínuo, então ir além da folha nunca mostra um vazio sem carta.
 var mapPaperW = 3600;
 var mapPaperH = 3000;
+var MAP_PAN_X = 2200;
+var MAP_PAN_Y = 800;
 
-// Até onde a câmera pode sair da folha antes do limite duro.
-// Horizontal generoso ("explorar pra direita e esquerda"), vertical
-// contido. Livre, mas não infinito: a câmera sempre para nessas bordas.
-var MAP_PAN_X = 2400;
-var MAP_PAN_Y = 900;
-
-var mapPaperDims = [];
-var mapNewsPathsCache = [];
-var mapTerrainSize = null;
-
-// Zoom: longe mostra as raízes e os ramos; perto, todos os nomes
-var MAP_ZOOM_MID = 1.9;
-var MAP_ZOOM_NEAR = 3.1;
-var MAP_ZOOM_DETAIL = 5.2;
-var MAP_ZOOM_MIN = 0.4; // a folha inteira cobrindo a viewport (com folga p/ enquadrar)
-var MAP_ZOOM_MAX = 9;
-
-var mapCam = { cx: 0, cy: 0, z: MAP_ZOOM_MIN };
-var mapCamFrom = null;
-var mapCamTo = null;
-var mapCamStart = 0;
+var mapCam = { cx: mapPaperW / 2, cy: mapPaperH / 2, z: 0.35 };
 var mapCamRaf = null;
 var mapMarkList = [];
 var mapLayout = null;
 var mapSig = "";
 var mapPan = null;
-var mapBuilt = false;
 var mapCamReady = false;
-var mapCamUser = false;   // o visitante já enquadrou o mapa com as próprias mãos
-var mapFitItems = 0;
-var mapFitViewW = 0;
-var mapFitViewH = 0;
-var mapLastScale = 0;
-var mapInners = [];
-var mapLabels = [];
-var mapBadges = [];
-var mapReduce = window.matchMedia
-  ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  : false;
+var mapCamUser = false;
+var mapFitZ = 0;
+var mapFitCx = 0;
+var mapFitCy = 0;
+var mapZoomStepSel = 1;
+var mapReduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
 
-// A trilha das novidades: entram na carta com destaque, mas ficam no
-// lugar que é delas na árvore
+var MAP_ZOOM_MIN = 0.25;
+var MAP_ZOOM_MAX = 3;
+
 function mapNewsPaths() {
   if (typeof collectNews !== "function") return [];
-  return collectNews().slice(0, MAP_NEWS_COUNT).map(function(entry) {
-    return entry.path;
-  });
+  return collectNews().slice(0, 6).map(function(entry) { return entry.path; });
 }
 
-// Assinatura do desenho: muda quando a árvore ou as novidades mudam
 function mapSignature(roots) {
   var parts = [];
   (function walk(node, keys) {
@@ -567,30 +379,20 @@ function mapSignature(roots) {
   return roots.join(",") + "#" + parts.join("|");
 }
 
-// ------------------------------------------------- câmera da folha
 function mapBaseScale(vw, vh) {
   return Math.max(vw / mapPaperW, vh / mapPaperH);
 }
 
-// A câmera anda junto: salva com debounce para o drag não martelar o
-// localStorage. Recarregar a página devolve o mesmo enquadramento.
-var mapCamTimer = null;
 function mapSaveCam() {
-  if (mapCamTimer) return;
-  mapCamTimer = setTimeout(function() {
-    mapCamTimer = null;
-    try {
-      localStorage.setItem("matesu.mapcam.v2", JSON.stringify({
-        cx: Math.round(mapCam.cx), cy: Math.round(mapCam.cy), z: mapCam.z
-      }));
-    } catch (e) {}
-  }, 400);
+  try {
+    localStorage.setItem("matesu.mapcam.v2", JSON.stringify({
+      cx: Math.round(mapCam.cx),
+      cy: Math.round(mapCam.cy),
+      z: mapCam.z
+    }));
+  } catch (e) {}
 }
 
-// A câmera passeia horizontalmente para além da folha com folga, mas
-// encontra um limite duro: não é infinito. Como o grid é CSS contínuo,
-// nunca aparece borda vazia — só mais carta para explorar. No eixo Y
-// o passeio é contido para o diagrama não se perder de vista.
 function mapClampCam(vw, vh, s) {
   var hw = vw / 2 / s;
   var hh = vh / 2 / s;
@@ -598,71 +400,44 @@ function mapClampCam(vw, vh, s) {
   var maxX = mapPaperW + MAP_PAN_X - hw;
   if (minX > maxX) mapCam.cx = mapPaperW / 2;
   else mapCam.cx = Math.max(minX, Math.min(maxX, mapCam.cx));
+
   var minY = -MAP_PAN_Y + hh;
   var maxY = mapPaperH + MAP_PAN_Y - hh;
   if (minY > maxY) mapCam.cy = mapPaperH / 2;
   else mapCam.cy = Math.max(minY, Math.min(maxY, mapCam.cy));
 }
 
-// Contra-escala: as etiquetas mantêm o corpo na tela, os pontos seguem o zoom
 function mapApplyCam() {
   if (!mapCamera || !mapSvg) return;
   var vw = mapSvg.clientWidth || 1;
   var vh = mapSvg.clientHeight || 1;
-  if (mapLayout && (Math.abs(vw - mapFitViewW) > 40 || Math.abs(vh - mapFitViewH) > 40)) {
-    mapFitViewW = vw;
-    mapFitViewH = vh;
-    mapFitCam();
-  }
   var s = mapBaseScale(vw, vh) * mapCam.z;
   mapClampCam(vw, vh, s);
+
   var tx = vw / 2 - mapCam.cx * s;
   var ty = vh / 2 - mapCam.cy * s;
   mapCamera.setAttribute("transform", "translate(" + tx.toFixed(2) + " " + ty.toFixed(2) + ") scale(" + s.toFixed(5) + ")");
 
-  // Câmera persistida: o save é debounced, então o pan não martela o storage.
-  mapSaveCam();
-
-  if (!mapLastScale || s !== mapLastScale) {
-    mapLastScale = s;
-    var inv = (1 / s).toFixed(5);
-    for (var i = 0; i < mapInners.length; i++) {
-      mapInners[i].setAttribute("transform", "scale(" + inv + ")");
-    }
+  var inv = (1 / s).toFixed(5);
+  var inners = mapSvg.querySelectorAll(".map-mark-in");
+  for (var i = 0; i < inners.length; i++) {
+    inners[i].setAttribute("transform", "scale(" + inv + ")");
   }
 
-  var z = mapCam.z;
-  // Os degraus de rotulagem acompanham o enquadramento da folha: no
-  // telefone o 1× já é um zoom pequeno, então 1,9 fixo nunca chegaria.
-  var base = mapFitZ || 1;
-  var level = z >= base * MAP_ZOOM_DETAIL ? "detail"
-    : z >= base * MAP_ZOOM_NEAR ? "near"
-    : z >= base * MAP_ZOOM_MID ? "mid"
-    : "far";
-  if (mapSvg.getAttribute("data-zoom") !== level) mapSvg.setAttribute("data-zoom", level);
+  mapSaveCam();
 }
 
-// ------------------------------------------------- desenho das marcas
-// O rótulo vive num grupo contra-escalado (1/s): x/y e o respiro vêm em
-// pixels de tela CONSTANTES. Nada depende do zoom, então o zoom não
-// bagunça mais a posição de cada etiqueta individual.
 function mapLabelBox(it) {
-  var off = it.isRoot ? 26 : it.level === 1 ? 20 : 16;
-  var att = off + 7;
+  var off = it.isRoot ? 22 : it.level === 1 ? 18 : 14;
+  var att = off + 6;
   switch (it.slot) {
     case "right": return { x: off, y: 0, anchor: "start" };
     case "left": return { x: -off, y: 0, anchor: "end" };
-    // Rótulo à esquerda e acima: usa o vazio entre dois distritos quando a
-    // etiqueta à direita cairia em cima das linhas do vizinho.
-    case "leftUp": return { x: -off, y: -att, anchor: "end" };
-    case "down": return { x: 0, y: att + 4, anchor: "middle" };
+    case "down": return { x: 0, y: att, anchor: "middle" };
     default: return { x: 0, y: -att, anchor: "middle" };
   }
 }
 
-// O trecho entre duas estações: uma diagonal de 45° e um trecho reto,
-// como as linhas do Metrô de SP dobram no meio do mapa. Nunca curves
-// arbitrárias: só 0°, 45° ou 90°.
 function mapOctoPath(a, b) {
   var dx = b.x - a.x;
   var dy = b.y - a.y;
@@ -671,53 +446,18 @@ function mapOctoPath(a, b) {
   if (!adx || !ady || adx === ady) return [[a.x, a.y], [b.x, b.y]];
   var sx = dx < 0 ? -1 : 1;
   var sy = dy < 0 ? -1 : 1;
-  if (adx > ady) {
-    return [[a.x, a.y], [a.x + sx * ady, b.y], [b.x, b.y]];
-  }
+  if (adx > ady) return [[a.x, a.y], [a.x + sx * ady, b.y], [b.x, b.y]];
   return [[a.x, a.y], [b.x, a.y + sy * adx], [b.x, b.y]];
 }
 
-// Polylinha com quinas cortadas: cada vértice interno ganha um arco
-// curto, do jeito que o metrô dobra o cano na esquina.
-function mapRoundPath(pts, r) {
-  if (!pts || pts.length < 2) return "";
+function mapSegPath(a, b) {
+  var pts = mapOctoPath(a, b);
+  if (pts.length < 2) return "";
   var d = "M" + mapNum(pts[0][0]) + " " + mapNum(pts[0][1]);
-  var last = pts[0];
-  for (var i = 1; i < pts.length - 1; i++) {
-    var p0 = pts[i - 1];
-    var p1 = pts[i];
-    var p2 = pts[i + 1];
-    if (p1[0] === last[0] && p1[1] === last[1]) continue;
-    var l1 = Math.sqrt((p1[0] - p0[0]) * (p1[0] - p0[0]) + (p1[1] - p0[1]) * (p1[1] - p0[1]));
-    var l2 = Math.sqrt((p2[0] - p1[0]) * (p2[0] - p1[0]) + (p2[1] - p1[1]) * (p2[1] - p1[1]));
-    var cut = Math.min(r, l1 * 0.5, l2 * 0.5);
-    if (cut < 1) {
-      d += "L" + mapNum(p1[0]) + " " + mapNum(p1[1]);
-      last = p1;
-      continue;
-    }
-    var e1 = [p1[0] + (p0[0] - p1[0]) / l1 * cut, p1[1] + (p0[1] - p1[1]) / l1 * cut];
-    var e2 = [p1[0] + (p2[0] - p1[0]) / l2 * cut, p1[1] + (p2[1] - p1[1]) / l2 * cut];
-    if (e1[0] !== last[0] || e1[1] !== last[1]) {
-      d += "L" + mapNum(e1[0]) + " " + mapNum(e1[1]);
-    }
-    d += "Q" + mapNum(p1[0]) + " " + mapNum(p1[1]) + " " + mapNum(e2[0]) + " " + mapNum(e2[1]);
-    last = e2;
-  }
-  var fin = pts[pts.length - 1];
-  if (fin[0] !== last[0] || fin[1] !== last[1]) {
-    d += "L" + mapNum(fin[0]) + " " + mapNum(fin[1]);
+  for (var i = 1; i < pts.length; i++) {
+    d += "L" + mapNum(pts[i][0]) + " " + mapNum(pts[i][1]);
   }
   return d;
-}
-
-// Raio do arredondamento das esquinas. Zero: o diagrama dobra em ângulo
-// reto e diagonal de 45°, sem curva nenhuma entre os trechos.
-var MAP_ELBOW = 0;
-
-// O cano pai → estação, já dobrado (sem arredondamento)
-function mapSegPath(parent, child) {
-  return mapRoundPath(mapOctoPath(parent, child), MAP_ELBOW);
 }
 
 function mapRenderScene() {
@@ -725,9 +465,6 @@ function mapRenderScene() {
 
   var frag = document.createDocumentFragment();
 
-  // As linhas coloridas: cada estação recebe o seu trecho até o pai,
-  // dobrado só em ângulos retos. Trechos de irmãos que correm na
-  // mesma rampa se cobrem e viram um cano só, como num diagrama real.
   var kidsByParent = {};
   mapLayout.items.forEach(function(it) {
     if (!it.parent) return;
@@ -740,26 +477,22 @@ function mapRenderScene() {
     var g = kidsByParent[key];
     g.kids.sort(function(a, b) { return a.x - b.x; });
     var lineCls = " line-" + (g.parent.lineNo || 1);
-    var cls = "map-route" + lineCls + (g.parent.level === 0 ? " trunk" : g.parent.level >= 2 ? " branch" : "");
+    var cls = "map-route" + lineCls + (g.parent.level === 0 ? " trunk" : " branch");
     if (filterMode !== "all" && g.parent.cluster !== filterMode) cls += " is-dim";
-    for (var i = 0; i < g.kids.length; i++) {
+    g.kids.forEach(function(kid) {
       var p = mapSvgEl("path", cls);
-      p.setAttribute("d", mapSegPath(g.parent, g.kids[i]));
+      p.setAttribute("d", mapSegPath(g.parent, kid));
       frag.appendChild(p);
-    }
+    });
   });
+
   mapRoute.innerHTML = "";
   mapRoute.appendChild(frag);
 
-  // Ligação entre sistemas: uma única linha de integração liga as raízes
-  // numa corrente, sem atravessar os ramos. Traço contínuo, na cor de
-  // quem chega — não é uma linha à parte, é o mesmo mapa.
   if (mapLinks) {
     var rootsChain = mapLayout.items.filter(function(it) {
       return it.level === 0 && isFinite(it.x) && isFinite(it.y);
     });
-    // Ordena em volta do centro do desenho: as ligações correm pela borda
-    // do mapa em vez de atravessar as linhas por dentro.
     if (rootsChain.length > 2) {
       var ax = 0, ay = 0;
       rootsChain.forEach(function(it) { ax += it.x; ay += it.y; });
@@ -781,18 +514,13 @@ function mapRenderScene() {
     mapLinks.appendChild(rfrag);
   }
 
-  // Marcas
   var mfrag = document.createDocumentFragment();
-  mapInners = [];
-  mapLabels = [];
-  mapBadges = [];
   mapLayout.clusters.forEach(function(c) {
-    c.items.forEach(function(it, idx) {
+    c.items.forEach(function(it) {
       var lineCls = " line-" + (it.lineNo || 1);
       var cls = "map-mark" + lineCls + " l" + it.level +
         (it.isRoot ? " root" : it.isLeaf ? " leaf" : " branch") +
         (it.isNews ? " novidade" : "") +
-        (it.isHub ? " map-hub" : "") +
         (filterMode !== "all" && it.cluster !== filterMode ? " is-dim" : "");
       var g = mapSvgEl("g", cls);
       g.setAttribute("transform", "translate(" + mapNum(it.x) + " " + mapNum(it.y) + ")");
@@ -801,17 +529,13 @@ function mapRenderScene() {
       g.setAttribute("role", "button");
 
       var title = mapSvgEl("title");
-      title.textContent = it.isNews ? (it.node.title || it.key) : it.key;
+      title.textContent = it.isNews && it.node && it.node.title ? it.node.title : it.key;
       g.appendChild(title);
 
-      // Tudo que tem tamanho em tela vive no grupo contra-escalado:
-      // bolinha, badge e rótulo mantêm o corpo em qualquer zoom.
       var inner = mapSvgEl("g", "map-mark-in");
       g.appendChild(inner);
-      mapInners.push(inner);
 
       inner.appendChild(mapSvgEl("circle", "map-mark-dot"));
-      // miolo branco: dá o desenho de "parada" e recebe a cor no clique
       inner.appendChild(mapSvgEl("circle", "map-mark-core"));
 
       var tag = mapSvgEl("g", "map-mark-tag");
@@ -823,20 +547,17 @@ function mapRenderScene() {
       label.setAttribute("y", String(box.y));
       if (box.anchor !== "start") label.setAttribute("text-anchor", box.anchor);
       label.setAttribute("dominant-baseline", "middle");
-      label.textContent = it.isNews ? (it.node.title || it.key) : it.key;
+      label.textContent = it.isNews && it.node && it.node.title ? it.node.title : it.key;
       tag.appendChild(label);
 
-      mapLabels.push({ label: label, tag: tag, item: it, boxed: it.isNews });
-
-      // A raiz ganha o número da linha, em círculo como nas placas do Metrô de SP
       if (it.isRoot) {
         var badge = mapSvgEl("g", "map-badge");
         var badgeRect = mapSvgEl("rect", "map-badge-rect");
-        badgeRect.setAttribute("x", "-13");
-        badgeRect.setAttribute("y", "-13");
-        badgeRect.setAttribute("width", "26");
-        badgeRect.setAttribute("height", "26");
-        badgeRect.setAttribute("rx", "13");
+        badgeRect.setAttribute("x", "-12");
+        badgeRect.setAttribute("y", "-12");
+        badgeRect.setAttribute("width", "24");
+        badgeRect.setAttribute("height", "24");
+        badgeRect.setAttribute("rx", "12");
         badge.appendChild(badgeRect);
         var badgeNum = mapSvgEl("text", "map-badge-num");
         badgeNum.setAttribute("text-anchor", "middle");
@@ -844,7 +565,6 @@ function mapRenderScene() {
         badgeNum.textContent = String(it.lineNo);
         badge.appendChild(badgeNum);
         inner.appendChild(badge);
-        mapBadges.push({ el: badge, item: it });
       }
 
       mfrag.appendChild(g);
@@ -852,11 +572,9 @@ function mapRenderScene() {
   });
   mapMarks.innerHTML = "";
   mapMarks.appendChild(mfrag);
-
   mapMarkList = mapLayout.items;
 }
 
-// Marca o caminho aberto na navegação
 function mapUpdateActive() {
   if (!mapLayout || !mapMarks) return;
 
@@ -894,8 +612,6 @@ function mapFindItem(targetPath) {
   return null;
 }
 
-// Enquadramento: a câmera abre com o desenho inteiro no quadro e uma
-// folga para os rótulos. Nada de nascer cortando um canto do mapa.
 function mapContentBox(pad) {
   var b = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
   mapLayout.items.forEach(function(it) {
@@ -914,9 +630,7 @@ function mapFitCam() {
   var vw = mapSvg ? mapSvg.clientWidth : 0;
   var vh = mapSvg ? mapSvg.clientHeight : 0;
   if (!vw || !vh) { vw = mapPaperW; vh = mapPaperH; }
-  // Telas estreitas precisam de folga para o desenho respirar; os nomes
-  // entram no zoom 2×, então o 1× pode ocupar a largura toda.
-  var pad = vw < 640 ? 300 : 150;
+  var pad = vw < 640 ? 260 : 120;
   var b = mapContentBox(pad);
   var base = mapBaseScale(vw, vh);
   var zx = vw / Math.max(1, (b.maxX - b.minX) * base);
@@ -932,14 +646,6 @@ function mapFitCam() {
   mapFitCy = mapCam.cy;
 }
 
-// ------------------------------------------------- zoom em três passos
-// Sem roda do mouse e sem sequestrar a rolagem: o mapa tem três degraus
-// fixos (1x, 2x, 3x) sobre o enquadramento da folha inteira.
-var mapFitZ = 0;
-var mapFitCx = 0;
-var mapFitCy = 0;
-var mapZoomStepSel = 1;
-
 function mapPaintZoom() {
   if (!mapSheet) return;
   var btns = mapSheet.querySelectorAll("[data-map-zoom]");
@@ -950,69 +656,27 @@ function mapPaintZoom() {
   }
 }
 
-function mapSetZoomStep(step) {
-  if (!mapSvg || !step) return;
-  if (!mapFitZ) mapFitCam();
-  mapZoomStepSel = step;
-  mapCamUser = true;
-  // 1× devolve o enquadramento da folha inteira; 2× e 3× miram o
-  // miolo das raízes, que é onde os nomes aparecem.
-  var c = step === 1 ? { cx: mapFitCx, cy: mapFitCy } : mapRootCenter();
-  mapGoTo({ cx: c.cx, cy: c.cy, z: mapFitZ * step }, true);
-  mapPaintZoom();
-}
-
-// Centro das estações-raiz, em coordenadas da folha.
 function mapRootCenter() {
   if (!mapLayout || !mapLayout.items.length) return { cx: mapCam.cx, cy: mapCam.cy };
   var sx = 0, sy = 0, n = 0;
   mapLayout.items.forEach(function(it) {
     if (!it.isRoot) return;
-    sx += it.x; sy += it.y; n++;
+    sx += it.x;
+    sy += it.y;
+    n++;
   });
   if (!n) return { cx: mapCam.cx, cy: mapCam.cy };
   return { cx: sx / n, cy: sy / n };
 }
 
-if (mapSheet) {
-  mapSheet.addEventListener("click", function(e) {
-    var btn = e.target.closest ? e.target.closest("[data-map-zoom]") : null;
-    if (!btn) return;
-    e.stopPropagation();
-    mapSetZoomStep(Number(btn.getAttribute("data-map-zoom")));
-  });
+function mapSetZoomStep(step) {
+  if (!mapSvg || !step) return;
+  if (!mapFitZ) mapFitCam();
+  mapZoomStepSel = step;
+  mapCamUser = true;
+  var c = step === 1 ? { cx: mapFitCx, cy: mapFitCy } : mapRootCenter();
+  mapGoTo({ cx: c.cx, cy: c.cy, z: mapFitZ * step }, true);
   mapPaintZoom();
-}
-
-// Desenha a rota e as marcas do caminho atual
-function mapRender() {
-  if (!mapRoute || !mapMarks) return;
-  var roots = mapRootKeys();
-  var news = mapNewsPaths();
-  var sig = mapSignature(roots) + "#" + news.join(";") + "#" + filterMode;
-  if (sig !== mapSig) {
-    mapSig = sig;
-    mapLayout = mapBuildLayout(tree, roots, news);
-    if (!mapCamReady) {
-      var saved = null;
-      try { saved = JSON.parse(localStorage.getItem("matesu.mapcam.v2") || "null"); } catch (e) {}
-      if (saved && isFinite(saved.cx) && isFinite(saved.cy) && isFinite(saved.z)) {
-        mapCam = { cx: saved.cx, cy: saved.cy, z: saved.z };
-        mapCamUser = true;
-      } else {
-        mapFitCam();
-      }
-    } else if (!mapCamUser && mapLayout.items.length !== mapFitItems) {
-      // a árvore cresceu (ou mudou) depois do primeiro desenho: reenquadra,
-      // desde que o visitante ainda não tenha enquadrado o mapa por conta própria
-      mapFitCam();
-    }
-    mapFitItems = mapLayout.items.length;
-    mapRenderScene();
-    mapBuildTerrain();
-    mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, !mapCamReady);
-  }
-  mapUpdateActive();
 }
 
 function mapGoTo(target, animate) {
@@ -1033,16 +697,16 @@ function mapGoTo(target, animate) {
     mapApplyCam();
     return;
   }
-  mapCamFrom = { cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z };
-  mapCamTo = target;
-  mapCamStart = (window.performance && performance.now) ? performance.now() : Date.now();
-  var dur = 520;
+  var from = { cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z };
+  var start = (window.performance && performance.now) ? performance.now() : Date.now();
+  var dur = 420;
+
   function tick(now) {
-    var t = Math.min(1, (now - mapCamStart) / dur);
+    var t = Math.min(1, (now - start) / dur);
     var e = 1 - Math.pow(1 - t, 3);
-    mapCam.cx = mapCamFrom.cx + (mapCamTo.cx - mapCamFrom.cx) * e;
-    mapCam.cy = mapCamFrom.cy + (mapCamTo.cy - mapCamFrom.cy) * e;
-    mapCam.z = mapCamFrom.z + (mapCamTo.z - mapCamFrom.z) * e;
+    mapCam.cx = from.cx + (target.cx - from.cx) * e;
+    mapCam.cy = from.cy + (target.cy - from.cy) * e;
+    mapCam.z = from.z + (target.z - from.z) * e;
     mapApplyCam();
     if (t < 1) mapCamRaf = requestAnimationFrame(tick);
     else mapCamRaf = null;
@@ -1050,33 +714,54 @@ function mapGoTo(target, animate) {
   mapCamRaf = requestAnimationFrame(tick);
 }
 
-function mapPointerPos(e) {
-  var rect = mapSvg.getBoundingClientRect();
-  var s = mapBaseScale(rect.width, rect.height) * mapCam.z;
-  return {
-    x: (e.clientX - rect.left - rect.width / 2) / s + mapCam.cx,
-    y: (e.clientY - rect.top - rect.height / 2) / s + mapCam.cy
-  };
+function mapRender() {
+  if (!mapRoute || !mapMarks) return;
+  var roots = mapRootKeys();
+  var news = mapNewsPaths();
+  var sig = mapSignature(roots) + "#" + news.join(";") + "#" + filterMode;
+
+  if (sig !== mapSig) {
+    mapSig = sig;
+    mapLayout = mapBuildLayout(tree, roots, news);
+
+    if (!mapCamReady) {
+      var saved = null;
+      try { saved = JSON.parse(localStorage.getItem("matesu.mapcam.v2") || "null"); } catch (e) {}
+      if (saved && isFinite(saved.cx) && isFinite(saved.cy) && isFinite(saved.z)) {
+        mapCam = { cx: saved.cx, cy: saved.cy, z: saved.z };
+        mapCamUser = true;
+      } else {
+        mapFitCam();
+      }
+    }
+
+    mapRenderScene();
+
+    if (mapContours) {
+      var cols = Math.max(24, Math.round(mapPaperW / 24));
+      var rows = Math.max(20, Math.round(mapPaperH / 24));
+      mapContoursInto(mapContours, cols, rows, mapPaperW, mapPaperH, mapRelief);
+    }
+
+    mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, !mapCamReady);
+  }
+
+  mapUpdateActive();
 }
 
-// Abrir uma marca: preenche a bolinha e leva o item para a sidebar.
-// A câmera só corre atrás da estação se ela estiver fora da tela.
 function mapOpenMark(g) {
-  var wasSelected = g.classList.contains("selected");
   var marks = mapMarks.children;
-  for (var k = 0; k < marks.length; k++) {
-    marks[k].classList.remove("selected");
-  }
-  if (!wasSelected) g.classList.add("selected");
+  for (var k = 0; k < marks.length; k++) marks[k].classList.remove("selected");
+  g.classList.add("selected");
 
   var idx = parseInt(g.getAttribute("data-idx"), 10);
   var it = mapMarkList[idx];
   if (!it || !it.path) return;
-  deskEnsureOpen();
+
+  if (deskState !== "app") openApp();
   path = it.path.slice();
   clearSearch();
   syncRender();
-  mapFocusItem(it);
 }
 
 function mapFocusItem(it) {
@@ -1086,20 +771,18 @@ function mapFocusItem(it) {
   var s = mapBaseScale(vw, vh) * mapCam.z;
   var px = (it.x - mapCam.cx) * s + vw / 2;
   var py = (it.y - mapCam.cy) * s + vh / 2;
-  var margin = 90;
+  var margin = 80;
   if (px > -margin && px < vw + margin && py > -margin && py < vh + margin) return;
   mapGoTo({ cx: it.x, cy: it.y, z: mapCam.z }, true);
 }
 
 if (mapSvg) {
-  // arrastar anda pela folha, sem sair dela. O move é coalescido num
-  // requestAnimationFrame: um pan por frame, sem engasgo.
   var mapPanRaf = 0;
   var mapPanNext = null;
 
   function mapPanFrame() {
     mapPanRaf = 0;
-    if (!mapPanNext) return;
+    if (!mapPanNext || !mapPan) return;
     var rect = mapSvg.getBoundingClientRect();
     var s = mapBaseScale(rect.width, rect.height) * mapCam.z;
     mapCam.cx = mapPan.cx - (mapPanNext.clientX - mapPan.x) / s;
@@ -1123,7 +806,7 @@ if (mapSvg) {
     mapPan = { x: e.clientX, y: e.clientY, cx: mapCam.cx, cy: mapCam.cy };
     mapCamUser = true;
     mapSvg.classList.add("grabbing");
-    try { mapSvg.setPointerCapture(e.pointerId); } catch(err) {}
+    try { mapSvg.setPointerCapture(e.pointerId); } catch (err) {}
     e.preventDefault();
   });
 
@@ -1137,7 +820,6 @@ if (mapSvg) {
   mapSvg.addEventListener("pointercancel", mapPanEnd);
   mapSvg.addEventListener("lostpointercapture", mapPanEnd);
 
-  // dois cliques reenquadram o desenho inteiro
   mapSvg.addEventListener("dblclick", function(e) {
     if (e.target.closest && e.target.closest(".map-mark")) return;
     mapCamUser = false;
@@ -1163,40 +845,45 @@ if (mapMarks) {
   });
 }
 
+if (mapSheet) {
+  mapSheet.addEventListener("click", function(e) {
+    var btn = e.target.closest ? e.target.closest("[data-map-zoom]") : null;
+    if (!btn) return;
+    e.stopPropagation();
+    mapSetZoomStep(Number(btn.getAttribute("data-map-zoom")));
+  });
+  mapPaintZoom();
+}
+
 function mapResize() {
   if (!mapSvg || !mapSheet) return;
   var w = Math.max(1, Math.round(mapSheet.clientWidth));
   var h = Math.max(1, Math.round(mapSheet.clientHeight));
   mapSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
-  mapLastScale = 0;
   mapApplyCam();
 }
 
-// O relevo é pesado: entra logo depois da primeira pintura
 function mapInit() {
   if (!mapSvg) return;
   mapResize();
   setTimeout(function() {
     mapRender();
-    mapBuildTerrain();
   }, 40);
 }
 
 mapInit();
 
-setTimeout(function () {
+setTimeout(function() {
   if (mapLayout && !mapCamUser) {
     mapFitCam();
     mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, false);
   }
 }, 600);
 
-// O mapa muda de largura quando o painel de detalhe abre: refaz o viewBox
-// e, se o visitante ainda não mexeu na câmera, reenquadra a rede.
 if (window.ResizeObserver && mapSheet) {
   var mapBoxW = 0;
   var mapBoxH = 0;
-  var mapBoxObs = new ResizeObserver(function () {
+  var mapBoxObs = new ResizeObserver(function() {
     var w = mapSvg.clientWidth;
     var h = mapSvg.clientHeight;
     if (Math.abs(w - mapBoxW) < 24 && Math.abs(h - mapBoxH) < 24) return;
@@ -1209,38 +896,25 @@ if (window.ResizeObserver && mapSheet) {
   mapBoxObs.observe(mapSheet);
 }
 
-document.addEventListener("visibilitychange", function() {
-  if (mapSheet) mapSheet.classList.toggle("paused", document.hidden);
-});
-
 // ------------------------------------------------- puxador do mapa
-// O grabber abre e fecha a folha do mapa: arrastar para cima aumenta,
-// arrastar para baixo encolhe até sumir.
 var grabber = document.getElementById("grabber");
 var mapHeight = 0;
 var dragState = null;
 
-function mapMinHeight() {
-  return 0;
-}
-
-function mapMaxHeight() {
-  return Math.max(180, Math.round(window.innerHeight * 0.82));
-}
-
-function mapDefaultHeight() {
-  // No telefone o mapa ocupa mais altura: é ele que carrega a navegação.
-  var share = window.innerWidth < 640 ? 0.52 : 0.44;
-  return Math.round(window.innerHeight * share);
-}
+function mapMinHeight() { return 0; }
+function mapMaxHeight() { return Math.max(180, Math.round(window.innerHeight * 0.82)); }
+function mapDefaultHeight() { return Math.round(window.innerHeight * 0.42); }
 
 function setMapHeight(px) {
   mapHeight = Math.max(mapMinHeight(), Math.min(mapMaxHeight(), Math.round(px)));
   document.documentElement.style.setProperty("--map-h", mapHeight + "px");
-  void mapSheet.offsetHeight;
+  if (mapSheet) {
+    mapSheet.style.height = mapHeight + "px";
+    void mapSheet.offsetHeight;
+  }
   mapResize();
   if (mapLayout && !mapCamUser) {
-    requestAnimationFrame(function () {
+    requestAnimationFrame(function() {
       mapFitCam();
       mapGoTo({ cx: mapCam.cx, cy: mapCam.cy, z: mapCam.z }, false);
     });
@@ -1254,7 +928,7 @@ if (grabber) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     dragState = { y: e.clientY, h: mapHeight, moved: false };
     grabber.classList.add("dragging");
-    try { grabber.setPointerCapture(e.pointerId); } catch(err) {}
+    try { grabber.setPointerCapture(e.pointerId); } catch (err) {}
     e.preventDefault();
   });
 
@@ -1265,25 +939,22 @@ if (grabber) {
     setMapHeight(dragState.h + dy);
   });
 
-  function endGrab(e) {
+  function endGrab() {
     if (!dragState) return;
     var moved = dragState.moved;
     dragState = null;
     grabber.classList.remove("dragging");
-    if (!moved) {
-      setMapHeight(mapHeight > 8 ? 0 : mapDefaultHeight());
-    }
+    if (!moved) setMapHeight(mapHeight > 8 ? 0 : mapDefaultHeight());
   }
 
-  // Duplo clique vai ao máximo da folha, como uma janela maximizada
+  grabber.addEventListener("pointerup", endGrab);
+  grabber.addEventListener("pointercancel", endGrab);
+
   grabber.addEventListener("dblclick", function(e) {
     e.preventDefault();
     var max = mapMaxHeight();
     setMapHeight(mapHeight > max - 24 ? mapDefaultHeight() : max);
   });
-
-  grabber.addEventListener("pointerup", endGrab);
-  grabber.addEventListener("pointercancel", endGrab);
 }
 
 window.addEventListener("resize", function() {
@@ -1291,8 +962,7 @@ window.addEventListener("resize", function() {
   mapResize();
 });
 
-// ------------------------------------------------- novidades do site
-// A lista que alimenta o mapa: as novidades aparecem dentro da carta.
+// ------------------------------------------------- novidades
 function nodeDate(node) {
   if (!node) return null;
   if (node.date) {
@@ -1330,18 +1000,18 @@ function collectNews() {
   return out;
 }
 
-// ------------------------------------------------- scroll que não prende
-// Ao abrir uma coluna, a tela se move só o suficiente para ela aparecer.
 function revealColumn(el) {
   if (!el) return stage.scrollLeft;
   var left = el.offsetLeft;
   var right = left + el.offsetWidth;
   var view = stage.scrollLeft;
   var vw = stage.clientWidth;
-
   if (right <= view + vw) return view;
   if (left >= view + vw) return Math.max(view, left - 110);
   if (right - left <= vw - 80) return right - vw;
   return Math.max(view, left + 110);
 }
 
+// Exposto para o desktop.js
+window.mapOpenMark = mapOpenMark;
+window.mapResize = mapResize;

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>matesu — estúdio</title>
+<meta name="description" content="matesu — produtor musical, designer gráfico, desenvolvedor, fotógrafo, engenheiro de mixagem, dj e diretor criativo. São Paulo, desde 2015.">
+<meta name="author" content="matesu">
+<meta property="og:title" content="matesu — estúdio">
+<meta property="og:description" content="Trabalho com música, design, código, imagem e som. São Paulo, desde 2015.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://matesu.me/">
+<meta property="og:image" content="https://matesu.me/fotos/matesu-normal.jpg">
+<link rel="canonical" href="https://matesu.me/">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="assets/fonts/switzer.css">
+<link rel="stylesheet" href="assets/css/studio.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="wordmark" href="./" aria-label="matesu">matesu</a>
+  <button class="menu-btn" id="menu-btn" type="button" aria-label="abrir índice">índice</button>
+  <span class="crumb" id="crumb">estúdio</span>
+  <div class="top-actions">
+    <span class="clock" id="clock" aria-label="horário em são paulo">SP --:--:--</span>
+    <input id="search" class="search" type="search" placeholder="buscar" autocomplete="off" spellcheck="false" aria-label="buscar trabalhos">
+    <span class="count" id="count"></span>
+  </div>
+</header>
+
+<div class="shell" id="top">
+
+  <aside class="sidebar" aria-label="índice">
+    <div class="side-head">índice</div>
+    <nav class="cats" id="cats"></nav>
+    <div class="side-foot">
+      <a href="mailto:matesubeats@gmail.com">email</a>
+      <a href="https://github.com/9matesu" target="_blank" rel="noopener">github</a>
+      <a href="https://www.instagram.com/blackmesaent" target="_blank" rel="noopener">instagram</a>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <section class="intro" aria-label="sobre">
+      <div class="intro-copy">
+        <div class="intro-kicker">são paulo · desde 2015</div>
+        <h1>matesu</h1>
+        <p class="intro-bio">
+          Trabalho com música, design, código, imagem e som.
+          Entre o audiovisual, o <b>@blackmesaent</b> e o <b>bloodworm trax</b>.
+        </p>
+        <div class="intro-tags">
+          <span>produtor</span><span>designer</span><span>dev</span><span>foto</span><span>mix</span><span>dj</span>
+        </div>
+      </div>
+      <figure class="intro-photo">
+        <img src="fotos/matesu-normal.jpg" alt="retrato de matesu">
+        <figcaption>matesu, são paulo</figcaption>
+      </figure>
+    </section>
+
+    <section class="featured" aria-label="seleção">
+      <div class="sec-head">
+        <span class="sec-title">seleção</span>
+        <span class="sec-note">principais trabalhos e colaborações</span>
+      </div>
+      <div class="featured-grid" id="featured"></div>
+    </section>
+
+    <section class="browser" aria-label="navegador">
+      <div class="browser-head">
+        <div class="sec-head">
+          <span class="sec-title">navegador</span>
+          <span class="sec-note" id="browser-note"></span>
+        </div>
+        <div class="browser-tools">
+          <button type="button" class="sort" id="sort" title="ordenar">recentes</button>
+        </div>
+      </div>
+      <div class="rows" id="rows"></div>
+    </section>
+
+    <section class="about" id="about" hidden aria-label="sobre">
+      <div class="about-grid">
+        <div class="about-copy">
+          <span class="intro-kicker">sobre</span>
+          <h2>Sou o matesu.</h2>
+          <p>Trabalho com música, design, código, imagem e som desde 2015, em São Paulo.
+            Faço parte do <b>@blackmesaent</b> e do <b>bloodworm trax</b>.
+            Desenvolvo ferramentas, produzo e mixo, fotografo e dirijo.</p>
+          <p>Não gosto de reescrever currículo. Gosto de fazer as coisas.</p>
+
+          <div class="about-cols">
+            <div>
+              <span class="about-label">agora</span>
+              <ul>
+                <li>produção e mixagem</li>
+                <li>design gráfico</li>
+                <li>desenvolvimento</li>
+                <li>fotografia</li>
+                <li>dj</li>
+              </ul>
+            </div>
+            <div>
+              <span class="about-label">colaborações</span>
+              <ul>
+                <li>BLACKMESA</li>
+                <li>bloodworm trax</li>
+                <li>kiddo</li>
+                <li>Cassiel</li>
+                <li>Godar</li>
+              </ul>
+            </div>
+            <div>
+              <span class="about-label">contato</span>
+              <ul>
+                <li><a href="mailto:matesubeats@gmail.com">matesubeats@gmail.com</a></li>
+                <li><a href="https://github.com/9matesu" target="_blank" rel="noopener">github</a></li>
+                <li><a href="https://www.instagram.com/blackmesaent" target="_blank" rel="noopener">instagram</a></li>
+                <li><a href="https://www.linkedin.com/in/matesu" target="_blank" rel="noopener">linkedin</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <figure class="about-photo">
+          <img src="fotos/matesu-normal.jpg" alt="retrato de matesu">
+          <figcaption>matesu, são paulo</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <aside class="inspector" id="inspector" aria-label="detalhe">
+    <button class="insp-close" id="insp-close" type="button" aria-label="fechar detalhe">×</button>
+    <div class="insp-empty" id="insp-empty">
+      <span class="insp-kicker">detalhe</span>
+      <p>Selecione um trabalho no navegador.</p>
+    </div>
+    <div class="insp" id="insp"></div>
+  </aside>
+
+</div>
+
+<footer class="statusbar">
+  <span id="status-left">—</span>
+  <span id="status-right">matesu · são paulo</span>
+</footer>
+
+<script src="assets/js/data-discography.js" defer></script>
+<script src="assets/js/studio.js" defer></script>
+</body>
+</html>

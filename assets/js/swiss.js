@@ -1,4 +1,4 @@
-/* matesu — som do shell. O tema vive nos ajustes; aqui só há o mudo. */
+/* matesu — som do shell. O tema vive nos ajustes; aqui só o mudo. */
 (function () {
   "use strict";
 
