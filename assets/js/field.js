@@ -203,14 +203,6 @@
         var b = document.createElement('button');
         b.type = 'button';
         b.className = 'arow';
-        if (p.img) {
-          var im = document.createElement('img');
-          im.className = 'arow-thumb';
-          im.src = p.img;
-          im.alt = '';
-          im.loading = 'lazy';
-          b.appendChild(im);
-        }
         var text = document.createElement('span');
         text.className = 'arow-text';
         var t = document.createElement('span');
@@ -643,7 +635,7 @@
   }
 
   /* --------------------------------------------------------------- pager */
-  var sections = [].slice.call(document.querySelectorAll('section[data-page]'));
+  var sections = [].slice.call(document.querySelectorAll('section[data-page]:not([hidden])'));
   var pager = document.getElementById('pager');
   var pagerBtns = [];
   var current = 0;
@@ -886,10 +878,101 @@
 
   window.addEventListener('touchend', function () { touchY = null; }, { passive: true });
 
+  /* Lançamentos: a discografia do Matesu no Bandcamp (própria, com capas).
+     `date` é a data de lançamento (ISO) puxada de cada página do Bandcamp. */
+  var LANCH = [
+    { title: 'refix.pak', date: '2026-11-06', cover: 'img/covers/bc-refix-pak.jpg', url: 'https://matesu.bandcamp.com/album/refix-pak' },
+    { title: 'Paramore - Decode (Matesu Remix)', date: '2026-09-04', cover: 'img/covers/bc-paramore-decode.jpg', url: 'https://matesu.bandcamp.com/track/paramore-decode-matesu-remix' },
+    { title: 'SP-150', date: '2026-04-24', cover: 'img/covers/bc-sp-150.jpg', url: 'https://matesu.bandcamp.com/album/sp-150' },
+    { title: 'xrc no 130', date: '2026-02-13', cover: 'img/covers/bc-xrc-no-130.jpg', url: 'https://matesu.bandcamp.com/track/xrc-no-130-2' },
+    { title: 'carnagarage', date: '2025-02-27', cover: 'img/covers/bc-carnagarage.jpg', url: 'https://matesu.bandcamp.com/album/carnagarage' },
+    { title: "mixed seeds archival ('19-'23)", date: '2023-10-06', cover: 'img/covers/bc-mixed-seeds.jpg', url: 'https://matesu.bandcamp.com/album/mixed-seeds-archival-19-23' },
+    { title: 'Qa', date: '2023-05-01', cover: 'img/covers/bc-qa.jpg', url: 'https://matesu.bandcamp.com/album/qa' },
+    { title: 'Rarer Demons', date: '2022-01-21', cover: 'img/covers/bc-rarer-demons.jpg', url: 'https://matesu.bandcamp.com/album/rarer-demons' },
+    { title: 'No Format', date: '2021-10-01', cover: 'img/covers/bc-no-format.jpg', url: 'https://matesu.bandcamp.com/album/no-format' },
+    { title: 'virtualsoundscape.net', date: '2021-04-02', cover: 'img/covers/bc-virtualsoundscape.jpg', url: 'https://matesu.bandcamp.com/album/virtualsoundscape-net' },
+    { title: 'Half Life', date: '2021-03-05', cover: 'img/covers/bc-half-life.jpg', url: 'https://matesu.bandcamp.com/track/half-life' },
+    { title: 'International Flux', date: '2021-02-05', cover: 'img/covers/bc-international-flux.jpg', url: 'https://matesu.bandcamp.com/album/international-flux' },
+    { title: 'Tenacity', date: '2020-10-02', cover: 'img/covers/bc-tenacity.jpg', url: 'https://matesu.bandcamp.com/album/tenacity' },
+    { title: 'Worldwide Stream', date: '2020-09-04', cover: 'img/covers/bc-worldwide-stream.jpg', url: 'https://matesu.bandcamp.com/album/worldwide-stream' },
+    { title: 'Rare Demons Minitapes Deluxe', date: '2020-04-15', cover: 'img/covers/bc-rare-demons-minitapes.jpg', url: 'https://matesu.bandcamp.com/album/rare-demons-minitapes-deluxe' }
+  ];
+
+  var MONTHS = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  function fmtDate(iso) {
+    if (!iso) return '';
+    var p = iso.split('-');
+    if (p.length !== 3) return iso;
+    return p[2] + ' ' + (MONTHS[Number(p[1]) - 1] || '') + ' ' + p[0];
+  }
+
+  function renderLancamentos() {
+    var grid = document.getElementById('lanc-grid');
+    if (!grid) return;
+    var items = LANCH.slice().sort(function (a, b) {
+      return (b.date || '').localeCompare(a.date || '');
+    });
+    grid.innerHTML = '';
+    items.forEach(function (it) {
+      var card = document.createElement('a');
+      card.className = 'lanc-card';
+      card.href = it.url;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      var im = document.createElement('img');
+      im.className = 'lanc-cover';
+      im.src = it.cover;
+      im.alt = it.title;
+      im.loading = 'lazy';
+      card.appendChild(im);
+      var body = document.createElement('div');
+      body.className = 'lanc-body';
+      var h = document.createElement('h3');
+      h.className = 'lanc-title';
+      h.textContent = it.title;
+      var meta = document.createElement('p');
+      meta.className = 'lanc-meta';
+      meta.textContent = fmtDate(it.date);
+      body.appendChild(h);
+      body.appendChild(meta);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+  }
+
+  /* Alterna arquivo/lançamentos na mesma posição, com crossfade. */
+  function switchView(name) {
+    var tabs = [].slice.call(document.querySelectorAll('.view-tab'));
+    var panels = [].slice.call(document.querySelectorAll('.view-panel'));
+    var search = document.getElementById('archive-search');
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-view') === name;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function (p) {
+      var on = p.getAttribute('data-panel') === name;
+      p.classList.toggle('active', on);
+      p.setAttribute('aria-hidden', on ? 'false' : 'true');
+    });
+    if (search) search.style.display = name === 'arquivo' ? '' : 'none';
+  }
+
+  function mountViewTabs() {
+    var tabs = [].slice.call(document.querySelectorAll('.view-tab'));
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        switchView(t.getAttribute('data-view'));
+      });
+    });
+  }
+
   /* --------------------------------------------------------------- init */
   function init() {
     renderArchiveFilters();
     renderArchiveCols();
+    renderLancamentos();
+    mountViewTabs();
     renderCollabs();
     mountDotCut();
     mountStackType();

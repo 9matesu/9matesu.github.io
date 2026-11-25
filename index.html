@@ -46,13 +46,24 @@
   </section>
 
   <section class="page archive" id="arquivo" data-section data-page>
-    <div class="wrap">
+    <div class="wrap wrap-wide">
       <div class="archive-head">
-        <h2>arquivo</h2>
+        <div class="archive-head-left" role="tablist" aria-label="Arquivo e lançamentos">
+          <button type="button" class="view-tab active" data-view="arquivo" role="tab" aria-selected="true">arquivo</button>
+          <button type="button" class="view-tab" data-view="lancamentos" role="tab" aria-selected="false">lançamentos</button>
+        </div>
         <input id="archive-search" class="archive-search" type="search" placeholder="buscar" autocomplete="off" spellcheck="false" aria-label="buscar no arquivo" />
       </div>
-      <div class="archive-filters" id="archive-filters"></div>
-      <div class="archive-cols" id="archive-cols"></div>
+
+      <div class="view-stack">
+        <div class="view-panel active" id="panel-arquivo" data-panel="arquivo">
+          <div class="archive-filters" id="archive-filters"></div>
+          <div class="archive-cols" id="archive-cols"></div>
+        </div>
+        <div class="view-panel" id="panel-lancamentos" data-panel="lancamentos" aria-hidden="true">
+          <div class="lanc-grid" id="lanc-grid"></div>
+        </div>
+      </div>
     </div>
     <aside class="archive-side" id="archive-side" hidden aria-label="detalhe do projeto">
       <button class="archive-close" type="button" aria-label="fechar">×</button>
@@ -60,7 +71,7 @@
     </aside>
   </section>
 
-  <section class="page gallery" id="visuais" data-section data-page>
+  <section class="page gallery" id="visuais" data-section data-page hidden aria-hidden="true">
     <div class="wrap">
       <div class="archive-head">
         <h2>visuais</h2>
@@ -88,7 +99,7 @@
       <div class="posting-masthead">
         <h2>matesuposting</h2>
       </div>
-      <p class="posting-desc">caderno de alguma coisa regurgitação.</p>
+      <p class="posting-desc">digestão material, íntimo ou não.</p>
       <div class="posting-empty">
         <span class="mono">nada publicado ainda.</span>
       </div>
@@ -120,12 +131,12 @@
         <img class="about-avatar" src="fotos/matesu-normal.jpg" alt="matesu" />
         <div class="about-intro">
           <h2>você já me viu por aí?</h2>
-          <p class="about-lead">Matesu, produtor músical e engenheiro de áudio desde 2015, transita entre as muitas facetas da música eletrônica de forma técnica: sua sonoridade é sempre acompanhada de graus de experimentação e turbulência, seja de maneira introspectiva ou não. Também acompanha e participa no desenvolvimento de diversos nichos no substrato musical brasileiro, trabalhando entre o jungle e o UK Garage, do techno ao ambiente.</p>
+          <p class="about-lead">Sou matesu, produtor musical e engenheiro de áudio desde 2015. Trânsito entre as muitas facetas da música eletrônica de forma técnica: minha sonoridade é sempre acompanhada de graus de experimentação e turbulência, seja de maneira introspectiva ou não. Também acompanho e participo do desenvolvimento de diversos nichos no substrato musical brasileiro, trabalhando entre o jungle e o UK Garage, do techno ao ambiente.</p>
         </div>
       </div>
 
       <div class="about-body">
-        <p>Inserido no circuito underground eletrônico paulistano, já colaborou com figuras relevantes dentro e fora do país ao longo do tempo: zonaEXP., SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, além de plays na Rinse FM, NTS, Dekmantel, HÖR, Function!, Veneno, Foundation FM e Aaja Music. É co-fundador do selo <b>bloodworm trax</b> e integrante do coletivo artístico <b>BLACKMESA</b>.</p>
+        <p>Estou inserido no circuito underground eletrônico paulistano e já colaborei com figuras relevantes dentro e fora do país ao longo do tempo: zonaEXP., SPEEDTEST, Leigo Records, Kenyon Sound e HyperX, além de plays na Rinse FM, NTS, Dekmantel, HÖR, Function!, Veneno, Foundation FM e Aaja Music. Sou co-fundador do selo <b>bloodworm trax</b> e integrante do coletivo artístico <b>BLACKMESA</b>.</p>
 
         <div class="about-cols">
           <div><span class="mono">agora</span><ul><li>produção cultural</li><li>dj</li><li>produção e mixagem</li><li>design gráfico</li><li>desenvolvimento</li><li>fotografia</li><li>direção criativa</li></ul></div>
@@ -140,22 +151,25 @@
 
   <section class="page flags" id="bandeiras" data-section data-page>
     <div class="wrap">
+      <div class="flags-head">
+        <h2 class="flags-more-title">...e ainda quer saber mais sobre mim?</h2>
+        <h3 class="flags-subtitle">atuais obsessões vexilológicas.</h3>
+      </div>
       <div class="flags-grid">
         <figure class="flag-card"><img class="flag-big" src="img/flags/tj.svg" alt="Tajiquistão" /><figcaption>tajiquistão</figcaption></figure>
         <figure class="flag-card"><img class="flag-big" src="img/flags/os.svg" alt="Ossétia do Sul" /><figcaption>ossétia do sul</figcaption></figure>
-        <figure class="flag-card"><img class="flag-big" src="img/flags/ru.svg" alt="Rússia 1992" /><figcaption>rússia 1992</figcaption></figure>
-        <figure class="flag-card"><img class="flag-big" src="img/flags/pmr.svg" alt="Transnístria" /><figcaption>transnístria</figcaption></figure>
+        <figure class="flag-card"><img class="flag-big" src="img/flags/ru.svg" alt="Rússia 1991-1993" /><figcaption>rússia 1991-1993</figcaption></figure>
         <figure class="flag-card"><img class="flag-big" src="img/flags/trnc.svg" alt="Chipre do Norte" /><figcaption>chipre do norte</figcaption></figure>
-        <figure class="flag-card"><img class="flag-big" src="img/flags/xk.svg" alt="Kosovo" /><figcaption>kosovo</figcaption></figure>
-        <figure class="flag-card"><img class="flag-big" src="img/flags/tw.svg" alt="Taiwan" /><figcaption>taiwan</figcaption></figure>
-        <figure class="flag-card"><img class="flag-big" src="img/flags/ps.svg" alt="Palestina" /><figcaption>palestina</figcaption></figure>
       </div>
 
-      <div class="flags-lines">
-        <p>incident responder @ <b>Akamai Technologies</b></p>
-        <p>sei todas as bandeiras: estados nacionais, reconhecidos ou não pela ONU.</p>
-        <p>fascinado por incidentes radiológicos. <a href="https://www-pub.iaea.org/MTCD/Publications/PDF/Pub1660web-81061875.pdf" target="_blank" rel="noopener">relatório da IAEA sobre o acidente de Lia, Geórgia</a>.</p>
-        <p>gosto de <b>minecraft 1.5.2</b> · <b>web 2.0, pré-2013</b>.</p>
+      <div class="funfacts">
+        <h3>fun facts</h3>
+        <ul>
+          <li>sei dizer todas as bandeiras de estados nacionais, reconhecidos ou não pela ONU.</li>
+          <li>fascinado por <a href="https://www-pub.iaea.org/MTCD/Publications/PDF/Pub1660web-81061875.pdf" target="_blank" rel="noopener">incidentes radiológicos pelo mundo</a>.</li>
+          <li>tenho um amor peculiar pelo <b>minecraft 1.5.2</b>, <b>counter strike source</b> e da <b>web 2.0, pré-2013</b>, como um bom Gen Z que não passou pelo processo de desmame de um mundo que não existe mais.</li>
+          <li>faço mais coisas do que deveria, mas ainda menos do que gostaria.</li>
+        </ul>
       </div>
 
       <p class="disclaimer">Disclaimer: As opiniões, posicionamentos e manifestações publicados neste perfil são de caráter estritamente pessoal e não representam, necessariamente, as opiniões, posições ou valores da empresa à qual estou profissionalmente vinculado, de seus clientes, parceiros ou afiliadas. As publicações são feitas em caráter individual e não constituem declarações oficiais em nome de qualquer organização com a qual mantenho vínculo profissional.</p>

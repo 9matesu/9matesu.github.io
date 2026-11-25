@@ -12,12 +12,12 @@ var DOTCUT_PALETTES = [
 ];
 
 var DOTCUT_SCENES = [
-  { kind: "text", value: "matesu", transition: "wipe", palette: 0, style: "drift" },
-  { kind: "rings", transition: "ripple", palette: 1, style: "grain" },
-  { kind: "columns", transition: "columns", palette: 2, style: "streak" },
-  { kind: "checker", transition: "scatter", palette: 3, style: "swell" },
-  { kind: "boxes", transition: "collapse", palette: 4, style: "grain" },
-  { kind: "bars", transition: "wipe", palette: 5, style: "drift" }
+  { kind: "glyph", value: "Ж", transition: "wipe", palette: 0, style: "drift" },
+  { kind: "glyph", value: "ع", transition: "ripple", palette: 1, style: "grain" },
+  { kind: "glyph", value: "Д", transition: "columns", palette: 2, style: "streak" },
+  { kind: "glyph", value: "م", transition: "scatter", palette: 3, style: "swell" },
+  { kind: "glyph", value: "Щ", transition: "collapse", palette: 4, style: "grain" },
+  { kind: "glyph", value: "ي", transition: "wipe", palette: 5, style: "drift" }
 ];
 
 var DOTCUT_COLS = 24;
@@ -105,6 +105,33 @@ function dotcutRasterize(scene, cols, rows, fontFamily) {
   var cx = (cols - 1) / 2;
   var cy = (rows - 1) / 2;
   var x, y;
+
+  if (scene.kind === "glyph") {
+    // Cenas principais: o glifo cirílico/árabe é recortado como buraco no
+    // campo de círculos. Usa o Path2D de DOTGLYPHS (normalizado ~0.86).
+    var paths = dotcutGlyphs();
+    var gp = paths && scene.value ? paths[scene.value] : null;
+    if (!gp) return out;
+    var gcv = document.createElement("canvas");
+    gcv.width = cols;
+    gcv.height = rows;
+    var gctx = gcv.getContext("2d", { willReadFrequently: true });
+    if (!gctx) return out;
+    gctx.fillStyle = "#000";
+    gctx.fillRect(0, 0, cols, rows);
+    gctx.save();
+    gctx.translate(cols / 2, rows / 2);
+    var gscale = Math.min(cols, rows) * 0.92;
+    gctx.scale(gscale, -gscale);
+    gctx.fillStyle = "#fff";
+    gctx.fill(gp);
+    gctx.restore();
+    var gdata = gctx.getImageData(0, 0, cols, rows).data;
+    for (var gi = 0; gi < cols * rows; gi++) {
+      if (gdata[gi * 4] > 110) out[gi] = 0;
+    }
+    return out;
+  }
 
   if (scene.kind === "checker") {
     var b = Math.max(2, Math.round(cols / 14));
@@ -432,8 +459,7 @@ DotCut.prototype.draw = function(dt) {
   var circle = dotcutMixHex(cA.circle, cB.circle, m);
   var back = dotcutMixHex(cA.back, cB.back, m);
 
-  ctx.fillStyle = back;
-  ctx.fillRect(0, 0, W, H);
+  ctx.clearRect(0, 0, W, H);
 
   var pitch = this.pitch * s;
   var size = pitch * 1.12;
