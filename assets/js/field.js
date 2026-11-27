@@ -15,7 +15,6 @@
       title: 'design gráfico',
       items: [
         { title: 'festa da firma', meta: '05/12/2026', img: W + 'ig_DgI5Ea_oPcd.webp', link: 'https://instagram.com/p/DgI5Ea_oPcd/' },
-        { title: 'eskisuit', meta: '28/10/2026', img: W + 'ig_DfCzNVDRUPn.webp', link: 'https://instagram.com/p/DfCzNVDRUPn/' },
         { title: '10 de outubro', meta: '10/10/2026', img: W + 'ig_Dd7TPm6m1Cm.webp', link: 'https://instagram.com/p/Dd7TPm6m1Cm/' },
         { title: 'organizar e ocupar', meta: '08/10/2026', img: W + 'ig_DeQM8rikfPl.webp', link: 'https://instagram.com/p/DeQM8rikfPl/' },
         { title: 'concreticidade BM006', meta: '31/08/2026', img: W + 'ig_DctdvyuolnS.webp', link: 'https://instagram.com/p/DctdvyuolnS/' },
@@ -27,12 +26,14 @@
         { title: "ANIVERSÁRIO DO OD1N", meta: "flyer 10/07/2026", img: W + 'bm_aniversario-od1n-10-07.webp' },
 
         { title: "VILELA BADAY", meta: "flyer 05/06/2026", img: W + 'bm_vilela-baday-05-06.webp' },
+        { title: "KEROSENE X BLACKMESA", meta: "flyer 09/05/2026", img: W + 'bm_blackmesa-09-09.webp' },
+
         { title: "BLACKMESA LABS", meta: "flyer 07/03/2026", img: W + 'bm_labs-07-03.webp' },
         { title: "BLACKMESA: O ÚLTIMO DO ANO", meta: "flyer 20/12/2025", img: W + 'bm_ultimo-do-ano-20-12.webp' },
         { title: "BLACKMESA VAULT 2", meta: "flyer 01/11/2025", img: W + 'bm_vault-2-20-09.webp' },
-        { title: "BLACKMESA LABS III", meta: "flyer 27/09/2025", img: W + 'bm_labs-27-09.webp' },
+        { title: "BLACKMESA LABS", meta: "flyer 27/09/2025", img: W + 'bm_labs-27-09.webp' },
         { title: "BLACKMESA VAULT", meta: "flyer 12/09/2025", img: W + 'bm_vault-17-07.webp' },
-        { title: "BLACKMESA BASES II", meta: "flyer 19/07/2025", img: W + 'bm_bases-ii-19-07.webp' },
+        { title: "BLACKMESA LABS III", meta: "flyer 19/07/2025", img: W + 'bm_bases-ii-19-07.webp' },
         { title: 'Iran Tee', meta: 'Bulgarian Stock Exchange 30/06/2025', imgs: [W + 'img_bse_frente.webp', W + 'img_bse_costas.webp'], link: 'https://plazaaaaa.com/product/2340' },
         { title: "TACITURNO MEETS BLACKMESA", meta: "flyer 18/05/2025", img: W + 'bm_taciturno-18-05.webp' },
         { title: "BLACKMESA LABS II", meta: "flyer 03/05/2025", img: W + 'bm_labs-03-05.webp' },
