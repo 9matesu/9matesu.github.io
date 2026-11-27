@@ -74,10 +74,30 @@
     },
     culture: {
       title: 'produção cultural',
+      intro: "produção de eventos pelo BLACKMESA, são paulo. co-fundador do selo bloodworm trax. dj na @festa.salada, cruzeiro.",
       items: [
-        { title: 'BLACKMESA', meta: 'coletivo artístico · são paulo', img: W + 'img_bmhz0_frente.webp', link: 'https://instagram.com/blackmesaent' },
-        { title: 'bloodworm trax', meta: 'selo musical · são paulo', img: W + 'img_logos_bloodworm.webp', link: 'https://bloodwormtrax.neocities.org' },
-        { title: 'TRACKMESA', meta: 'evento · 10/07/2026 · Void Centro', img: W + 'img_trackmesa_1.webp', link: 'https://zig.tickets/eventos/trackmesa' }
+        { title: "BLACKMESA", meta: "coletivo artístico · são paulo", img: W + 'img_bmhz0_frente.webp', link: "https://instagram.com/blackmesaent" },
+        { title: "bloodworm trax", meta: "selo musical · co-fundador", img: W + 'img_logos_bloodworm.webp', link: "https://bloodwormtrax.neocities.org" },
+        { title: "festa.salada", meta: "dj · cruzeiro", img: W + 'cul_salada-p1.webp', link: "https://instagram.com/festa.salada" },
+        { title: "Agenda Maio 24", meta: "flyer · maio 2024", img: W + 'cul_agenda-mai24.webp' },
+        { title: "Agenda Junho 24", meta: "flyer · junho 2024", img: W + 'cul_agenda-jun24.webp' },
+        { title: "Agenda Aberta", meta: "flyer · novembro", img: W + 'cul_agenda-nov.webp' },
+        { title: "Agenda Aberta 01", meta: "flyer · janeiro 2026", img: W + 'cul_agenda-jan26.webp' },
+        { title: "VILELA BADAY", meta: "flyer · 05/06/2026", img: W + 'ig_DYxwEdlkVhV.webp' },
+        { title: "Vilela Baday", meta: "flyer · 05.06.2026", img: W + 'ig_DZV0v8-R5eb.webp' },
+        { title: "GVLPAOMESA", meta: "flyer · 07/08/2026", img: W + 'ig_Db4CVuZkXt7.webp' },
+        { title: "GVLPVOMESA", meta: "flyer · julho 2026", img: W + 'ig_DbWdqgpkVVJ.webp' },
+        { title: "CONCRETICIDADE", meta: "flyer · 27/07/2026", img: W + 'ig_DcPIMLuIGC7.webp' },
+        { title: "CONCRETICIDADE", meta: "flyer · 27/08/2026", img: W + 'ig_DcjMOgfkeyS.webp' },
+        { title: "ESKISUIT", meta: "flyer · outubro 2026", img: W + 'ig_DfCzNVDRUPn.webp' },
+        { title: "Festa da firma", meta: "flyer · 05/12/2026", img: W + 'ig_DgI5Ea_oPcd.webp' },
+        { title: "Galpão Mesa", meta: "flyer · blackmesa", img: W + 'cul_bm-galpao.webp' },
+        { title: "SKT Day 03", meta: "flyer · sktday", img: W + 'cul_flyer-sktday-3.webp' },
+        { title: "SKT Camp 01", meta: "flyer · sktcamp", img: W + 'cul_flyer-sktcamp-1.webp' },
+        { title: "Starkenoten", meta: "flyer · bar alto", img: W + 'cul_flyer-stark.webp' },
+        { title: "Brouse", meta: "flyer · 29.08", img: W + 'cul_flyer-brouse.webp' },
+        { title: "Vault 2", meta: "flyer · 17.12.2025", img: W + 'cul_flyer-vault2.webp' },
+        { title: "RV Fest", meta: "flyer · festival", img: W + 'cul_flyer-rvsfest.webp' },
       ]
     },
     engineer: {
@@ -203,6 +223,12 @@
     h.className = 'popup-title';
     h.textContent = data.title;
     popupBody.appendChild(h);
+    if (data.intro) {
+      var intro = document.createElement('p');
+      intro.className = 'popup-intro';
+      intro.textContent = data.intro;
+      popupBody.appendChild(intro);
+    }
     popupBody.appendChild(render(key));
     popup.dataset.key = key;
     popup.classList.add('is-open');
