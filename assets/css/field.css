@@ -308,29 +308,6 @@ html, body, body * { cursor: url('cursor.cur'), default; }
 }
 .popup-close:hover, .popup-close:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
 
-/* modo plan: arraste livre das caixas de texto e do popup */
-body.is-plan .name,
-body.is-plan .tab,
-body.is-plan .statement,
-body.is-plan .term,
-body.is-plan .popup {
-  position: fixed !important;
-  inset: auto;
-  grid-area: auto !important;
-  align-self: auto !important;
-  justify-self: auto !important;
-  margin: 0 !important;
-  transform: none !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  z-index: 40;
-  cursor: move;
-  touch-action: none;
-  user-select: none;
-}
-body.is-plan .popup { pointer-events: auto !important; }
-body.is-plan .popup-close { pointer-events: auto; }
-
 @media (prefers-reduced-motion: reduce) {
   .statement, .popup, .name, .name .name-photo { transition: none; }
 }
