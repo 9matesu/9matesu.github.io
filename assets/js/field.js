@@ -515,17 +515,15 @@
         svg.setAttribute('preserveAspectRatio', 'none');
         svg.setAttribute('aria-hidden', 'true');
         var gap = parseFloat(el.dataset.gap) || GAP;
-        var diag = Math.sqrt(w * w + h * h);
-        var dirs = [
-          { dx: Math.SQRT1_2, dy: Math.SQRT1_2 },
-          { dx: Math.SQRT1_2, dy: -Math.SQRT1_2 }
+        var step = gap * Math.SQRT2;
+        var families = [
+          { dx: Math.SQRT1_2, dy: Math.SQRT1_2, from: -w, to: h, vertical: true },
+          { dx: Math.SQRT1_2, dy: -Math.SQRT1_2, from: 0, to: w + h, vertical: false }
         ];
         var strings = [];
-        dirs.forEach(function (dir) {
-          var nx = -dir.dy;
-          var ny = dir.dx;
-          for (var o = -diag; o <= diag; o += gap) {
-            var line = clip(nx * o, ny * o, dir.dx, dir.dy, w, h);
+        families.forEach(function (f) {
+          for (var c = f.from; c <= f.to; c += step) {
+            var line = clip(0, c, f.dx, f.dy, w, h);
             if (!line) continue;
             var pts = [];
             var rest = 0;
@@ -662,19 +660,21 @@
 
   /* caixas pequenas e arrastáveis. O tema escuro so muda ao arrastar uma caixa. */
   (function () {
+    var palette = ['#FF595E', '#FFCA3A', '#8AC926', '#1982C4', '#6A4C93'];
     var themes = [
-      { bg: '#FF595E', ink: '#FFFFFF' },
-      { bg: '#FFCA3A', ink: '#2A2A2A' },
-      { bg: '#8AC926', ink: '#2A2A2A' },
-      { bg: '#1982C4', ink: '#FFFFFF' },
-      { bg: '#6A4C93', ink: '#FFFFFF' },
-      { bg: '#FFFFFF', ink: '#FF595E' }
+      { bg: '#FFFFFF', ink: '#FF595E', accent: '#FF595E' },
+      { bg: '#2A2A2A', ink: '#FFCA3A', accent: '#FFCA3A' },
+      { bg: '#2A2A2A', ink: '#8AC926', accent: '#8AC926' },
+      { bg: '#FFFFFF', ink: '#1982C4', accent: '#1982C4' },
+      { bg: '#FFFFFF', ink: '#6A4C93', accent: '#6A4C93' }
     ];
     var root = document.documentElement;
     var shapes = [];
-    var currentInk = '#f0f0f0';
+    var currentAccent = null;
     function colorize() {
-      shapes.forEach(function (s) { s.setAttribute('fill', currentInk); });
+      shapes.forEach(function (s) {
+        s.setAttribute('fill', currentAccent || palette[+s.getAttribute('data-palette-index')]);
+      });
     }
 
     function soft(hex, a) {
@@ -688,7 +688,7 @@
       root.style.setProperty('--muted', t.ink);
       root.style.setProperty('--rule-soft', soft(t.ink, 0.16));
       root.style.setProperty('--hatch', 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'14\' height=\'14\' viewBox=\'0 0 14 14\'%3E%3Cpath d=\'M0 0L14 14M14 0L0 14\' stroke=\'%23' + t.ink.slice(1) + '\' stroke-width=\'1\' fill=\'none\'/%3E%3C/svg%3E")');
-      currentInk = t.ink;
+      currentAccent = t.accent;
       colorize();
     }
     function randomTheme() {
@@ -715,7 +715,8 @@
       shape.setAttribute('cy', (ry + Math.random() * Math.max(1, h - ry * 2)).toFixed(1));
       shape.setAttribute('rx', rx.toFixed(1));
       shape.setAttribute('ry', ry.toFixed(1));
-      shape.setAttribute('fill', currentInk);
+      shape.setAttribute('data-palette-index', i % palette.length);
+      shape.setAttribute('fill', palette[i % palette.length]);
       svg.appendChild(shape);
       shapes.push(shape);
     }
