@@ -372,6 +372,70 @@
     });
   });
 
+  /* malha e hachuras procedurais, sorteadas a cada carregamento. */
+  (function () {
+    var grid = document.querySelector('.grid');
+    var layer = document.querySelector('.layer');
+    if (!grid || !layer) return;
+    var cols = 9 + Math.floor(Math.random() * 4);
+    var rows = 6 + Math.floor(Math.random() * 4);
+    [].slice.call(grid.querySelectorAll('.cell')).forEach(function (c) {
+      c.parentNode.removeChild(c);
+    });
+    function weights(n) {
+      var out = [];
+      for (var i = 0; i < n; i++) out.push((0.7 + Math.random() * 0.9).toFixed(2) + 'fr');
+      return out.join(' ');
+    }
+    var root = document.documentElement;
+    root.style.setProperty('--cols', weights(cols));
+    root.style.setProperty('--rows', weights(rows));
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var cell = document.createElement('div');
+        cell.className = 'cell' + (c === cols - 1 ? ' edge-r' : '') + (r === rows - 1 ? ' edge-b' : '');
+        grid.appendChild(cell);
+      }
+    }
+    function scale(v, base, total) {
+      return Math.max(1, Math.min(total + 1, Math.round((v - 1) / base * total) + 1));
+    }
+    function area(r1, c1, r2, c2) {
+      var a = [scale(r1, 8, rows), scale(c1, 12, cols), scale(r2, 8, rows), scale(c2, 12, cols)];
+      if (a[2] <= a[0]) a[2] = Math.min(rows + 1, a[0] + 1);
+      if (a[3] <= a[1]) a[3] = Math.min(cols + 1, a[1] + 1);
+      return a.join(' / ');
+    }
+    [
+      ['.name', [1, 1, 3, 5]],
+      ['.tab-about', [1, 11, 2, 13]],
+      ['.tab-contact', [7, 11, 9, 13]],
+      ['.statement', [4, 4, 6, 11]],
+      ['.popup', [2, 3, 8, 11]]
+    ].forEach(function (pair) {
+      [].slice.call(document.querySelectorAll(pair[0])).forEach(function (el) {
+        el.style.gridArea = area.apply(null, pair[1]);
+      });
+    });
+    [].slice.call(layer.querySelectorAll('.hatch')).forEach(function (h) {
+      h.parentNode.removeChild(h);
+    });
+    var count = 3 + Math.floor(Math.random() * 3);
+    for (var k = 0; k < count; k++) {
+      var h = document.createElement('div');
+      var hr = 2 + Math.floor(Math.random() * Math.max(1, rows - 3));
+      var hc = 2 + Math.floor(Math.random() * Math.max(1, cols - 3));
+      var hh = 2 + Math.floor(Math.random() * Math.min(3, rows - hr + 1));
+      var hw = 3 + Math.floor(Math.random() * Math.min(4, cols - hc + 1));
+      h.className = 'hatch';
+      h.setAttribute('aria-hidden', 'true');
+      h.dataset.angle = [-60, -45, -30, 30, 45, 60][Math.floor(Math.random() * 6)];
+      h.dataset.gap = String(16 + Math.floor(Math.random() * 13));
+      h.style.gridArea = area(hr, hc, hr + hh, hc + hw);
+      layer.insertBefore(h, layer.firstChild);
+    }
+  })();
+
   /* hachura como cordas: SVG inline com Verlet, empurradas pelo ponteiro. */
   var hatches = [].slice.call(document.querySelectorAll('.hatch'));
   if (hatches.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -389,13 +453,19 @@
     var still = 0;
     var resizeTimer = null;
 
-    function clip(dir, c, w, h) {
-      var a = dir === 1 ? Math.max(0, -c) : Math.max(0, c - h);
-      var b = dir === 1 ? Math.min(w, h - c) : Math.min(w, c);
-      if (b - a < 12) return null;
-      return dir === 1
-        ? { x0: a, y0: a + c, x1: b, y1: b + c }
-        : { x0: a, y0: -a + c, x1: b, y1: -b + c };
+    function clip(px, py, dx, dy, w, h) {
+      var t0 = 0;
+      var t1 = Infinity;
+      function cut(p, q) {
+        if (p === 0) return q >= 0;
+        var r = q / p;
+        if (p < 0) { if (r > t1) return false; if (r > t0) t0 = r; }
+        else { if (r < t0) return false; if (r < t1) t1 = r; }
+        return true;
+      }
+      if (!cut(-dx, px) || !cut(dx, w - px) || !cut(-dy, py) || !cut(dy, h - py)) return null;
+      if (t1 - t0 < 12) return null;
+      return { x0: px + dx * t0, y0: py + dy * t0, x1: px + dx * t1, y1: py + dy * t1 };
     }
 
     function buildRopes() {
@@ -412,9 +482,16 @@
         svg.setAttribute('preserveAspectRatio', 'none');
         svg.setAttribute('aria-hidden', 'true');
         var strings = [];
-        function add(dir, c) {
-          var line = clip(dir, c, w, h);
-          if (!line) return;
+        var ang = (parseFloat(el.dataset.angle) || 45) * Math.PI / 180;
+        var dx = Math.cos(ang);
+        var dy = Math.sin(ang);
+        var nx = -dy;
+        var ny = dx;
+        var gap = parseFloat(el.dataset.gap) || GAP;
+        var diag = Math.sqrt(w * w + h * h);
+        for (var o = -diag; o <= diag; o += gap) {
+          var line = clip(nx * o, ny * o, dx, dy, w, h);
+          if (!line) continue;
           var pts = [];
           var rest = 0;
           for (var i = 0; i < N; i++) {
@@ -428,9 +505,6 @@
           svg.appendChild(path);
           strings.push({ path: path, pts: pts, rest: rest });
         }
-        var c;
-        for (c = -w; c <= h; c += GAP) add(1, c);
-        for (c = 0; c <= w + h; c += GAP) add(-1, c);
         el.appendChild(svg);
         el.classList.add('has-strings');
         ropes.push({ box: box, strings: strings, svg: svg });
@@ -545,27 +619,32 @@
     buildRopes();
   }
 
-  /* tema e quadrados generativos: sorteados de novo a cada carregamento. */
+  /* caixas pequenas e arrastáveis. O tema escuro so muda ao arrastar uma caixa. */
   (function () {
     var themes = [
-      { bg: '#0000ff', ink: '#ffffff', blocks: ['#ffff00', '#ff0000', '#ffffff'] },
-      { bg: '#ff0000', ink: '#ffffff', blocks: ['#0000ff', '#ffff00', '#ffffff'] },
-      { bg: '#ffffff', ink: '#ff0000', blocks: ['#0000ff', '#ffff00', '#ff0000'] },
-      { bg: '#ffff00', ink: '#000000', blocks: ['#0000ff', '#ff0000', '#ffffff'] }
+      { bg: '#0000ff', ink: '#ffffff' },
+      { bg: '#ff0000', ink: '#ffffff' },
+      { bg: '#ffffff', ink: '#ff0000' },
+      { bg: '#ffff00', ink: '#000000' }
     ];
-    var t = themes[Math.floor(Math.random() * themes.length)];
+    var colors = ['#0000ff', '#ffff00', '#ff0000'];
     var root = document.documentElement;
 
     function soft(hex, a) {
       var v = parseInt(hex.slice(1), 16);
       return 'rgba(' + ((v >> 16) & 255) + ',' + ((v >> 8) & 255) + ',' + (v & 255) + ',' + a + ')';
     }
-    root.style.setProperty('--bg', t.bg);
-    root.style.setProperty('--ink', t.ink);
-    root.style.setProperty('--rule', t.ink);
-    root.style.setProperty('--muted', t.ink);
-    root.style.setProperty('--rule-soft', soft(t.ink, 0.16));
-    root.style.setProperty('--hatch', 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'14\' height=\'14\' viewBox=\'0 0 14 14\'%3E%3Cpath d=\'M0 0L14 14M14 0L0 14\' stroke=\'%23' + t.ink.slice(1) + '\' stroke-width=\'1\' fill=\'none\'/%3E%3C/svg%3E")');
+    function applyTheme(t) {
+      root.style.setProperty('--bg', t.bg);
+      root.style.setProperty('--ink', t.ink);
+      root.style.setProperty('--rule', t.ink);
+      root.style.setProperty('--muted', t.ink);
+      root.style.setProperty('--rule-soft', soft(t.ink, 0.16));
+      root.style.setProperty('--hatch', 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'14\' height=\'14\' viewBox=\'0 0 14 14\'%3E%3Cpath d=\'M0 0L14 14M14 0L0 14\' stroke=\'%23' + t.ink.slice(1) + '\' stroke-width=\'1\' fill=\'none\'/%3E%3C/svg%3E")');
+    }
+    function randomTheme() {
+      applyTheme(themes[Math.floor(Math.random() * themes.length)]);
+    }
 
     var frame = document.querySelector('.frame');
     if (!frame) return;
@@ -578,18 +657,39 @@
     svg.setAttribute('preserveAspectRatio', 'none');
     svg.setAttribute('aria-hidden', 'true');
     var count = 6 + Math.floor(Math.random() * 7);
-    var minSide = Math.max(18, Math.min(w, h) * 0.05);
-    var maxSide = Math.min(w, h) * 0.34;
     for (var i = 0; i < count; i++) {
-      var side = minSide + Math.random() * (maxSide - minSide);
+      var side = 16 + Math.random() * 44;
       var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       rect.setAttribute('x', (Math.random() * (w - side)).toFixed(1));
       rect.setAttribute('y', (Math.random() * (h - side)).toFixed(1));
       rect.setAttribute('width', side.toFixed(1));
       rect.setAttribute('height', side.toFixed(1));
-      rect.setAttribute('fill', t.blocks[Math.floor(Math.random() * t.blocks.length)]);
+      rect.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
       svg.appendChild(rect);
     }
     frame.appendChild(svg);
+
+    var drag = null;
+    [].slice.call(svg.querySelectorAll('rect')).forEach(function (rect) {
+      rect.addEventListener('pointerdown', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        randomTheme();
+        drag = {
+          rect: rect,
+          sx: e.clientX,
+          sy: e.clientY,
+          x: parseFloat(rect.getAttribute('x')),
+          y: parseFloat(rect.getAttribute('y'))
+        };
+      });
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      drag.rect.setAttribute('x', (drag.x + e.clientX - drag.sx).toFixed(1));
+      drag.rect.setAttribute('y', (drag.y + e.clientY - drag.sy).toFixed(1));
+    });
+    document.addEventListener('pointerup', function () { drag = null; });
+    document.addEventListener('pointercancel', function () { drag = null; });
   })();
 })();

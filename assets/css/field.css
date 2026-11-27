@@ -50,8 +50,8 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   border-right: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
 }
-.cell:nth-child(12n) { border-right: 0; }
-.cell:nth-last-child(-n+12) { border-bottom: 0; }
+.cell.edge-r { border-right: 0; }
+.cell.edge-b { border-bottom: 0; }
 
 .layer { pointer-events: none; }
 .layer > * { pointer-events: auto; }
@@ -86,7 +86,11 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   pointer-events: none;
   z-index: 30;
 }
-.gen-squares rect { shape-rendering: crispEdges; }
+.gen-squares rect {
+  shape-rendering: crispEdges;
+  pointer-events: auto;
+  cursor: move;
+}
 .hatch-top { grid-area: 1 / 5 / 3 / 9; }
 .hatch-left { grid-area: 3 / 2 / 7 / 5; }
 .hatch-bottom-left { grid-area: 7 / 4 / 9 / 8; }
