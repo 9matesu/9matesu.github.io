@@ -70,7 +70,12 @@ button { cursor: pointer; }
 .name {
   grid-area: 1 / 1 / 3 / 5;
   align-self: start;
-  padding: clamp(6px, 1.2vw, 16px);
+  justify-self: start;
+  width: fit-content;
+  height: fit-content;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  padding: 0.18em 0.22em;
   font-size: clamp(36px, 5vw, 72px);
   line-height: 0.95;
   letter-spacing: -0.03em;
@@ -86,9 +91,11 @@ button { cursor: pointer; }
 .tab {
   align-self: center;
   justify-self: end;
-  padding: 8px 12px;
-  border: 0;
-  background: none;
+  width: fit-content;
+  height: fit-content;
+  padding: 0.35em 0.5em;
+  border: 1px solid var(--rule);
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
   font-size: clamp(12px, 1.15vw, 16px);
@@ -104,8 +111,13 @@ button { cursor: pointer; }
 .statement {
   grid-area: 4 / 4 / 6 / 11;
   align-self: center;
-  padding: clamp(12px, 2vw, 28px) clamp(16px, 2.4vw, 34px);
+  justify-self: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 0.46em 0.42em;
   background: var(--bg);
+  border: 1px solid var(--rule);
+  box-shadow: 0 0 0 5px var(--bg);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.32s ease, visibility 0.32s;
@@ -132,7 +144,7 @@ button { cursor: pointer; }
   }
   .poster { padding: 12px; }
   .name { font-size: clamp(26px, 7vw, 40px); }
-  .statement { grid-area: 4 / 2 / 7 / 12; padding: 20px 18px; }
+  .statement { grid-area: 4 / 2 / 7 / 12; justify-self: center; padding: 0.28em 0.42em; }
   .statement p { font-size: clamp(19px, 5vw, 30px); white-space: normal; }
   .tab-about { grid-area: 1 / 9 / 2 / 13; }
   .tab-contact { grid-area: 8 / 9 / 9 / 13; }
