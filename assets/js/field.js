@@ -14,27 +14,57 @@
     design: {
       title: 'design gráfico',
       items: [
-        { title: 'BSE Tee, frente', meta: 'estampa têxtil · 2025', img: W + 'img_bse_frente.webp', link: 'https://plazaaaaa.com/product/2340' },
-        { title: 'BSE Tee, costas', meta: 'estampa têxtil · 2025', img: W + 'img_bse_costas.webp', link: 'https://plazaaaaa.com/product/2340' },
+        { title: 'Iran Tee', meta: 'Bulgarian Stock Exchange · estampa têxtil · 2025', imgs: [W + 'img_bse_frente.webp', W + 'img_bse_costas.webp'], link: 'https://plazaaaaa.com/product/2340' },
         { title: 'BLACKMESA', meta: 'identidade visual · 2025', img: W + 'img_logos_blackmesa.webp', link: 'https://behance.net/gallery/226862609/BLACKMESA-2025' },
         { title: 'BLACKMESA', meta: 'identidade visual · 2024', img: W + 'img_logos_blackmesa.webp', link: 'https://behance.net/gallery/226860687/BLACKMESA-2024' },
         { title: 'LAGERHAUS I', meta: 'direção de arte · 2024', img: W + 'img_logos_bloodworm.webp', link: 'https://behance.net/gallery/226864143/bloodworm-trax-LAGERHAUS-I' },
         { title: 'TRACKMESA', meta: 'flyer · 10/07/2026', img: W + 'img_trackmesa_1.webp' },
-        { title: 'Vault 2', meta: 'flyer · 17/12/2025', img: W + 'img_misc_vault2_FINAL_3.webp' },
-        { title: 'Simpatia', meta: 'capa e contracapas · 20/05/2025', img: W + 'img_simpatia_capa.webp' }
+        { title: 'Vault 2', meta: 'flyer · 17/12/2025', img: W + 'img_misc_vault2_FINAL_3.webp' }
       ]
     },
     music: {
       title: 'produção musical',
       items: [
-        { title: 'Antologia', meta: 'álbum · 2026 · ambient, downtempo' },
-        { title: 'refix.pak', meta: 'álbum · 2026 · grime' },
-        { title: 'SP-150', meta: 'álbum · 2026 · garage, dubstep' },
-        { title: 'carnagarage', meta: 'álbum · 2025 · UK garage, speed garage' },
-        { title: 'Qa', meta: 'álbum · 2023 · jungle, grime, dubstep' },
-        { title: 'Rarer Demons', meta: 'álbum · 2022 · drum and bass, jungle' },
-        { title: 'No Format', meta: 'álbum · 2021 · grime, electronic' },
-        { title: 'International Flux', meta: 'álbum · 2021 · jungle' }
+        { title: "Antologia", meta: "2026 · lançamento" },
+        { title: "refix.pak", meta: "2026 · lançamento", img: W + 'au_refix-pak.webp' },
+        { title: "SP-150", meta: "2026 · lançamento", img: W + 'au_sp-150.webp' },
+        { title: "carnagarage", meta: "2025 · lançamento", img: W + 'au_carnagarage.webp' },
+        { title: "mixed seeds archival ('19-'23)", meta: "2023 · lançamento", img: W + 'au_mixed-seeds.webp' },
+        { title: "Qa", meta: "2023 · lançamento", img: W + 'au_qa.webp' },
+        { title: "K-Drill Repack", meta: "2022 · lançamento" },
+        { title: "Rarer Demons", meta: "2022 · lançamento", img: W + 'au_rarer-demons.webp' },
+        { title: "Altered State", meta: "2021 · lançamento" },
+        { title: "Half Life", meta: "2021 · lançamento" },
+        { title: "International Flux", meta: "2021 · lançamento" },
+        { title: "No Format", meta: "2021 · lançamento" },
+        { title: "Overtones", meta: "2021 · lançamento" },
+        { title: "virtualsoundscape.net", meta: "2021 · lançamento" },
+        { title: "Almost Dusk", meta: "2020 · lançamento" },
+        { title: "Boladona Flip", meta: "2020 · lançamento" },
+        { title: "Digital Disk", meta: "2020 · lançamento" },
+        { title: "Ekranoplan", meta: "2020 · lançamento" },
+        { title: "Leftover Selected Works I", meta: "2020 · lançamento" },
+        { title: "Panelada", meta: "2020 · lançamento" },
+        { title: "Rare Demons Minitapes Deluxe", meta: "2020 · lançamento" },
+        { title: "Resolutions", meta: "2020 · lançamento" },
+        { title: "Set of Tools Vol.1", meta: "2020 · lançamento" },
+        { title: "Tenacity", meta: "2020 · lançamento" },
+        { title: "Worldwide Stream", meta: "2020 · lançamento" },
+        { title: "Cachorrada (Jersey Club Edit)", meta: "2019 · lançamento" },
+        { title: "Unreleased", meta: "lançamento" },
+        { title: "ON", meta: "2026 · produção", img: W + 'rel_on.webp' },
+        { title: "xrc no 130", meta: "2026 · produção", img: W + 'rel_xrc-no-130.webp' },
+        { title: "VOLT-AMPÈRE", meta: "2025 · produção", img: W + 'rel_volt-ampere.webp' },
+        { title: "monocromia", meta: "2025 · produção", img: W + 'rel_monocromia.webp' },
+        { title: "Toda Noite Busco o Sol", meta: "2025 · produção", img: W + 'rel_toda-noite-busco-o-sol.webp' },
+        { title: "Calor", meta: "2024 · produção", img: W + 'rel_calor.webp' },
+        { title: "VOLT MIX: O Retorno", meta: "2024 · produção", img: W + 'rel_volt-mix-o-retorno.webp' },
+        { title: "Insônia Kurt", meta: "2024 · coprodução", img: W + 'rel_insonia-kurt.webp' },
+        { title: "Trilha Sonora", meta: "2022 · produção", img: W + 'rel_trilha-sonora.webp' },
+        { title: "FAT KEP", meta: "2022 · produção", img: W + 'rel_fat-kep.webp' },
+        { title: "Begonia", meta: "2022 · produção · remix", img: W + 'rel_begonia.webp' },
+        { title: "Ameaça Detectada", meta: "2021 · coprodução", img: W + 'rel_ameaca-detectada.webp' },
+        { title: "Intraterreno", meta: "2020 · produção · remix", img: W + 'rel_intraterreno.webp' },
       ]
     },
     culture: {
@@ -46,46 +76,31 @@
       ]
     },
     engineer: {
-      title: 'engenharia de áudio',
+      title: 'engenharia de mixagem e masterização',
       items: [
-        { title: 'ON', meta: 'mixagem e masterização · 2026 · Cassiel' },
-        { title: 'intrínseca city', meta: 'mixagem e masterização · 2026 · kiddo' },
-        { title: 'simpatia', meta: 'mixagem e masterização · 2026 · kiddo' },
-        { title: 'Calor', meta: 'mixagem e masterização · 2024 · Godar' },
-        { title: 'Qual a Lei', meta: 'mixagem e masterização · 2024 · Bruno Kroz' }
-      ]
-    },
-    mixing: {
-      title: 'mixagem',
-      items: [
-        { title: 'ON', meta: '2026 · Cassiel' },
-        { title: 'VELUDO', meta: '2026 · Meio Feel' },
-        { title: 'Toda Noite Busco o Sol', meta: '2025 · Godar' },
-        { title: 'Insônia Kurt', meta: '2024 · Bruno Kroz' },
-        { title: 'Trilha Sonora', meta: '2022 · Godar' }
-      ]
-    },
-    mastering: {
-      title: 'masterização',
-      items: [
-        { title: 'intrínseca city', meta: '2026 · kiddo' },
-        { title: 'simpatia', meta: '2026 · kiddo' },
-        { title: 'VELUDO', meta: '2026 · Meio Feel' },
-        { title: 'Renc Renc', meta: '2023 · kiddo' },
-        { title: 'Ameaça Detectada', meta: '2021 · Bruno Kroz' }
+        { title: "intrínseca city", meta: "2026 · mixagem · masterização", img: W + 'rel_intrinseca-city.webp' },
+        { title: "ON", meta: "2026 · mixagem · masterização", img: W + 'rel_on.webp' },
+        { title: "VELUDO", meta: "2026 · mixagem · masterização", img: W + 'rel_veludo.webp' },
+        { title: "xrc no 130", meta: "2026 · mixagem · masterização", img: W + 'rel_xrc-no-130.webp' },
+        { title: "então pede! (mãe de pet)", meta: "2025 · mixagem · masterização", img: W + 'rel_entao-pede-mae-de-pet.webp' },
+        { title: "VOLT-AMPÈRE", meta: "2025 · mixagem", img: W + 'rel_volt-ampere.webp' },
+        { title: "Toda Noite Busco o Sol", meta: "2025 · mixagem · masterização", img: W + 'rel_toda-noite-busco-o-sol.webp' },
+        { title: "Contratempo", meta: "2025 · mixagem · masterização", img: W + 'rel_contratempo.webp' },
+        { title: "MODO MOLA", meta: "2024 · masterização", img: W + 'rel_modo-mola.webp' },
+        { title: "Calor", meta: "2024 · mixagem · masterização", img: W + 'rel_calor.webp' },
+        { title: "Insônia Kurt", meta: "2024 · mixagem · masterização", img: W + 'rel_insonia-kurt.webp' },
+        { title: "Qual a Lei", meta: "2024 · mixagem · masterização", img: W + 'rel_qual-a-lei.webp' },
+        { title: "Intro 2024", meta: "2024 · mixagem · masterização", img: W + 'rel_intro-2024.webp' },
+        { title: "Rtmz #001", meta: "2023 · mixagem · masterização", img: W + 'rel_rtmz-001.webp' },
+        { title: "Renc Renc", meta: "2023 · mixagem · masterização", img: W + 'rel_renc-renc.webp' },
+        { title: "Baby I'm Bleeding", meta: "2022 · mixagem · masterização", img: W + 'rel_baby-i-m-bleeding.webp' },
+        { title: "Evangeline Blue", meta: "2022 · mixagem · masterização", img: W + 'rel_evangeline-blue.webp' },
+        { title: "Vida Bagunçada", meta: "2022 · mixagem · masterização", img: W + 'rel_vida-baguncada.webp' },
       ]
     },
     dj: {
       title: 'dj',
-      items: [
-        { title: 'Rinse FM', meta: 'rádio · londres' },
-        { title: 'NTS', meta: 'rádio · londres' },
-        { title: 'Dekmantel', meta: 'plataforma · amsterdã' },
-        { title: 'HÖR', meta: 'rádio · berlim' },
-        { title: 'Function!', meta: 'rádio · nova york' },
-        { title: 'Foundation FM', meta: 'rádio · londres' },
-        { title: 'Aaja Music', meta: 'plataforma' }
-      ]
+      items: []
     },
     dev: {
       title: 'desenvolvimento',
@@ -137,12 +152,18 @@
     (data.items || []).forEach(function (it) {
       var li = document.createElement('li');
       li.className = 'work-item';
-      if (it.img) {
-        var im = document.createElement('img');
-        im.className = 'work-img';
-        im.src = it.img;
-        im.alt = '';
-        li.appendChild(im);
+      var images = it.imgs || (it.img ? [it.img] : []);
+      if (images.length) {
+        var gallery = document.createElement('span');
+        gallery.className = 'work-imgs';
+        images.forEach(function (src) {
+          var im = document.createElement('img');
+          im.className = 'work-img';
+          im.src = src;
+          im.alt = '';
+          gallery.appendChild(im);
+        });
+        li.appendChild(gallery);
       }
       var body = document.createElement('div');
       body.className = 'work-text';
