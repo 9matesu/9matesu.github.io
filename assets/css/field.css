@@ -236,7 +236,6 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   height: 34px;
   flex: 0 0 auto;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.05);
 }
 .work-text {
   display: flex;

@@ -14,14 +14,14 @@
     design: {
       title: 'design gráfico',
       items: [
-        { title: 'BSE Tee, frente', meta: 'estampa têxtil · 2025', img: W + 'img_thumbs_bse_frente.jpg', link: 'https://plazaaaaa.com/product/2340' },
-        { title: 'BSE Tee, costas', meta: 'estampa têxtil · 2025', img: W + 'img_thumbs_bse_costas.jpg', link: 'https://plazaaaaa.com/product/2340' },
-        { title: 'BLACKMESA', meta: 'identidade visual · 2025', img: W + 'img_thumbs_logos_blackmesa.png', link: 'https://behance.net/gallery/226862609/BLACKMESA-2025' },
-        { title: 'BLACKMESA', meta: 'identidade visual · 2024', img: W + 'img_thumbs_logos_blackmesa.png', link: 'https://behance.net/gallery/226860687/BLACKMESA-2024' },
-        { title: 'LAGERHAUS I', meta: 'direção de arte · 2024', img: W + 'img_thumbs_logos_bloodworm.png', link: 'https://behance.net/gallery/226864143/bloodworm-trax-LAGERHAUS-I' },
-        { title: 'TRACKMESA', meta: 'flyer · 10/07/2026', img: W + 'img_thumbs_trackmesa_1.png' },
-        { title: 'Vault 2', meta: 'flyer · 17/12/2025', img: W + 'img_thumbs_misc_vault2_FINAL_3.jpg' },
-        { title: 'Simpatia', meta: 'capa e contracapas · 20/05/2025', img: W + 'img_thumbs_simpatia_capa.jpg' }
+        { title: 'BSE Tee, frente', meta: 'estampa têxtil · 2025', img: W + 'img_bse_frente.webp', link: 'https://plazaaaaa.com/product/2340' },
+        { title: 'BSE Tee, costas', meta: 'estampa têxtil · 2025', img: W + 'img_bse_costas.webp', link: 'https://plazaaaaa.com/product/2340' },
+        { title: 'BLACKMESA', meta: 'identidade visual · 2025', img: W + 'img_logos_blackmesa.webp', link: 'https://behance.net/gallery/226862609/BLACKMESA-2025' },
+        { title: 'BLACKMESA', meta: 'identidade visual · 2024', img: W + 'img_logos_blackmesa.webp', link: 'https://behance.net/gallery/226860687/BLACKMESA-2024' },
+        { title: 'LAGERHAUS I', meta: 'direção de arte · 2024', img: W + 'img_logos_bloodworm.webp', link: 'https://behance.net/gallery/226864143/bloodworm-trax-LAGERHAUS-I' },
+        { title: 'TRACKMESA', meta: 'flyer · 10/07/2026', img: W + 'img_trackmesa_1.webp' },
+        { title: 'Vault 2', meta: 'flyer · 17/12/2025', img: W + 'img_misc_vault2_FINAL_3.webp' },
+        { title: 'Simpatia', meta: 'capa e contracapas · 20/05/2025', img: W + 'img_simpatia_capa.webp' }
       ]
     },
     music: {
@@ -40,9 +40,9 @@
     culture: {
       title: 'produção cultural',
       items: [
-        { title: 'BLACKMESA', meta: 'coletivo artístico · são paulo', img: W + 'img_thumbs_bmhz0_frente.png', link: 'https://instagram.com/blackmesaent' },
-        { title: 'bloodworm trax', meta: 'selo musical · são paulo', img: W + 'img_thumbs_logos_bloodworm.png', link: 'https://bloodwormtrax.neocities.org' },
-        { title: 'TRACKMESA', meta: 'evento · 10/07/2026 · Void Centro', img: W + 'img_thumbs_trackmesa_1.png', link: 'https://zig.tickets/eventos/trackmesa' }
+        { title: 'BLACKMESA', meta: 'coletivo artístico · são paulo', img: W + 'img_bmhz0_frente.webp', link: 'https://instagram.com/blackmesaent' },
+        { title: 'bloodworm trax', meta: 'selo musical · são paulo', img: W + 'img_logos_bloodworm.webp', link: 'https://bloodwormtrax.neocities.org' },
+        { title: 'TRACKMESA', meta: 'evento · 10/07/2026 · Void Centro', img: W + 'img_trackmesa_1.webp', link: 'https://zig.tickets/eventos/trackmesa' }
       ]
     },
     engineer: {
@@ -90,11 +90,11 @@
     dev: {
       title: 'desenvolvimento',
       items: [
-        { title: 'opcoda', meta: 'VST3, C++ · sintetizador granular', img: W + 'img_thumbs_github_opcoda.png', link: 'https://github.com/9matesu/Opcoda' },
-        { title: 'minisynth32', meta: 'ESP32-S3, TypeScript', img: W + 'img_thumbs_github_minisynth32.jpg', link: 'https://github.com/9matesu/minisynth32' },
-        { title: 'catlas', meta: 'Python, documentação', img: W + 'img_thumbs_github_catlas.jpg', link: 'https://github.com/9matesu/Catlas' },
-        { title: 'wptools', meta: 'PowerShell, Windows', img: W + 'img_thumbs_github_wptools.jpg', link: 'https://github.com/9matesu/WPtools' },
-        { title: 'resuMe', meta: 'extensão, TypeScript', img: W + 'img_thumbs_github_resuMe.jpg', link: 'https://github.com/9matesu/resume' }
+        { title: 'opcoda', meta: 'VST3, C++ · sintetizador granular', img: W + 'img_github_opcoda.webp', link: 'https://github.com/9matesu/Opcoda' },
+        { title: 'minisynth32', meta: 'ESP32-S3, TypeScript', img: W + 'img_github_minisynth32.webp', link: 'https://github.com/9matesu/minisynth32' },
+        { title: 'catlas', meta: 'Python, documentação', img: W + 'img_github_catlas.webp', link: 'https://github.com/9matesu/Catlas' },
+        { title: 'wptools', meta: 'PowerShell, Windows', img: W + 'img_github_wptools.webp', link: 'https://github.com/9matesu/WPtools' },
+        { title: 'resuMe', meta: 'extensão, TypeScript', img: W + 'img_github_resuMe.webp', link: 'https://github.com/9matesu/resume' }
       ]
     },
     about: {
@@ -218,10 +218,6 @@
   });
 
   if (tabs.length) {
-    tabs[0].setAttribute('data-popup', 'about');
-    tabs[1].setAttribute('data-popup', 'contact');
     tabs[0].textContent = 'matesuposting';
-    tabs[0].addEventListener('click', function () { openPopup('about'); });
-    tabs[1].addEventListener('click', function () { openPopup('contact'); });
   }
 })();
