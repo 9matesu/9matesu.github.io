@@ -22,8 +22,7 @@ html, body {
   overflow: hidden;
 }
 
-body, body * { cursor: default; }
-button { cursor: pointer; }
+html, body, body * { cursor: url('cursor.cur'), default; }
 
 .poster {
   width: 100vw;
