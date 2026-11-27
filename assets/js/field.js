@@ -384,12 +384,33 @@
     });
     function weights(n) {
       var out = [];
-      for (var i = 0; i < n; i++) out.push((0.7 + Math.random() * 0.9).toFixed(2) + 'fr');
-      return out.join(' ');
+      for (var i = 0; i < n; i++) out.push(0.7 + Math.random() * 0.9);
+      return out;
+    }
+    function cssWeights(a) {
+      return a.map(function (v) { return v.toFixed(2) + 'fr'; }).join(' ');
     }
     var root = document.documentElement;
-    root.style.setProperty('--cols', weights(cols));
-    root.style.setProperty('--rows', weights(rows));
+    var cw = weights(cols);
+    var rh = weights(rows);
+    root.style.setProperty('--cols', cssWeights(cw));
+    root.style.setProperty('--rows', cssWeights(rh));
+    var frameEl = document.querySelector('.frame');
+    var fw = frameEl ? frameEl.clientWidth : 1440;
+    var fh = frameEl ? frameEl.clientHeight : 900;
+    var totalW = cw.reduce(function (a, b) { return a + b; }, 0);
+    var totalH = rh.reduce(function (a, b) { return a + b; }, 0);
+    function ratioOf(r, c, h, w) {
+      var sw = 0;
+      var sh = 0;
+      for (var i = c; i < c + w; i++) sw += cw[i] || 0;
+      for (var j = r; j < r + h; j++) sh += rh[j] || 0;
+      return (sw / totalW * fw) / (sh / totalH * fh);
+    }
+    function ratioArea(r, c, h, w) {
+      var a = area(r, c, r + h, c + w).split(' / ').map(Number);
+      return ratioOf(a[0] - 1, a[1] - 1, a[2] - a[0], a[3] - a[1]);
+    }
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
         var cell = document.createElement('div');
@@ -430,13 +451,14 @@
     for (var k = 0; k < count; k++) {
       var hr, hc, hh, hw, tries = 0;
       do {
-        hr = 1 + Math.floor(Math.random() * Math.max(1, rows - 2));
-        hc = 1 + Math.floor(Math.random() * Math.max(1, cols - 3));
-        hh = 1 + Math.floor(Math.random() * Math.min(2, rows - hr + 1));
-        hw = 2 + Math.floor(Math.random() * Math.min(3, cols - hc + 1));
+        hr = Math.floor(Math.random() * Math.max(1, rows - 2));
+        hc = Math.floor(Math.random() * Math.max(1, cols - 2));
+        hh = 2 + Math.floor(Math.random() * Math.min(2, rows - hr + 1));
+        hw = 2 + Math.floor(Math.random() * Math.min(2, cols - hc + 1));
         tries++;
-      } while (!freeBox(hr, hc, hr + hh, hc + hw) && tries < 60);
+      } while ((!freeBox(hr, hc, hr + hh, hc + hw) || ratioArea(hr, hc, hh, hw) < 0.62 || ratioArea(hr, hc, hh, hw) > 1.65) && tries < 60);
       if (!freeBox(hr, hc, hr + hh, hc + hw)) continue;
+      if (ratioArea(hr, hc, hh, hw) < 0.62 || ratioArea(hr, hc, hh, hw) > 1.65) continue;
       used.push([hr, hc, hr + hh, hc + hw]);
       var h = document.createElement('div');
       h.className = 'hatch';
@@ -641,13 +663,19 @@
   /* caixas pequenas e arrastáveis. O tema escuro so muda ao arrastar uma caixa. */
   (function () {
     var themes = [
-      { bg: '#FFF3E0', ink: '#D16B8C' },
-      { bg: '#F5D76E', ink: '#3D3630' },
-      { bg: '#F4A6B7', ink: '#FFF3E0' },
-      { bg: '#E8D7F1', ink: '#4A3A5C' }
+      { bg: '#FF595E', ink: '#FFFFFF' },
+      { bg: '#FFCA3A', ink: '#2A2A2A' },
+      { bg: '#8AC926', ink: '#2A2A2A' },
+      { bg: '#1982C4', ink: '#FFFFFF' },
+      { bg: '#6A4C93', ink: '#FFFFFF' },
+      { bg: '#FFFFFF', ink: '#FF595E' }
     ];
-    var colors = ['#F5D76E', '#F4A6B7', '#F7C59F', '#C9B6E4'];
     var root = document.documentElement;
+    var shapes = [];
+    var currentInk = '#f0f0f0';
+    function colorize() {
+      shapes.forEach(function (s) { s.setAttribute('fill', currentInk); });
+    }
 
     function soft(hex, a) {
       var v = parseInt(hex.slice(1), 16);
@@ -660,6 +688,8 @@
       root.style.setProperty('--muted', t.ink);
       root.style.setProperty('--rule-soft', soft(t.ink, 0.16));
       root.style.setProperty('--hatch', 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'14\' height=\'14\' viewBox=\'0 0 14 14\'%3E%3Cpath d=\'M0 0L14 14M14 0L0 14\' stroke=\'%23' + t.ink.slice(1) + '\' stroke-width=\'1\' fill=\'none\'/%3E%3C/svg%3E")');
+      currentInk = t.ink;
+      colorize();
     }
     function randomTheme() {
       applyTheme(themes[Math.floor(Math.random() * themes.length)]);
@@ -679,14 +709,15 @@
     for (var i = 0; i < count; i++) {
       var span = 16 + Math.random() * 44;
       var rx = span / 2;
-      var ry = rx * (0.55 + Math.random() * 0.4);
+      var ry = rx;
       var shape = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
       shape.setAttribute('cx', (rx + Math.random() * Math.max(1, w - span)).toFixed(1));
       shape.setAttribute('cy', (ry + Math.random() * Math.max(1, h - ry * 2)).toFixed(1));
       shape.setAttribute('rx', rx.toFixed(1));
       shape.setAttribute('ry', ry.toFixed(1));
-      shape.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
+      shape.setAttribute('fill', currentInk);
       svg.appendChild(shape);
+      shapes.push(shape);
     }
     frame.appendChild(svg);
 
