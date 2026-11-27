@@ -74,7 +74,7 @@ button { cursor: pointer; }
   width: fit-content;
   height: fit-content;
   background: var(--bg);
-  border: 1px solid var(--rule);
+  outline: 1px solid var(--rule);
   padding: 0.18em 0.22em;
   font-size: clamp(36px, 5vw, 72px);
   line-height: 0.95;
@@ -94,7 +94,7 @@ button { cursor: pointer; }
   width: fit-content;
   height: fit-content;
   padding: 0.35em 0.5em;
-  border: 1px solid var(--rule);
+  outline: 1px solid var(--rule);
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
@@ -116,7 +116,8 @@ button { cursor: pointer; }
   height: fit-content;
   padding: 0.46em 0.42em;
   background: var(--bg);
-  border: 1px solid var(--rule);
+  outline: 1px solid var(--rule);
+  outline-offset: 5px;
   box-shadow: 0 0 0 5px var(--bg);
   opacity: 0;
   visibility: hidden;
