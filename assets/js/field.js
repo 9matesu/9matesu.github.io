@@ -14,7 +14,7 @@
     design: {
       title: 'design gráfico',
       items: [
-        { title: 'Iran Tee', meta: 'Bulgarian Stock Exchange · estampa têxtil · 2025', imgs: [W + 'img_bse_frente.webp', W + 'img_bse_costas.webp'], link: 'https://plazaaaaa.com/product/2340' },
+        { title: 'Iran Tee', meta: 'Bulgarian Stock Exchange estampa têxtil 2025', imgs: [W + 'img_bse_frente.webp', W + 'img_bse_costas.webp'], link: 'https://plazaaaaa.com/product/2340' },
         { title: 'arte BLACKMESA', meta: "19/08/2026", img: W + 'ig_DcPIMLuIGC7.webp', link: "https://instagram.com/p/DcPIMLuIGC7/" },
         { title: 'arte BLACKMESA', meta: "31/08/2026", img: W + 'ig_DctdvyuolnS.webp', link: "https://instagram.com/p/DctdvyuolnS/" },
         { title: 'arte BLACKMESA', meta: "24/11/2026", img: W + 'ig_DgI5Ea_oPcd.webp', link: "https://instagram.com/p/DgI5Ea_oPcd/" },
@@ -25,69 +25,69 @@
         { title: 'arte BLACKMESA', meta: "10/08/2026", img: W + 'ig_Db4CVuZkXt7.webp', link: "https://instagram.com/p/Db4CVuZkXt7/" },
         { title: 'arte BLACKMESA', meta: "04/08/2026", img: W + 'ig_Dbod1kuieBg.webp', link: "https://instagram.com/p/Dbod1kuieBg/" },
         { title: 'arte BLACKMESA', meta: "28/07/2026", img: W + 'ig_DbWdqgpkVVJ.webp', link: "https://instagram.com/p/DbWdqgpkVVJ/" },
-        { title: "BLACKMESA 04/05", meta: "flyer · 04/05/2024", img: W + 'bm_blackmesa-04-05.webp' },
-        { title: "BLACKMESA TAKEOVER", meta: "flyer · 07/09/2024", img: W + 'bm_takeover-07-09.webp' },
-        { title: "V. MADALENA", meta: "flyer · 20/09/2024", img: W + 'bm_v-madalena-20-09.webp' },
-        { title: "BLACKMESA CRIA", meta: "flyer · 28/09/2024", img: W + 'bm_cria-28-09.webp' },
-        { title: "HALLOWGRIME", meta: "flyer · 26/10/2024", img: W + 'bm_hallowgrime-26-10.webp' },
-        { title: "PRAFRENTEX", meta: "flyer · 07/12/2024", img: W + 'bm_prafrontenx-07-12.webp' },
-        { title: "A ÚLTIMA DO ANO", meta: "flyer · 14/12/2024", img: W + 'bm_ultima-do-ano-14-12.webp' },
-        { title: "BLACKMESA LABS I", meta: "flyer · 29/03/2025", img: W + 'bm_labs-29-03.webp' },
-        { title: "BLACKMESA LABS II", meta: "flyer · 03/05/2025", img: W + 'bm_labs-03-05.webp' },
-        { title: "BLACKMESA @ VOID CENTRO", meta: "flyer · 09/05/2025", img: W + 'bm_blackmesa-09-09.webp' },
-        { title: "TACITURNO MEETS BLACKMESA", meta: "flyer · 18/05/2025", img: W + 'bm_taciturno-18-05.webp' },
-        { title: "BLACKMESA BASES II", meta: "flyer · 19/07/2025", img: W + 'bm_bases-ii-19-07.webp' },
-        { title: "BLACKMESA VAULT", meta: "flyer · 12/09/2025", img: W + 'bm_vault-17-07.webp' },
-        { title: "BLACKMESA LABS", meta: "flyer · 27/09/2025", img: W + 'bm_labs-27-09.webp' },
-        { title: "BLACKMESA VAULT 2", meta: "flyer · 01/11/2025", img: W + 'bm_vault-2-20-09.webp' },
-        { title: "BLACKMESA: O ÚLTIMO DO ANO", meta: "flyer · 20/12/2025", img: W + 'bm_ultima-do-ano-14-12.webp' },
-        { title: "BLACKMESA LABS", meta: "flyer · 07/03/2026", img: W + 'bm_labs-07-03.webp' },
-        { title: "VILELA BADAY", meta: "flyer · 05/06/2026", img: W + 'bm_vilela-baday-05-06.webp' },
+
+        { title: "VILELA BADAY", meta: "flyer 05/06/2026", img: W + 'bm_vilela-baday-05-06.webp' },
+        { title: "BLACKMESA LABS", meta: "flyer 07/03/2026", img: W + 'bm_labs-07-03.webp' },
+        { title: "BLACKMESA: O ÚLTIMO DO ANO", meta: "flyer 20/12/2025", img: W + 'bm_ultima-do-ano-14-12.webp' },
+        { title: "BLACKMESA VAULT 2", meta: "flyer 01/11/2025", img: W + 'bm_vault-2-20-09.webp' },
+        { title: "BLACKMESA LABS", meta: "flyer 27/09/2025", img: W + 'bm_labs-27-09.webp' },
+        { title: "BLACKMESA VAULT", meta: "flyer 12/09/2025", img: W + 'bm_vault-17-07.webp' },
+        { title: "BLACKMESA BASES II", meta: "flyer 19/07/2025", img: W + 'bm_bases-ii-19-07.webp' },
+        { title: "TACITURNO MEETS BLACKMESA", meta: "flyer 18/05/2025", img: W + 'bm_taciturno-18-05.webp' },
+        { title: "BLACKMESA @ VOID CENTRO", meta: "flyer 09/05/2025", img: W + 'bm_blackmesa-09-09.webp' },
+        { title: "BLACKMESA LABS II", meta: "flyer 03/05/2025", img: W + 'bm_labs-03-05.webp' },
+        { title: "BLACKMESA LABS I", meta: "flyer 29/03/2025", img: W + 'bm_labs-29-03.webp' },
+        { title: "PRAFRENTEX", meta: "flyer 07/12/2024", img: W + 'bm_prafrontenx-07-12.webp' },
+        { title: "HALLOWGRIME", meta: "flyer 26/10/2024", img: W + 'bm_hallowgrime-26-10.webp' },
+        { title: "BLACKMESA CRIA", meta: "flyer 28/09/2024", img: W + 'bm_cria-28-09.webp' },
+        { title: "V. MADALENA", meta: "flyer 20/09/2024", img: W + 'bm_v-madalena-20-09.webp' },
+        { title: "BLACKMESA TAKEOVER", meta: "flyer 07/09/2024", img: W + 'bm_takeover-07-09.webp' },
+        { title: "BLACKMESA 04/05", meta: "flyer 04/05/2024", img: W + 'bm_blackmesa-04-05.webp' },
       ]
     },
     music: {
       title: 'produção musical',
       items: [
-        { title: "Antologia", meta: "2026 · lançamento" },
-        { title: "refix.pak", meta: "2026 · lançamento", img: W + 'au_refix-pak.webp' },
-        { title: "SP-150", meta: "2026 · lançamento", img: W + 'au_sp-150.webp' },
-        { title: "carnagarage", meta: "2025 · lançamento", img: W + 'au_carnagarage.webp' },
-        { title: "mixed seeds archival ('19-'23)", meta: "2023 · lançamento", img: W + 'au_mixed-seeds.webp' },
-        { title: "Qa", meta: "2023 · lançamento", img: W + 'au_qa.webp' },
-        { title: "K-Drill Repack", meta: "2022 · lançamento" },
-        { title: "Rarer Demons", meta: "2022 · lançamento", img: W + 'au_rarer-demons.webp' },
-        { title: "Altered State", meta: "2021 · lançamento" },
-        { title: "Half Life", meta: "2021 · lançamento" },
-        { title: "International Flux", meta: "2021 · lançamento" },
-        { title: "No Format", meta: "2021 · lançamento" },
-        { title: "Overtones", meta: "2021 · lançamento" },
-        { title: "virtualsoundscape.net", meta: "2021 · lançamento" },
-        { title: "Almost Dusk", meta: "2020 · lançamento" },
-        { title: "Boladona Flip", meta: "2020 · lançamento" },
-        { title: "Digital Disk", meta: "2020 · lançamento" },
-        { title: "Ekranoplan", meta: "2020 · lançamento" },
-        { title: "Leftover Selected Works I", meta: "2020 · lançamento" },
-        { title: "Panelada", meta: "2020 · lançamento" },
-        { title: "Rare Demons Minitapes Deluxe", meta: "2020 · lançamento" },
-        { title: "Resolutions", meta: "2020 · lançamento" },
-        { title: "Set of Tools Vol.1", meta: "2020 · lançamento" },
-        { title: "Tenacity", meta: "2020 · lançamento" },
-        { title: "Worldwide Stream", meta: "2020 · lançamento" },
-        { title: "Cachorrada (Jersey Club Edit)", meta: "2019 · lançamento" },
+        { title: "Antologia", meta: "2026 lançamento" },
+        { title: "refix.pak", meta: "2026 lançamento", img: W + 'au_refix-pak.webp' },
+        { title: "SP-150", meta: "2026 lançamento", img: W + 'au_sp-150.webp' },
+        { title: "carnagarage", meta: "2025 lançamento", img: W + 'au_carnagarage.webp' },
+        { title: "mixed seeds archival ('19-'23)", meta: "2023 lançamento", img: W + 'au_mixed-seeds.webp' },
+        { title: "Qa", meta: "2023 lançamento", img: W + 'au_qa.webp' },
+        { title: "K-Drill Repack", meta: "2022 lançamento" },
+        { title: "Rarer Demons", meta: "2022 lançamento", img: W + 'au_rarer-demons.webp' },
+        { title: "Altered State", meta: "2021 lançamento" },
+        { title: "Half Life", meta: "2021 lançamento" },
+        { title: "International Flux", meta: "2021 lançamento" },
+        { title: "No Format", meta: "2021 lançamento" },
+        { title: "Overtones", meta: "2021 lançamento" },
+        { title: "virtualsoundscape.net", meta: "2021 lançamento" },
+        { title: "Almost Dusk", meta: "2020 lançamento" },
+        { title: "Boladona Flip", meta: "2020 lançamento" },
+        { title: "Digital Disk", meta: "2020 lançamento" },
+        { title: "Ekranoplan", meta: "2020 lançamento" },
+        { title: "Leftover Selected Works I", meta: "2020 lançamento" },
+        { title: "Panelada", meta: "2020 lançamento" },
+        { title: "Rare Demons Minitapes Deluxe", meta: "2020 lançamento" },
+        { title: "Resolutions", meta: "2020 lançamento" },
+        { title: "Set of Tools Vol.1", meta: "2020 lançamento" },
+        { title: "Tenacity", meta: "2020 lançamento" },
+        { title: "Worldwide Stream", meta: "2020 lançamento" },
+        { title: "Cachorrada (Jersey Club Edit)", meta: "2019 lançamento" },
         { title: "Unreleased", meta: "lançamento" },
-        { title: "ON", meta: "2026 · produção", img: W + 'rel_on.webp' },
-        { title: "xrc no 130", meta: "2026 · produção", img: W + 'rel_xrc-no-130.webp' },
-        { title: "VOLT-AMPÈRE", meta: "2025 · produção", img: W + 'rel_volt-ampere.webp' },
-        { title: "monocromia", meta: "2025 · produção", img: W + 'rel_monocromia.webp' },
-        { title: "Toda Noite Busco o Sol", meta: "2025 · produção", img: W + 'rel_toda-noite-busco-o-sol.webp' },
-        { title: "Calor", meta: "2024 · produção", img: W + 'rel_calor.webp' },
-        { title: "VOLT MIX: O Retorno", meta: "2024 · produção", img: W + 'rel_volt-mix-o-retorno.webp' },
-        { title: "Insônia Kurt", meta: "2024 · coprodução", img: W + 'rel_insonia-kurt.webp' },
-        { title: "Trilha Sonora", meta: "2022 · produção", img: W + 'rel_trilha-sonora.webp' },
-        { title: "FAT KEP", meta: "2022 · produção", img: W + 'rel_fat-kep.webp' },
-        { title: "Begonia", meta: "2022 · produção · remix", img: W + 'rel_begonia.webp' },
-        { title: "Ameaça Detectada", meta: "2021 · coprodução", img: W + 'rel_ameaca-detectada.webp' },
-        { title: "Intraterreno", meta: "2020 · produção · remix", img: W + 'rel_intraterreno.webp' },
+        { title: "ON", meta: "2026 produção", img: W + 'rel_on.webp' },
+        { title: "xrc no 130", meta: "2026 produção", img: W + 'rel_xrc-no-130.webp' },
+        { title: "VOLT-AMPÈRE", meta: "2025 produção", img: W + 'rel_volt-ampere.webp' },
+        { title: "monocromia", meta: "2025 produção", img: W + 'rel_monocromia.webp' },
+        { title: "Toda Noite Busco o Sol", meta: "2025 produção", img: W + 'rel_toda-noite-busco-o-sol.webp' },
+        { title: "Calor", meta: "2024 produção", img: W + 'rel_calor.webp' },
+        { title: "VOLT MIX: O Retorno", meta: "2024 produção", img: W + 'rel_volt-mix-o-retorno.webp' },
+        { title: "Insônia Kurt", meta: "2024 coprodução", img: W + 'rel_insonia-kurt.webp' },
+        { title: "Trilha Sonora", meta: "2022 produção", img: W + 'rel_trilha-sonora.webp' },
+        { title: "FAT KEP", meta: "2022 produção", img: W + 'rel_fat-kep.webp' },
+        { title: "Begonia", meta: "2022 produção remix", img: W + 'rel_begonia.webp' },
+        { title: "Ameaça Detectada", meta: "2021 coprodução", img: W + 'rel_ameaca-detectada.webp' },
+        { title: "Intraterreno", meta: "2020 produção remix", img: W + 'rel_intraterreno.webp' },
       ]
     },
     culture: {
@@ -101,24 +101,24 @@
     engineer: {
       title: 'engenharia de mixagem e masterização',
       items: [
-        { title: "intrínseca city", meta: "2026 · mixagem · masterização", img: W + 'rel_intrinseca-city.webp' },
-        { title: "ON", meta: "2026 · mixagem · masterização", img: W + 'rel_on.webp' },
-        { title: "VELUDO", meta: "2026 · mixagem · masterização", img: W + 'rel_veludo.webp' },
-        { title: "xrc no 130", meta: "2026 · mixagem · masterização", img: W + 'rel_xrc-no-130.webp' },
-        { title: "então pede! (mãe de pet)", meta: "2025 · mixagem · masterização", img: W + 'rel_entao-pede-mae-de-pet.webp' },
-        { title: "VOLT-AMPÈRE", meta: "2025 · mixagem", img: W + 'rel_volt-ampere.webp' },
-        { title: "Toda Noite Busco o Sol", meta: "2025 · mixagem · masterização", img: W + 'rel_toda-noite-busco-o-sol.webp' },
-        { title: "Contratempo", meta: "2025 · mixagem · masterização", img: W + 'rel_contratempo.webp' },
-        { title: "MODO MOLA", meta: "2024 · masterização", img: W + 'rel_modo-mola.webp' },
-        { title: "Calor", meta: "2024 · mixagem · masterização", img: W + 'rel_calor.webp' },
-        { title: "Insônia Kurt", meta: "2024 · mixagem · masterização", img: W + 'rel_insonia-kurt.webp' },
-        { title: "Qual a Lei", meta: "2024 · mixagem · masterização", img: W + 'rel_qual-a-lei.webp' },
-        { title: "Intro 2024", meta: "2024 · mixagem · masterização", img: W + 'rel_intro-2024.webp' },
-        { title: "Rtmz #001", meta: "2023 · mixagem · masterização", img: W + 'rel_rtmz-001.webp' },
-        { title: "Renc Renc", meta: "2023 · mixagem · masterização", img: W + 'rel_renc-renc.webp' },
-        { title: "Baby I'm Bleeding", meta: "2022 · mixagem · masterização", img: W + 'rel_baby-i-m-bleeding.webp' },
-        { title: "Evangeline Blue", meta: "2022 · mixagem · masterização", img: W + 'rel_evangeline-blue.webp' },
-        { title: "Vida Bagunçada", meta: "2022 · mixagem · masterização", img: W + 'rel_vida-baguncada.webp' },
+        { title: "intrínseca city", meta: "2026 mixagem masterização", img: W + 'rel_intrinseca-city.webp' },
+        { title: "ON", meta: "2026 mixagem masterização", img: W + 'rel_on.webp' },
+        { title: "VELUDO", meta: "2026 mixagem masterização", img: W + 'rel_veludo.webp' },
+        { title: "xrc no 130", meta: "2026 mixagem masterização", img: W + 'rel_xrc-no-130.webp' },
+        { title: "então pede! (mãe de pet)", meta: "2025 mixagem masterização", img: W + 'rel_entao-pede-mae-de-pet.webp' },
+        { title: "VOLT-AMPÈRE", meta: "2025 mixagem", img: W + 'rel_volt-ampere.webp' },
+        { title: "Toda Noite Busco o Sol", meta: "2025 mixagem masterização", img: W + 'rel_toda-noite-busco-o-sol.webp' },
+        { title: "Contratempo", meta: "2025 mixagem masterização", img: W + 'rel_contratempo.webp' },
+        { title: "MODO MOLA", meta: "2024 masterização", img: W + 'rel_modo-mola.webp' },
+        { title: "Calor", meta: "2024 mixagem masterização", img: W + 'rel_calor.webp' },
+        { title: "Insônia Kurt", meta: "2024 mixagem masterização", img: W + 'rel_insonia-kurt.webp' },
+        { title: "Qual a Lei", meta: "2024 mixagem masterização", img: W + 'rel_qual-a-lei.webp' },
+        { title: "Intro 2024", meta: "2024 mixagem masterização", img: W + 'rel_intro-2024.webp' },
+        { title: "Rtmz #001", meta: "2023 mixagem masterização", img: W + 'rel_rtmz-001.webp' },
+        { title: "Renc Renc", meta: "2023 mixagem masterização", img: W + 'rel_renc-renc.webp' },
+        { title: "Baby I'm Bleeding", meta: "2022 mixagem masterização", img: W + 'rel_baby-i-m-bleeding.webp' },
+        { title: "Evangeline Blue", meta: "2022 mixagem masterização", img: W + 'rel_evangeline-blue.webp' },
+        { title: "Vida Bagunçada", meta: "2022 mixagem masterização", img: W + 'rel_vida-baguncada.webp' },
       ]
     },
     dj: {
@@ -128,7 +128,7 @@
     dev: {
       title: 'desenvolvimento',
       items: [
-        { title: 'opcoda', meta: 'VST3, C++ · sintetizador granular', img: W + 'dev_opcoda.webp', link: 'https://github.com/9matesu/Opcoda' },
+        { title: 'opcoda', meta: 'VST3, C++ sintetizador granular', img: W + 'dev_opcoda.webp', link: 'https://github.com/9matesu/Opcoda' },
         { title: 'minisynth32', meta: 'ESP32-S3, TypeScript', img: W + 'img_github_minisynth32.webp', link: 'https://github.com/9matesu/minisynth32' },
         { title: 'catlas', meta: 'Python, documentação', img: W + 'img_github_catlas.webp', link: 'https://github.com/9matesu/Catlas' },
         { title: 'wptools', meta: 'PowerShell, Windows', img: W + 'img_github_wptools.webp', link: 'https://github.com/9matesu/WPtools' },
@@ -138,7 +138,7 @@
     about: {
       title: 'matesuposting',
       items: [
-        { title: 'matesuposting', meta: 'caderno de ideias · são paulo', link: '' }
+        { title: 'matesuposting', meta: 'caderno de ideias são paulo', link: '' }
       ]
     },
     contact: {
