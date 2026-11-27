@@ -661,21 +661,8 @@
   /* caixas pequenas e arrastáveis. O tema escuro so muda ao arrastar uma caixa. */
   (function () {
     var palette = ['#FF595E', '#FFCA3A', '#8AC926', '#1982C4', '#6A4C93'];
-    var themes = [
-      { bg: '#FFFFFF', ink: '#FF595E', accent: '#FF595E' },
-      { bg: '#2A2A2A', ink: '#FFCA3A', accent: '#FFCA3A' },
-      { bg: '#2A2A2A', ink: '#8AC926', accent: '#8AC926' },
-      { bg: '#FFFFFF', ink: '#1982C4', accent: '#1982C4' },
-      { bg: '#FFFFFF', ink: '#6A4C93', accent: '#6A4C93' }
-    ];
+    var dark = '#2A2A2A';
     var root = document.documentElement;
-    var shapes = [];
-    var currentAccent = null;
-    function colorize() {
-      shapes.forEach(function (s) {
-        s.setAttribute('fill', currentAccent || palette[+s.getAttribute('data-palette-index')]);
-      });
-    }
 
     function soft(hex, a) {
       var v = parseInt(hex.slice(1), 16);
@@ -688,11 +675,12 @@
       root.style.setProperty('--muted', t.ink);
       root.style.setProperty('--rule-soft', soft(t.ink, 0.16));
       root.style.setProperty('--hatch', 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'14\' height=\'14\' viewBox=\'0 0 14 14\'%3E%3Cpath d=\'M0 0L14 14M14 0L0 14\' stroke=\'%23' + t.ink.slice(1) + '\' stroke-width=\'1\' fill=\'none\'/%3E%3C/svg%3E")');
-      currentAccent = t.accent;
-      colorize();
     }
-    function randomTheme() {
-      applyTheme(themes[Math.floor(Math.random() * themes.length)]);
+    function themeFor(index) {
+      var color = palette[index % palette.length];
+      return Math.random() < 0.5
+        ? { bg: color, ink: dark }
+        : { bg: dark, ink: color };
     }
 
     var frame = document.querySelector('.frame');
@@ -718,7 +706,6 @@
       shape.setAttribute('data-palette-index', i % palette.length);
       shape.setAttribute('fill', palette[i % palette.length]);
       svg.appendChild(shape);
-      shapes.push(shape);
     }
     frame.appendChild(svg);
 
@@ -727,7 +714,7 @@
       shape.addEventListener('pointerdown', function (e) {
         e.stopPropagation();
         e.preventDefault();
-        randomTheme();
+        applyTheme(themeFor(+shape.getAttribute('data-palette-index')));
         drag = {
           shape: shape,
           sx: e.clientX,
