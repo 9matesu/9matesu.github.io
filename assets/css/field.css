@@ -27,7 +27,7 @@ html, body, body * { cursor: url('cursor.cur'), default; }
 .poster {
   width: 100vw;
   height: 100svh;
-  padding: clamp(20px, 4vw, 56px);
+  padding: clamp(16px, 3vw, 40px);
 }
 
 .frame {
@@ -75,7 +75,7 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   background: var(--bg);
   outline: 1px solid var(--rule);
   padding: 0.18em 0.22em;
-  font-size: clamp(36px, 5vw, 72px);
+  font-size: clamp(28px, 4vw, 54px);
   line-height: 0.95;
   letter-spacing: -0.03em;
   white-space: nowrap;
@@ -97,7 +97,7 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
-  font-size: clamp(12px, 1.15vw, 16px);
+  font-size: clamp(10px, 0.95vw, 13px);
   font-weight: 400;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -125,7 +125,7 @@ html, body, body * { cursor: url('cursor.cur'), default; }
 .statement.is-active { opacity: 1; visibility: visible; }
 .statement p {
   margin: 0;
-  font-size: clamp(26px, 3.5vw, 52px);
+  font-size: clamp(19px, 2.6vw, 38px);
   font-weight: 300;
   line-height: 1.06;
   letter-spacing: -0.02em;
@@ -142,10 +142,10 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   :root {
     --cols: 1.3fr 0.8fr 0.8fr 1.7fr 1.7fr 0.9fr 0.9fr 0.9fr 0.9fr 0.9fr 0.9fr 1.3fr;
   }
-  .poster { padding: 12px; }
-  .name { font-size: clamp(26px, 7vw, 40px); }
+  .poster { padding: 10px; }
+  .name { font-size: clamp(22px, 6vw, 32px); }
   .statement { grid-area: 4 / 2 / 7 / 12; justify-self: center; padding: 0.28em 0.42em; }
-  .statement p { font-size: clamp(19px, 5vw, 30px); white-space: normal; }
+  .statement p { font-size: clamp(15px, 4vw, 23px); white-space: normal; }
   .tab-about { grid-area: 1 / 9 / 2 / 13; }
   .tab-contact { grid-area: 8 / 9 / 9 / 13; }
   .hatch-left { grid-area: 3 / 1 / 7 / 3; }
