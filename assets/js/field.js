@@ -25,6 +25,23 @@
         { title: 'arte BLACKMESA', meta: "10/08/2026", img: W + 'ig_Db4CVuZkXt7.webp', link: "https://instagram.com/p/Db4CVuZkXt7/" },
         { title: 'arte BLACKMESA', meta: "04/08/2026", img: W + 'ig_Dbod1kuieBg.webp', link: "https://instagram.com/p/Dbod1kuieBg/" },
         { title: 'arte BLACKMESA', meta: "28/07/2026", img: W + 'ig_DbWdqgpkVVJ.webp', link: "https://instagram.com/p/DbWdqgpkVVJ/" },
+        { title: "BLACKMESA 04/05", meta: "flyer · 04/05", img: W + 'bm_blackmesa-04-05.webp' },
+        { title: "BLACKMESA TAKEOVER", meta: "flyer · 07/09", img: W + 'bm_takeover-07-09.webp' },
+        { title: "V. MADALENA", meta: "flyer · 20/09", img: W + 'bm_v-madalena-20-09.webp' },
+        { title: "BLACKMESA CRIA", meta: "flyer · 28/09", img: W + 'bm_cria-28-09.webp' },
+        { title: "HALLOWGRIME", meta: "flyer · 26/10", img: W + 'bm_hallowgrime-26-10.webp' },
+        { title: "PRAFRENTEX", meta: "flyer · 07/12", img: W + 'bm_prafrontenx-07-12.webp' },
+        { title: "A ÚLTIMA DO ANO", meta: "flyer · 14/12", img: W + 'bm_ultima-do-ano-14-12.webp' },
+        { title: "BLACKMESA LABS I", meta: "flyer · 29/03", img: W + 'bm_labs-29-03.webp' },
+        { title: "BLACKMESA LABS", meta: "flyer · 03/05", img: W + 'bm_labs-03-05.webp' },
+        { title: "TACITURNO MEETS BLACKMESA", meta: "flyer · 18/05", img: W + 'bm_taciturno-18-05.webp' },
+        { title: "BLACKMESA BASES II", meta: "flyer · 19/07", img: W + 'bm_bases-ii-19-07.webp' },
+        { title: "BLACKMESA VAULT", meta: "flyer · 17/07", img: W + 'bm_vault-17-07.webp' },
+        { title: "BLACKMESA LABS", meta: "flyer · 27/09", img: W + 'bm_labs-27-09.webp' },
+        { title: "VAULT 2", meta: "flyer · 20/09/2025", img: W + 'bm_vault-2-20-09.webp' },
+        { title: "BLACKMESA LABS", meta: "flyer · 07/03/2026", img: W + 'bm_labs-07-03.webp' },
+        { title: "BLACKMESA", meta: "flyer · 09/09", img: W + 'bm_blackmesa-09-09.webp' },
+        { title: "VILELA BADAY", meta: "flyer · 05/06", img: W + 'bm_vilela-baday-05-06.webp' },
       ]
     },
     music: {
@@ -74,30 +91,10 @@
     },
     culture: {
       title: 'produção cultural',
-      intro: "produção de eventos pelo BLACKMESA, são paulo. co-fundador do selo bloodworm trax. dj na @festa.salada, cruzeiro.",
-      items: [
-        { title: "BLACKMESA", meta: "coletivo artístico · são paulo", img: W + 'img_bmhz0_frente.webp', link: "https://instagram.com/blackmesaent" },
-        { title: "bloodworm trax", meta: "selo musical · co-fundador", img: W + 'img_logos_bloodworm.webp', link: "https://bloodwormtrax.neocities.org" },
-        { title: "festa.salada", meta: "dj · cruzeiro", img: W + 'cul_salada-p1.webp', link: "https://instagram.com/festa.salada" },
-        { title: "Agenda Maio 24", meta: "flyer · maio 2024", img: W + 'cul_agenda-mai24.webp' },
-        { title: "Agenda Junho 24", meta: "flyer · junho 2024", img: W + 'cul_agenda-jun24.webp' },
-        { title: "Agenda Aberta", meta: "flyer · novembro", img: W + 'cul_agenda-nov.webp' },
-        { title: "Agenda Aberta 01", meta: "flyer · janeiro 2026", img: W + 'cul_agenda-jan26.webp' },
-        { title: "VILELA BADAY", meta: "flyer · 05/06/2026", img: W + 'ig_DYxwEdlkVhV.webp' },
-        { title: "Vilela Baday", meta: "flyer · 05.06.2026", img: W + 'ig_DZV0v8-R5eb.webp' },
-        { title: "GVLPAOMESA", meta: "flyer · 07/08/2026", img: W + 'ig_Db4CVuZkXt7.webp' },
-        { title: "GVLPVOMESA", meta: "flyer · julho 2026", img: W + 'ig_DbWdqgpkVVJ.webp' },
-        { title: "CONCRETICIDADE", meta: "flyer · 27/07/2026", img: W + 'ig_DcPIMLuIGC7.webp' },
-        { title: "CONCRETICIDADE", meta: "flyer · 27/08/2026", img: W + 'ig_DcjMOgfkeyS.webp' },
-        { title: "ESKISUIT", meta: "flyer · outubro 2026", img: W + 'ig_DfCzNVDRUPn.webp' },
-        { title: "Festa da firma", meta: "flyer · 05/12/2026", img: W + 'ig_DgI5Ea_oPcd.webp' },
-        { title: "Galpão Mesa", meta: "flyer · blackmesa", img: W + 'cul_bm-galpao.webp' },
-        { title: "SKT Day 03", meta: "flyer · sktday", img: W + 'cul_flyer-sktday-3.webp' },
-        { title: "SKT Camp 01", meta: "flyer · sktcamp", img: W + 'cul_flyer-sktcamp-1.webp' },
-        { title: "Starkenoten", meta: "flyer · bar alto", img: W + 'cul_flyer-stark.webp' },
-        { title: "Brouse", meta: "flyer · 29.08", img: W + 'cul_flyer-brouse.webp' },
-        { title: "Vault 2", meta: "flyer · 17.12.2025", img: W + 'cul_flyer-vault2.webp' },
-        { title: "RV Fest", meta: "flyer · festival", img: W + 'cul_flyer-rvsfest.webp' },
+      intro: 'produção de eventos pelo @blackmesaent, são paulo. co-fundador do selo @bloodwormtrax. dj na @festa.salada, cruzeiro.',
+      links: [
+        { label: '@blackmesaent', url: 'https://instagram.com/blackmesaent' },
+        { label: '@bloodwormtrax', url: 'https://instagram.com/bloodwormtrax' }
       ]
     },
     engineer: {
@@ -224,12 +221,42 @@
     h.textContent = data.title;
     popupBody.appendChild(h);
     if (data.intro) {
-      var intro = document.createElement('p');
-      intro.className = 'popup-intro';
-      intro.textContent = data.intro;
-      popupBody.appendChild(intro);
+      var introEl = document.createElement('p');
+      introEl.className = 'popup-intro';
+      if (data.links) {
+        var parts = data.intro.split(/(\@[a-z0-9._]+)/gi);
+        parts.forEach(function (part) {
+          var link = (data.links || []).find(function (l) { return l.label === part; });
+          if (link) {
+            var a = document.createElement('a');
+            a.href = link.url;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = part;
+            introEl.appendChild(a);
+          } else {
+            introEl.appendChild(document.createTextNode(part));
+          }
+        });
+      } else {
+        introEl.textContent = data.intro;
+      }
+      popupBody.appendChild(introEl);
     }
-    popupBody.appendChild(render(key));
+    if (data.photos) {
+      var strip = document.createElement('div');
+      strip.className = 'photo-strip';
+      data.photos.forEach(function (src) {
+        var im = document.createElement('img');
+        im.src = src;
+        im.alt = '';
+        im.loading = 'lazy';
+        strip.appendChild(im);
+      });
+      popupBody.appendChild(strip);
+    } else if (data.items) {
+      popupBody.appendChild(render(key));
+    }
     popup.dataset.key = key;
     popup.classList.add('is-open');
     popup.setAttribute('aria-hidden', 'false');

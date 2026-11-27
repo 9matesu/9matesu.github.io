@@ -221,6 +221,24 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   line-height: 1.5;
   color: var(--muted, #9a9a9a);
 }
+.popup-intro a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.popup-intro a:hover, .popup-intro a:focus-visible { text-decoration-thickness: 2px; }
+.photo-strip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 0.2em;
+}
+.photo-strip img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
 .work-list {
   margin: 0;
   padding: 0;
@@ -303,7 +321,8 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   .statement { grid-area: 4 / 2 / 7 / 12; justify-self: center; padding: 0.28em 0.42em; }
   .statement p { font-size: clamp(15px, 4vw, 23px); white-space: normal; }
   .popup { grid-area: 2 / 2 / 8 / 12; width: 94%; padding: 1.6em 1.8em 0.9em 1em; }
-  .popup-body { font-size: clamp(12px, 3.4vw, 15px); }
+  .popup-intro { font-size: clamp(12px, 3.4vw, 15px); }
+  .photo-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .work-img { width: 28px; height: 28px; }
   .name-photo { width: 0; }
   .name.is-expanded .name-photo { width: 96px; }
