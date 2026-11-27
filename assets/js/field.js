@@ -380,10 +380,11 @@
     var N = 9;
     var DAMP = 0.78;
     var SPRING = 0.12;
-    var RADIUS = 70;
-    var PUSH = 1.6;
+    var CONTACT = 9;
+    var PLUCK = 0.55;
+    var MAX_PLUCK = 4;
     var ropes = [];
-    var pointer = { x: 0, y: 0, on: false };
+    var pointer = { x: 0, y: 0, vx: 0, vy: 0, on: false };
     var frameId = 0;
     var still = 0;
     var resizeTimer = null;
@@ -453,16 +454,28 @@
             p.py = p.y;
             p.x += vx + (p.rx - p.x) * SPRING;
             p.y += vy + (p.ry - p.y) * SPRING;
-            if (pointer.on) {
-              var dx = p.x - mx;
-              var dy = p.y - my;
-              var d2 = dx * dx + dy * dy;
-              if (d2 < RADIUS * RADIUS) {
-                var d = Math.sqrt(d2) || 1;
-                var f = (1 - d / RADIUS) * PUSH;
-                p.x += dx / d * f + (Math.random() - 0.5) * 0.7;
-                p.y += dy / d * f + (Math.random() - 0.5) * 0.7;
-              }
+          }
+          if (pointer.on && Math.abs(pointer.vx) + Math.abs(pointer.vy) > 0.4) {
+            for (i = 1; i < N; i++) {
+              var c0 = pts[i - 1];
+              var c1 = pts[i];
+              var sx = c1.x - c0.x;
+              var sy = c1.y - c0.y;
+              var len2 = sx * sx + sy * sy;
+              if (len2 < 1) continue;
+              var t = ((mx - c0.x) * sx + (my - c0.y) * sy) / len2;
+              if (t < 0 || t > 1) continue;
+              var dx = mx - (c0.x + sx * t);
+              var dy = my - (c0.y + sy * t);
+              if (dx * dx + dy * dy > CONTACT * CONTACT) continue;
+              var len = Math.sqrt(len2);
+              var nx = -sy / len;
+              var ny = sx / len;
+              var force = (pointer.vx * nx + pointer.vy * ny) * PLUCK;
+              if (force > MAX_PLUCK) force = MAX_PLUCK;
+              if (force < -MAX_PLUCK) force = -MAX_PLUCK;
+              if (!c0.pin) { c0.x += nx * force * (1 - t); c0.y += ny * force * (1 - t); }
+              if (!c1.pin) { c1.x += nx * force * t; c1.y += ny * force * t; }
             }
           }
           for (var k = 0; k < 2; k++) {
@@ -490,7 +503,10 @@
           s.path.setAttribute('d', d);
         });
       });
-      still = (!pointer.on && maxMove < 0.2) ? still + 1 : 0;
+      var active = Math.abs(pointer.vx) + Math.abs(pointer.vy) > 0.4;
+      still = (!active && maxMove < 0.2) ? still + 1 : 0;
+      pointer.vx *= 0.55;
+      pointer.vy *= 0.55;
       if (still > 30) { frameId = 0; return; }
       frameId = requestAnimationFrame(draw);
     }
@@ -500,6 +516,8 @@
       if (!frameId) frameId = requestAnimationFrame(draw);
     }
     document.addEventListener('pointermove', function (e) {
+      pointer.vx = Math.max(-20, Math.min(20, e.clientX - pointer.x));
+      pointer.vy = Math.max(-20, Math.min(20, e.clientY - pointer.y));
       pointer.x = e.clientX;
       pointer.y = e.clientY;
       pointer.on = true;
@@ -508,6 +526,8 @@
     document.addEventListener('pointerdown', function (e) {
       pointer.x = e.clientX;
       pointer.y = e.clientY;
+      pointer.vx = 0;
+      pointer.vy = 0;
       pointer.on = true;
       wake();
     }, { passive: true });
