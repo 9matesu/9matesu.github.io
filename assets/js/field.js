@@ -15,11 +15,16 @@
       title: 'design gráfico',
       items: [
         { title: 'Iran Tee', meta: 'Bulgarian Stock Exchange · estampa têxtil · 2025', imgs: [W + 'img_bse_frente.webp', W + 'img_bse_costas.webp'], link: 'https://plazaaaaa.com/product/2340' },
-        { title: 'BLACKMESA', meta: 'identidade visual · 2025', img: W + 'img_logos_blackmesa.webp', link: 'https://behance.net/gallery/226862609/BLACKMESA-2025' },
-        { title: 'BLACKMESA', meta: 'identidade visual · 2024', img: W + 'img_logos_blackmesa.webp', link: 'https://behance.net/gallery/226860687/BLACKMESA-2024' },
-        { title: 'LAGERHAUS I', meta: 'direção de arte · 2024', img: W + 'img_logos_bloodworm.webp', link: 'https://behance.net/gallery/226864143/bloodworm-trax-LAGERHAUS-I' },
-        { title: 'TRACKMESA', meta: 'flyer · 10/07/2026', img: W + 'img_trackmesa_1.webp' },
-        { title: 'Vault 2', meta: 'flyer · 17/12/2025', img: W + 'img_misc_vault2_FINAL_3.webp' }
+        { title: 'arte BLACKMESA', meta: "19/08/2026", img: W + 'ig_DcPIMLuIGC7.webp', link: "https://instagram.com/p/DcPIMLuIGC7/" },
+        { title: 'arte BLACKMESA', meta: "31/08/2026", img: W + 'ig_DctdvyuolnS.webp', link: "https://instagram.com/p/DctdvyuolnS/" },
+        { title: 'arte BLACKMESA', meta: "24/11/2026", img: W + 'ig_DgI5Ea_oPcd.webp', link: "https://instagram.com/p/DgI5Ea_oPcd/" },
+        { title: 'arte BLACKMESA', meta: "28/10/2026", img: W + 'ig_DfCzNVDRUPn.webp', link: "https://instagram.com/p/DfCzNVDRUPn/" },
+        { title: 'arte BLACKMESA', meta: "08/10/2026", img: W + 'ig_DeQM8rikfPl.webp', link: "https://instagram.com/p/DeQM8rikfPl/" },
+        { title: 'arte BLACKMESA', meta: "30/09/2026", img: W + 'ig_Dd7TPm6m1Cm.webp', link: "https://instagram.com/p/Dd7TPm6m1Cm/" },
+        { title: 'arte BLACKMESA', meta: "27/08/2026", img: W + 'ig_DcjMOgfkeyS.webp', link: "https://instagram.com/p/DcjMOgfkeyS/" },
+        { title: 'arte BLACKMESA', meta: "10/08/2026", img: W + 'ig_Db4CVuZkXt7.webp', link: "https://instagram.com/p/Db4CVuZkXt7/" },
+        { title: 'arte BLACKMESA', meta: "04/08/2026", img: W + 'ig_Dbod1kuieBg.webp', link: "https://instagram.com/p/Dbod1kuieBg/" },
+        { title: 'arte BLACKMESA', meta: "28/07/2026", img: W + 'ig_DbWdqgpkVVJ.webp', link: "https://instagram.com/p/DbWdqgpkVVJ/" },
       ]
     },
     music: {
@@ -105,7 +110,7 @@
     dev: {
       title: 'desenvolvimento',
       items: [
-        { title: 'opcoda', meta: 'VST3, C++ · sintetizador granular', img: W + 'img_github_opcoda.webp', link: 'https://github.com/9matesu/Opcoda' },
+        { title: 'opcoda', meta: 'VST3, C++ · sintetizador granular', img: W + 'dev_opcoda.webp', link: 'https://github.com/9matesu/Opcoda' },
         { title: 'minisynth32', meta: 'ESP32-S3, TypeScript', img: W + 'img_github_minisynth32.webp', link: 'https://github.com/9matesu/minisynth32' },
         { title: 'catlas', meta: 'Python, documentação', img: W + 'img_github_catlas.webp', link: 'https://github.com/9matesu/Catlas' },
         { title: 'wptools', meta: 'PowerShell, Windows', img: W + 'img_github_wptools.webp', link: 'https://github.com/9matesu/WPtools' },
