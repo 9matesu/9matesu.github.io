@@ -420,7 +420,7 @@
     [].slice.call(layer.querySelectorAll('.hatch')).forEach(function (h) {
       h.parentNode.removeChild(h);
     });
-    var count = 3 + Math.floor(Math.random() * 3);
+    var count = 5 + Math.floor(Math.random() * 4);
     var used = [];
     function freeBox(r1, c1, r2, c2) {
       return !used.some(function (b) {
@@ -430,12 +430,12 @@
     for (var k = 0; k < count; k++) {
       var hr, hc, hh, hw, tries = 0;
       do {
-        hr = 2 + Math.floor(Math.random() * Math.max(1, rows - 3));
-        hc = 2 + Math.floor(Math.random() * Math.max(1, cols - 3));
-        hh = 2 + Math.floor(Math.random() * Math.min(3, rows - hr + 1));
-        hw = 3 + Math.floor(Math.random() * Math.min(4, cols - hc + 1));
+        hr = 1 + Math.floor(Math.random() * Math.max(1, rows - 2));
+        hc = 1 + Math.floor(Math.random() * Math.max(1, cols - 3));
+        hh = 1 + Math.floor(Math.random() * Math.min(2, rows - hr + 1));
+        hw = 2 + Math.floor(Math.random() * Math.min(3, cols - hc + 1));
         tries++;
-      } while (!freeBox(hr, hc, hr + hh, hc + hw) && tries < 30);
+      } while (!freeBox(hr, hc, hr + hh, hc + hw) && tries < 60);
       if (!freeBox(hr, hc, hr + hh, hc + hw)) continue;
       used.push([hr, hc, hr + hh, hc + hw]);
       var h = document.createElement('div');
@@ -465,6 +465,21 @@
     var still = 0;
     var resizeTimer = null;
 
+    function clip(px, py, dx, dy, w, h) {
+      var t0 = 0;
+      var t1 = Infinity;
+      function cut(p, q) {
+        if (p === 0) return q >= 0;
+        var r = q / p;
+        if (p < 0) { if (r > t1) return false; if (r > t0) t0 = r; }
+        else { if (r < t0) return false; if (r < t1) t1 = r; }
+        return true;
+      }
+      if (!cut(-dx, px) || !cut(dx, w - px) || !cut(-dy, py) || !cut(dy, h - py)) return null;
+      if (t1 - t0 < 12) return null;
+      return { x0: px + dx * t0, y0: py + dy * t0, x1: px + dx * t1, y1: py + dy * t1 };
+    }
+
     function buildRopes() {
       if (frameId) { cancelAnimationFrame(frameId); frameId = 0; }
       ropes.forEach(function (r) { r.svg.parentNode.removeChild(r.svg); });
@@ -477,62 +492,36 @@
         svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
         svg.setAttribute('preserveAspectRatio', 'none');
         svg.setAttribute('aria-hidden', 'true');
-        var ang = (parseFloat(el.dataset.angle) || 45) * Math.PI / 180;
-        var dx = Math.cos(ang);
-        var dy = Math.sin(ang);
-        var nx = -dy;
-        var ny = dx;
         var gap = parseFloat(el.dataset.gap) || GAP;
-        var cx = w / 2;
-        var cy = h / 2;
-        var side = Math.min(w, h);
-        var a0 = side * 0.9;
-        var b0 = side * 0.42;
-        var limX = Math.max(1, w / 2 - 6);
-        var limY = Math.max(1, h / 2 - 6);
-        var fit = Math.min(
-          limX / (a0 * Math.abs(dx) + b0 * Math.abs(nx)),
-          limY / (a0 * Math.abs(dy) + b0 * Math.abs(ny))
-        );
-        var A = a0 * fit;
-        var B = b0 * fit;
-        var corners = [
-          [cx - dx * A - nx * B, cy - dy * A - ny * B],
-          [cx + dx * A - nx * B, cy + dy * A - ny * B],
-          [cx + dx * A + nx * B, cy + dy * A + ny * B],
-          [cx - dx * A + nx * B, cy - dy * A + ny * B]
+        var diag = Math.sqrt(w * w + h * h);
+        var dirs = [
+          { dx: Math.SQRT1_2, dy: Math.SQRT1_2 },
+          { dx: Math.SQRT1_2, dy: -Math.SQRT1_2 }
         ];
-        var outline = document.createElementNS(NS, 'path');
-        outline.setAttribute('d', 'M' + corners.map(function (p) {
-          return p[0].toFixed(1) + ' ' + p[1].toFixed(1);
-        }).join('L') + 'Z');
-        svg.appendChild(outline);
         var strings = [];
-        for (var o = -B; o <= B; o += gap) {
-          var x0 = cx + nx * o - dx * A;
-          var y0 = cy + ny * o - dy * A;
-          var x1 = cx + nx * o + dx * A;
-          var y1 = cy + ny * o + dy * A;
-          var pts = [];
-          var rest = 0;
-          for (var i = 0; i < N; i++) {
-            var t = i / (N - 1);
-            var x = x0 + (x1 - x0) * t;
-            var y = y0 + (y1 - y0) * t;
-            if (i) rest = Math.sqrt((x - pts[i - 1].x) * (x - pts[i - 1].x) + (y - pts[i - 1].y) * (y - pts[i - 1].y));
-            pts.push({ x: x, y: y, px: x, py: y, rx: x, ry: y, pin: i === 0 || i === N - 1 });
+        dirs.forEach(function (dir) {
+          var nx = -dir.dy;
+          var ny = dir.dx;
+          for (var o = -diag; o <= diag; o += gap) {
+            var line = clip(nx * o, ny * o, dir.dx, dir.dy, w, h);
+            if (!line) continue;
+            var pts = [];
+            var rest = 0;
+            for (var i = 0; i < N; i++) {
+              var t = i / (N - 1);
+              var x = line.x0 + (line.x1 - line.x0) * t;
+              var y = line.y0 + (line.y1 - line.y0) * t;
+              if (i) rest = Math.sqrt((x - pts[i - 1].x) * (x - pts[i - 1].x) + (y - pts[i - 1].y) * (y - pts[i - 1].y));
+              pts.push({ x: x, y: y, px: x, py: y, rx: x, ry: y, pin: i === 0 || i === N - 1 });
+            }
+            var path = document.createElementNS(NS, 'path');
+            svg.appendChild(path);
+            strings.push({ path: path, pts: pts, rest: rest });
           }
-          var path = document.createElementNS(NS, 'path');
-          svg.appendChild(path);
-          strings.push({ path: path, pts: pts, rest: rest });
-        }
+        });
         el.appendChild(svg);
         el.classList.add('has-strings');
-        ropes.push({
-          box: svg.getBoundingClientRect(), w: w, h: h,
-          cx: cx, cy: cy, dx: dx, dy: dy, nx: nx, ny: ny, A: A, B: B,
-          strings: strings, svg: svg
-        });
+        ropes.push({ box: svg.getBoundingClientRect(), w: w, h: h, strings: strings, svg: svg });
       });
       draw();
     }
@@ -595,14 +584,8 @@
           }
           for (i = 1; i < N - 1; i++) {
             var q = pts[i];
-            var qx = q.x - r.cx;
-            var qy = q.y - r.cy;
-            var along = qx * r.dx + qy * r.dy;
-            var across = qx * r.nx + qy * r.ny;
-            if (along < -r.A) along = -r.A; else if (along > r.A) along = r.A;
-            if (across < -r.B) across = -r.B; else if (across > r.B) across = r.B;
-            q.x = r.cx + along * r.dx + across * r.nx;
-            q.y = r.cy + along * r.dy + across * r.ny;
+            if (q.x < 0) q.x = 0; else if (q.x > r.w) q.x = r.w;
+            if (q.y < 0) q.y = 0; else if (q.y > r.h) q.y = r.h;
           }
           var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
           for (i = 1; i < N; i++) {
@@ -658,12 +641,12 @@
   /* caixas pequenas e arrastáveis. O tema escuro so muda ao arrastar uma caixa. */
   (function () {
     var themes = [
-      { bg: '#0000ff', ink: '#ffffff' },
-      { bg: '#ff0000', ink: '#ffffff' },
-      { bg: '#ffffff', ink: '#ff0000' },
-      { bg: '#ffff00', ink: '#000000' }
+      { bg: '#FFF3E0', ink: '#D16B8C' },
+      { bg: '#F5D76E', ink: '#3D3630' },
+      { bg: '#F4A6B7', ink: '#FFF3E0' },
+      { bg: '#E8D7F1', ink: '#4A3A5C' }
     ];
-    var colors = ['#0000ff', '#ffff00', '#ff0000'];
+    var colors = ['#F5D76E', '#F4A6B7', '#F7C59F', '#C9B6E4'];
     var root = document.documentElement;
 
     function soft(hex, a) {
@@ -694,36 +677,38 @@
     svg.setAttribute('aria-hidden', 'true');
     var count = 6 + Math.floor(Math.random() * 7);
     for (var i = 0; i < count; i++) {
-      var side = 16 + Math.random() * 44;
-      var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      rect.setAttribute('x', (Math.random() * (w - side)).toFixed(1));
-      rect.setAttribute('y', (Math.random() * (h - side)).toFixed(1));
-      rect.setAttribute('width', side.toFixed(1));
-      rect.setAttribute('height', side.toFixed(1));
-      rect.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
-      svg.appendChild(rect);
+      var span = 16 + Math.random() * 44;
+      var rx = span / 2;
+      var ry = rx * (0.55 + Math.random() * 0.4);
+      var shape = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+      shape.setAttribute('cx', (rx + Math.random() * Math.max(1, w - span)).toFixed(1));
+      shape.setAttribute('cy', (ry + Math.random() * Math.max(1, h - ry * 2)).toFixed(1));
+      shape.setAttribute('rx', rx.toFixed(1));
+      shape.setAttribute('ry', ry.toFixed(1));
+      shape.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
+      svg.appendChild(shape);
     }
     frame.appendChild(svg);
 
     var drag = null;
-    [].slice.call(svg.querySelectorAll('rect')).forEach(function (rect) {
-      rect.addEventListener('pointerdown', function (e) {
+    [].slice.call(svg.querySelectorAll('ellipse')).forEach(function (shape) {
+      shape.addEventListener('pointerdown', function (e) {
         e.stopPropagation();
         e.preventDefault();
         randomTheme();
         drag = {
-          rect: rect,
+          shape: shape,
           sx: e.clientX,
           sy: e.clientY,
-          x: parseFloat(rect.getAttribute('x')),
-          y: parseFloat(rect.getAttribute('y'))
+          x: parseFloat(shape.getAttribute('cx')),
+          y: parseFloat(shape.getAttribute('cy'))
         };
       });
     });
     document.addEventListener('pointermove', function (e) {
       if (!drag) return;
-      drag.rect.setAttribute('x', (drag.x + e.clientX - drag.sx).toFixed(1));
-      drag.rect.setAttribute('y', (drag.y + e.clientY - drag.sy).toFixed(1));
+      drag.shape.setAttribute('cx', (drag.x + e.clientX - drag.sx).toFixed(1));
+      drag.shape.setAttribute('cy', (drag.y + e.clientY - drag.sy).toFixed(1));
     });
     document.addEventListener('pointerup', function () { drag = null; });
     document.addEventListener('pointercancel', function () { drag = null; });

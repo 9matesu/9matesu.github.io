@@ -61,9 +61,9 @@ html, body, body * { cursor: url('cursor.cur'), default; }
 .hatch {
   background-image: var(--hatch);
   background-size: 14px 14px;
+  border: 1px solid var(--rule);
   pointer-events: none;
 }
-.hatch:not(.has-strings) { border: 1px solid var(--rule); }
 .hatch.has-strings { background-image: none; }
 .hatch svg {
   display: block;
@@ -87,8 +87,7 @@ html, body, body * { cursor: url('cursor.cur'), default; }
   pointer-events: none;
   z-index: 30;
 }
-.gen-squares rect {
-  shape-rendering: crispEdges;
+.gen-squares ellipse {
   pointer-events: auto;
   cursor: move;
 }
