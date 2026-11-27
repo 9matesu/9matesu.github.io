@@ -465,21 +465,6 @@
     var still = 0;
     var resizeTimer = null;
 
-    function clip(px, py, dx, dy, w, h) {
-      var t0 = 0;
-      var t1 = Infinity;
-      function cut(p, q) {
-        if (p === 0) return q >= 0;
-        var r = q / p;
-        if (p < 0) { if (r > t1) return false; if (r > t0) t0 = r; }
-        else { if (r < t0) return false; if (r < t1) t1 = r; }
-        return true;
-      }
-      if (!cut(-dx, px) || !cut(dx, w - px) || !cut(-dy, py) || !cut(dy, h - py)) return null;
-      if (t1 - t0 < 12) return null;
-      return { x0: px + dx * t0, y0: py + dy * t0, x1: px + dx * t1, y1: py + dy * t1 };
-    }
-
     function buildRopes() {
       if (frameId) { cancelAnimationFrame(frameId); frameId = 0; }
       ropes.forEach(function (r) { r.svg.parentNode.removeChild(r.svg); });
@@ -492,23 +477,48 @@
         svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
         svg.setAttribute('preserveAspectRatio', 'none');
         svg.setAttribute('aria-hidden', 'true');
-        var strings = [];
         var ang = (parseFloat(el.dataset.angle) || 45) * Math.PI / 180;
         var dx = Math.cos(ang);
         var dy = Math.sin(ang);
         var nx = -dy;
         var ny = dx;
         var gap = parseFloat(el.dataset.gap) || GAP;
-        var diag = Math.sqrt(w * w + h * h);
-        for (var o = -diag; o <= diag; o += gap) {
-          var line = clip(nx * o, ny * o, dx, dy, w, h);
-          if (!line) continue;
+        var cx = w / 2;
+        var cy = h / 2;
+        var side = Math.min(w, h);
+        var a0 = side * 0.9;
+        var b0 = side * 0.42;
+        var limX = Math.max(1, w / 2 - 6);
+        var limY = Math.max(1, h / 2 - 6);
+        var fit = Math.min(
+          limX / (a0 * Math.abs(dx) + b0 * Math.abs(nx)),
+          limY / (a0 * Math.abs(dy) + b0 * Math.abs(ny))
+        );
+        var A = a0 * fit;
+        var B = b0 * fit;
+        var corners = [
+          [cx - dx * A - nx * B, cy - dy * A - ny * B],
+          [cx + dx * A - nx * B, cy + dy * A - ny * B],
+          [cx + dx * A + nx * B, cy + dy * A + ny * B],
+          [cx - dx * A + nx * B, cy - dy * A + ny * B]
+        ];
+        var outline = document.createElementNS(NS, 'path');
+        outline.setAttribute('d', 'M' + corners.map(function (p) {
+          return p[0].toFixed(1) + ' ' + p[1].toFixed(1);
+        }).join('L') + 'Z');
+        svg.appendChild(outline);
+        var strings = [];
+        for (var o = -B; o <= B; o += gap) {
+          var x0 = cx + nx * o - dx * A;
+          var y0 = cy + ny * o - dy * A;
+          var x1 = cx + nx * o + dx * A;
+          var y1 = cy + ny * o + dy * A;
           var pts = [];
           var rest = 0;
           for (var i = 0; i < N; i++) {
             var t = i / (N - 1);
-            var x = line.x0 + (line.x1 - line.x0) * t;
-            var y = line.y0 + (line.y1 - line.y0) * t;
+            var x = x0 + (x1 - x0) * t;
+            var y = y0 + (y1 - y0) * t;
             if (i) rest = Math.sqrt((x - pts[i - 1].x) * (x - pts[i - 1].x) + (y - pts[i - 1].y) * (y - pts[i - 1].y));
             pts.push({ x: x, y: y, px: x, py: y, rx: x, ry: y, pin: i === 0 || i === N - 1 });
           }
@@ -518,7 +528,11 @@
         }
         el.appendChild(svg);
         el.classList.add('has-strings');
-        ropes.push({ box: svg.getBoundingClientRect(), w: w, h: h, strings: strings, svg: svg });
+        ropes.push({
+          box: svg.getBoundingClientRect(), w: w, h: h,
+          cx: cx, cy: cy, dx: dx, dy: dy, nx: nx, ny: ny, A: A, B: B,
+          strings: strings, svg: svg
+        });
       });
       draw();
     }
@@ -581,8 +595,14 @@
           }
           for (i = 1; i < N - 1; i++) {
             var q = pts[i];
-            if (q.x < 0) q.x = 0; else if (q.x > r.w) q.x = r.w;
-            if (q.y < 0) q.y = 0; else if (q.y > r.h) q.y = r.h;
+            var qx = q.x - r.cx;
+            var qy = q.y - r.cy;
+            var along = qx * r.dx + qy * r.dy;
+            var across = qx * r.nx + qy * r.ny;
+            if (along < -r.A) along = -r.A; else if (along > r.A) along = r.A;
+            if (across < -r.B) across = -r.B; else if (across > r.B) across = r.B;
+            q.x = r.cx + along * r.dx + across * r.nx;
+            q.y = r.cy + along * r.dy + across * r.ny;
           }
           var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
           for (i = 1; i < N; i++) {
