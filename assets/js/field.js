@@ -371,4 +371,157 @@
       el.style.top = '';
     });
   });
+
+  /* hachura como cordas: SVG inline com Verlet, empurradas pelo ponteiro. */
+  var hatches = [].slice.call(document.querySelectorAll('.hatch'));
+  if (hatches.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var GAP = 19.8;
+    var N = 9;
+    var DAMP = 0.78;
+    var SPRING = 0.12;
+    var RADIUS = 70;
+    var PUSH = 1.6;
+    var ropes = [];
+    var pointer = { x: 0, y: 0, on: false };
+    var frameId = 0;
+    var still = 0;
+    var resizeTimer = null;
+
+    function clip(dir, c, w, h) {
+      var a = dir === 1 ? Math.max(0, -c) : Math.max(0, c - h);
+      var b = dir === 1 ? Math.min(w, h - c) : Math.min(w, c);
+      if (b - a < 12) return null;
+      return dir === 1
+        ? { x0: a, y0: a + c, x1: b, y1: b + c }
+        : { x0: a, y0: -a + c, x1: b, y1: -b + c };
+    }
+
+    function buildRopes() {
+      if (frameId) { cancelAnimationFrame(frameId); frameId = 0; }
+      ropes.forEach(function (r) { r.svg.parentNode.removeChild(r.svg); });
+      ropes = [];
+      hatches.forEach(function (el) {
+        var box = el.getBoundingClientRect();
+        var w = Math.round(box.width);
+        var h = Math.round(box.height);
+        if (w < 12 || h < 12) return;
+        var svg = document.createElementNS(NS, 'svg');
+        svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+        svg.setAttribute('preserveAspectRatio', 'none');
+        svg.setAttribute('aria-hidden', 'true');
+        var strings = [];
+        function add(dir, c) {
+          var line = clip(dir, c, w, h);
+          if (!line) return;
+          var pts = [];
+          var rest = 0;
+          for (var i = 0; i < N; i++) {
+            var t = i / (N - 1);
+            var x = line.x0 + (line.x1 - line.x0) * t;
+            var y = line.y0 + (line.y1 - line.y0) * t;
+            if (i) rest = Math.sqrt((x - pts[i - 1].x) * (x - pts[i - 1].x) + (y - pts[i - 1].y) * (y - pts[i - 1].y));
+            pts.push({ x: x, y: y, px: x, py: y, rx: x, ry: y, pin: i === 0 || i === N - 1 });
+          }
+          var path = document.createElementNS(NS, 'path');
+          svg.appendChild(path);
+          strings.push({ path: path, pts: pts, rest: rest });
+        }
+        var c;
+        for (c = -w; c <= h; c += GAP) add(1, c);
+        for (c = 0; c <= w + h; c += GAP) add(-1, c);
+        el.appendChild(svg);
+        el.classList.add('has-strings');
+        ropes.push({ box: box, strings: strings, svg: svg });
+      });
+      draw();
+    }
+
+    function draw() {
+      var maxMove = 0;
+      ropes.forEach(function (r) {
+        var mx = pointer.x - r.box.left;
+        var my = pointer.y - r.box.top;
+        r.strings.forEach(function (s) {
+          var pts = s.pts;
+          var i;
+          for (i = 1; i < N - 1; i++) {
+            var p = pts[i];
+            var vx = (p.x - p.px) * DAMP;
+            var vy = (p.y - p.py) * DAMP;
+            p.px = p.x;
+            p.py = p.y;
+            p.x += vx + (p.rx - p.x) * SPRING;
+            p.y += vy + (p.ry - p.y) * SPRING;
+            if (pointer.on) {
+              var dx = p.x - mx;
+              var dy = p.y - my;
+              var d2 = dx * dx + dy * dy;
+              if (d2 < RADIUS * RADIUS) {
+                var d = Math.sqrt(d2) || 1;
+                var f = (1 - d / RADIUS) * PUSH;
+                p.x += dx / d * f + (Math.random() - 0.5) * 0.7;
+                p.y += dy / d * f + (Math.random() - 0.5) * 0.7;
+              }
+            }
+          }
+          for (var k = 0; k < 2; k++) {
+            for (i = 1; i < N; i++) {
+              var a = pts[i - 1];
+              var b = pts[i];
+              var dx = b.x - a.x;
+              var dy = b.y - a.y;
+              var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+              var diff = (dist - s.rest) / dist;
+              if (a.pin && !b.pin) { b.x -= dx * diff; b.y -= dy * diff; }
+              else if (!a.pin && b.pin) { a.x += dx * diff; a.y += dy * diff; }
+              else if (!a.pin && !b.pin) {
+                a.x += dx * diff * 0.5; a.y += dy * diff * 0.5;
+                b.x -= dx * diff * 0.5; b.y -= dy * diff * 0.5;
+              }
+            }
+          }
+          var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
+          for (i = 1; i < N; i++) {
+            d += 'L' + pts[i].x.toFixed(1) + ' ' + pts[i].y.toFixed(1);
+            var away = Math.abs(pts[i].x - pts[i].rx) + Math.abs(pts[i].y - pts[i].ry);
+            if (away > maxMove) maxMove = away;
+          }
+          s.path.setAttribute('d', d);
+        });
+      });
+      still = (!pointer.on && maxMove < 0.2) ? still + 1 : 0;
+      if (still > 30) { frameId = 0; return; }
+      frameId = requestAnimationFrame(draw);
+    }
+
+    function wake() {
+      still = 0;
+      if (!frameId) frameId = requestAnimationFrame(draw);
+    }
+    document.addEventListener('pointermove', function (e) {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.on = true;
+      wake();
+    }, { passive: true });
+    document.addEventListener('pointerdown', function (e) {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.on = true;
+      wake();
+    }, { passive: true });
+    document.addEventListener('pointerup', function (e) {
+      if (e.pointerType !== 'mouse') pointer.on = false;
+      wake();
+    }, { passive: true });
+    document.addEventListener('pointercancel', function () { pointer.on = false; wake(); });
+    window.addEventListener('blur', function () { pointer.on = false; wake(); });
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildRopes, 160);
+    });
+
+    buildRopes();
+  }
 })();
