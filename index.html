@@ -118,19 +118,25 @@
       <div class="hatch hatch-bottom-left" aria-hidden="true"></div>
       <div class="hatch hatch-bottom-right" aria-hidden="true"></div>
 
-      <div class="name">matesu<span>desde 2015</span></div>
+      <button type="button" class="name" data-popup="matesu">matesu<img class="name-photo" src="fotos/matesu-normal.jpg" alt="matesu" /></button>
 
-      <button type="button" class="tab tab-about is-active" data-panel="about" aria-pressed="true">sobre mim</button>
-      <button type="button" class="tab tab-contact" data-panel="contact" aria-pressed="false">contato</button>
+      <button type="button" class="tab tab-about is-active" data-view="about" aria-pressed="true">sobre mim</button>
+      <button type="button" class="tab tab-contact" data-view="contact" aria-pressed="false">contato</button>
 
-      <div class="statement is-active" id="about" aria-hidden="false">
-        <p>designer gráfico, produtor musical e cultural</p>
-        <p>engenheiro de mixagem e masterização</p>
-        <p>DJ e desenvolvedor. desde 2015.</p>
+      <div class="statement is-active" id="about" data-view="about" aria-hidden="false">
+        <p><button type="button" class="term" data-popup="design">designer gráfico</button>, <button type="button" class="term" data-popup="music">produtor musical</button> e <button type="button" class="term" data-popup="culture">cultural</button></p>
+        <p><button type="button" class="term" data-popup="engineer">engenheiro</button> de <button type="button" class="term" data-popup="mixing">mixagem</button> e <button type="button" class="term" data-popup="mastering">masterização</button></p>
+        <p><button type="button" class="term" data-popup="dj">DJ</button> e <button type="button" class="term" data-popup="dev">desenvolvedor</button></p>
       </div>
-      <div class="statement" id="contact" aria-hidden="true">
-        <p>contact@matesu.me</p>
+      <div class="statement" id="contact" data-view="contact" aria-hidden="true">
+        <p><button type="button" class="term" data-popup="contact">contact@matesu.me</button></p>
       </div>
+
+      <section class="popup" id="popup" aria-hidden="true" aria-live="polite">
+        <button type="button" class="popup-close" aria-label="fechar">×</button>
+        <div class="popup-photo" hidden><img src="fotos/matesu-normal.jpg" alt="matesu" /></div>
+        <div class="popup-body"></div>
+      </section>
     </div>
   </div>
 </main>
