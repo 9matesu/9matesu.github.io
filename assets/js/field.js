@@ -421,16 +421,28 @@
       h.parentNode.removeChild(h);
     });
     var count = 3 + Math.floor(Math.random() * 3);
+    var used = [];
+    function freeBox(r1, c1, r2, c2) {
+      return !used.some(function (b) {
+        return !(r2 <= b[0] || r1 >= b[2] || c2 <= b[1] || c1 >= b[3]);
+      });
+    }
     for (var k = 0; k < count; k++) {
+      var hr, hc, hh, hw, tries = 0;
+      do {
+        hr = 2 + Math.floor(Math.random() * Math.max(1, rows - 3));
+        hc = 2 + Math.floor(Math.random() * Math.max(1, cols - 3));
+        hh = 2 + Math.floor(Math.random() * Math.min(3, rows - hr + 1));
+        hw = 3 + Math.floor(Math.random() * Math.min(4, cols - hc + 1));
+        tries++;
+      } while (!freeBox(hr, hc, hr + hh, hc + hw) && tries < 30);
+      if (!freeBox(hr, hc, hr + hh, hc + hw)) continue;
+      used.push([hr, hc, hr + hh, hc + hw]);
       var h = document.createElement('div');
-      var hr = 2 + Math.floor(Math.random() * Math.max(1, rows - 3));
-      var hc = 2 + Math.floor(Math.random() * Math.max(1, cols - 3));
-      var hh = 2 + Math.floor(Math.random() * Math.min(3, rows - hr + 1));
-      var hw = 3 + Math.floor(Math.random() * Math.min(4, cols - hc + 1));
       h.className = 'hatch';
       h.setAttribute('aria-hidden', 'true');
       h.dataset.angle = [-60, -45, -30, 30, 45, 60][Math.floor(Math.random() * 6)];
-      h.dataset.gap = String(16 + Math.floor(Math.random() * 13));
+      h.dataset.gap = '14';
       h.style.gridArea = area(hr, hc, hr + hh, hc + hw);
       layer.insertBefore(h, layer.firstChild);
     }
@@ -440,7 +452,7 @@
   var hatches = [].slice.call(document.querySelectorAll('.hatch'));
   if (hatches.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     var NS = 'http://www.w3.org/2000/svg';
-    var GAP = 19.8;
+    var GAP = 14;
     var N = 9;
     var DAMP = 0.78;
     var SPRING = 0.12;
@@ -473,9 +485,8 @@
       ropes.forEach(function (r) { r.svg.parentNode.removeChild(r.svg); });
       ropes = [];
       hatches.forEach(function (el) {
-        var box = el.getBoundingClientRect();
-        var w = Math.round(box.width);
-        var h = Math.round(box.height);
+        var w = Math.round(el.clientWidth);
+        var h = Math.round(el.clientHeight);
         if (w < 12 || h < 12) return;
         var svg = document.createElementNS(NS, 'svg');
         svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
@@ -507,7 +518,7 @@
         }
         el.appendChild(svg);
         el.classList.add('has-strings');
-        ropes.push({ box: box, strings: strings, svg: svg });
+        ropes.push({ box: svg.getBoundingClientRect(), w: w, h: h, strings: strings, svg: svg });
       });
       draw();
     }
@@ -567,6 +578,11 @@
                 b.x -= dx * diff * 0.5; b.y -= dy * diff * 0.5;
               }
             }
+          }
+          for (i = 1; i < N - 1; i++) {
+            var q = pts[i];
+            if (q.x < 0) q.x = 0; else if (q.x > r.w) q.x = r.w;
+            if (q.y < 0) q.y = 0; else if (q.y > r.h) q.y = r.h;
           }
           var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
           for (i = 1; i < N; i++) {

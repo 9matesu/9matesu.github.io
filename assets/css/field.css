@@ -61,6 +61,7 @@ html, body, body * { cursor: url('cursor.cur'), default; }
 .hatch {
   background-image: var(--hatch);
   background-size: 14px 14px;
+  border: 1px solid var(--rule);
   pointer-events: none;
 }
 .hatch.has-strings { background-image: none; }
