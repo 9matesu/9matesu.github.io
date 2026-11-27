@@ -308,6 +308,18 @@ html, body, body * { cursor: url('cursor.cur'), default; }
 }
 .popup-close:hover, .popup-close:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
 
+/* posicao livre: aplicada so depois do primeiro arraste */
+.is-dragged {
+  position: fixed !important;
+  inset: auto;
+  grid-area: auto !important;
+  align-self: auto !important;
+  justify-self: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  z-index: 20;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .statement, .popup, .name, .name .name-photo { transition: none; }
 }

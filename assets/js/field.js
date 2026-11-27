@@ -301,4 +301,74 @@
   if (tabs.length) {
     tabs[0].textContent = 'matesuposting';
   }
+
+  /* arraste livre do nome, das abas, dos blocos de texto e do popup. */
+  var DRAG_KEY = 'matesu-drag-v1';
+  var DRAG_SEL = '.name, .tab, .statement, .popup';
+  var positions = {};
+  try { positions = JSON.parse(localStorage.getItem(DRAG_KEY) || '{}') || {}; } catch (e) { positions = {}; }
+
+  function dragId(el) {
+    if (el.classList.contains('name')) return 'name';
+    if (el.classList.contains('popup')) return 'popup';
+    if (el.classList.contains('tab')) return 'tab-' + (el.getAttribute('data-view') || 'about');
+    return 'statement-' + (el.getAttribute('data-view') || 'about');
+  }
+  function pin(el, left, top) {
+    el.classList.add('is-dragged');
+    el.style.left = left + 'px';
+    el.style.top = top + 'px';
+  }
+  [].slice.call(document.querySelectorAll(DRAG_SEL)).forEach(function (el) {
+    var p = positions[dragId(el)];
+    if (p) pin(el, p.left, p.top);
+  });
+
+  var moving = null;
+  document.addEventListener('pointerdown', function (e) {
+    if (!e.target || !e.target.closest) return;
+    if (e.target.closest('a, .popup-close')) return;
+    var el = e.target.closest(DRAG_SEL);
+    if (!el) return;
+    if (el.classList.contains('popup') && !el.classList.contains('is-open')) return;
+    var r = el.getBoundingClientRect();
+    if (!el.classList.contains('is-dragged')) pin(el, r.left, r.top);
+    moving = { el: el, sx: e.clientX, sy: e.clientY, x: r.left, y: r.top, moved: false };
+    e.preventDefault();
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (!moving) return;
+    var dx = e.clientX - moving.sx;
+    var dy = e.clientY - moving.sy;
+    if (Math.abs(dx) + Math.abs(dy) > 3) moving.moved = true;
+    if (!moving.moved) return;
+    moving.el.style.left = (moving.x + dx) + 'px';
+    moving.el.style.top = (moving.y + dy) + 'px';
+  });
+  function finishDrag() {
+    if (!moving) return;
+    var m = moving;
+    moving = null;
+    if (!m.moved) return;
+    positions[dragId(m.el)] = { left: parseFloat(m.el.style.left), top: parseFloat(m.el.style.top) };
+    try { localStorage.setItem(DRAG_KEY, JSON.stringify(positions)); } catch (e) {}
+    m.el.addEventListener('click', function block(ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
+      m.el.removeEventListener('click', block, true);
+    }, true);
+  }
+  document.addEventListener('pointerup', finishDrag);
+  document.addEventListener('pointercancel', finishDrag);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'R' || !e.shiftKey) return;
+    positions = {};
+    try { localStorage.removeItem(DRAG_KEY); } catch (err) {}
+    [].slice.call(document.querySelectorAll(DRAG_SEL)).forEach(function (el) {
+      el.classList.remove('is-dragged');
+      el.style.left = '';
+      el.style.top = '';
+    });
+  });
 })();
