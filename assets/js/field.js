@@ -544,4 +544,52 @@
 
     buildRopes();
   }
+
+  /* tema e quadrados generativos: sorteados de novo a cada carregamento. */
+  (function () {
+    var themes = [
+      { bg: '#0000ff', ink: '#ffffff', blocks: ['#ffff00', '#ff0000', '#ffffff'] },
+      { bg: '#ff0000', ink: '#ffffff', blocks: ['#0000ff', '#ffff00', '#ffffff'] },
+      { bg: '#ffffff', ink: '#ff0000', blocks: ['#0000ff', '#ffff00', '#ff0000'] },
+      { bg: '#ffff00', ink: '#000000', blocks: ['#0000ff', '#ff0000', '#ffffff'] }
+    ];
+    var t = themes[Math.floor(Math.random() * themes.length)];
+    var root = document.documentElement;
+
+    function soft(hex, a) {
+      var v = parseInt(hex.slice(1), 16);
+      return 'rgba(' + ((v >> 16) & 255) + ',' + ((v >> 8) & 255) + ',' + (v & 255) + ',' + a + ')';
+    }
+    root.style.setProperty('--bg', t.bg);
+    root.style.setProperty('--ink', t.ink);
+    root.style.setProperty('--rule', t.ink);
+    root.style.setProperty('--muted', t.ink);
+    root.style.setProperty('--rule-soft', soft(t.ink, 0.16));
+    root.style.setProperty('--hatch', 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'14\' height=\'14\' viewBox=\'0 0 14 14\'%3E%3Cpath d=\'M0 0L14 14M14 0L0 14\' stroke=\'%23' + t.ink.slice(1) + '\' stroke-width=\'1\' fill=\'none\'/%3E%3C/svg%3E")');
+
+    var frame = document.querySelector('.frame');
+    if (!frame) return;
+    var box = frame.getBoundingClientRect();
+    var w = Math.max(1, Math.round(box.width));
+    var h = Math.max(1, Math.round(box.height));
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'gen-squares');
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    var count = 6 + Math.floor(Math.random() * 7);
+    var minSide = Math.max(18, Math.min(w, h) * 0.05);
+    var maxSide = Math.min(w, h) * 0.34;
+    for (var i = 0; i < count; i++) {
+      var side = minSide + Math.random() * (maxSide - minSide);
+      var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', (Math.random() * (w - side)).toFixed(1));
+      rect.setAttribute('y', (Math.random() * (h - side)).toFixed(1));
+      rect.setAttribute('width', side.toFixed(1));
+      rect.setAttribute('height', side.toFixed(1));
+      rect.setAttribute('fill', t.blocks[Math.floor(Math.random() * t.blocks.length)]);
+      svg.appendChild(rect);
+    }
+    frame.appendChild(svg);
+  })();
 })();
